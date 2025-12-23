@@ -2,8 +2,8 @@
 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.69995 5.00001C8.69995 4.55818 9.05812 4.20001 9.49995 4.20001H17.5C17.9418 4.20001 18.3 4.55818 18.3 5.00001C18.3 5.44184 17.9418 5.80001 17.5 5.80001H9.49995C9.05812 5.80001 8.69995 5.44184 8.69995 5.00001Z" fill="currentColor"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.69995 10C8.69995 9.55818 9.05812 9.20001 9.49995 9.20001H17.5C17.9418 9.20001 18.3 9.55818 18.3 10C18.3 10.4418 17.9418 10.8 17.5 10.8H9.49995C9.05812 10.8 8.69995 10.4418 8.69995 10Z" fill="currentColor"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.69995 15C8.69995 14.5582 9.05812 14.2 9.49995 14.2H17.5C17.9418 14.2 18.3 14.5582 18.3 15C18.3 15.4418 17.9418 15.8 17.5 15.8H9.49995C9.05812 15.8 8.69995 15.4418 8.69995 15Z" fill="currentColor"/>
-<path d="M4.5 8V4.5" stroke="#252D38" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M4.5 15.5V12" stroke="#252D38" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M6.5 6.5L4.5 8.5L2.5 6.5" stroke="#252D38" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M2.5 13.5L4.5 11.5L6.5 13.5" stroke="#252D38" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4.5 8V4.5" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.6)" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4.5 15.5V12" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.6)" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6.5 6.5L4.5 8.5L2.5 6.5" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.6)" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M2.5 13.5L4.5 11.5L6.5 13.5" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.6)" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

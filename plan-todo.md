@@ -6,44 +6,35 @@
 
 ## ✅ 완료된 작업 (Work Done)
 
-- **프로젝트 환경 설정 (Project Setup)**
-  - Vite를 사용한 React + TypeScript 프로젝트 생성 (`design-system-site`).
-  - Tailwind CSS 설치 및 설정.
-  - Pretendard 폰트 CDN 연결 및 Tailwind 설정.
-  - `vite-plugin-svgr` 설치 및 SVG 로딩을 위한 Vite 설정.
+### 초기 설정 및 데이터 구축
+- **프로젝트 환경 설정:** Vite 기반 React + TypeScript, Tailwind CSS, `vite-plugin-svgr` 설정 완료.
+- **데이터 추출 및 저장:** 파운데이션 정보를 파싱하여 JSON 파일로 저장 (`colors`, `typography`, `icons` 등).
 
-- **디자인 시스템 데이터 추출 및 저장 (Data Extraction & Storage)**
-  - 사용자로부터 제공된 HTML을 파싱하여 모든 파운데이션 정보를 JSON 파일로 저장.
-    - **Colors:** `color_palette.json`, `theme_color_mapping.json`, `semantic_color_mapping.json`
-    - **Typography:** `typography_styles.json`
-    - **Spacing & Layout:** `spacing_system.json`, `device_resolutions.json`, `breakpoints.json`, `main_layouts.json`
-    - **Icons:** `line_icons.json`, `filled_icons.json`, `illustration_icons.json`
-    - **Shadows:** `shadow_tokens.json`
+### UI 및 레이아웃
+- **기본 레이아웃:** `Sidebar`, `MainContent`를 포함한 기본 레이아웃 및 `react-router-dom`을 이용한 라우팅 구현.
+- **페이지 컴포넌트:** 각 디자인 시스템 카테고리(Colors, Typography, Icons 등)에 대한 초기 페이지 컴포넌트 생성.
 
-- **UI 컴포넌트 및 레이아웃 구현 (UI Implementation)**
-  - `seed-design.io/docs`를 참고한 기본 레이아웃 구현 (`Sidebar`, `MainContent`).
-  - 클라이언트 사이드 라우팅 구현 (`react-router-dom` 사용).
-    - `/colors`, `/typography`, `/spacing`, `/icons`, `/shadows` 경로 생성.
-  - 각 디자인 시스템 카테고리에 대한 React 컴포넌트 생성 및 통합:
-    - `ColorPaletteDisplay`, `ThemeColorMappingDisplay`, `SemanticColorMappingDisplay`
-    - `TypographyDisplay`
-    - `SpacingLayoutDisplay`
-    - `IconDisplay`
-    - `ShadowsDisplay`
+### 아이콘 시스템 상세 구현
+- **아이콘 에셋 관리:** 아이콘 파일 이름 정규화 및 한국어 설명과 파일명을 매핑하는 `icon_filename_mapping.json` 생성.
+- **인라인 SVG 렌더링:** `<img>` 태그 방식에서 인라인 SVG 컴포넌트 방식으로 전환하여 CSS로 색상 제어 가능하도록 수정.
+- **아이콘 SVG 파일 수정:** `fill` 및 `stroke` 속성에 하드코딩된 색상을 `currentColor`로 일괄 변경하여 동적 색상 적용이 가능하도록 수정.
+- **스트로크 두께 조절:** Line 아이콘의 `stroke-width`를 CSS 변수로 제어하도록 변경하고, UI에 두께 조절 슬라이더 추가.
 
-- **아이콘 시스템 구현 (Icon System Implementation)**
-  - `ic` 디렉토리의 모든 아이콘 파일 이름 정규화 (공백 및 특수문자 처리).
-  - 한국어 아이콘 설명과 실제 SVG 파일 이름을 매핑하는 `icon_filename_mapping.json` 파일 생성.
-  - `IconDisplay.tsx` 컴포넌트에서 동적으로 SVG 아이콘을 로드하여 표시하는 로직 구현.
+### 상호작용 및 UX 개선
+- **아이콘 호버 효과:** 아이콘 카드에 호버 시 위로 이동하고 테두리가 표시되는 효과 적용.
+- **스마트 툴팁:** 아이콘 및 컬러 칩에 호버 시 이름/토큰명을 보여주는 툴팁 구현. 뷰포트 경계를 감지하여 잘리지 않도록 위치를 동적으로 조정.
+- **컬러 커스터마이징:**
+  - 아이콘 및 배경색을 변경할 수 있는 컬러 팔레트 팝오버 기능 구현.
+  - `semantic_color_mapping.json`을 해석하여 목적에 맞는(아이콘용/배경용) 컬러 토큰만 표시.
+  - 커스텀 색상 선택 기능 및 초기화 버튼 구현.
+  - 리셋 버튼을 '고스트 버튼' 스타일로 변경하고, 색상 변경 시에만 표시되도록 동적 UI 구현.
+
+### 버전 관리
+- **Git 저장소 초기화:** `git init`을 통해 프로젝트 버전 관리를 시작하고 초기 커밋 생성.
 
 ---
 
-## ⏳ 진행 중 및 예정된 작업 (To-Do / Next Steps)
-
-- **[In Progress] 아이콘 매핑 완료 (Finalize Icon Mapping)**
-  - 현재 일부 아이콘이 "No SVG"로 표시되는 문제 해결.
-  - 사용자가 `icon_filename_mapping.json`의 내용을 최종 확인하고 수정.
-  - 모든 아이콘이 정상적으로 표시되는지 확인.
+## ⏳ 예정된 작업 (To-Do / Next Steps)
 
 - **[To-Do] UI/UX 개선 (UI/UX Refinement)**
   - 각 컴포넌트(컬러, 타이포그래피 등)의 스타일을 `seed-design.io/docs`와 더 유사하게 다듬기.
