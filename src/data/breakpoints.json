@@ -1,0 +1,8 @@
+{
+  "breakpoints": [
+    { "breakpoint": "Small", "class_infix": "sm", "dimensions": "≥ 767px", "notes": "Mobile" },
+    { "breakpoint": "Medium", "class_infix": "md", "dimensions": "≥ 1000px", "notes": "Tablet" },
+    { "breakpoint": "Large", "class_infix": "lg", "dimensions": "≥ 1366px", "notes": "PC (Notebook)" },
+    { "breakpoint": "Extra large", "class_infix": "xl", "dimensions": "1366px <", "notes": "PC (Desktop)" }
+  ]
+}

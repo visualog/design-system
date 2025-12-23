@@ -1,0 +1,64 @@
+{
+  "mobile_tablet_layouts": [
+    {
+      "device_width_range": "360 - 480",
+      "left_margin": "16",
+      "right_margin": "16",
+      "gutter": "10"
+    },
+    {
+      "device_width_range": "481 - 767",
+      "left_margin": "20",
+      "right_margin": "20",
+      "gutter": "12"
+    },
+    {
+      "device_width_range": "768 - 1000",
+      "left_margin": "28",
+      "right_margin": "28",
+      "gutter": "16"
+    },
+    {
+      "device_width_range": "1001 - 1366",
+      "left_margin": "32",
+      "right_margin": "32",
+      "gutter": "16"
+    }
+  ],
+  "desktop_layouts": [
+    {
+      "device_width_range": "1367 -",
+      "left_margin": "32",
+      "right_margin": "32",
+      "gutter": "20",
+      "body_width": "1132"
+    },
+    {
+      "device_width_range": "1440",
+      "left_margin": "120",
+      "right_margin": "120",
+      "gutter": "20",
+      "body_width": "1200",
+      "column_width": "82"
+    },
+    {
+      "device_width_range": "1792",
+      "left_margin": "296",
+      "right_margin": "296",
+      "gutter": "20",
+      "body_width": "1200",
+      "column_width": "82"
+    },
+    {
+      "device_width_range": "1920",
+      "left_margin": "32",
+      "right_margin": "32",
+      "gutter": "20",
+      "body_width": "1132"
+    }
+  ],
+  "notes": [
+    "Desktop with LNB",
+    "LNB가 없는 웹사이트 Desktop UI의 경우 (컨텐츠 영역 좌우로 마진 확장)"
+  ]
+}

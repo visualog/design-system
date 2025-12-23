@@ -1,0 +1,19 @@
+.tooltip-top .tooltip-tail {
+  position: absolute;
+  top: 100%; /* At the bottom of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #2D3748 transparent transparent transparent; /* Tailwind's gray-800, points up */
+}
+
+.tooltip-bottom .tooltip-tail {
+  position: absolute;
+  bottom: 100%; /* At the top of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #2D3748 transparent; /* Points down */
+}

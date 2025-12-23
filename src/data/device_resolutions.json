@@ -1,0 +1,11 @@
+{
+  "device_resolutions": [
+    { "device": "iPhone X 이상", "css_width": "375", "css_height": "812", "aspect_ratio": "19.5:9" },
+    { "device": "Galaxy S10 이상", "css_width": "360", "css_height": "740 / 800", "aspect_ratio": "19.5:9 / 20:9" },
+    { "device": "iPad Air, mini / Nexus", "css_width": "768", "css_height": "1024", "aspect_ratio": "4:3" },
+    { "device": "IPad Pro", "css_width": "1024", "css_height": "1366", "aspect_ratio": "4:3" },
+    { "device": "Galaxy Tab 1,2,3", "css_width": "1280", "css_height": "800", "aspect_ratio": "8:5" },
+    { "device": "Desktop", "css_width": "1366", "css_height": "768", "aspect_ratio": "-" },
+    { "device": "Desktop", "css_width": "1440", "css_height": "1024", "aspect_ratio": "-" }
+  ]
+}

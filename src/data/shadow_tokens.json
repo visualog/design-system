@@ -1,0 +1,34 @@
+{
+  "shadow_tokens": [
+    {
+      "token": "shadow0",
+      "css_value": "none",
+      "description": "대부분의 케이스에서 사용"
+    },
+    {
+      "token": "shadow100",
+      "css_value": "0px 1px 4px 0px rgba(25,31,40,0.12), 0px 0px 1px 0px rgba(0,0,0,0.04)",
+      "description": "FAB"
+    },
+    {
+      "token": "shadow200",
+      "css_value": "0px 2px 8px 0px rgba(25,31,40,0.12)",
+      "description": "Select option group"
+    },
+    {
+      "token": "shadow300",
+      "css_value": "0px 4px 12px 0px rgba(25,31,40,0.12)",
+      "description": "Pop-up / Modal / Date Picker / Dropdown / Toast / Client"
+    },
+    {
+      "token": "shadow400",
+      "css_value": "0px 4px 16px 0px rgba(25,31,40,0.20)",
+      "description": "Cards"
+    },
+    {
+      "token": "shadow500",
+      "css_value": "0px 8px 20px 0px rgba(25,31,40,0.24)",
+      "description": "Tooltips"
+    }
+  ]
+}

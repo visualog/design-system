@@ -1,0 +1,179 @@
+{
+  "font_family": "Pretendard",
+  "Heading": [
+    {
+      "text_style": "H1",
+      "style_name": "heading_h1",
+      "size": "24",
+      "line_height": "32",
+      "weight": "Bold/700"
+    },
+    {
+      "text_style": "H2",
+      "style_name": "heading_h2",
+      "size": "20",
+      "line_height": "28",
+      "weight": "Bold/700"
+    },
+    {
+      "text_style": "H3",
+      "style_name": "heading_h3",
+      "size": "18",
+      "line_height": "24",
+      "weight": "Bold/700"
+    }
+  ],
+  "Subtitle": [
+    {
+      "text_style": "Subtitle1",
+      "style_name": "subtitle_1",
+      "size": "16",
+      "line_height": "24",
+      "weight": "Bold/700"
+    },
+    {
+      "text_style": "Subtitle2",
+      "style_name": "subtitle_2",
+      "size": "14",
+      "line_height": "20",
+      "weight": "Bold/700"
+    },
+    {
+      "text_style": "Subtitle3",
+      "style_name": "subtitle_3",
+      "size": "13",
+      "line_height": "20",
+      "weight": "Bold/700"
+    }
+  ],
+  "Body": [
+    {
+      "text_style": "Body1_rg",
+      "style_name": "body_1_regular",
+      "size": "16",
+      "line_height": "24",
+      "weight": "Regular/400"
+    },
+    {
+      "text_style": "Body1_md",
+      "style_name": "body_1_medium",
+      "size": "16",
+      "line_height": "24",
+      "weight": "Medium/500"
+    },
+    {
+      "text_style": "Body1_underline",
+      "style_name": "body_1_underline",
+      "size": "16",
+      "line_height": "24",
+      "weight": "Regular/400"
+    },
+    {
+      "text_style": "Body2_rg",
+      "style_name": "body_2_regular",
+      "size": "14",
+      "line_height": "20",
+      "weight": "Regular/400"
+    },
+    {
+      "text_style": "Body2_md",
+      "style_name": "body_2_medium",
+      "size": "14",
+      "line_height": "20",
+      "weight": "Medium/500"
+    },
+    {
+      "text_style": "Body2_underline",
+      "style_name": "body_2_underline",
+      "size": "14",
+      "line_height": "20",
+      "weight": "Regular/400"
+    },
+    {
+      "text_style": "Body2_rg_long",
+      "style_name": "body_2_regular_long",
+      "size": "14",
+      "line_height": "22",
+      "weight": "Regular/400"
+    },
+    {
+      "text_style": "Body2_md_long",
+      "style_name": "body_2_medium_long",
+      "size": "14",
+      "line_height": "22",
+      "weight": "Medium/500"
+    },
+    {
+      "text_style": "Body2_underline_long",
+      "style_name": "body_2_underline_long",
+      "size": "14",
+      "line_height": "22",
+      "weight": "Regular/400"
+    },
+    {
+      "text_style": "Body3_rg",
+      "style_name": "body_3_regular",
+      "size": "13",
+      "line_height": "20",
+      "weight": "Regular/400"
+    },
+    {
+      "text_style": "Body3_md",
+      "style_name": "body_3_medium",
+      "size": "13",
+      "line_height": "20",
+      "weight": "Medium/500"
+    },
+    {
+      "text_style": "Body3_underline",
+      "style_name": "body_3_underline",
+      "size": "13",
+      "line_height": "20",
+      "weight": "Regular/400"
+    },
+    {
+      "text_style": "Body4_rg",
+      "style_name": "body_4_regular",
+      "size": "12",
+      "line_height": "18",
+      "weight": "Regular/400"
+    },
+    {
+      "text_style": "Body4_md",
+      "style_name": "body_4_medium",
+      "size": "12",
+      "line_height": "18",
+      "weight": "Medium/500"
+    },
+    {
+      "text_style": "Body4_underline",
+      "style_name": "body_4_underline",
+      "size": "12",
+      "line_height": "18",
+      "weight": "Regular/400"
+    }
+  ],
+  "Caption": [
+    {
+      "text_style": "caption1_rg",
+      "style_name": "caption_1_regular",
+      "size": "12",
+      "line_height": "12",
+      "weight": "Regular/400"
+    },
+    {
+      "text_style": "caption2_rg",
+      "style_name": "caption_2_regular",
+      "size": "11",
+      "line_height": "12",
+      "weight": "Regular/400"
+    },
+    {
+      "text_style": "caption2_bold",
+      "style_name": "caption_2_bold",
+      "size": "11",
+      "line_height": "12",
+      "weight": "Bold/700"
+    }
+  ]
+}
