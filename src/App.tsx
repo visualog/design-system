@@ -34,7 +34,7 @@ function App() {
         <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
         {/* Main content area */}
-        <div className="flex-1 transition-all duration-300 md:pl-60">
+        <div className="flex-1 transition-all duration-300 md:pl-60 mt-8">
           <Routes>
             <Route path="/" element={<MainContent><ColorsPage /></MainContent>} /> {/* Default to Colors */}
             <Route path="/colors" element={<MainContent><ColorsPage /></MainContent>} />
