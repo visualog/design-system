@@ -34,6 +34,7 @@
 
 ### UI/UX 개선
 - **컴포넌트 스타일 개선:** `Colors`, `Typography`, `Spacing`, `Shadows` 페이지의 스타일을 `seed-design.io/docs`와 유사하게 개선.
+- **반응형 디자인 개선:** 모바일 환경에서 사이드바를 숨기고 햄버거 메뉴를 통해 토글하며, 메인 콘텐츠가 사이드바와 겹치지 않도록 개선.
 
 ### 버전 관리
 - **Git 저장소 초기화:** `git init`을 통해 프로젝트 버전 관리를 시작하고 초기 커밋 생성.
@@ -44,9 +45,6 @@
 ---
 
 ## ⏳ 예정된 작업 (To-Do / Next Steps)
-
-- **[To-Do] UI/UX 개선 (UI/UX Refinement)**
-  - 반응형 디자인 개선.
 
 - **[To-Do] 프로덕션 빌드 (Build & Deploy)**
   - (선택 사항) Netlify, Vercel 등의 플랫폼에 배포.
