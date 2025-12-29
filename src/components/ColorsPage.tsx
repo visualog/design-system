@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ColorPaletteDisplay from './ColorPaletteDisplay';
 import ThemeColorMappingDisplay from './ThemeColorMappingDisplay';
-import SemanticColorMappingDisplay from './components/SemanticColorMappingDisplay';
+import SemanticColorMappingDisplay from './SemanticColorMappingDisplay';
 import { AnimatedTabs, AnimatedTabsContent } from "@/components/ui/animated-tabs";
 
 const ColorsPage: React.FC = () => {
