@@ -10,3 +10,4 @@
 - Completed: Adjusted main content top padding to 32px by modifying the 'main' element in `src/components/MainContent.tsx` to use 'pt-8'.
 - Completed: Changed the main content wrapper (div) to an 'article' tag in `src/components/MainContent.tsx`.
 - Completed: Set the maximum width of the main article to 720px by adding 'max-w-[720px]' to the <article> tag in `src/components/MainContent.tsx`.
+- Completed: Set the maximum width of the main article to max-w-3xl (768px) by modifying the <article> tag in `src/components/MainContent.tsx`.
