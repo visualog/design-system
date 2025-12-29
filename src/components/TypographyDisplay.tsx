@@ -1,41 +1,64 @@
 import React from 'react';
 import { designSystemData } from '../utils/dataLoader';
+import { Clipboard } from './ui/clipboard';
 
 const TypographyDisplay: React.FC = () => {
   const { typography } = designSystemData;
 
+  const getFontWeight = (weight: string) => {
+    if (weight.includes('Bold')) return 700;
+    if (weight.includes('Medium')) return 500;
+    if (weight.includes('Regular')) return 400;
+    return 400;
+  };
+
   return (
     <div className="container mx-auto py-8 font-['Pretendard']">
-      <h2 className="text-3xl font-bold mb-8">Typography Styles</h2>
-      <p className="mb-8 text-lg">Font Family: {typography.font_family}</p>
+      <p className="mb-10 text-lg text-gray-600">
+        The design system uses the <span className="font-semibold">Pretendard</span> font family.
+      </p>
 
-      {Object.entries(typography).filter(([key]) => key !== 'font_family').map(([category, styles]: [string, any]) => (
-        <div key={category} className="mb-12">
-          <h3 className="text-2xl font-semibold mb-6 capitalize">{category}</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {styles.map((style: any, index: number) => (
-              <div key={index} className="p-4 border border-gray-200 rounded-lg shadow-sm">
-                <p className="text-xl font-bold mb-2">{style.text_style}</p>
-                <p className="text-sm font-mono text-gray-700 mb-1">{style.style_name}</p>
-                <p className="text-sm text-gray-600">Size: {style.size}px</p>
-                <p className="text-sm text-gray-600">Line Height: {style.line_height}px</p>
-                <p className="text-sm text-gray-600">Weight: {style.weight}</p>
-                {/* Visual example */}
-                <p
-                  className="mt-4"
-                  style={{
-                    fontSize: `${style.size}px`,
-                    lineHeight: `${style.line_height}px`,
-                    fontWeight: style.weight.includes('Bold') ? 'bold' : style.weight.includes('Medium') ? '500' : 'normal',
-                  }}
-                >
-                  Example text for {style.text_style}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
+      <div className="overflow-x-auto">
+        <table className="min-w-full border-collapse">
+          <thead className="bg-gray-50 border-b border-gray-200">
+            <tr>
+              <th className="p-4 text-left text-sm font-semibold text-gray-600">Style</th>
+              <th className="p-4 text-left text-sm font-semibold text-gray-600">Size</th>
+              <th className="p-4 text-left text-sm font-semibold text-gray-600">Line Height</th>
+              <th className="p-4 text-left text-sm font-semibold text-gray-600">Weight</th>
+              <th className="p-4 text-left text-sm font-semibold text-gray-600">Variable</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(typography)
+              .filter(([key]) => key !== 'font_family')
+              .flatMap(([category, styles]: [string, any]) =>
+                styles.map((style: any, index: number) => (
+                  <tr key={`${category}-${index}`} className="border-b border-gray-200">
+                    <td className="p-4">
+                      <p style={{
+                        fontSize: `${style.size}px`,
+                        lineHeight: `${style.line_height}px`,
+                        fontWeight: getFontWeight(style.weight),
+                      }}>
+                        {style.text_style}
+                      </p>
+                    </td>
+                    <td className="p-4 text-gray-800">{style.size}px</td>
+                    <td className="p-4 text-gray-800">{style.line_height}px</td>
+                    <td className="p-4 text-gray-800">{style.weight}</td>
+                    <td className="p-4 font-mono text-sm">
+                      <div className="flex items-center">
+                        <span>{style.style_name}</span>
+                        <Clipboard value={style.style_name} />
+                      </div>
+                    </td>
+                  </tr>
+                ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

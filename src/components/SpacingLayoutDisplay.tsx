@@ -1,20 +1,43 @@
 import React from 'react';
 import { designSystemData } from '../utils/dataLoader';
+import { Clipboard } from './ui/clipboard';
 
 const SpacingLayoutDisplay: React.FC = () => {
   const { spacing, layout } = designSystemData;
 
   return (
     <div className="container mx-auto py-8">
+      {/* Spacing System Table */}
       <h2 className="text-3xl font-bold mb-8">Spacing System</h2>
-      <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-4 mb-12">
-        {spacing.spacing_values.map((value: string, index: number) => (
-          <div key={index} className="p-2 border border-gray-200 rounded-lg text-center shadow-sm">
-            <p className="text-lg font-semibold">{value}</p>
-          </div>
-        ))}
+      <div className="overflow-x-auto mb-12">
+        <table className="min-w-full border-collapse">
+          <thead className="bg-gray-50 border-b border-gray-200">
+            <tr>
+              <th className="p-4 text-left text-sm font-semibold text-gray-600 w-1/4">Name</th>
+              <th className="p-4 text-left text-sm font-semibold text-gray-600 w-1/4">Value (px)</th>
+              <th className="p-4 text-left text-sm font-semibold text-gray-600 w-1/2">Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            {spacing.spacing_values.map((s: any, index: number) => (
+              <tr key={index} className="border-b border-gray-200">
+                <td className="p-4 font-mono text-sm">
+                  <div className="flex items-center">
+                    <span>{s.variable}</span>
+                    <Clipboard value={s.variable} />
+                  </div>
+                </td>
+                <td className="p-4 text-gray-800">{s.px}px / {s.rem}rem</td>
+                <td className="p-4">
+                  <div className="bg-blue-200" style={{ height: '24px', width: `${s.px}px` }}></div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
+      {/* Other layout tables remain unchanged */}
       <h2 className="text-3xl font-bold mb-8">Device Resolutions</h2>
       <div className="overflow-x-auto mb-12">
         <table className="min-w-full bg-white border border-gray-200">

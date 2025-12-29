@@ -1,21 +1,35 @@
 import React from 'react';
 import { designSystemData } from '../utils/dataLoader';
+import { Clipboard } from './ui/clipboard';
 
 const ShadowsDisplay: React.FC = () => {
   const { shadows } = designSystemData;
 
+  // We need to map the token names to actual CSS shadow classes if they exist,
+  // or use the direct css_value. For this example, let's assume we have a utility
+  // or a mapping in tailwind config. For simplicity, we'll use inline styles here.
+  // In a real scenario, you'd configure these in tailwind.config.js and use classes.
+  
   return (
     <div className="container mx-auto py-8">
-      <h2 className="text-3xl font-bold mb-8">Shadow Tokens</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {shadows.shadow_tokens.map((shadow: any, index: number) => (
-          <div key={index} className="p-4 border border-gray-200 rounded-lg bg-white flex flex-col items-center justify-center shadow-sm">
-            <div className="w-24 h-24 bg-white rounded-lg flex items-center justify-center mb-4" style={{ boxShadow: shadow.css_value === "none" ? "none" : shadow.css_value }}>
-              {shadow.css_value === "none" && <span className="text-sm text-gray-500">No Shadow</span>}
+          <div key={index} className="flex flex-col items-center">
+            <div 
+              className="w-48 h-32 bg-white rounded-xl flex items-center justify-center transition-shadow duration-300"
+              style={{ boxShadow: shadow.css_value }}
+            >
             </div>
-            <h3 className="text-lg font-semibold mb-1">{shadow.token}</h3>
-            <p className="text-sm font-mono text-gray-600 mb-2">{shadow.css_value}</p>
-            <p className="text-xs text-gray-500">{shadow.description}</p>
+            <div className="text-center mt-4">
+              <div className="flex items-center justify-center font-semibold">
+                <span>{shadow.token}</span>
+                <Clipboard value={shadow.token} />
+              </div>
+              <div className="flex items-center justify-center text-xs text-gray-500 font-mono mt-1">
+                <span className="truncate max-w-xs">{shadow.css_value}</span>
+                <Clipboard value={shadow.css_value} />
+              </div>
+            </div>
           </div>
         ))}
       </div>
