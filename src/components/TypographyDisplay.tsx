@@ -13,7 +13,7 @@ const TypographyDisplay: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto py-8 font-['Pretendard']">
+    <div className="container mx-auto py-8 font-pretendard">
       <p className="mb-10 text-lg text-gray-600">
         The design system uses the <span className="font-semibold">Pretendard</span> font family.
       </p>

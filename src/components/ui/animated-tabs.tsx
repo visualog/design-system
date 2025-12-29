@@ -34,7 +34,7 @@ export const AnimatedTabs = ({ tabs, activeTab, setActiveTab, children }: Animat
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className='w-full'>
-      <div className="relative">
+      <div className="relative flex justify-start">
         <TabsList className='bg-background rounded-none border-b border-border p-0'>
           {tabs.map((tab, index) => (
             <TabsTrigger

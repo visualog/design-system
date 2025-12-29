@@ -14,7 +14,7 @@ const ColorsPage: React.FC = () => {
 
   return (
     <div id="colors" className="mb-16">
-      <h1 className="text-4xl font-bold text-gray-800 mb-4">Colors</h1>
+      <h1 className="text-4xl font-bold text-gray-800 mb-8">Colors</h1>
       
       <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
         <AnimatedTabsContent value="raw">

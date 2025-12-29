@@ -19,8 +19,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
     }
   }, [location.pathname]); // Re-evaluate when pathname changes
 
-  const activeClassName = "flex items-center text-lg text-blue-600 bg-blue-50 p-2 rounded-md";
-  const inactiveClassName = "flex items-center text-lg text-gray-700 hover:bg-gray-100 p-2 rounded-md transition-colors duration-200";
+  const activeClassName = "flex items-center text-sm text-blue-600 bg-blue-50 p-2 rounded-md";
+  const inactiveClassName = "flex items-center text-sm text-gray-700 hover:bg-gray-100 p-2 rounded-md transition-colors duration-200";
 
   const toggleFoundationMenu = () => {
     setIsFoundationOpen(!isFoundationOpen);
@@ -53,7 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
             <li>
               <button 
                 onClick={toggleFoundationMenu}
-                className="w-full flex items-center justify-between text-lg text-gray-800 font-semibold p-2 rounded-md hover:bg-gray-100"
+                className="w-full flex items-center justify-between text-base text-gray-800 font-semibold p-2 rounded-md hover:bg-gray-100"
               >
                 <span>Foundation</span>
                 <ChevronDown 
