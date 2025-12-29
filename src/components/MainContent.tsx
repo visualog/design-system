@@ -8,7 +8,7 @@ interface MainContentProps {
 const MainContent: React.FC<MainContentProps> = ({ children }) => {
   return (
     <main className="flex-1 pt-8 md:p-12 lg:p-16 md:pl-60">
-      <article className="max-w-3xl">
+      <article className="max-w-3xl mx-auto">
         <Breadcrumb />
         {children}
       </article>
