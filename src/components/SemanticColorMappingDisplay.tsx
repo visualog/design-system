@@ -1,5 +1,6 @@
 import React from 'react';
 import { designSystemData } from '../utils/dataLoader';
+import { Clipboard } from './ui/clipboard';
 
 const SemanticColorMappingDisplay: React.FC = () => {
   const { colors } = designSystemData;
@@ -13,8 +14,14 @@ const SemanticColorMappingDisplay: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {Object.entries(mappings).map(([semanticVar, themeVar], index) => (
               <div key={index} className="p-4 border border-gray-200 rounded-lg shadow-sm">
-                <p className="text-base font-medium font-mono mb-1">{semanticVar}</p>
-                <p className="text-sm text-gray-600 font-mono">Mapped to: {themeVar}</p>
+                <div className="flex items-center text-base font-medium font-mono mb-1">
+                  <span>{semanticVar}</span>
+                  <Clipboard value={semanticVar} />
+                </div>
+                <div className="flex items-center text-sm text-gray-600 font-mono">
+                  <span>Mapped to: {themeVar as string}</span>
+                  <Clipboard value={themeVar as string} />
+                </div>
               </div>
             ))}
           </div>

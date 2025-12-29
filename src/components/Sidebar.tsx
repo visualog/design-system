@@ -1,26 +1,29 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Sidebar: React.FC = () => {
+  const activeClassName = "text-lg text-blue-600 bg-blue-50 p-2 rounded-md";
+  const inactiveClassName = "text-lg text-gray-700 hover:text-blue-600 transition-colors duration-200 p-2 rounded-md";
+
   return (
     <aside className="w-64 bg-white p-6 h-screen sticky top-0 border-r border-gray-200 overflow-y-auto">
       <h1 className="text-2xl font-semibold text-gray-800 mb-8">Design System</h1>
       <nav>
-        <ul>
-          <li className="mb-3">
-            <Link to="/colors" className="text-lg text-gray-700 hover:text-blue-600 transition-colors duration-200">Colors</Link>
+        <ul className="space-y-2">
+          <li>
+            <NavLink to="/colors" className={({ isActive }) => isActive ? activeClassName : inactiveClassName}>Colors</NavLink>
           </li>
-          <li className="mb-3">
-            <Link to="/typography" className="text-lg text-gray-700 hover:text-blue-600 transition-colors duration-200">Typography</Link>
+          <li>
+            <NavLink to="/typography" className={({ isActive }) => isActive ? activeClassName : inactiveClassName}>Typography</NavLink>
           </li>
-          <li className="mb-3">
-            <Link to="/spacing" className="text-lg text-gray-700 hover:text-blue-600 transition-colors duration-200">Spacing & Layout</Link>
+          <li>
+            <NavLink to="/spacing" className={({ isActive }) => isActive ? activeClassName : inactiveClassName}>Spacing & Layout</NavLink>
           </li>
-          <li className="mb-3">
-            <Link to="/icons" className="text-lg text-gray-700 hover:text-blue-600 transition-colors duration-200">Icons</Link>
+          <li>
+            <NavLink to="/icons" className={({ isActive }) => isActive ? activeClassName : inactiveClassName}>Icons</NavLink>
           </li>
-          <li className="mb-3">
-            <Link to="/shadows" className="text-lg text-gray-700 hover:text-blue-600 transition-colors duration-200">Shadows</Link>
+          <li>
+            <NavLink to="/shadows" className={({ isActive }) => isActive ? activeClassName : inactiveClassName}>Shadows</NavLink>
           </li>
         </ul>
       </nav>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { designSystemData } from '../utils/dataLoader';
+import { Clipboard } from './ui/clipboard';
 
 interface ColorProps {
   name: string;
@@ -14,10 +15,22 @@ const ColorSwatch: React.FC<ColorProps> = ({ name, hex, rgb, hsl, variable }) =>
     <div className="flex flex-col items-center p-4 border border-gray-200 rounded-lg shadow-sm">
       <div className="w-24 h-24 rounded-full mb-4" style={{ backgroundColor: hex }}></div>
       <h3 className="text-lg font-semibold mb-1">{name}</h3>
-      <p className="text-sm text-gray-600">{hex}</p>
-      <p className="text-xs text-gray-500">{rgb}</p>
-      <p className="text-xs text-gray-500">{hsl}</p>
-      <p className="text-xs font-mono text-gray-700 mt-2">{variable}</p>
+      <div className="flex items-center text-sm text-gray-600">
+        <span>{hex}</span>
+        <Clipboard value={hex} />
+      </div>
+      <div className="flex items-center text-xs text-gray-500">
+        <span>{rgb}</span>
+        <Clipboard value={rgb} />
+      </div>
+      <div className="flex items-center text-xs text-gray-500">
+        <span>{hsl}</span>
+        <Clipboard value={hsl} />
+      </div>
+      <div className="flex items-center text-xs font-mono text-gray-700 mt-2">
+        <span>{variable}</span>
+        <Clipboard value={variable} />
+      </div>
     </div>
   );
 };
