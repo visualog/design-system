@@ -8,3 +8,4 @@
 - Completed: Adjusted main content to account for fixed sidebar on desktop by adding 'md:pl-60' to the main content div in `src/App.tsx`.
 - Completed: Added a 32px top margin to the main content area by adding 'mt-8' to the main content div in `src/App.tsx`.
 - Completed: Adjusted main content top padding to 32px by modifying the 'main' element in `src/components/MainContent.tsx` to use 'pt-8'.
+- Completed: Changed the main content wrapper (div) to an 'article' tag in `src/components/MainContent.tsx`.
