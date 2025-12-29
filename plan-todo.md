@@ -32,6 +32,9 @@
 - **아이콘 검색:** 아이콘 검색 기능 추가.
 - **사이드바 활성 메뉴 스타일링:** 사이드바의 현재 활성화된 메뉴 스타일링.
 
+### UI/UX 개선
+- **컴포넌트 스타일 개선:** `Colors`, `Typography`, `Spacing`, `Shadows` 페이지의 스타일을 `seed-design.io/docs`와 유사하게 개선.
+
 ### 버전 관리
 - **Git 저장소 초기화:** `git init`을 통해 프로젝트 버전 관리를 시작하고 초기 커밋 생성.
 
@@ -43,7 +46,6 @@
 ## ⏳ 예정된 작업 (To-Do / Next Steps)
 
 - **[To-Do] UI/UX 개선 (UI/UX Refinement)**
-  - 각 컴포넌트(컬러, 타이포그래피 등)의 스타일을 `seed-design.io/docs`와 더 유사하게 다듬기.
   - 반응형 디자인 개선.
 
 - **[To-Do] 프로덕션 빌드 (Build & Deploy)**
