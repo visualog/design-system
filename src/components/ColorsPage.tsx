@@ -5,11 +5,11 @@ import SemanticColorMappingDisplay from './SemanticColorMappingDisplay';
 import { AnimatedTabs, AnimatedTabsContent } from "@/components/ui/animated-tabs";
 
 const ColorsPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('raw');
+  const [activeTab, setActiveTab] = useState('palette');
   const tabs = [
-    { name: 'Raw Colors', value: 'raw' },
-    { name: 'Theme Colors', value: 'theme' },
-    { name: 'Semantic Colors', value: 'semantic' }
+    { name: 'Palette', value: 'palette' },
+    { name: 'Color System', value: 'system' },
+    { name: 'Color Role', value: 'role' }
   ];
 
   return (
@@ -17,13 +17,13 @@ const ColorsPage: React.FC = () => {
       <h1 className="text-4xl font-bold text-gray-800 mb-4">Colors</h1>
       
       <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
-        <AnimatedTabsContent value="raw">
+        <AnimatedTabsContent value="palette">
           <ColorPaletteDisplay />
         </AnimatedTabsContent>
-        <AnimatedTabsContent value="theme">
+        <AnimatedTabsContent value="system">
           <ThemeColorMappingDisplay />
         </AnimatedTabsContent>
-        <AnimatedTabsContent value="semantic">
+        <AnimatedTabsContent value="role">
           <SemanticColorMappingDisplay />
         </AnimatedTabsContent>
       </AnimatedTabs>
