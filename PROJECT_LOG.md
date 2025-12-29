@@ -12,3 +12,4 @@
 - Completed: Set the maximum width of the main article to 720px by adding 'max-w-[720px]' to the <article> tag in `src/components/MainContent.tsx`.
 - Completed: Set the maximum width of the main article to max-w-3xl (768px) by modifying the <article> tag in `src/components/MainContent.tsx`.
 - Completed: Centered the main article content horizontally by adding 'mx-auto' to the <article> tag in `src/components/MainContent.tsx`.
+- Completed: Reconciled main content top padding with responsive paddings by removing explicit 'pt-8' from the 'main' element in `src/components/MainContent.tsx`.
