@@ -35,7 +35,7 @@ const ColorSwatch: React.FC<ColorProps> = ({ level, hex, variable, rgb }) => { /
 
 // --- New Grid-based Display Component ---
 const ColorGrid: React.FC<{ families: [string, any[]][], levels: string[] }> = ({ families, levels }) => (
-  <div className="grid items-center" style={{ gridTemplateColumns: `minmax(7.5rem, auto) repeat(${levels.length}, 3rem)` }}>
+  <div className="grid items-center gap-0.5" style={{ gridTemplateColumns: `minmax(7.5rem, auto) repeat(${levels.length}, 3rem)` }}>
     {/* Header Row */}
     <div /> {/* Empty cell for color family name column */}
     {levels.map(level => (
