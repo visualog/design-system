@@ -22,3 +22,4 @@
 - Completed: Applied flexbox to sections within ColorPaletteDisplay by adding 'flex flex-col gap-4' to the section element and removing 'mb-4' from the h3 within each section in `src/components/ColorPaletteDisplay.tsx`.
 - Completed: Updated color family title font color in ColorPaletteDisplay from 'text-gray-700' to 'text-gray-400'.
 - Completed: Adjusted the gap between color scale palettes to 2px by adding 'gap-0.5' to the ColorGrid component's root div className in `src/components/ColorPaletteDisplay.tsx`.
+- Completed: Removed the Alpha color palette section from ColorPaletteDisplay in `src/components/ColorPaletteDisplay.tsx`.
