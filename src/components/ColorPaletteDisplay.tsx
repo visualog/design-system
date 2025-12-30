@@ -148,12 +148,6 @@ const ColorPaletteDisplay: React.FC = () => {
         <ColorGrid families={chromaticFamilies} levels={sortedLevels} />
       </section>
 
-      {/* --- Alpha Section --- */}
-      <section className="flex flex-col gap-4">
-        <h3 className="text-lg font-bold">Alpha</h3>
-        <ColorGrid families={alphaFamilies} levels={sortedLevels} />
-      </section>
-
       {/* --- Tokens Section --- */}
       <section className="flex flex-col gap-4">
         <h3 className="text-lg font-bold">Tokens</h3>
