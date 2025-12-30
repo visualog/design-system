@@ -23,4 +23,3 @@
 - Completed: Updated color family title font color in ColorPaletteDisplay from 'text-gray-700' to 'text-gray-400'.
 - Completed: Adjusted the gap between color scale palettes to 2px by adding 'gap-0.5' to the ColorGrid component's root div className in `src/components/ColorPaletteDisplay.tsx`.
 - Completed: Refined color palette level filtering based on user clarification in ColorPaletteDisplay.tsx.
-- Completed: Included alpha levels 10-90 in Alpha section display by modifying `src/components/ColorPaletteDisplay.tsx`.
