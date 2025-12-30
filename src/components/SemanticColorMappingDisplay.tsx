@@ -46,9 +46,9 @@ const SemanticColorMappingDisplay: React.FC = () => {
   const { colors } = designSystemData;
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto py-8 flex flex-col gap-12">
       {Object.entries(colors.semanticMapping).map(([category, mappings]) => (
-        <div key={category} className="mb-12">
+        <div key={category}>
           <h3 className="text-2xl font-semibold mb-6 capitalize">{category}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Object.entries(mappings).map(([semanticVar, themeVar], index) => (
