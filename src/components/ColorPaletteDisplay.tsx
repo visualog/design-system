@@ -45,7 +45,7 @@ const ColorGrid: React.FC<{ families: [string, any[]][], levels: string[] }> = (
     {/* Color Family Rows */}
     {families.map(([familyName, shades]) => (
       <React.Fragment key={familyName}>
-        <div className="text-sm capitalize text-gray-700">{familyName.replace(/([A-Z])/g, ' $1').trim()}</div>
+        <div className="text-sm capitalize text-gray-400">{familyName.replace(/([A-Z])/g, ' $1').trim()}</div>
         {levels.map(level => {
           const shade = shades.find(s => s.level === level);
           return (
