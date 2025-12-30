@@ -134,22 +134,22 @@ const ColorPaletteDisplay: React.FC = () => {
   );
 
   return (
-    <div className="py-8">
+    <div className="py-8 flex flex-col gap-12">
       
       {/* --- Gray Section --- */}
-      <section className="mb-16">
+      <section>
         <h3 className="text-lg font-bold mb-4">Gray</h3>
         <ColorGrid families={grayFamilies} levels={sortedLevels} />
       </section>
 
       {/* --- Chromatic Section --- */}
-      <section className="mb-16">
+      <section>
         <h3 className="text-lg font-bold mb-4">Chromatic</h3>
         <ColorGrid families={chromaticFamilies} levels={sortedLevels} />
       </section>
 
       {/* --- Alpha Section --- */}
-      <section className="mb-16">
+      <section>
         <h3 className="text-lg font-bold mb-4">Alpha</h3>
         <ColorGrid families={alphaFamilies} levels={sortedLevels} />
       </section>
