@@ -137,26 +137,26 @@ const ColorPaletteDisplay: React.FC = () => {
     <div className="py-8 flex flex-col gap-12">
       
       {/* --- Gray Section --- */}
-      <section>
-        <h3 className="text-lg font-bold mb-4">Gray</h3>
+      <section className="flex flex-col gap-4">
+        <h3 className="text-lg font-bold">Gray</h3>
         <ColorGrid families={grayFamilies} levels={sortedLevels} />
       </section>
 
       {/* --- Chromatic Section --- */}
-      <section>
-        <h3 className="text-lg font-bold mb-4">Chromatic</h3>
+      <section className="flex flex-col gap-4">
+        <h3 className="text-lg font-bold">Chromatic</h3>
         <ColorGrid families={chromaticFamilies} levels={sortedLevels} />
       </section>
 
       {/* --- Alpha Section --- */}
-      <section>
-        <h3 className="text-lg font-bold mb-4">Alpha</h3>
+      <section className="flex flex-col gap-4">
+        <h3 className="text-lg font-bold">Alpha</h3>
         <ColorGrid families={alphaFamilies} levels={sortedLevels} />
       </section>
 
       {/* --- Tokens Section --- */}
-      <section>
-        <h3 className="text-lg font-bold mb-4">Tokens</h3>
+      <section className="flex flex-col gap-4">
+        <h3 className="text-lg font-bold">Tokens</h3>
         <TokensDisplay colors={colors.palette} />
       </section>
     </div>
