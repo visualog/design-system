@@ -2,6 +2,11 @@ import React from 'react';
 import { designSystemData } from '../utils/dataLoader';
 import { Clipboard } from './ui/clipboard';
 import { getContrastingTextColor } from '../lib/utils';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from './ui/tooltip';
 
 // --- Reusable Color Swatch (already exists) ---
 interface ColorProps {
@@ -9,53 +14,105 @@ interface ColorProps {
   hex: string;
   variable: string;
   rgb: string;
+  familyName: string;
 }
 
-const ColorSwatch: React.FC<ColorProps> = ({ level, hex, variable, rgb }) => { // Changed name to level
-  let backgroundColor = rgb; // Initialize with rgb
+const ColorSwatch: React.FC<ColorProps> = ({ level, hex, variable, rgb, familyName }) => {
+  let finalStyle: React.CSSProperties = {};
+  const isAlpha = level && (level.toLowerCase().includes('alpha') || level.includes('%'));
+  let displayHex = hex;
 
-  if (level && level.toLowerCase().includes('alpha')) { // Changed name to level
-    const opacityMatch = level.match(/\((\d+)%\)/); // Extracts the percentage, e.g., "alpha (10%)"
-    if (opacityMatch && opacityMatch[1]) {
-      const opacity = parseInt(opacityMatch[1], 10) / 100;
-      // Reconstructs "rgb(r, g, b)" into "rgba(r, g, b, opacity)"
-      backgroundColor = backgroundColor.replace('rgb', 'rgba').replace(')', `, ${opacity})`);
-    }
+  if (isAlpha) {
+      const opacityMatch = level.match(/\((\d+)%\)/);
+      if (opacityMatch && opacityMatch[1]) {
+          const opacityValue = parseInt(opacityMatch[1], 10);
+          const opacity = opacityValue / 100;
+          const rgbaColor = rgb.replace('rgb', 'rgba').replace(')', `, ${opacity})`);
+          
+          finalStyle = {
+            backgroundImage: `
+              linear-gradient(${rgbaColor}, ${rgbaColor}),
+              linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%),
+              linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%)
+            `,
+            backgroundSize: `100%, 16px 16px, 16px 16px`,
+            backgroundPosition: `0 0, 0 0, 8px 8px`
+          };
+          
+          const alphaHex = Math.round(opacityValue * 2.55).toString(16).padStart(2, '0').toUpperCase();
+          displayHex = `${hex}${alphaHex}`;
+
+      } else {
+        finalStyle = { backgroundColor: rgb };
+      }
+  } else {
+    finalStyle = { backgroundColor: rgb };
   }
 
+  const displayLevel = String(level).replace(/\s\(.*\)/, '');
+  const tokenName = `$color.palette.${familyName.toLowerCase().replace(/\s/g, '-')}-${displayLevel}`;
+
   return (
-    <div 
-      className="w-12 h-12 relative group" 
-      style={{ backgroundColor: backgroundColor }}
-    >
-      {/* All text content removed as requested */}
-    </div>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div 
+          className="w-12 h-12 relative group" 
+          style={finalStyle}
+        >
+        </div>
+      </TooltipTrigger>
+      <TooltipContent>
+        <div className="flex flex-col gap-1 text-center p-1">
+          <span className="font-bold">{displayHex}</span>
+          <span className="font-mono text-xs">{tokenName}</span>
+        </div>
+      </TooltipContent>
+    </Tooltip>
   );
 };
 
 // --- New Grid-based Display Component ---
-const ColorGrid: React.FC<{ families: [string, any[]][], levels: string[] }> = ({ families, levels }) => (
+const ColorGrid: React.FC<{
+  families: [string, any[]][];
+  levels: string[];
+  iconlessEmptyLevels?: string[];
+  hiddenHeaderLevels?: string[];
+}> = ({ families, levels, iconlessEmptyLevels, hiddenHeaderLevels }) => (
   <div className="grid items-center gap-0.5" style={{ gridTemplateColumns: `minmax(7.5rem, auto) repeat(${levels.length}, 3rem)` }}>
     {/* Header Row */}
     <div /> {/* Empty cell for color family name column */}
-    {levels.map(level => (
-      <div key={level} className="text-center text-xs font-medium text-gray-400 w-12">{level}</div>
-    ))}
+    {levels.map(level => {
+      const displayLevel = level === 'alpha (10%)' ? '10%' : level;
+      return (
+        <div key={level} className="w-12 h-6 flex items-center justify-center text-xs font-medium text-gray-400">
+          {hiddenHeaderLevels?.includes(level) ? '' : displayLevel}
+        </div>
+      );
+    })}
 
     {/* Color Family Rows */}
     {families.map(([familyName, shades]) => (
       <React.Fragment key={familyName}>
         <div className="text-sm capitalize text-gray-400">{familyName.replace(/([A-Z])/g, ' $1').trim()}</div>
         {levels.map(level => {
-          const shade = shades.find(s => s.level === level);
+          const shade = shades.find(s => {
+            let normalizedShadeLevel = String(s.level);
+            const numericPercentageMatch = String(s.level).match(/^(\d+)\s\((\d+)%\)/); // Matches "10 (10%)"
+            if (numericPercentageMatch) {
+              normalizedShadeLevel = numericPercentageMatch[1]; // Extracts "10"
+            }
+            return normalizedShadeLevel === level;
+          });
           return (
             <div key={`${familyName}-${level}`} className="w-12 h-12 flex items-center justify-center">
-              {shade ? <ColorSwatch {...shade} /> : (
-                <div className="w-10 h-10 flex items-center justify-center">
-                  <span className="material-symbols-rounded text-gray-200 text-lg" style={{ fontVariationSettings: "'wght' 300" }}>
-                    format_color_reset
-                  </span>
-                </div>
+              {shade ? <ColorSwatch {...shade} familyName={familyName} /> : (
+                iconlessEmptyLevels?.includes(level) ? <div /> : (
+                  <div className="w-10 h-10 flex items-center justify-center">
+                    <span className="material-symbols-rounded text-gray-200 text-lg" style={{ fontVariationSettings: "'wght' 300" }}>
+                      format_color_reset
+                    </span>
+                  </div>
+                )
               )}
             </div>
           );
@@ -69,56 +126,94 @@ const ColorGrid: React.FC<{ families: [string, any[]][], levels: string[] }> = (
 // --- New component for the Tokens table ---
 const TokensDisplay: React.FC<{ colors: any }> = ({ colors }) => (
   <div className="overflow-x-auto">
-    <table className="min-w-full divide-y divide-gray-200">
-      <thead className="bg-gray-50">
+    <table className="min-w-full border-separate" style={{ borderSpacing: '0 0.5rem' }}>
+      <thead className="bg-gray-100 rounded-[10px]">
         <tr>
-          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <th scope="col" className="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-[10px] rounded-tr-[10px]">
             Token
           </th>
-          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Value (Hex)
-          </th>
-          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Preview
+          <th scope="col" className="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-[10px] rounded-tr-[10px]">
+            Value
           </th>
         </tr>
       </thead>
-      <tbody className="bg-white divide-y divide-gray-200">
+      <tbody className="bg-white divide-y divide-gray-200 rounded-[10px] border border-gray-200">
         {Object.entries(colors).flatMap(([colorFamily, shades]) =>
-          (shades as any[]).map((color: any, index: number) => (
-            <tr key={`${colorFamily}-${index}`}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">{`$color.palette.${colorFamily.toLowerCase()}-${color.level}`}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-500">{color.hex}</td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="w-8 h-8 rounded-full border border-gray-200" style={{ backgroundColor: color.hex }}></div>
-              </td>
-            </tr>
-          ))
+          (shades as any[]).map((color: any, index: number) => {
+            let finalChipStyle: React.CSSProperties = { backgroundColor: color.hex }; // Default style
+            let displayHex = color.hex;
+            const levelString = String(color.level).toLowerCase();
+            
+            const isAlpha = colorFamily.toLowerCase().includes('alpha') || levelString.includes('alpha') || levelString.includes('%');
+
+            if (isAlpha) {
+              const opacityMatch = String(color.level).match(/\((\d+)%\)/);
+              if (opacityMatch && opacityMatch[1]) {
+                  const opacityValue = parseInt(opacityMatch[1], 10);
+                  const rgbaColor = color.rgb.replace('rgb', 'rgba').replace(')', `, ${opacityValue / 100})`);
+                  
+                  // Apply checkerboard background
+                  finalChipStyle = {
+                    backgroundImage: `
+                      linear-gradient(${rgbaColor}, ${rgbaColor}),
+                      linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%),
+                      linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%)
+                    `,
+                    backgroundSize: `100%, 16px 16px, 16px 16px`,
+                    backgroundPosition: `0 0, 0 0, 8px 8px`
+                  };
+
+                  // For hex display
+                  const alphaHex = Math.round(opacityValue * 2.55).toString(16).padStart(2, '0').toUpperCase();
+                  displayHex = `${color.hex}${alphaHex}`;
+              }
+            }
+            // For non-alpha colors, set simple background color
+            else {
+                finalChipStyle = { backgroundColor: color.hex };
+            }
+
+            const displayLevel = String(color.level).replace(/\s\(.*\)/, '');
+            const tokenName = `$color.palette.${colorFamily.toLowerCase().replace(/\s/g, '-')}-${displayLevel}`;
+
+            return (
+              <tr key={`${colorFamily}-${index}`}>
+                <td className="px-6 py-2 whitespace-nowrap text-sm font-mono text-gray-900">{tokenName}</td>
+                <td className="px-6 py-2 whitespace-nowrap text-sm text-gray-500">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-full border border-black/10" style={finalChipStyle}></div>
+                    <span className="font-mono">{displayHex}</span>
+                  </div>
+                </td>
+              </tr>
+            );
+          })
         )}
       </tbody>
     </table>
   </div>
 );
 
-
 // --- Main component, restructured ---
 const ColorPaletteDisplay: React.FC = () => {
   const { colors } = designSystemData;
 
   const allShades = Object.values(colors.palette).flat();
-  const unwantedLevels = [
-    "10 (10%)", "20 (20%)", "30 (30%)", "40 (40%)", "50 (50%)",
-    "60 (60%)", "70 (70%)", "80 (80%)", "90 (90%)"
-  ];
-  const allLevels = [...new Set(allShades.map(s => s.level))].filter(level => !unwantedLevels.includes(level));
+  const allLevels = [...new Set(allShades.map(s => s.level))];
+
+  const grayFamilies = Object.entries(colors.palette).filter(([family]) => family.toLowerCase() === 'gray');
+  const alphaFamilies = Object.entries(colors.palette).filter(([family]) => family.toLowerCase().includes('alpha'));
+  const chromaticFamilies = Object.entries(colors.palette).filter(([family]) => 
+    !family.toLowerCase().includes('gray') && !family.toLowerCase().includes('alpha')
+  );
 
   const sortedLevels = allLevels.sort((a, b) => {
     const levelA = String(a).toLowerCase();
     const levelB = String(b).toLowerCase();
     if (levelA === 'white') return -1;
     if (levelB === 'white') return 1;
-    const isAlphaA = levelA.includes('alpha');
-    const isAlphaB = levelB.includes('alpha');
+    const isAlphaA = levelA.includes('alpha') || levelA.includes('%');
+    const isAlphaB = levelB.includes('alpha') || levelB.includes('%');
     if (isAlphaA && !isAlphaB) return 1;
     if (!isAlphaA && isAlphaB) return -1;
     const numA = parseFloat(levelA);
@@ -127,43 +222,53 @@ const ColorPaletteDisplay: React.FC = () => {
     return levelA.localeCompare(levelB);
   });
 
-  const nonAlphaLevels = sortedLevels.filter(level => !level.toLowerCase().includes('alpha'));
-  const alphaOnlyLevels = sortedLevels.filter(level => level.toLowerCase().includes('alpha'));
-  const chromaticOnlyLevels = sortedLevels.filter(level => level.toLowerCase() !== 'white');
-
-  const grayFamilies = Object.entries(colors.palette).filter(([family]) => family.toLowerCase() === 'gray');
-  const alphaFamilies = Object.entries(colors.palette).filter(([family]) => family.toLowerCase().includes('alpha'));
-  const chromaticFamilies = Object.entries(colors.palette).filter(([family]) => 
-    !family.toLowerCase().includes('gray') && !family.toLowerCase().includes('alpha')
+  const nonAlphaLevels = sortedLevels.filter(level => !level.toLowerCase().includes('alpha') && !level.includes('%'));
+  const grayDisplayLevels = [...nonAlphaLevels, 'alpha (10%)'];
+  const allAlphaFamilyShades = alphaFamilies.flatMap(([, shades]) => shades);
+  const alphaSectionLevels = [...new Set(allAlphaFamilyShades.map(s => s.level))].sort((a, b) => {
+    const levelA = String(a).toLowerCase();
+    const levelB = String(b).toLowerCase();
+    const isAlphaA = levelA.includes('alpha') || levelA.includes('%');
+    const isAlphaB = levelB.includes('alpha') || levelB.includes('%');
+    if (isAlphaA && !isAlphaB) return 1;
+    if (!isAlphaA && isAlphaB) return -1;
+    const numA = parseFloat(levelA);
+    const numB = parseFloat(levelB);
+    if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
+    return levelA.localeCompare(levelB);
+  });
+  const chromaticOnlyLevels = sortedLevels.filter(level =>
+    ((!level.toLowerCase().includes('alpha') && !level.includes('%')) || level === 'alpha (10%)')
   );
 
   return (
     <div className="py-8 flex flex-col gap-12">
-      
-      {/* --- Gray Section --- */}
-      <section className="flex flex-col gap-4">
-        <h3 className="text-lg font-bold">Gray</h3>
-        <ColorGrid families={grayFamilies} levels={nonAlphaLevels} />
-      </section>
+        
+        {/* --- Gray Section --- */}
+        <section className="flex flex-col gap-4">
+          <h3 className="text-lg font-bold">Gray</h3>
+          <ColorGrid families={grayFamilies} levels={grayDisplayLevels} iconlessEmptyLevels={['alpha (10%)']} hiddenHeaderLevels={['alpha (10%)']} />
+        </section>
 
-      {/* --- Chromatic Section --- */}
-      <section className="flex flex-col gap-4">
-        <h3 className="text-lg font-bold">Chromatic</h3>
-        <ColorGrid families={chromaticFamilies} levels={chromaticOnlyLevels} />
-      </section>
+        {/* --- Chromatic Section --- */}
+        <section className="flex flex-col gap-4">
+          <h3 className="text-lg font-bold">Chromatic</h3>
+          <ColorGrid families={chromaticFamilies} levels={chromaticOnlyLevels} iconlessEmptyLevels={['white']} hiddenHeaderLevels={['white']} />
+        </section>
 
-      {/* --- Alpha Section --- */}
-      <section className="flex flex-col gap-4">
-        <h3 className="text-lg font-bold">Alpha</h3>
-        <ColorGrid families={alphaFamilies} levels={alphaOnlyLevels} />
-      </section>
+        {/* --- Alpha Section --- */}
+        <section className="flex flex-col gap-4">
+          <h3 className="text-lg font-bold">Alpha</h3>
+          <ColorGrid families={alphaFamilies} levels={grayDisplayLevels} hiddenHeaderLevels={['white', '100', 'alpha (10%)']} iconlessEmptyLevels={['white', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100', 'alpha (10%)']} />
+        </section>
 
-      {/* --- Tokens Section --- */}
-      <section className="flex flex-col gap-4">
-        <h3 className="text-lg font-bold">Tokens</h3>
-        <TokensDisplay colors={colors.palette} />
-      </section>
-    </div>
+        {/* --- Tokens Section --- */}
+        <section className="flex flex-col gap-4">
+          <h3 className="text-lg font-bold">Tokens</h3>
+          <TokensDisplay colors={colors.palette} />
+        </section>
+      </div>
+
   );
 };
 
