@@ -127,6 +127,9 @@ const ColorPaletteDisplay: React.FC = () => {
     return levelA.localeCompare(levelB);
   });
 
+  const nonAlphaLevels = sortedLevels.filter(level => !level.toLowerCase().includes('alpha'));
+  const alphaOnlyLevels = sortedLevels.filter(level => level.toLowerCase().includes('alpha'));
+
   const grayFamilies = Object.entries(colors.palette).filter(([family]) => family.toLowerCase() === 'gray');
   const alphaFamilies = Object.entries(colors.palette).filter(([family]) => family.toLowerCase().includes('alpha'));
   const chromaticFamilies = Object.entries(colors.palette).filter(([family]) => 
@@ -139,7 +142,7 @@ const ColorPaletteDisplay: React.FC = () => {
       {/* --- Gray Section --- */}
       <section className="flex flex-col gap-4">
         <h3 className="text-lg font-bold">Gray</h3>
-        <ColorGrid families={grayFamilies} levels={sortedLevels} />
+        <ColorGrid families={grayFamilies} levels={nonAlphaLevels} />
       </section>
 
       {/* --- Chromatic Section --- */}
@@ -151,7 +154,7 @@ const ColorPaletteDisplay: React.FC = () => {
       {/* --- Alpha Section --- */}
       <section className="flex flex-col gap-4">
         <h3 className="text-lg font-bold">Alpha</h3>
-        <ColorGrid families={alphaFamilies} levels={sortedLevels} />
+        <ColorGrid families={alphaFamilies} levels={alphaOnlyLevels} />
       </section>
 
       {/* --- Tokens Section --- */}
