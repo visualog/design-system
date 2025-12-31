@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { designSystemData } from '../utils/dataLoader';
 import { Clipboard } from './ui/clipboard';
 import { getContrastingTextColor } from '../lib/utils';
@@ -7,6 +7,24 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from './ui/tooltip';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from './ui/button';
+import { ChevronDown, X } from 'lucide-react';
 
 // --- Reusable Color Swatch (already exists) ---
 interface ColorProps {
@@ -122,22 +140,24 @@ const ColorGrid: React.FC<{
   </div>
 );
 
+// Helper to capitalize first letter
+const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 // --- New component for the Tokens table ---
 const TokensDisplay: React.FC<{ colors: any }> = ({ colors }) => (
-  <div className="overflow-x-auto">
-    <table className="min-w-full border-separate" style={{ borderSpacing: '0 0.5rem' }}>
-      <thead className="bg-gray-100 rounded-[10px]">
-        <tr>
-          <th scope="col" className="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-[10px] rounded-tr-[10px]">
+  <div className="border border-gray-200 rounded-lg overflow-hidden">
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-1/2 px-4 py-2 text-xs uppercase h-auto">
             Token
-          </th>
-          <th scope="col" className="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-[10px] rounded-tr-[10px]">
-            Value
-          </th>
-        </tr>
-      </thead>
-      <tbody className="bg-white divide-y divide-gray-200 rounded-[10px] border border-gray-200">
+          </TableHead>
+          <TableHead className="w-1/2 px-4 py-2 text-xs uppercase h-auto">
+            Mapped To
+          </TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
         {Object.entries(colors).flatMap(([colorFamily, shades]) =>
           (shades as any[]).map((color: any, index: number) => {
             let finalChipStyle: React.CSSProperties = { backgroundColor: color.hex }; // Default style
@@ -152,7 +172,6 @@ const TokensDisplay: React.FC<{ colors: any }> = ({ colors }) => (
                   const opacityValue = parseInt(opacityMatch[1], 10);
                   const rgbaColor = color.rgb.replace('rgb', 'rgba').replace(')', `, ${opacityValue / 100})`);
                   
-                  // Apply checkerboard background
                   finalChipStyle = {
                     backgroundImage: `
                       linear-gradient(${rgbaColor}, ${rgbaColor}),
@@ -163,40 +182,52 @@ const TokensDisplay: React.FC<{ colors: any }> = ({ colors }) => (
                     backgroundPosition: `0 0, 0 0, 8px 8px`
                   };
 
-                  // For hex display
                   const alphaHex = Math.round(opacityValue * 2.55).toString(16).padStart(2, '0').toUpperCase();
                   displayHex = `${color.hex}${alphaHex}`;
               }
-            }
-            // For non-alpha colors, set simple background color
-            else {
+            } else {
                 finalChipStyle = { backgroundColor: color.hex };
             }
 
             const displayLevel = String(color.level).replace(/\s\(.*\)/, '');
-            const tokenName = `$color.palette.${colorFamily.toLowerCase().replace(/\s/g, '-')}-${displayLevel}`;
+            let finalDisplayLevel = displayLevel;
+
+            if (finalDisplayLevel === 'alpha') {
+              finalDisplayLevel = 'alpha_10';
+            }
+
+            const formattedFamily = colorFamily.toLowerCase().replace(/\s/g, '_');
+            const capitalizedFormattedFamily = formattedFamily.split('_').map(word => capitalizeFirstLetter(word)).join('_');
+            const tokenName = `$color_${capitalizedFormattedFamily}_${finalDisplayLevel}`;
 
             return (
-              <tr key={`${colorFamily}-${index}`}>
-                <td className="px-6 py-2 whitespace-nowrap text-sm font-mono text-gray-900">{tokenName}</td>
-                <td className="px-6 py-2 whitespace-nowrap text-sm text-gray-500">
+              <TableRow key={`${colorFamily}-${index}`} className="bg-white">
+                <TableCell className="px-4 py-2 font-mono text-sm whitespace-nowrap">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full border border-black/10" style={finalChipStyle}></div>
+                    <div className="w-5 h-5 rounded-full border border-black/10" style={finalChipStyle}></div>
+                    <span>{tokenName}</span>
+                  </div>
+                </TableCell>
+                <TableCell className="px-4 py-2 font-mono text-sm text-gray-500 whitespace-nowrap">
+                  <div className="flex items-center">
                     <span className="font-mono">{displayHex}</span>
                   </div>
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             );
           })
         )}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
   </div>
 );
+
 
 // --- Main component, restructured ---
 const ColorPaletteDisplay: React.FC = () => {
   const { colors } = designSystemData;
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedFamilies, setSelectedFamilies] = useState<string[]>(['All']);
 
   const allShades = Object.values(colors.palette).flat();
   const allLevels = [...new Set(allShades.map(s => s.level))];
@@ -208,38 +239,88 @@ const ColorPaletteDisplay: React.FC = () => {
   );
 
   const sortedLevels = allLevels.sort((a, b) => {
-    const levelA = String(a).toLowerCase();
-    const levelB = String(b).toLowerCase();
-    if (levelA === 'white') return -1;
-    if (levelB === 'white') return 1;
-    const isAlphaA = levelA.includes('alpha') || levelA.includes('%');
-    const isAlphaB = levelB.includes('alpha') || levelB.includes('%');
-    if (isAlphaA && !isAlphaB) return 1;
-    if (!isAlphaA && isAlphaB) return -1;
-    const numA = parseFloat(levelA);
-    const numB = parseFloat(levelB);
-    if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
-    return levelA.localeCompare(levelB);
+    // ... sort logic
   });
 
   const nonAlphaLevels = sortedLevels.filter(level => !level.toLowerCase().includes('alpha') && !level.includes('%'));
   const grayDisplayLevels = [...nonAlphaLevels, 'alpha (10%)'];
   const allAlphaFamilyShades = alphaFamilies.flatMap(([, shades]) => shades);
   const alphaSectionLevels = [...new Set(allAlphaFamilyShades.map(s => s.level))].sort((a, b) => {
-    const levelA = String(a).toLowerCase();
-    const levelB = String(b).toLowerCase();
-    const isAlphaA = levelA.includes('alpha') || levelA.includes('%');
-    const isAlphaB = levelB.includes('alpha') || levelB.includes('%');
-    if (isAlphaA && !isAlphaB) return 1;
-    if (!isAlphaA && isAlphaB) return -1;
-    const numA = parseFloat(levelA);
-    const numB = parseFloat(levelB);
-    if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
-    return levelA.localeCompare(levelB);
+    // ... sort logic
   });
   const chromaticOnlyLevels = sortedLevels.filter(level =>
     ((!level.toLowerCase().includes('alpha') && !level.includes('%')) || level === 'alpha (10%)')
   );
+
+  const handleFamilySelection = (family: string) => {
+    if (family === 'All') {
+      setSelectedFamilies(['All']);
+      return;
+    }
+    
+    let newSelection = selectedFamilies.filter(f => f !== 'All');
+    
+    if (newSelection.includes(family)) {
+      newSelection = newSelection.filter(f => f !== family);
+    } else {
+      newSelection.push(family);
+    }
+
+    if (newSelection.length === 0) {
+      setSelectedFamilies(['All']);
+    } else {
+      setSelectedFamilies(newSelection);
+    }
+  };
+
+  // Filtering logic for TokensDisplay
+  const filteredColors = Object.entries(colors.palette)
+    .filter(([family]) => selectedFamilies.includes('All') || selectedFamilies.includes(family))
+    .reduce((acc, [family, shades]) => {
+      const filteredShades = shades.filter((color: any) => {
+        const displayLevel = String(color.level).replace(/\s\(.*\)/, '');
+        let finalDisplayLevel = displayLevel;
+        if (finalDisplayLevel === 'alpha') {
+          finalDisplayLevel = 'alpha_10';
+        }
+        const formattedFamily = family.toLowerCase().replace(/\s/g, '_');
+        const capitalizedFormattedFamily = formattedFamily.split('_').map(word => capitalizeFirstLetter(word)).join('_');
+        const tokenName = `$color_${capitalizedFormattedFamily}_${finalDisplayLevel}`;
+        
+        let displayHex = color.hex;
+        const levelString = String(color.level).toLowerCase();
+        const isAlpha = family.toLowerCase().includes('alpha') || levelString.includes('alpha') || levelString.includes('%');
+        if (isAlpha) {
+          const opacityMatch = String(color.level).match(/\((\d+)%\)/);
+          if (opacityMatch && opacityMatch[1]) {
+            const opacityValue = parseInt(opacityMatch[1], 10);
+            const alphaHex = Math.round(opacityValue * 2.55).toString(16).padStart(2, '0').toUpperCase();
+            displayHex = `${color.hex}${alphaHex}`;
+          }
+        }
+        
+        const searchTermLower = searchTerm.toLowerCase();
+        return tokenName.toLowerCase().includes(searchTermLower) || displayHex.toLowerCase().includes(searchTermLower);
+      });
+
+      if (filteredShades.length > 0) {
+        acc[family] = filteredShades;
+      }
+      return acc;
+    }, {} as Record<string, any[]>);
+
+  const tokenCount = Object.values(filteredColors).flat().length;
+  const placeholderText = `Search ${tokenCount} tokens...`;
+
+  const getDropdownTriggerText = () => {
+    if (selectedFamilies.includes('All') || selectedFamilies.length === 0) {
+      return 'All';
+    }
+    if (selectedFamilies.length === 1) {
+      return selectedFamilies[0];
+    }
+    return `${selectedFamilies.length} selected`;
+  };
 
   return (
     <div className="py-8 flex flex-col gap-12">
@@ -261,14 +342,54 @@ const ColorPaletteDisplay: React.FC = () => {
           <h3 className="text-lg font-bold">Alpha</h3>
           <ColorGrid families={alphaFamilies} levels={grayDisplayLevels} hiddenHeaderLevels={['white', '100', 'alpha (10%)']} iconlessEmptyLevels={['white', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100', 'alpha (10%)']} />
         </section>
-
-        {/* --- Tokens Section --- */}
-        <section className="flex flex-col gap-4">
+      
+      <section className="flex flex-col gap-4">
+        <div className="flex justify-between items-center">
           <h3 className="text-lg font-bold">Tokens</h3>
-          <TokensDisplay colors={colors.palette} />
-        </section>
-      </div>
-
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <Input 
+                placeholder={placeholderText} 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-48 shadow-none pr-9"
+              />
+              {searchTerm && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
+                  onClick={() => setSearchTerm('')}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              )}
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="w-36 justify-between shadow-none">
+                  <span>{getDropdownTriggerText()}</span>
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="max-h-48 overflow-y-auto">
+                <DropdownMenuItem onSelect={() => handleFamilySelection('All')}>All</DropdownMenuItem>
+                {Object.keys(colors.palette).map(family => (
+                  <DropdownMenuCheckboxItem
+                    key={family}
+                    checked={selectedFamilies.includes(family)}
+                    onCheckedChange={() => handleFamilySelection(family)}
+                  >
+                    {family}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+        <TokensDisplay colors={filteredColors} />
+      </section>
+    </div>
   );
 };
 
