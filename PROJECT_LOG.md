@@ -22,4 +22,36 @@
 - Completed: Applied flexbox to sections within ColorPaletteDisplay by adding 'flex flex-col gap-4' to the section element and removing 'mb-4' from the h3 within each section in `src/components/ColorPaletteDisplay.tsx'.
 - Completed: Updated color family title font color in ColorPaletteDisplay from 'text-gray-700' to 'text-gray-400'.
 - Completed: Adjusted the gap between color scale palettes to 2px by adding 'gap-0.5' to the ColorGrid component's root div className in `src/components/ColorPaletteDisplay.tsx`.
-- Completed: Refined color palette level filtering based on user clarification in ColorPaletteDisplay.tsx.
+- Completed: Refined color palette level filtering based on user clarification in ColorPaletteDisplay.tsx`.
+- Completed: Ensured all 'Black Alpha' levels are displayed by removing the `unwantedLevels` filter in `src/components/ColorPaletteDisplay.tsx`.
+- Completed: Refined alpha level classification (`isAlpha` logic in sort function and `nonAlphaLevels` filter) to prevent unwanted empty columns in 'Gray' and 'Chromatic' sections in `src/components/ColorPaletteDisplay.PaletteDisplay.tsx`.
+- Completed: Fixed component crash by reordering variable definitions (`grayFamilies`, `alphaFamilies`, `chromaticFamilies` moved before their usage) in `src/components/ColorPaletteDisplay.tsx`.
+- Completed: Restored 'alpha (10%)' column to Chromatic color palettes with a robust filtering logic in `src/components/ColorPaletteDisplay.tsx`.
+- Completed: Fixed 'Tokens' display to correctly render alpha color previews with transparency in `src/components/ColorPaletteDisplay.tsx`.
+- Completed: Added conditional checkerboard background to ColorSwatch component for alpha colors, improving visual distinction of transparency in `src/components/ColorPaletteDisplay.tsx`.
+- Completed: Applied conditional checkerboard background to alpha color chips within the TokensDisplay component, making transparent tokens visually distinct in `src/components/ColorPaletteDisplay.tsx`.
+- Completed: Restored `src/components/ColorPaletteDisplay.tsx` to a stable working state by reverting all tooltip-related modifications and applying all previously successful layout and styling changes. This resolved a persistent application crash.
+- Completed: Implemented Color Palette hover tooltip to show color value and token name in `src/components/ColorPaletteDisplay.tsx` and wrapped App.tsx with TooltipProvider.
+- Completed: Fixed alpha color hex display in tooltip to include alpha value.
+- Completed: Changed "alpha (10%)" header label to "10%" in ColorGrid.
+- Completed: Removed "(10%)" from token names in TokensDisplay.
+- Completed: Fixed token name generation to replace spaces with hyphens in both ColorSwatch and TokensDisplay for consistency and validity.
+- Completed: Changed color level header row height from `h-12` to `h-6` in ColorGrid.
+- Failed to implement table rounding for TokensDisplay due to conflicting requirements and technical limitations with table element styling. The user's latest instruction ("테이블 전체가 하나의 둥근 블록형태는 사양이야") clarifies the desired outcome, confirming the approach of wrapping the table in a `div` with `border rounded-lg overflow-hidden`.
+- Completed: Reverted the table styling changes for TokensDisplay, going back to the user's initial suggested structure with a single `div` wrapper for overall table rounding.
+- Completed: Changed table cell padding from `px-6` to `px-4` in TokensDisplay.
+- Completed: Changed TokensDisplay color chip size to `w-6 h-6` (24px).
+- Completed: Changed TokensDisplay color chip size to `w-5 h-5` (20px).
+- Completed: Refactored `ThemeColorMappingDisplay.tsx` to use Shadcn UI `Table` components and display theme color mappings in a table format.
+- Completed: Removed "Raw Token" column from `ThemeColorMappingDisplay.tsx`.
+- Completed: Added '$' prefix to theme token names in `ThemeColorMappingDisplay.tsx`.
+- Completed: Changed Clipboard icon button size to `h-5 w-5` (20px) in `src/components/ui/clipboard.tsx`.
+- Completed: Added functionality to show Clipboard button only on row hover in `ThemeColorMappingDisplay.tsx`.
+- Completed: Changed `tbody td` `py-2` to `py-3` in `ThemeColorMappingDisplay.tsx`.
+- Completed: Applied Shadcn `Table` components to `TokensDisplay` in `src/components/ColorPaletteDisplay.tsx`.
+- Completed: Changed `ThemeColorMappingDisplay.tsx` `TableHead` `p-4` to `px-4 py-2` and `h-auto`.
+- Completed: Removed copy button for theme tokens in `ThemeColorMappingDisplay.tsx`.
+- Completed: Added "Mapped To" column and reintroduced "Preview" column in `ThemeColorMappingDisplay.tsx`.
+- Completed: Displayed hex value next to color chip in "Preview" column in `ThemeColorMappingDisplay.tsx`.
+- Completed: Removed `h-10` from `TableHead` in `ThemeColorMappingDisplay.tsx` by adding `h-auto`.
+- Clarified token hierarchy (Raw Value -> Palette Token -> Theme Token -> Semantic Token).

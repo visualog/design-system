@@ -10,7 +10,10 @@ const Breadcrumb: React.FC = () => {
 
   let displayPathnames = [...rawPathnames];
 
-  if (rawPathnames.length > 0 && foundationPaths.includes(rawPathnames[0])) {
+  // Handle root path ('/') specifically for Colors page
+  if (rawPathnames.length === 0) {
+    displayPathnames = ['foundation', 'colors'];
+  } else if (rawPathnames.length > 0 && foundationPaths.includes(rawPathnames[0])) {
     displayPathnames.unshift("foundation");
   }
 

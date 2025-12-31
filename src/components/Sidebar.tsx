@@ -13,8 +13,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   const [isFoundationOpen, setIsFoundationOpen] = useState(false);
 
   useEffect(() => {
-    // If a sub-path of foundation is active on load, open the foundation menu
-    if (foundationPaths.some(p => location.pathname.startsWith(p))) {
+    // If the root or a sub-path of foundation is active on load, open the foundation menu
+    if (location.pathname === '/' || foundationPaths.some(p => location.pathname.startsWith(p))) {
       setIsFoundationOpen(true);
     }
   }, [location.pathname]); // Re-evaluate when pathname changes
@@ -63,7 +63,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
               {isFoundationOpen && (
                 <ul className="pt-2 pl-4 space-y-1">
                   <li>
-                    <NavLink to="/colors" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Colors</NavLink>
+                    <NavLink 
+                      to="/colors" 
+                      className={({ isActive }) => (isActive || location.pathname === '/') ? activeClassName : inactiveClassName} 
+                      onClick={toggleSidebar}
+                    >
+                      Colors
+                    </NavLink>
                   </li>
                   <li>
                     <NavLink to="/typography" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Typography</NavLink>

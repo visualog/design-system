@@ -8,12 +8,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 interface ClipboardProps {
   value: string;
+  className?: string;
 }
 
-const Clipboard: React.FC<ClipboardProps> = ({ value }) => {
+const Clipboard: React.FC<ClipboardProps> = ({ value, className }) => {
   const [hasCopied, setHasCopied] = React.useState(false);
 
   const onCopy = () => {
@@ -32,7 +34,7 @@ const Clipboard: React.FC<ClipboardProps> = ({ value }) => {
             variant="ghost"
             size="icon"
             onClick={onCopy}
-            className="h-7 w-7"
+            className={cn("h-5 w-5", className)}
           >
             {hasCopied ? (
               <Check className="h-4 w-4" />
