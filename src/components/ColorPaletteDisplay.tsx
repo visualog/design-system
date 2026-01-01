@@ -68,7 +68,13 @@ const ColorSwatch: React.FC<ColorProps> = ({ level, hex, variable, rgb, familyNa
   }
 
   const displayLevel = String(level).replace(/\s\(.*\)/, '');
-  const tokenName = `$color.palette.${familyName.toLowerCase().replace(/\s/g, '-')}-${displayLevel}`;
+  let finalDisplayLevel = displayLevel;
+  if (finalDisplayLevel === 'alpha') {
+    finalDisplayLevel = 'alpha_10';
+  }
+  const formattedFamily = familyName.toLowerCase().replace(/\s/g, '_');
+  const capitalizedFormattedFamily = formattedFamily.split('_').map(word => capitalizeFirstLetter(word)).join('_');
+  const tokenName = `$color_${capitalizedFormattedFamily}_${finalDisplayLevel}`;
 
   return (
     <Tooltip>
@@ -81,8 +87,8 @@ const ColorSwatch: React.FC<ColorProps> = ({ level, hex, variable, rgb, familyNa
       </TooltipTrigger>
       <TooltipContent>
         <div className="flex flex-col gap-1 text-center p-1">
-          <span className="font-bold">{displayHex}</span>
           <span className="font-mono text-xs">{tokenName}</span>
+          <span className="font-bold">{displayHex}</span>
         </div>
       </TooltipContent>
     </Tooltip>
