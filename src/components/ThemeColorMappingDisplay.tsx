@@ -45,13 +45,13 @@ const ThemeColorMappingDisplay: React.FC = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-1/3 px-4 py-2 text-xs uppercase h-auto">
+                  <TableHead className="w-2/5 px-4 py-2 text-xs uppercase h-auto">
                     Theme Token
                   </TableHead>
-                  <TableHead className="w-1/3 px-4 py-2 text-xs uppercase h-auto">
+                  <TableHead className="w-2/5 px-4 py-2 text-xs uppercase h-auto">
                     Mapped To
                   </TableHead>
-                  <TableHead className="w-1/3 px-4 py-2 text-xs uppercase h-auto">
+                  <TableHead className="w-1/5 px-4 py-2 text-xs uppercase h-auto">
                     Hex Value
                   </TableHead>
                 </TableRow>
