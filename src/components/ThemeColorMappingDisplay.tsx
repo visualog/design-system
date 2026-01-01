@@ -45,11 +45,14 @@ const ThemeColorMappingDisplay: React.FC = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-1/2 px-4 py-2 text-xs uppercase h-auto">
+                  <TableHead className="w-1/3 px-4 py-2 text-xs uppercase h-auto">
                     Theme Token
                   </TableHead>
-                  <TableHead className="w-1/2 px-4 py-2 text-xs uppercase h-auto">
+                  <TableHead className="w-1/3 px-4 py-2 text-xs uppercase h-auto">
                     Mapped To
+                  </TableHead>
+                  <TableHead className="w-1/3 px-4 py-2 text-xs uppercase h-auto">
+                    Hex Value
                   </TableHead>
                 </TableRow>
               </TableHeader>
@@ -71,7 +74,12 @@ const ThemeColorMappingDisplay: React.FC = () => {
                   return (
                     <TableRow key={themeVar} className="group">
                       <TableCell className="px-4 py-2 font-mono text-sm">
-                        <div className="flex items-center">
+                        <div className="flex items-center gap-2">
+                          {color ? (
+                            <div className="w-5 h-5 rounded-full border border-black/10" style={{ backgroundColor: color.hex }}></div>
+                          ) : (
+                            <div className="w-5 h-5 rounded-full bg-gray-200 border border-black/10"></div>
+                          )}
                           <span>${themeVar}</span>
                         </div>
                       </TableCell>
@@ -80,13 +88,8 @@ const ThemeColorMappingDisplay: React.FC = () => {
                           <span>{rawTokenName}</span>
                         </div>
                       </TableCell>
-                      <TableCell className="px-4 py-2">
-                        <div className="flex items-center gap-2">
-                          {color ? (
-                            <div className="w-5 h-5 rounded-full border border-black/10" style={{ backgroundColor: color.hex }}></div>
-                          ) : (
-                            <div className="w-5 h-5 rounded-full bg-gray-200 border border-black/10"></div>
-                          )}
+                      <TableCell className="px-4 py-2 font-mono text-sm">
+                        <div className="flex items-center">
                           <span className="font-mono text-sm">{color?.hex || 'N/A'}</span>
                         </div>
                       </TableCell>
