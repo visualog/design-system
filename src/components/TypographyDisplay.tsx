@@ -30,11 +30,11 @@ const TypographyDisplay: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Variable</TableHead>
               <TableHead>Style</TableHead>
               <TableHead>Size</TableHead>
               <TableHead>Line Height</TableHead>
               <TableHead>Weight</TableHead>
-              <TableHead>Variable</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -43,6 +43,12 @@ const TypographyDisplay: React.FC = () => {
               .flatMap(([category, styles]: [string, any]) =>
                 styles.map((style: any, index: number) => (
                   <TableRow key={`${category}-${index}`}>
+                    <TableCell className="font-mono text-sm">
+                      <div className="flex items-center">
+                        <span>{style.style_name}</span>
+                        <Clipboard value={style.style_name} />
+                      </div>
+                    </TableCell>
                     <TableCell>
                       <p style={{
                         fontSize: `${style.size}px`,
@@ -55,12 +61,6 @@ const TypographyDisplay: React.FC = () => {
                     <TableCell>{style.size}px</TableCell>
                     <TableCell>{style.line_height}px</TableCell>
                     <TableCell>{style.weight}</TableCell>
-                    <TableCell className="font-mono text-sm">
-                      <div className="flex items-center">
-                        <span>{style.style_name}</span>
-                        <Clipboard value={style.style_name} />
-                      </div>
-                    </TableCell>
                   </TableRow>
                 ))
             )}
