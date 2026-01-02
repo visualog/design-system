@@ -52,7 +52,6 @@ const SemanticColorMappingDisplay: React.FC = () => {
                       <TableCell className="font-mono text-sm whitespace-nowrap text-muted-foreground">
                         <div className="flex items-center">
                           <span>${themeVar as string}</span>
-                          <Clipboard value={`$${themeVar as string}`} />
                         </div>
                       </TableCell>
                       <TableCell className="font-mono text-sm whitespace-nowrap">
