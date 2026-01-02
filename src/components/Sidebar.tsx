@@ -19,7 +19,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
     }
   }, [location.pathname]); // Re-evaluate when pathname changes
 
-  const activeClassName = "flex items-center text-sm text-primary-foreground bg-primary p-2 rounded-md";
+  const activeClassName = "flex items-center text-sm text-primary bg-accent p-2 rounded-md";
   const inactiveClassName = "flex items-center text-sm text-foreground hover:bg-accent p-2 rounded-md transition-colors duration-200";
 
   const toggleFoundationMenu = () => {
