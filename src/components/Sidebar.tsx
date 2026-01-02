@@ -36,7 +36,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         ></div>
       )}
 
-      <aside className={`fixed top-0 left-0 h-screen w-60 bg-white p-4 border-r border-gray-200 z-50 transform md:translate-x-0 transition-transform duration-300
+      <aside className={`fixed top-0 left-0 h-screen w-60 bg-white p-4 border-r border-border z-50 transform md:translate-x-0 transition-transform duration-300
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         
         {/* Close button for mobile */}
@@ -44,16 +44,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           className="absolute top-4 right-4 md:hidden p-1"
           onClick={toggleSidebar}
         >
-          <X className="w-6 h-6 text-gray-800" />
+          <X className="w-6 h-6 text-foreground" />
         </button>
 
-        <h1 className="text-2xl font-semibold text-gray-800 mb-8 px-2">Design System</h1>
+        <h1 className="text-2xl font-semibold text-foreground mb-8 px-2">Design System</h1>
         <nav>
           <ul className="space-y-1">
             <li>
               <button 
                 onClick={toggleFoundationMenu}
-                className="w-full flex items-center justify-between text-base text-gray-800 font-semibold p-2 rounded-md hover:bg-gray-100"
+                className="w-full flex items-center justify-between text-base text-foreground font-semibold p-2 rounded-md hover:bg-gray-100"
               >
                 <span>Foundation</span>
                 <ChevronDown 

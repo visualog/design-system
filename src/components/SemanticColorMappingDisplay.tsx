@@ -19,7 +19,7 @@ const SemanticColorCard: React.FC<{ semanticVar: string, themeVar: string }> = (
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex rounded-lg overflow-hidden border border-gray-200">
+        <div className="flex rounded-lg overflow-hidden border border-border">
           <div className="w-1/2 p-4" style={{ backgroundColor: light, color: lightTextColor }}>
             <p className="font-bold">Light</p>
             <p className="text-sm font-mono">{light}</p>

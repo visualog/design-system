@@ -11,7 +11,7 @@ const SpacingLayoutDisplay: React.FC = () => {
       <h2 className="text-3xl font-bold mb-8">Spacing System</h2>
       <div className="overflow-x-auto mb-12">
         <table className="min-w-full border-collapse">
-          <thead className="bg-gray-50 border-b border-gray-200">
+          <thead className="bg-gray-50 border-b border-border">
             <tr>
               <th className="p-4 text-left text-sm font-semibold text-gray-600 w-1/4">Name</th>
               <th className="p-4 text-left text-sm font-semibold text-gray-600 w-1/4">Value (px)</th>
@@ -20,14 +20,14 @@ const SpacingLayoutDisplay: React.FC = () => {
           </thead>
           <tbody>
             {spacing.spacing_values.map((s: any, index: number) => (
-              <tr key={index} className="border-b border-gray-200">
+              <tr key={index} className="border-b border-border">
                 <td className="p-4 font-mono text-sm">
                   <div className="flex items-center">
                     <span>{s.variable}</span>
                     <Clipboard value={s.variable} />
                   </div>
                 </td>
-                <td className="p-4 text-gray-800">{s.px}px / {s.rem}rem</td>
+                <td className="p-4 text-foreground">{s.px}px / {s.rem}rem</td>
                 <td className="p-4">
                   <div className="bg-blue-200" style={{ height: '24px', width: `${s.px}px` }}></div>
                 </td>
@@ -40,7 +40,7 @@ const SpacingLayoutDisplay: React.FC = () => {
       {/* Other layout tables remain unchanged */}
       <h2 className="text-3xl font-bold mb-8">Device Resolutions</h2>
       <div className="overflow-x-auto mb-12">
-        <table className="min-w-full bg-white border border-gray-200">
+        <table className="min-w-full bg-white border border-border">
           <thead>
             <tr>
               <th className="py-2 px-4 border-b">Device</th>
@@ -64,7 +64,7 @@ const SpacingLayoutDisplay: React.FC = () => {
 
       <h2 className="text-3xl font-bold mb-8">Breakpoints</h2>
       <div className="overflow-x-auto mb-12">
-        <table className="min-w-full bg-white border border-gray-200">
+        <table className="min-w-full bg-white border border-border">
           <thead>
             <tr>
               <th className="py-2 px-4 border-b">Breakpoint</th>
@@ -88,7 +88,7 @@ const SpacingLayoutDisplay: React.FC = () => {
 
       <h2 className="text-3xl font-bold mb-8">Main Layouts (Mobile/Tablet)</h2>
       <div className="overflow-x-auto mb-12">
-        <table className="min-w-full bg-white border border-gray-200">
+        <table className="min-w-full bg-white border border-border">
           <thead>
             <tr>
               <th className="py-2 px-4 border-b">Device Width Range</th>
@@ -112,7 +112,7 @@ const SpacingLayoutDisplay: React.FC = () => {
 
       <h2 className="text-3xl font-bold mb-8">Main Layouts (Desktop)</h2>
       <div className="overflow-x-auto mb-12">
-        <table className="min-w-full bg-white border border-gray-200">
+        <table className="min-w-full bg-white border border-border">
           <thead>
             <tr>
               <th className="py-2 px-4 border-b">Device Width Range</th>

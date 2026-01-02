@@ -41,7 +41,7 @@ const ThemeColorMappingDisplay: React.FC = () => {
         <section key={category} className="flex flex-col gap-4">
           <h3 className="text-xl font-semibold capitalize">{category.replace(/_/g, ' ')}</h3>
           
-          <div className="border border-gray-200 rounded-lg overflow-hidden">
+          <div className="border border-border rounded-lg overflow-hidden">
             <Table>
               <TableHeader>
                 <TableRow>

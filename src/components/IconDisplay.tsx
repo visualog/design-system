@@ -88,7 +88,7 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onColorSelect, purpose }) =
           </TooltipProvider>
         ))}
       </div>
-      <div className="border-t border-gray-200 mt-3 pt-3">
+      <div className="border-t border-border mt-3 pt-3">
         <div 
           className="flex items-center gap-2 p-2 rounded-md hover:bg-secondary cursor-pointer"
           onClick={handleCustomClick}
@@ -258,7 +258,7 @@ const IconDisplay: React.FC<IconDisplayProps> = ({ searchQuery }) => {
                                             <TooltipTrigger>
                                               <Card className="w-24 h-24 flex items-center justify-center">
                                                 <CardContent className="p-0">
-                                                  {SvgComponent ? <SvgComponent className="w-8 h-8 text-gray-800" /> : <span className="text-xs">N/A</span>}
+                                                  {SvgComponent ? <SvgComponent className="w-8 h-8 text-foreground" /> : <span className="text-xs">N/A</span>}
                                                 </CardContent>
                                               </Card>
                                             </TooltipTrigger>

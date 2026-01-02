@@ -7,7 +7,7 @@ const IconsPage: React.FC = () => {
 
   return (
     <div id="icons" className="mb-16">
-      <h1 className="text-4xl font-bold text-gray-800 mb-8">Icons</h1>
+      <h1 className="text-4xl font-bold text-foreground mb-8">Icons</h1>
       <div className="mb-8">
         <Input
           type="text"

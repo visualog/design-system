@@ -151,7 +151,7 @@ const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str
 
 // --- New component for the Tokens table ---
 const TokensDisplay: React.FC<{ colors: any }> = ({ colors }) => (
-  <div className="border border-gray-200 rounded-lg overflow-hidden">
+  <div className="border border-border rounded-lg overflow-hidden">
     <Table>
       <TableHeader>
         <TableRow>

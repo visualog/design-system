@@ -29,7 +29,7 @@ function App() {
             className="md:hidden p-4 fixed top-0 left-0 z-50"
             onClick={toggleSidebar}
           >
-            <Menu className="w-6 h-6 text-gray-800" />
+            <Menu className="w-6 h-6 text-foreground" />
           </button>
 
           {/* Sidebar */}

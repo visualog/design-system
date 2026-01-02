@@ -20,7 +20,7 @@ const TypographyDisplay: React.FC = () => {
 
       <div className="overflow-x-auto">
         <table className="min-w-full border-collapse">
-          <thead className="bg-gray-50 border-b border-gray-200">
+          <thead className="bg-gray-50 border-b border-border">
             <tr>
               <th className="p-4 text-left text-sm font-semibold text-gray-600">Style</th>
               <th className="p-4 text-left text-sm font-semibold text-gray-600">Size</th>
@@ -34,7 +34,7 @@ const TypographyDisplay: React.FC = () => {
               .filter(([key]) => key !== 'font_family')
               .flatMap(([category, styles]: [string, any]) =>
                 styles.map((style: any, index: number) => (
-                  <tr key={`${category}-${index}`} className="border-b border-gray-200">
+                  <tr key={`${category}-${index}`} className="border-b border-border">
                     <td className="p-4">
                       <p style={{
                         fontSize: `${style.size}px`,
@@ -44,9 +44,9 @@ const TypographyDisplay: React.FC = () => {
                         {style.text_style}
                       </p>
                     </td>
-                    <td className="p-4 text-gray-800">{style.size}px</td>
-                    <td className="p-4 text-gray-800">{style.line_height}px</td>
-                    <td className="p-4 text-gray-800">{style.weight}</td>
+                    <td className="p-4 text-foreground">{style.size}px</td>
+                    <td className="p-4 text-foreground">{style.line_height}px</td>
+                    <td className="p-4 text-foreground">{style.weight}</td>
                     <td className="p-4 font-mono text-sm">
                       <div className="flex items-center">
                         <span>{style.style_name}</span>
