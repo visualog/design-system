@@ -99,13 +99,7 @@ const TypographyDisplay: React.FC = () => {
 
               {/* Third Row: Korean Sample */}
               <div>
-                <h4 className="font-semibold mb-2">한글</h4>
-                <p className="p-4"
-                   style={{
-                     fontSize: `${selectedStyle.size}px`,
-                     lineHeight: `${selectedStyle.line_height}px`,
-                     fontWeight: getFontWeight(selectedStyle.weight),
-                     background: `linear-gradient(to bottom, rgba(255,0,0,0.1) 1px, transparent 1px)`,
+                     background: `linear-gradient(to bottom, rgba(255,0,0,0.1) 1px, transparent 1px, transparent 4px)`,
                      backgroundSize: `100% 4px`
                    }}>
                   디자인 시스템 폰트 미리보기입니다. 폰트의 가독성을 확인합니다. 1234567890!@#$%^&*()_+
