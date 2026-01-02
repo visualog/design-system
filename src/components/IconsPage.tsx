@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import IconDisplay from './IconDisplay';
+import { Input } from '@/components/ui/input';
 
 const IconsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -8,10 +9,10 @@ const IconsPage: React.FC = () => {
     <div id="icons" className="mb-16">
       <h1 className="text-4xl font-bold text-gray-800 mb-8">Icons</h1>
       <div className="mb-8">
-        <input
+        <Input
           type="text"
           placeholder="Search icons..."
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+          className="w-full px-4 py-2 rounded-lg shadow-none"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
