@@ -81,42 +81,46 @@ const TypographyDisplay: React.FC = () => {
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
           <SheetContent side="bottom" className="sm:max-w-full" onOpenAutoFocus={(e) => e.preventDefault()}>
             <SheetHeader>
-              <SheetTitle>Typography Detail: ${selectedStyle.style_name}</SheetTitle>
-              <SheetDescription>
-                Detailed information for the selected typography style.
-              </SheetDescription>
+              <SheetTitle className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-lg">${selectedStyle.style_name}</span>
+                  <Clipboard value={selectedStyle.style_name} />
+                </div>
+              </SheetTitle>
             </SheetHeader>
-            <div className="py-4">
-              <p className="text-xl mb-4"
-                 style={{
-                   fontSize: `${selectedStyle.size}px`,
-                   lineHeight: `${selectedStyle.line_height}px`,
-                   fontWeight: getFontWeight(selectedStyle.weight),
-                 }}>
-                {selectedStyle.text_style || "Example Text"}
-              </p>
-              
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <h4 className="font-semibold">Variable</h4>
-                  <p className="font-mono text-foreground">${selectedStyle.style_name} <Clipboard value={selectedStyle.style_name} /></p>
-                </div>
-                <div>
-                  <h4 className="font-semibold">Text Style</h4>
-                  <p>{selectedStyle.text_style}</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold">Size</h4>
-                  <p>{selectedStyle.size}px</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold">Line Height</h4>
-                  <p>{selectedStyle.line_height}px</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold">Weight</h4>
-                  <p>{selectedStyle.weight}</p>
-                </div>
+            <div className="py-4 flex flex-col gap-6">
+              {/* Second Row: Details */}
+              <div className="grid grid-cols-4 gap-4 text-sm font-semibold">
+                <div>Style: <span className="font-normal">{selectedStyle.text_style}</span></div>
+                <div>Size: <span className="font-normal">{selectedStyle.size}px</span></div>
+                <div>Line Height: <span className="font-normal">{selectedStyle.line_height}px</span></div>
+                <div>Weight: <span className="font-normal">{selectedStyle.weight}</span></div>
+              </div>
+
+              {/* Third Row: Korean Sample */}
+              <div>
+                <h4 className="font-semibold mb-2">한글 샘플</h4>
+                <p className="border border-border p-4 rounded-md"
+                   style={{
+                     fontSize: `${selectedStyle.size}px`,
+                     lineHeight: `${selectedStyle.line_height}px`,
+                     fontWeight: getFontWeight(selectedStyle.weight),
+                   }}>
+                  가나다라마바사아자차카타파하 가나다라마바사아자차카타파하
+                </p>
+              </div>
+
+              {/* Fourth Row: English Sample */}
+              <div>
+                <h4 className="font-semibold mb-2">English Sample</h4>
+                <p className="border border-border p-4 rounded-md"
+                   style={{
+                     fontSize: `${selectedStyle.size}px`,
+                     lineHeight: `${selectedStyle.line_height}px`,
+                     fontWeight: getFontWeight(selectedStyle.weight),
+                   }}>
+                  The quick brown fox jumps over the lazy dog.
+                </p>
               </div>
             </div>
           </SheetContent>
