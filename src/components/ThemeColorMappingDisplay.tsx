@@ -45,14 +45,11 @@ const ThemeColorMappingDisplay: React.FC = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-2/5 px-4 py-2 text-xs uppercase h-auto">
+                  <TableHead className="w-1/2 px-4 py-2 text-xs uppercase h-auto">
                     Theme Token
                   </TableHead>
-                  <TableHead className="w-2/5 px-4 py-2 text-xs uppercase h-auto">
+                  <TableHead className="w-1/2 px-4 py-2 text-xs uppercase h-auto">
                     Mapped To
-                  </TableHead>
-                  <TableHead className="w-1/5 px-4 py-2 text-xs uppercase h-auto">
-                    Hex Value
                   </TableHead>
                 </TableRow>
               </TableHeader>
@@ -86,11 +83,6 @@ const ThemeColorMappingDisplay: React.FC = () => {
                       <TableCell className="px-4 py-2 font-mono text-sm text-gray-500">
                         <div className="flex items-center">
                           <span>{rawTokenName}</span>
-                        </div>
-                      </TableCell>
-                      <TableCell className="px-4 py-2 font-mono text-sm">
-                        <div className="flex items-center">
-                          <span className="font-mono text-sm">{color?.hex || 'N/A'}</span>
                         </div>
                       </TableCell>
                     </TableRow>
