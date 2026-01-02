@@ -105,6 +105,8 @@ const TypographyDisplay: React.FC = () => {
                      fontSize: `${selectedStyle.size}px`,
                      lineHeight: `${selectedStyle.line_height}px`,
                      fontWeight: getFontWeight(selectedStyle.weight),
+                     background: `linear-gradient(to bottom, transparent ${selectedStyle.line_height - 1}px, rgba(0,0,0,0.1) ${selectedStyle.line_height - 1}px, rgba(0,0,0,0.1) ${selectedStyle.line_height}px)`,
+                     backgroundSize: `100% ${selectedStyle.line_height}px`
                    }}>
                   디자인 시스템 폰트 미리보기입니다. 폰트의 가독성을 확인합니다. 1234567890!@#$%^&*()_+
                 </p>
@@ -118,6 +120,8 @@ const TypographyDisplay: React.FC = () => {
                      fontSize: `${selectedStyle.size}px`,
                      lineHeight: `${selectedStyle.line_height}px`,
                      fontWeight: getFontWeight(selectedStyle.weight),
+                     background: `linear-gradient(to bottom, transparent ${selectedStyle.line_height - 1}px, rgba(0,0,0,0.1) ${selectedStyle.line_height - 1}px, rgba(0,0,0,0.1) ${selectedStyle.line_height}px)`,
+                     backgroundSize: `100% ${selectedStyle.line_height}px`
                    }}>
                   The quick brown fox jumps over the lazy dog. 1234567890!@#$%^&*()_+
                 </p>
