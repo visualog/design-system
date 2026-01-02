@@ -125,3 +125,5 @@ const TypographyDisplay: React.FC = () => {
     </div>
   );
 };
+
+export default TypographyDisplay;
