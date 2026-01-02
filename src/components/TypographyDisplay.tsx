@@ -100,7 +100,7 @@ const TypographyDisplay: React.FC = () => {
               {/* Third Row: Korean Sample */}
               <div>
                 <h4 className="font-semibold mb-2">한글</h4>
-                <p className="border border-border p-4 rounded-md"
+                <p className="p-4"
                    style={{
                      fontSize: `${selectedStyle.size}px`,
                      lineHeight: `${selectedStyle.line_height}px`,
@@ -115,12 +115,12 @@ const TypographyDisplay: React.FC = () => {
               {/* Fourth Row: English Sample */}
               <div>
                 <h4 className="font-semibold mb-2">영문</h4>
-                <p className="border border-border p-4 rounded-md"
+                <p className="p-4"
                    style={{
                      fontSize: `${selectedStyle.size}px`,
                      lineHeight: `${selectedStyle.line_height}px`,
                      fontWeight: getFontWeight(selectedStyle.weight),
-                     background: `linear-gradient(to bottom, transparent 3px, rgba(0,0,0,0.1) 3px, rgba(0,0,0,0.1) 4px)`,
+                     background: `linear-gradient(to bottom, transparent 3px, rgba(255,0,0,0.1) 3px, rgba(255,0,0,0.1) 4px)`,
                      backgroundSize: `100% 4px`
                    }}>
                   The quick brown fox jumps over the lazy dog. 1234567890!@#$%^&*()_+
