@@ -1,63 +1,77 @@
 import React from 'react';
 import { designSystemData } from '../utils/dataLoader';
 import { Clipboard } from './ui/clipboard';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { resolveSemanticToken } from '../lib/colorUtils';
 import { getContrastingTextColor } from '../lib/utils';
-
-const SemanticColorCard: React.FC<{ semanticVar: string, themeVar: string }> = ({ semanticVar, themeVar }) => {
-  const { light, dark } = resolveSemanticToken(semanticVar);
-  const lightTextColor = getContrastingTextColor(light);
-  const darkTextColor = getContrastingTextColor(dark);
-
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <span className="font-mono text-base">{semanticVar}</span>
-          <Clipboard value={semanticVar} />
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="flex rounded-lg overflow-hidden border border-border">
-          <div className="w-1/2 p-4" style={{ backgroundColor: light, color: lightTextColor }}>
-            <p className="font-bold">Light</p>
-            <p className="text-sm font-mono">{light}</p>
-          </div>
-          <div className="w-1/2 p-4" style={{ backgroundColor: dark, color: darkTextColor }}>
-            <p className="font-bold">Dark</p>
-            <p className="text-sm font-mono">{dark}</p>
-          </div>
-        </div>
-        <div className="mt-4">
-          <p className="text-sm text-gray-500 mb-1">Maps to Theme Token:</p>
-          <div className="flex items-center justify-between font-mono text-sm bg-gray-100 p-2 rounded">
-            <span>{themeVar}</span>
-            <Clipboard value={themeVar} />
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
-
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const SemanticColorMappingDisplay: React.FC = () => {
   const { colors } = designSystemData;
+
+  const ColorSwatch: React.FC<{ color: string, textColor: string }> = ({ color, textColor }) => (
+    <div className="w-5 h-5 rounded-full border border-border" style={{ backgroundColor: color }}></div>
+  );
 
   return (
     <div className="container mx-auto py-8 flex flex-col gap-12">
       {Object.entries(colors.semanticMapping).map(([category, mappings]) => (
         <div key={category}>
-          <h3 className="text-2xl font-semibold mb-6 capitalize">{category}</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Object.entries(mappings).map(([semanticVar, themeVar], index) => (
-              <SemanticColorCard 
-                key={index} 
-                semanticVar={semanticVar}
-                themeVar={themeVar as string} 
-              />
-            ))}
+          <h3 className="text-2xl font-semibold mb-6 capitalize">{category.replace(/_/g, ' ')}</h3>
+          
+          <div className="border border-border rounded-lg overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-1/4">Semantic Token</TableHead>
+                  <TableHead className="w-1/4">Mapped To</TableHead>
+                  <TableHead className="w-1/4">Light Mode</TableHead>
+                  <TableHead className="w-1/4">Dark Mode</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {Object.entries(mappings).map(([semanticVar, themeVar]) => {
+                  const { light, dark } = resolveSemanticToken(semanticVar);
+                  const lightTextColor = getContrastingTextColor(light); // Not directly used in this table layout, but good to keep
+                  const darkTextColor = getContrastingTextColor(dark); // Not directly used in this table layout, but good to keep
+
+                  return (
+                    <TableRow key={semanticVar}>
+                      <TableCell className="font-mono text-sm whitespace-nowrap">
+                        <div className="flex items-center">
+                          <span>${semanticVar}</span>
+                          <Clipboard value={`$${semanticVar}`} />
+                        </div>
+                      </TableCell>
+                      <TableCell className="font-mono text-sm whitespace-nowrap text-muted-foreground">
+                        <div className="flex items-center">
+                          <span>${themeVar as string}</span>
+                          <Clipboard value={`$${themeVar as string}`} />
+                        </div>
+                      </TableCell>
+                      <TableCell className="font-mono text-sm whitespace-nowrap">
+                        <div className="flex items-center gap-2">
+                          <ColorSwatch color={light} textColor={lightTextColor} />
+                          <span>{light || 'N/A'}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="font-mono text-sm whitespace-nowrap">
+                        <div className="flex items-center gap-2">
+                          <ColorSwatch color={dark} textColor={darkTextColor} />
+                          <span>{dark || 'N/A'}</span>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
           </div>
         </div>
       ))}
