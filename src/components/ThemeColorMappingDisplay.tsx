@@ -39,7 +39,7 @@ const ThemeColorMappingDisplay: React.FC = () => {
     <div className="container mx-auto py-8 flex flex-col gap-12">
       {Object.entries(colors.themeMapping).map(([category, mappings]) => (
         <section key={category} className="flex flex-col gap-4">
-          <h3 className="text-2xl font-semibold capitalize">{category.replace(/_/g, ' ')}</h3>
+          <h3 className="text-xl font-semibold capitalize">{category.replace(/_/g, ' ')}</h3>
           
           <div className="border border-gray-200 rounded-lg overflow-hidden">
             <Table>
