@@ -105,7 +105,7 @@ const TypographyDisplay: React.FC = () => {
                      fontSize: `${selectedStyle.size}px`,
                      lineHeight: `${selectedStyle.line_height}px`,
                      fontWeight: getFontWeight(selectedStyle.weight),
-                     background: `linear-gradient(to bottom, transparent 3px, rgba(0,0,0,0.1) 3px, rgba(0,0,0,0.1) 4px)`,
+                     background: `linear-gradient(to bottom, transparent 3px, rgba(255,0,0,0.1) 3px, rgba(255,0,0,0.1) 4px)`,
                      backgroundSize: `100% 4px`
                    }}>
                   디자인 시스템 폰트 미리보기입니다. 폰트의 가독성을 확인합니다. 1234567890!@#$%^&*()_+
