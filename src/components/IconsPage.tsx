@@ -11,7 +11,7 @@ const IconsPage: React.FC = () => {
       <div className="mb-8">
         <Input
           type="text"
-          placeholder="Search icons..."
+          placeholder="Search 496 icons..."
           className="w-full px-4 py-2 rounded-lg shadow-none"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
