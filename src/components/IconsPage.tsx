@@ -12,7 +12,7 @@ const IconsPage: React.FC = () => {
         <Input
           type="text"
           placeholder="Search icons..."
-          className="w-full px-4 py-2 rounded-lg shadow-none"
+          className="w-full px-4 py-2 rounded-lg shadow-none border-gray-300 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-blue-500"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
