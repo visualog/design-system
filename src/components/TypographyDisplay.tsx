@@ -79,7 +79,7 @@ const TypographyDisplay: React.FC = () => {
 
       {selectedStyle && (
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-          <SheetContent side="bottom" className="sm:max-w-full">
+          <SheetContent side="bottom" className="sm:max-w-full" onOpenAutoFocus={(e) => e.preventDefault()}>
             <SheetHeader>
               <SheetTitle>Typography Detail: ${selectedStyle.style_name}</SheetTitle>
               <SheetDescription>
