@@ -45,7 +45,7 @@ const TypographyDisplay: React.FC = () => {
                   <TableRow key={`${category}-${index}`}>
                     <TableCell className="font-mono text-sm">
                       <div className="flex items-center">
-                        <span>{style.style_name}</span>
+                        <span>${style.style_name}</span>
                         <Clipboard value={style.style_name} />
                       </div>
                     </TableCell>
