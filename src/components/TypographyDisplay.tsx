@@ -1,6 +1,14 @@
 import React from 'react';
 import { designSystemData } from '../utils/dataLoader';
 import { Clipboard } from './ui/clipboard';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const TypographyDisplay: React.FC = () => {
   const { typography } = designSystemData;
@@ -14,28 +22,28 @@ const TypographyDisplay: React.FC = () => {
 
   return (
     <div className="container mx-auto py-8 font-pretendard">
-      <p className="mb-10 text-lg text-gray-600">
+      <p className="mb-10 text-lg text-muted-foreground">
         The design system uses the <span className="font-semibold">Pretendard</span> font family.
       </p>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full border-collapse">
-          <thead className="bg-gray-50 border-b border-border">
-            <tr>
-              <th className="p-4 text-left text-sm font-semibold text-gray-600">Style</th>
-              <th className="p-4 text-left text-sm font-semibold text-gray-600">Size</th>
-              <th className="p-4 text-left text-sm font-semibold text-gray-600">Line Height</th>
-              <th className="p-4 text-left text-sm font-semibold text-gray-600">Weight</th>
-              <th className="p-4 text-left text-sm font-semibold text-gray-600">Variable</th>
-            </tr>
-          </thead>
-          <tbody>
+      <div className="border border-border rounded-lg overflow-hidden">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Style</TableHead>
+              <TableHead>Size</TableHead>
+              <TableHead>Line Height</TableHead>
+              <TableHead>Weight</TableHead>
+              <TableHead>Variable</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {Object.entries(typography)
               .filter(([key]) => key !== 'font_family')
               .flatMap(([category, styles]: [string, any]) =>
                 styles.map((style: any, index: number) => (
-                  <tr key={`${category}-${index}`} className="border-b border-border">
-                    <td className="p-4">
+                  <TableRow key={`${category}-${index}`}>
+                    <TableCell>
                       <p style={{
                         fontSize: `${style.size}px`,
                         lineHeight: `${style.line_height}px`,
@@ -43,21 +51,21 @@ const TypographyDisplay: React.FC = () => {
                       }}>
                         {style.text_style}
                       </p>
-                    </td>
-                    <td className="p-4 text-foreground">{style.size}px</td>
-                    <td className="p-4 text-foreground">{style.line_height}px</td>
-                    <td className="p-4 text-foreground">{style.weight}</td>
-                    <td className="p-4 font-mono text-sm">
+                    </TableCell>
+                    <TableCell>{style.size}px</TableCell>
+                    <TableCell>{style.line_height}px</TableCell>
+                    <TableCell>{style.weight}</TableCell>
+                    <TableCell className="font-mono text-sm">
                       <div className="flex items-center">
                         <span>{style.style_name}</span>
                         <Clipboard value={style.style_name} />
                       </div>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))
             )}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

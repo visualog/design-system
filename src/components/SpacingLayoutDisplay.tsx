@@ -1,6 +1,14 @@
 import React from 'react';
 import { designSystemData } from '../utils/dataLoader';
 import { Clipboard } from './ui/clipboard';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const SpacingLayoutDisplay: React.FC = () => {
   const { spacing, layout } = designSystemData;
@@ -9,133 +17,136 @@ const SpacingLayoutDisplay: React.FC = () => {
     <div className="container mx-auto py-8">
       {/* Spacing System Table */}
       <h2 className="text-3xl font-bold mb-8">Spacing System</h2>
-      <div className="overflow-x-auto mb-12">
-        <table className="min-w-full border-collapse">
-          <thead className="bg-gray-50 border-b border-border">
-            <tr>
-              <th className="p-4 text-left text-sm font-semibold text-gray-600 w-1/4">Name</th>
-              <th className="p-4 text-left text-sm font-semibold text-gray-600 w-1/4">Value (px)</th>
-              <th className="p-4 text-left text-sm font-semibold text-gray-600 w-1/2">Example</th>
-            </tr>
-          </thead>
-          <tbody>
+      <div className="border border-border rounded-lg overflow-hidden mb-12">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-1/4">Name</TableHead>
+              <TableHead className="w-1/4">Value (px)</TableHead>
+              <TableHead className="w-1/2">Example</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {spacing.spacing_values.map((s: any, index: number) => (
-              <tr key={index} className="border-b border-border">
-                <td className="p-4 font-mono text-sm">
+              <TableRow key={index}>
+                <TableCell className="font-mono text-sm">
                   <div className="flex items-center">
                     <span>{s.variable}</span>
                     <Clipboard value={s.variable} />
                   </div>
-                </td>
-                <td className="p-4 text-foreground">{s.px}px / {s.rem}rem</td>
-                <td className="p-4">
+                </TableCell>
+                <TableCell>{s.px}px / {s.rem}rem</TableCell>
+                <TableCell>
                   <div className="bg-blue-200" style={{ height: '24px', width: `${s.px}px` }}></div>
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
 
-      {/* Other layout tables remain unchanged */}
+      {/* Device Resolutions Table */}
       <h2 className="text-3xl font-bold mb-8">Device Resolutions</h2>
-      <div className="overflow-x-auto mb-12">
-        <table className="min-w-full bg-white border border-border">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b">Device</th>
-              <th className="py-2 px-4 border-b">CSS Width</th>
-              <th className="py-2 px-4 border-b">CSS Height</th>
-              <th className="py-2 px-4 border-b">Aspect Ratio</th>
-            </tr>
-          </thead>
-          <tbody>
+      <div className="border border-border rounded-lg overflow-hidden mb-12">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Device</TableHead>
+              <TableHead>CSS Width</TableHead>
+              <TableHead>CSS Height</TableHead>
+              <TableHead>Aspect Ratio</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {layout.deviceResolutions.device_resolutions.map((device: any, index: number) => (
-              <tr key={index}>
-                <td className="py-2 px-4 border-b">{device.device}</td>
-                <td className="py-2 px-4 border-b">{device.css_width}</td>
-                <td className="py-2 px-4 border-b">{device.css_height}</td>
-                <td className="py-2 px-4 border-b">{device.aspect_ratio}</td>
-              </tr>
+              <TableRow key={index}>
+                <TableCell>{device.device}</TableCell>
+                <TableCell>{device.css_width}</TableCell>
+                <TableCell>{device.css_height}</TableCell>
+                <TableCell>{device.aspect_ratio}</TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
 
+      {/* Breakpoints Table */}
       <h2 className="text-3xl font-bold mb-8">Breakpoints</h2>
-      <div className="overflow-x-auto mb-12">
-        <table className="min-w-full bg-white border border-border">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b">Breakpoint</th>
-              <th className="py-2 px-4 border-b">Class Infix</th>
-              <th className="py-2 px-4 border-b">Dimensions</th>
-              <th className="py-2 px-4 border-b">Notes</th>
-            </tr>
-          </thead>
-          <tbody>
+      <div className="border border-border rounded-lg overflow-hidden mb-12">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Breakpoint</TableHead>
+              <TableHead>Class Infix</TableHead>
+              <TableHead>Dimensions</TableHead>
+              <TableHead>Notes</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {layout.breakpoints.breakpoints.map((bp: any, index: number) => (
-              <tr key={index}>
-                <td className="py-2 px-4 border-b">{bp.breakpoint}</td>
-                <td className="py-2 px-4 border-b">{bp.class_infix}</td>
-                <td className="py-2 px-4 border-b">{bp.dimensions}</td>
-                <td className="py-2 px-4 border-b">{bp.notes}</td>
-              </tr>
+              <TableRow key={index}>
+                <TableCell>{bp.breakpoint}</TableCell>
+                <TableCell>{bp.class_infix}</TableCell>
+                <TableCell>{bp.dimensions}</TableCell>
+                <TableCell>{bp.notes}</TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
 
+      {/* Main Layouts (Mobile/Tablet) Table */}
       <h2 className="text-3xl font-bold mb-8">Main Layouts (Mobile/Tablet)</h2>
-      <div className="overflow-x-auto mb-12">
-        <table className="min-w-full bg-white border border-border">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b">Device Width Range</th>
-              <th className="py-2 px-4 border-b">Left Margin</th>
-              <th className="py-2 px-4 border-b">Right Margin</th>
-              <th className="py-2 px-4 border-b">Gutter</th>
-            </tr>
-          </thead>
-          <tbody>
+      <div className="border border-border rounded-lg overflow-hidden mb-12">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Device Width Range</TableHead>
+              <TableHead>Left Margin</TableHead>
+              <TableHead>Right Margin</TableHead>
+              <TableHead>Gutter</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {layout.mainLayouts.mobile_tablet_layouts.map((ml: any, index: number) => (
-              <tr key={index}>
-                <td className="py-2 px-4 border-b">{ml.device_width_range}</td>
-                <td className="py-2 px-4 border-b">{ml.left_margin}</td>
-                <td className="py-2 px-4 border-b">{ml.right_margin}</td>
-                <td className="py-2 px-4 border-b">{ml.gutter}</td>
-              </tr>
+              <TableRow key={index}>
+                <TableCell>{ml.device_width_range}</TableCell>
+                <TableCell>{ml.left_margin}</TableCell>
+                <TableCell>{ml.right_margin}</TableCell>
+                <TableCell>{ml.gutter}</TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
 
+      {/* Main Layouts (Desktop) Table */}
       <h2 className="text-3xl font-bold mb-8">Main Layouts (Desktop)</h2>
-      <div className="overflow-x-auto mb-12">
-        <table className="min-w-full bg-white border border-border">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b">Device Width Range</th>
-              <th className="py-2 px-4 border-b">Left Margin</th>
-              <th className="py-2 px-4 border-b">Right Margin</th>
-              <th className="py-2 px-4 border-b">Gutter</th>
-              <th className="py-2 px-4 border-b">Body Width</th>
-              <th className="py-2 px-4 border-b">Column Width</th>
-            </tr>
-          </thead>
-          <tbody>
+      <div className="border border-border rounded-lg overflow-hidden mb-12">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Device Width Range</TableHead>
+              <TableHead>Left Margin</TableHead>
+              <TableHead>Right Margin</TableHead>
+              <TableHead>Gutter</TableHead>
+              <TableHead>Body Width</TableHead>
+              <TableHead>Column Width</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {layout.mainLayouts.desktop_layouts.map((dl: any, index: number) => (
-              <tr key={index}>
-                <td className="py-2 px-4 border-b">{dl.device_width_range}</td>
-                <td className="py-2 px-4 border-b">{dl.left_margin}</td>
-                <td className="py-2 px-4 border-b">{dl.right_margin}</td>
-                <td className="py-2 px-4 border-b">{dl.gutter}</td>
-                <td className="py-2 px-4 border-b">{dl.body_width || '-'}</td>
-                <td className="py-2 px-4 border-b">{dl.column_width || '-'}</td>
-              </tr>
+              <TableRow key={index}>
+                <TableCell>{dl.device_width_range}</TableCell>
+                <TableCell>{dl.left_margin}</TableCell>
+                <TableCell>{dl.right_margin}</TableCell>
+                <TableCell>{dl.gutter}</TableCell>
+                <TableCell>{dl.body_width || '-'}</TableCell>
+                <TableCell>{dl.column_width || '-'}</TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
 
       {layout.mainLayouts.notes && layout.mainLayouts.notes.length > 0 && (
@@ -143,7 +154,7 @@ const SpacingLayoutDisplay: React.FC = () => {
           <h3 className="text-2xl font-semibold mb-6">Layout Notes</h3>
           <ul className="list-disc pl-5">
             {layout.mainLayouts.notes.map((note: string, index: number) => (
-              <li key={index} className="text-gray-700">{note}</li>
+              <li key={index} className="text-muted-foreground">{note}</li>
             ))}
           </ul>
         </div>
