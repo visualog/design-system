@@ -23,7 +23,7 @@
     "color_neutral_90": "color_Gray_90",
     "color_neutral_100": "color_Gray_100"
   },
-  "error_loading_success": {
+  "request_status": {
     "color_error_20": "color_Red_20",
     "color_error_30": "color_Red_30",
     "color_error_50": "color_Red_50",
