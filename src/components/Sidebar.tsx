@@ -19,8 +19,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
     }
   }, [location.pathname]); // Re-evaluate when pathname changes
 
-  const activeClassName = "flex items-center text-sm text-blue-600 bg-blue-50 p-2 rounded-md";
-  const inactiveClassName = "flex items-center text-sm text-gray-700 hover:bg-gray-100 p-2 rounded-md transition-colors duration-200";
+  const activeClassName = "flex items-center text-sm text-primary-foreground bg-primary p-2 rounded-md";
+  const inactiveClassName = "flex items-center text-sm text-foreground hover:bg-accent p-2 rounded-md transition-colors duration-200";
 
   const toggleFoundationMenu = () => {
     setIsFoundationOpen(!isFoundationOpen);
@@ -36,7 +36,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         ></div>
       )}
 
-      <aside className={`fixed top-0 left-0 h-screen w-60 bg-white p-4 border-r border-border z-50 transform md:translate-x-0 transition-transform duration-300
+      <aside className={`fixed top-0 left-0 h-screen w-60 bg-background p-4 border-r border-border z-50 transform md:translate-x-0 transition-transform duration-300
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         
         {/* Close button for mobile */}
@@ -53,7 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
             <li>
               <button 
                 onClick={toggleFoundationMenu}
-                className="w-full flex items-center justify-between text-base text-foreground font-semibold p-2 rounded-md hover:bg-gray-100"
+                className="w-full flex items-center justify-between text-base text-foreground font-semibold p-2 rounded-md hover:bg-accent"
               >
                 <span>Foundation</span>
                 <ChevronDown 
