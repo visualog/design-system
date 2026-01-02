@@ -106,7 +106,7 @@ const TypographyDisplay: React.FC = () => {
                      lineHeight: `${selectedStyle.line_height}px`,
                      fontWeight: getFontWeight(selectedStyle.weight),
                    }}>
-                  가나다라마바사아자차카타파하 가나다라마바사아자차카타파하
+                  가나다라마바사아자차카타파하1234567890!@#$%^&*()_+
                 </p>
               </div>
 
@@ -119,7 +119,7 @@ const TypographyDisplay: React.FC = () => {
                      lineHeight: `${selectedStyle.line_height}px`,
                      fontWeight: getFontWeight(selectedStyle.weight),
                    }}>
-                  The quick brown fox jumps over the lazy dog.
+                  The quick brown fox jumps over the lazy dog. 1234567890!@#$%^&*()_+
                 </p>
               </div>
             </div>
