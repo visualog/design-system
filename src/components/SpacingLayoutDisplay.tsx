@@ -21,9 +21,9 @@ const SpacingLayoutDisplay: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-1/4">Name</TableHead>
-              <TableHead className="w-1/4">Value (px)</TableHead>
-              <TableHead className="w-1/2">Example</TableHead>
+              <TableHead className="w-1/3 px-4 py-2 text-xs h-auto">Name</TableHead>
+              <TableHead className="w-1/3 px-4 py-2 text-xs h-auto">Value (px)</TableHead>
+              <TableHead className="w-1/3 px-4 py-2 text-xs h-auto">Example</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -51,10 +51,10 @@ const SpacingLayoutDisplay: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Device</TableHead>
-              <TableHead>CSS Width</TableHead>
-              <TableHead>CSS Height</TableHead>
-              <TableHead>Aspect Ratio</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Device</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">CSS Width</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">CSS Height</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Aspect Ratio</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -76,10 +76,10 @@ const SpacingLayoutDisplay: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Breakpoint</TableHead>
-              <TableHead>Class Infix</TableHead>
-              <TableHead>Dimensions</TableHead>
-              <TableHead>Notes</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Breakpoint</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Class Infix</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Dimensions</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Notes</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -101,10 +101,10 @@ const SpacingLayoutDisplay: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Device Width Range</TableHead>
-              <TableHead>Left Margin</TableHead>
-              <TableHead>Right Margin</TableHead>
-              <TableHead>Gutter</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Device Width Range</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Left Margin</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Right Margin</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Gutter</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -126,12 +126,12 @@ const SpacingLayoutDisplay: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Device Width Range</TableHead>
-              <TableHead>Left Margin</TableHead>
-              <TableHead>Right Margin</TableHead>
-              <TableHead>Gutter</TableHead>
-              <TableHead>Body Width</TableHead>
-              <TableHead>Column Width</TableHead>
+              <TableHead className="w-1/6 px-4 py-2 text-xs h-auto">Device Width Range</TableHead>
+              <TableHead className="w-1/6 px-4 py-2 text-xs h-auto">Left Margin</TableHead>
+              <TableHead className="w-1/6 px-4 py-2 text-xs h-auto">Right Margin</TableHead>
+              <TableHead className="w-1/6 px-4 py-2 text-xs h-auto">Gutter</TableHead>
+              <TableHead className="w-1/6 px-4 py-2 text-xs h-auto">Body Width</TableHead>
+              <TableHead className="w-1/6 px-4 py-2 text-xs h-auto">Column Width</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

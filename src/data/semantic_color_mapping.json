@@ -174,5 +174,26 @@
     "Color_avatar_yellow orange_icon-inverse": "Color_icon_inverse",
     "Color_avatar_yellow orange_text": "color_avatar_yellow orange_70",
     "Color_avatar_yellow orange_text-inverse": "Color_text_inverse"
+  },
+  "foundations": {
+    "Color_background": "color_background",
+    "Color_foreground": "color_foreground",
+    "Color_card": "color_card",
+    "Color_card_foreground": "color_card_foreground",
+    "Color_popover": "color_popover",
+    "Color_popover_foreground": "color_popover_foreground",
+    "Color_primary": "color_primary",
+    "Color_primary_foreground": "color_primary_foreground",
+    "Color_secondary": "color_secondary",
+    "Color_secondary_foreground": "color_secondary_foreground",
+    "Color_muted": "color_muted",
+    "Color_muted_foreground": "color_muted_foreground",
+    "Color_accent": "color_accent",
+    "Color_accent_foreground": "color_accent_foreground",
+    "Color_destructive": "color_destructive",
+    "Color_destructive_foreground": "color_destructive_foreground",
+    "Color_border": "color_border",
+    "Color_input": "color_input",
+    "Color_ring": "color_ring"
   }
 }

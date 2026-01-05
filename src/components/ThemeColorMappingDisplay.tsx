@@ -1,6 +1,6 @@
 import React from 'react';
 import { designSystemData } from '../utils/dataLoader';
-import { Clipboard } from './ui/clipboard';
+
 import {
   Table,
   TableBody,
@@ -21,9 +21,9 @@ const ThemeColorMappingDisplay: React.FC = () => {
 
     const family = parts[1];
     const level = parts[2];
-    
+
     const palette = colors.palette as Record<string, any[]>;
-    
+
     for (const paletteFamily in palette) {
       if (paletteFamily.replace(/\s/g, '').toLowerCase() === family.toLowerCase()) {
         const shade = palette[paletteFamily].find(s => String(s.level) === level);
@@ -40,15 +40,15 @@ const ThemeColorMappingDisplay: React.FC = () => {
       {Object.entries(colors.themeMapping).map(([category, mappings]) => (
         <section key={category} className="flex flex-col gap-4">
           <h3 className="text-xl font-semibold capitalize">{category.replace(/_/g, ' ')}</h3>
-          
+
           <div className="border border-border rounded-lg overflow-hidden">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-1/2 px-4 py-2 text-xs uppercase h-auto">
+                  <TableHead className="w-1/2 px-4 py-2 text-xs h-auto">
                     Theme Token
                   </TableHead>
-                  <TableHead className="w-1/2 px-4 py-2 text-xs uppercase h-auto">
+                  <TableHead className="w-1/2 px-4 py-2 text-xs h-auto">
                     Mapped To
                   </TableHead>
                 </TableRow>
@@ -56,7 +56,7 @@ const ThemeColorMappingDisplay: React.FC = () => {
               <TableBody>
                 {Object.entries(mappings).map(([themeVar, rawVar]) => {
                   const { shade: color, paletteFamily } = findColorDataByVariable(rawVar as string);
-                  
+
                   let rawTokenName = rawVar as string;
                   if (color && paletteFamily) {
                     const displayLevel = String(color.level).replace(/\s\(.*\)/, '');

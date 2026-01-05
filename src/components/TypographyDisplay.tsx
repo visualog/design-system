@@ -14,7 +14,6 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetDescription,
 } from "@/components/ui/sheet";
 
 const TypographyDisplay: React.FC = () => {
@@ -34,10 +33,7 @@ const TypographyDisplay: React.FC = () => {
     setIsSheetOpen(true);
   };
 
-  const closeSheet = () => {
-    setIsSheetOpen(false);
-    setSelectedStyle(null);
-  };
+
 
   return (
     <div className="container mx-auto py-8 font-pretendard">
@@ -49,10 +45,10 @@ const TypographyDisplay: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Variable</TableHead>
-              <TableHead>Size</TableHead>
-              <TableHead>Line Height</TableHead>
-              <TableHead>Weight</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Variable</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Size</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Line Height</TableHead>
+              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Weight</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -72,7 +68,7 @@ const TypographyDisplay: React.FC = () => {
                     <TableCell>{style.weight}</TableCell>
                   </TableRow>
                 ))
-            )}
+              )}
           </TableBody>
         </Table>
       </div>
@@ -101,13 +97,13 @@ const TypographyDisplay: React.FC = () => {
               <div>
                 <h4 className="font-semibold mb-2">한글</h4>
                 <p className="p-4"
-                   style={{
-                     fontSize: `${selectedStyle.size}px`,
-                     lineHeight: `${selectedStyle.line_height}px`,
-                     fontWeight: getFontWeight(selectedStyle.weight),
-                     background: `linear-gradient(to bottom, rgba(255,0,0,0.1) 1px, transparent 1px, transparent 4px)`,
-                     backgroundSize: `100% 4px`
-                   }}>
+                  style={{
+                    fontSize: `${selectedStyle.size}px`,
+                    lineHeight: `${selectedStyle.line_height}px`,
+                    fontWeight: getFontWeight(selectedStyle.weight),
+                    background: `linear-gradient(to bottom, rgba(255,0,0,0.1) 1px, transparent 1px, transparent 4px)`,
+                    backgroundSize: `100% 4px`
+                  }}>
                   디자인 시스템 폰트 미리보기입니다. 폰트의 가독성을 확인합니다. 1234567890!@#$%^&*()_+
                 </p>
               </div>
@@ -116,13 +112,13 @@ const TypographyDisplay: React.FC = () => {
               <div>
                 <h4 className="font-semibold mb-2">영문</h4>
                 <p className="p-4"
-                   style={{
-                     fontSize: `${selectedStyle.size}px`,
-                     lineHeight: `${selectedStyle.line_height}px`,
-                     fontWeight: getFontWeight(selectedStyle.weight),
-                     background: `linear-gradient(to bottom, rgba(255,0,0,0.1) 1px, transparent 1px, transparent 4px)`,
-                     backgroundSize: `100% 4px`
-                   }}>
+                  style={{
+                    fontSize: `${selectedStyle.size}px`,
+                    lineHeight: `${selectedStyle.line_height}px`,
+                    fontWeight: getFontWeight(selectedStyle.weight),
+                    background: `linear-gradient(to bottom, rgba(255,0,0,0.1) 1px, transparent 1px, transparent 4px)`,
+                    backgroundSize: `100% 4px`
+                  }}>
                   The quick brown fox jumps over the lazy dog. 1234567890!@#$%^&*()_+
                 </p>
               </div>

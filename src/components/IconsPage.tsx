@@ -6,9 +6,9 @@ const IconsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <div id="icons" className="mb-16">
-      <h1 className="text-4xl font-bold text-foreground mb-8">Icons</h1>
-      <div className="mb-8">
+    <div id="icons" className="mb-16 flex flex-col gap-8">
+      <h1 className="text-4xl font-bold text-foreground">Icons</h1>
+      <div>
         <Input
           type="text"
           placeholder="Search 496 icons..."
