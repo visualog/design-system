@@ -67,7 +67,7 @@ const TypographyDisplay: React.FC = () => {
 
   const getDropdownTriggerText = () => {
     if (selectedCategories.includes('All') || selectedCategories.length === 0) {
-      return '전체 카테고리';
+      return '전체';
     }
     if (selectedCategories.length === 1) {
       return selectedCategories[0];
@@ -93,7 +93,7 @@ const TypographyDisplay: React.FC = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="max-h-64 overflow-y-auto">
-            <DropdownMenuItem onSelect={() => handleCategorySelection('All')}>전체 카테고리</DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => handleCategorySelection('All')}>전체</DropdownMenuItem>
             {availableCategories.map(category => (
               <DropdownMenuCheckboxItem
                 key={category}
@@ -112,10 +112,10 @@ const TypographyDisplay: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-1/4 px-4 text-xs h-auto">Token</TableHead>
-              <TableHead className="w-1/4 px-4 text-xs h-auto">Size</TableHead>
-              <TableHead className="w-1/4 px-4 text-xs h-auto">Line Height</TableHead>
-              <TableHead className="w-1/4 px-4 text-xs h-auto">Weight</TableHead>
+              <TableHead className="w-1/4 px-4 text-xs h-auto">토큰명</TableHead>
+              <TableHead className="w-1/4 px-4 text-xs h-auto">크기</TableHead>
+              <TableHead className="w-1/4 px-4 text-xs h-auto">행간</TableHead>
+              <TableHead className="w-1/4 px-4 text-xs h-auto">굵기</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

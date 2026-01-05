@@ -155,10 +155,10 @@ const TokensDisplay: React.FC<{ colors: any }> = ({ colors }) => (
       <TableHeader>
         <TableRow>
           <TableHead className="w-1/2 px-4 text-xs h-auto">
-            Token
+            토큰명
           </TableHead>
           <TableHead className="w-1/2 px-4 text-xs h-auto">
-            Mapped To
+            값
           </TableHead>
         </TableRow>
       </TableHeader>
@@ -213,7 +213,7 @@ const TokensDisplay: React.FC<{ colors: any }> = ({ colors }) => (
                     <span>{tokenName}</span>
                   </div>
                 </TableCell>
-                <TableCell className="px-4 font-mono text-sm text-gray-500 whitespace-nowrap">
+                <TableCell className="px-4 font-mono text-xs text-muted-foreground whitespace-nowrap">
                   <div className="flex items-center">
                     <span className="font-mono">{displayHex}</span>
                   </div>
@@ -323,7 +323,7 @@ const ColorPaletteDisplay: React.FC = () => {
 
   const getDropdownTriggerText = () => {
     if (selectedFamilies.includes('All') || selectedFamilies.length === 0) {
-      return '전체 색상';
+      return '전체';
     }
     if (selectedFamilies.length === 1) {
       return selectedFamilies[0];
@@ -382,7 +382,7 @@ const ColorPaletteDisplay: React.FC = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="max-h-64 overflow-y-auto">
-                <DropdownMenuItem onSelect={() => handleFamilySelection('All')}>전체 색상</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => handleFamilySelection('All')}>전체</DropdownMenuItem>
                 {Object.keys(colors.palette).map(family => (
                   <DropdownMenuCheckboxItem
                     key={family}

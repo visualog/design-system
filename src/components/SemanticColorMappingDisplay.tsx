@@ -54,10 +54,10 @@ const SemanticColorMappingDisplay: React.FC = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-1/4 px-4 text-xs h-auto">Token</TableHead>
-                  <TableHead className="w-1/4 px-4 text-xs h-auto">Mapped To</TableHead>
-                  <TableHead className="w-1/4 px-4 text-xs h-auto">Light Mode</TableHead>
-                  <TableHead className="w-1/4 px-4 text-xs h-auto">Dark Mode</TableHead>
+                  <TableHead className="w-1/4 px-4 text-xs h-auto">토큰명</TableHead>
+                  <TableHead className="w-1/4 px-4 text-xs h-auto">매핑</TableHead>
+                  <TableHead className="w-1/4 px-4 text-xs h-auto">라이트 모드</TableHead>
+                  <TableHead className="w-1/4 px-4 text-xs h-auto">다크 모드</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

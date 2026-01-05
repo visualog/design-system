@@ -80,9 +80,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
                   <li>
                     <NavLink to="/radius" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Radius</NavLink>
                   </li>
+                  {/* Motion page hidden for now
                   <li>
                     <NavLink to="/motion" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Motion</NavLink>
                   </li>
+                  */}
                   <li>
                     <NavLink to="/icons" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Icons</NavLink>
                   </li>

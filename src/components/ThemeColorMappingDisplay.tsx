@@ -70,10 +70,10 @@ const ThemeColorMappingDisplay: React.FC = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-1/2 px-4 text-xs h-auto">
-                    Token
+                    토큰명
                   </TableHead>
                   <TableHead className="w-1/2 px-4 text-xs h-auto">
-                    Mapped To
+                    매핑
                   </TableHead>
                 </TableRow>
               </TableHeader>

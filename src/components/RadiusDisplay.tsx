@@ -74,15 +74,15 @@ const RadiusDisplay: React.FC = () => {
 
             {/* Token Table */}
             <section className="flex flex-col gap-4">
-                <h2 className="text-xl font-bold">토큰 레퍼런스</h2>
+                <h2 className="text-xl font-bold">토큰</h2>
                 <div className="overflow-hidden">
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-1/4">Token</TableHead>
-                                <TableHead className="w-1/4">Value</TableHead>
-                                <TableHead className="w-1/4">Variable</TableHead>
-                                <TableHead className="w-1/4">Usage</TableHead>
+                                <TableHead className="w-1/4">토큰명</TableHead>
+                                <TableHead className="w-1/4">값</TableHead>
+                                <TableHead className="w-1/4">변수</TableHead>
+                                <TableHead className="w-1/4">설명</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
