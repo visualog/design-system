@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import './App.css';
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import MainContent from './components/MainContent';
@@ -10,6 +9,8 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import ColorsPage from './components/ColorsPage';
 import TypographyPage from './components/TypographyPage';
 import SpacingLayoutPage from './components/SpacingLayoutPage';
+import RadiusPage from './components/RadiusPage';
+import MotionPage from './components/MotionPage';
 import IconsPage from './components/IconsPage';
 import ShadowsPage from './components/ShadowsPage';
 
@@ -42,6 +43,8 @@ function App() {
               <Route path="/colors" element={<MainContent><ColorsPage /></MainContent>} />
               <Route path="/typography" element={<MainContent><TypographyPage /></MainContent>} />
               <Route path="/spacing" element={<MainContent><SpacingLayoutPage /></MainContent>} />
+              <Route path="/radius" element={<MainContent><RadiusPage /></MainContent>} />
+              <Route path="/motion" element={<MainContent><MotionPage /></MainContent>} />
               <Route path="/icons" element={<MainContent><IconsPage /></MainContent>} />
               <Route path="/shadows" element={<MainContent><ShadowsPage /></MainContent>} />
               {/* Fallback for unknown routes */}

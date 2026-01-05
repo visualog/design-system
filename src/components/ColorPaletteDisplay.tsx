@@ -150,14 +150,14 @@ const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str
 
 // --- New component for the Tokens table ---
 const TokensDisplay: React.FC<{ colors: any }> = ({ colors }) => (
-  <div className="border border-border rounded-lg overflow-hidden">
+  <div className="overflow-hidden">
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-1/2 px-4 py-2 text-xs h-auto">
+          <TableHead className="w-1/2 px-4 text-xs h-auto">
             Token
           </TableHead>
-          <TableHead className="w-1/2 px-4 py-2 text-xs h-auto">
+          <TableHead className="w-1/2 px-4 text-xs h-auto">
             Mapped To
           </TableHead>
         </TableRow>
@@ -207,13 +207,13 @@ const TokensDisplay: React.FC<{ colors: any }> = ({ colors }) => (
 
             return (
               <TableRow key={`${colorFamily}-${index}`} className="bg-white">
-                <TableCell className="px-4 py-2 font-mono text-sm whitespace-nowrap">
+                <TableCell className="px-4 font-mono text-sm whitespace-nowrap">
                   <div className="flex items-center gap-2">
                     <div className="w-5 h-5 rounded-full border border-black/10" style={finalChipStyle}></div>
                     <span>{tokenName}</span>
                   </div>
                 </TableCell>
-                <TableCell className="px-4 py-2 font-mono text-sm text-gray-500 whitespace-nowrap">
+                <TableCell className="px-4 font-mono text-sm text-gray-500 whitespace-nowrap">
                   <div className="flex items-center">
                     <span className="font-mono">{displayHex}</span>
                   </div>
@@ -319,20 +319,20 @@ const ColorPaletteDisplay: React.FC = () => {
     }, {} as Record<string, any[]>);
 
   const tokenCount = Object.values(filteredColors).flat().length;
-  const placeholderText = `Search ${tokenCount} tokens...`;
+  // const placeholderText = `Search ${tokenCount} tokens...`; // Unused
 
   const getDropdownTriggerText = () => {
     if (selectedFamilies.includes('All') || selectedFamilies.length === 0) {
-      return 'All';
+      return '전체 색상';
     }
     if (selectedFamilies.length === 1) {
       return selectedFamilies[0];
     }
-    return `${selectedFamilies.length} selected`;
+    return `${selectedFamilies.length}개 선택됨`;
   };
 
   return (
-    <div className="py-8 flex flex-col gap-12">
+    <div className="flex flex-col gap-12">
 
       {/* --- Gray Section --- */}
       <section className="flex flex-col gap-4">
@@ -354,11 +354,11 @@ const ColorPaletteDisplay: React.FC = () => {
 
       <section className="flex flex-col gap-4">
         <div className="flex justify-between items-center">
-          <h3 className="text-xl font-semibold">Tokens</h3>
+          <h3 className="text-xl font-semibold">토큰</h3>
           <div className="flex items-center gap-2">
             <div className="relative">
               <Input
-                placeholder={placeholderText}
+                placeholder={`${tokenCount}개 토큰 검색...`}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-48 shadow-none pr-9"
@@ -376,18 +376,19 @@ const ColorPaletteDisplay: React.FC = () => {
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="w-36 justify-between shadow-none">
+                <Button variant="outline" className="w-48 justify-between shadow-none">
                   <span>{getDropdownTriggerText()}</span>
                   <ChevronDown className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="max-h-48 overflow-y-auto">
-                <DropdownMenuItem onSelect={() => handleFamilySelection('All')}>All</DropdownMenuItem>
+              <DropdownMenuContent className="max-h-64 overflow-y-auto">
+                <DropdownMenuItem onSelect={() => handleFamilySelection('All')}>전체 색상</DropdownMenuItem>
                 {Object.keys(colors.palette).map(family => (
                   <DropdownMenuCheckboxItem
                     key={family}
                     checked={selectedFamilies.includes(family)}
                     onCheckedChange={() => handleFamilySelection(family)}
+                    className="capitalize"
                   >
                     {family}
                   </DropdownMenuCheckboxItem>

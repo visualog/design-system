@@ -1,0 +1,64 @@
+{
+    "duration": [
+        {
+            "token": "duration-fastest",
+            "value": "100ms",
+            "variable": "--duration-fastest",
+            "description": "마이크로 인터랙션, 버튼 터치, 토글"
+        },
+        {
+            "token": "duration-fast",
+            "value": "200ms",
+            "variable": "--duration-fast",
+            "description": "호버 효과, 작은 전환 효과"
+        },
+        {
+            "token": "duration-normal",
+            "value": "300ms",
+            "variable": "--duration-normal",
+            "description": "모달 열기/닫기, 카드 확장, 기본 전환 효과"
+        },
+        {
+            "token": "duration-slow",
+            "value": "500ms",
+            "variable": "--duration-slow",
+            "description": "큰 영역 전환, 페이지 로드"
+        },
+        {
+            "token": "duration-slowest",
+            "value": "800ms",
+            "variable": "--duration-slowest",
+            "description": "배경 이동, 장식적인 애니메이션"
+        }
+    ],
+    "easing": [
+        {
+            "token": "ease-linear",
+            "value": "linear",
+            "css_value": "linear",
+            "variable": "--ease-linear",
+            "description": "일정한 속도. UI에는 거의 사용되지 않으며 주로 로딩 인디케이터에 사용됨."
+        },
+        {
+            "token": "ease-in",
+            "value": "cubic-bezier(0.4, 0, 1, 1)",
+            "css_value": "ease-in",
+            "variable": "--ease-in",
+            "description": "천천히 시작해서 빠르게 끝남. 화면에서 나가는 요소에 적합."
+        },
+        {
+            "token": "ease-out",
+            "value": "cubic-bezier(0, 0, 0.2, 1)",
+            "css_value": "ease-out",
+            "variable": "--ease-out",
+            "description": "빠르게 시작해서 천천히 끝남. 화면으로 들어오는 요소에 자연스러움."
+        },
+        {
+            "token": "ease-in-out",
+            "value": "cubic-bezier(0.4, 0, 0.2, 1)",
+            "css_value": "ease-in-out",
+            "variable": "--ease-in-out",
+            "description": "천천히 시작, 중간 가속, 천천히 끝남. 일반적인 전환 효과에 적합."
+        }
+    ]
+}

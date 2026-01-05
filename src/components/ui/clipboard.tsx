@@ -34,7 +34,7 @@ const Clipboard: React.FC<ClipboardProps> = ({ value, className }) => {
             variant="ghost"
             size="icon"
             onClick={onCopy}
-            className={cn("h-5 w-5", className)}
+            className={cn("h-5 w-5 text-muted-foreground/40 hover:text-foreground transition-colors", className)}
           >
             {hasCopied ? (
               <Check className="h-4 w-4" />

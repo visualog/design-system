@@ -11,6 +11,8 @@ import filledIcons from '../data/filled_icons.json';
 import illustrationIcons from '../data/illustration_icons.json';
 import shadowTokens from '../data/shadow_tokens.json';
 import iconFilenameMapping from '../data/icon_filename_mapping.json';
+import radiusTokens from '../data/radius.json';
+import motionTokens from '../data/motion.json';
 
 export const designSystemData = {
   colors: {
@@ -20,6 +22,8 @@ export const designSystemData = {
   },
   typography: typographyStyles,
   spacing: spacingSystem,
+  radius: radiusTokens,
+  motion: motionTokens,
   layout: {
     deviceResolutions: deviceResolutions,
     breakpoints: breakpoints,

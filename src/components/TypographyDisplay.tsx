@@ -10,6 +10,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "./ui/button";
+import { ChevronDown } from "lucide-react";
+import {
   Sheet,
   SheetContent,
   SheetHeader,
@@ -33,39 +42,96 @@ const TypographyDisplay: React.FC = () => {
     setIsSheetOpen(true);
   };
 
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(['All']);
+
+  const handleCategorySelection = (category: string) => {
+    if (category === 'All') {
+      setSelectedCategories(['All']);
+      return;
+    }
+
+    let newSelection = selectedCategories.filter(c => c !== 'All');
+
+    if (newSelection.includes(category)) {
+      newSelection = newSelection.filter(c => c !== category);
+    } else {
+      newSelection.push(category);
+    }
+
+    if (newSelection.length === 0) {
+      setSelectedCategories(['All']);
+    } else {
+      setSelectedCategories(newSelection);
+    }
+  };
+
+  const getDropdownTriggerText = () => {
+    if (selectedCategories.includes('All') || selectedCategories.length === 0) {
+      return '전체 카테고리';
+    }
+    if (selectedCategories.length === 1) {
+      return selectedCategories[0];
+    }
+    return `${selectedCategories.length}개 선택됨`;
+  };
+
+  const availableCategories = Object.keys(typography).filter(key => key !== 'font_family');
+
+  const filteredTypography = Object.entries(typography)
+    .filter(([key]) => key !== 'font_family' && (selectedCategories.includes('All') || selectedCategories.includes(key)));
+
 
 
   return (
-    <div className="container mx-auto py-8 font-pretendard">
-      <p className="mb-10 text-lg text-muted-foreground">
-        The design system uses the <span className="font-semibold">Pretendard</span> font family.
-      </p>
+    <div className="font-pretendard flex flex-col gap-4">
+      <div className="flex justify-end">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="w-48 justify-between shadow-none">
+              <span className="capitalize">{getDropdownTriggerText().replace(/_/g, ' ')}</span>
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="max-h-64 overflow-y-auto">
+            <DropdownMenuItem onSelect={() => handleCategorySelection('All')}>전체 카테고리</DropdownMenuItem>
+            {availableCategories.map(category => (
+              <DropdownMenuCheckboxItem
+                key={category}
+                checked={selectedCategories.includes(category)}
+                onCheckedChange={() => handleCategorySelection(category)}
+                className="capitalize"
+              >
+                {category.replace(/_/g, ' ')}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
 
-      <div className="border border-border rounded-lg overflow-hidden">
+      <div className="overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Variable</TableHead>
-              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Size</TableHead>
-              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Line Height</TableHead>
-              <TableHead className="w-1/4 px-4 py-2 text-xs h-auto">Weight</TableHead>
+              <TableHead className="w-1/4 px-4 text-xs h-auto">Token</TableHead>
+              <TableHead className="w-1/4 px-4 text-xs h-auto">Size</TableHead>
+              <TableHead className="w-1/4 px-4 text-xs h-auto">Line Height</TableHead>
+              <TableHead className="w-1/4 px-4 text-xs h-auto">Weight</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Object.entries(typography)
-              .filter(([key]) => key !== 'font_family')
+            {filteredTypography
               .flatMap(([category, styles]: [string, any]) =>
                 styles.map((style: any, index: number) => (
                   <TableRow key={`${category}-${index}`} onClick={() => handleRowClick(style)} className="cursor-pointer hover:bg-accent/50 transition-colors">
-                    <TableCell className="font-mono text-sm">
-                      <div className="flex items-center">
-                        <span>${style.style_name}</span>
+                    <TableCell className="font-mono text-sm font-medium">
+                      <div className="flex items-center gap-2">
+                        <span className="text-primary">${style.style_name}</span>
                         <Clipboard value={style.style_name} />
                       </div>
                     </TableCell>
-                    <TableCell>{style.size}px</TableCell>
-                    <TableCell>{style.line_height}px</TableCell>
-                    <TableCell>{style.weight}</TableCell>
+                    <TableCell className="text-muted-foreground font-mono text-xs">{style.size}px</TableCell>
+                    <TableCell className="text-muted-foreground font-mono text-xs">{style.line_height}px</TableCell>
+                    <TableCell className="text-muted-foreground font-mono text-xs">{style.weight}</TableCell>
                   </TableRow>
                 ))
               )}

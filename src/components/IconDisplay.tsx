@@ -5,6 +5,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { AnimatedTabs, AnimatedTabsContent } from "@/components/ui/animated-tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { Clipboard } from './ui/clipboard';
 
 // --- Helper function to get SVG components ---
 const allSvgModules = import.meta.glob<{ default: React.FC<React.SVGProps<SVGSVGElement>> }>('/src/assets/icons/**/*.svg', { eager: true });
@@ -29,6 +36,7 @@ import { resolveColorToken } from '../lib/colorUtils';
 interface ColorPaletteProps {
   onColorSelect: (color: string) => void;
   purpose: 'icon' | 'background';
+  className?: string;
 }
 
 const ICON_COLOR_ORDER = [
@@ -41,7 +49,7 @@ const ICON_COLOR_ORDER = [
   'Color_icon_loading', 'Color_icon_success', 'Color_icon_error', 'Color_icon_interactive_error'
 ];
 
-const ColorPalette: React.FC<ColorPaletteProps> = ({ onColorSelect, purpose }) => {
+const ColorPalette: React.FC<ColorPaletteProps> = ({ onColorSelect, purpose, className = '' }) => {
   const semanticMapping = designSystemData.colors.semanticMapping;
   const customColorInputRef = useRef<HTMLInputElement>(null);
 
@@ -69,13 +77,13 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onColorSelect, purpose }) =
   }
 
   return (
-    <div className="w-64 p-4">
+    <div className={className}>
       <div className="flex flex-wrap gap-2">
         {resolvedColors.map((color) => (
           <TooltipProvider key={color.name} delayDuration={100}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <div 
+                <div
                   className="w-6 h-6 rounded-full cursor-pointer border border-black/10"
                   style={{ backgroundColor: color.hex }}
                   onClick={() => onColorSelect(color.hex)}
@@ -87,27 +95,34 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onColorSelect, purpose }) =
             </Tooltip>
           </TooltipProvider>
         ))}
-      </div>
-      <div className="border-t border-border mt-3 pt-3">
-        <div 
-          className="flex items-center gap-2 p-2 rounded-md hover:bg-secondary cursor-pointer"
-          onClick={handleCustomClick}
-        >
-          <div className="w-6 h-6 rounded-full border border-black/10 bg-white flex items-center justify-center">
-            <div className="w-4 h-4 rounded-full bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500" />
-            <input
-              type="color"
-              ref={customColorInputRef}
-              onChange={(e) => onColorSelect(e.target.value)}
-              className="absolute w-0 h-0 opacity-0"
-            />
-          </div>
-          <span className="text-sm">Custom</span>
-        </div>
+
+        {/* Custom Color Picker as a Chip */}
+        <TooltipProvider delayDuration={100}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div
+                className="w-6 h-6 rounded-full cursor-pointer border border-black/10 bg-white flex items-center justify-center relative overflow-hidden"
+                onClick={handleCustomClick}
+              >
+                <div className="w-full h-full bg-gradient-to-br from-red-500 via-yellow-500 to-blue-500" />
+                <input
+                  type="color"
+                  ref={customColorInputRef}
+                  onChange={(e) => onColorSelect(e.target.value)}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Custom Color</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   );
 };
+
 
 // --- Icon Section Component ---
 const DEFAULT_ICON_COLOR = '#374151';
@@ -119,9 +134,10 @@ interface IconSectionProps {
   categoryType: 'line' | 'fill';
   filenameMapping: any;
   searchQuery: string;
+  onIconClick: (name: string, category: 'line' | 'fill', filename: string, color: string) => void;
 }
 
-const IconSection: React.FC<IconSectionProps> = ({ title, iconList, categoryType, filenameMapping, searchQuery }) => {
+const IconSection: React.FC<IconSectionProps> = ({ title, iconList, categoryType, filenameMapping, searchQuery, onIconClick }) => {
   const [iconColor, setIconColor] = useState(DEFAULT_ICON_COLOR);
   const [bgColor, setBgColor] = useState(DEFAULT_BG_COLOR);
 
@@ -132,13 +148,13 @@ const IconSection: React.FC<IconSectionProps> = ({ title, iconList, categoryType
     setIconColor(DEFAULT_ICON_COLOR);
     setBgColor(DEFAULT_BG_COLOR);
   };
-  
+
   const ColorChipTrigger = ({ color }: { color: string; }) => (
     <div className="relative w-6 h-6 rounded-full border border-black/10" style={{ backgroundColor: color }} />
   );
 
   const filteredIcons = useMemo(() => {
-    return iconList.filter(iconName => 
+    return iconList.filter(iconName =>
       iconName.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [iconList, searchQuery]);
@@ -146,22 +162,26 @@ const IconSection: React.FC<IconSectionProps> = ({ title, iconList, categoryType
   return (
     <div className="mb-12">
       <div className="flex items-center mb-6">
-        <h2 className="text-2xl font-semibold">{title}</h2>
+        <h2 className="text-xl font-semibold">{title}</h2>
         <div className="flex items-center gap-2 ml-auto">
           <Popover>
             <PopoverTrigger>
               <ColorChipTrigger color={iconColor} />
             </PopoverTrigger>
-            <PopoverContent>
-              <ColorPalette purpose="icon" onColorSelect={setIconColor} />
+            <PopoverContent className="p-0 border-none w-auto shadow-none bg-transparent">
+              <div className="w-64 p-4 bg-popover rounded-md border shadow-md">
+                <ColorPalette purpose="icon" onColorSelect={setIconColor} />
+              </div>
             </PopoverContent>
           </Popover>
           <Popover>
             <PopoverTrigger>
               <ColorChipTrigger color={bgColor} />
             </PopoverTrigger>
-            <PopoverContent>
-              <ColorPalette purpose="background" onColorSelect={setBgColor} />
+            <PopoverContent className="p-0 border-none w-auto shadow-none bg-transparent">
+              <div className="w-64 p-4 bg-popover rounded-md border shadow-md">
+                <ColorPalette purpose="background" onColorSelect={setBgColor} />
+              </div>
             </PopoverContent>
           </Popover>
           {!isPristine && (
@@ -171,18 +191,23 @@ const IconSection: React.FC<IconSectionProps> = ({ title, iconList, categoryType
           )}
         </div>
       </div>
-      <div className="flex flex-wrap gap-6">
+
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-2">
         {filteredIcons.map((iconName: string, index: number) => {
-           const mappedFilename = filenameMapping[iconName];
-           const SvgComponent = mappedFilename ? getSvgComponentFromFilename(mappedFilename, categoryType) : null;
-          
+          const mappedFilename = filenameMapping[iconName];
+          const SvgComponent = mappedFilename ? getSvgComponentFromFilename(mappedFilename, categoryType) : null;
+
           return (
             <TooltipProvider key={index} delayDuration={100}>
               <Tooltip>
-                <TooltipTrigger>
-                  <Card className="w-24 h-24 flex items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:border-black/10" style={{ backgroundColor: bgColor }}>
+                <TooltipTrigger asChild>
+                  <Card
+                    className="shadow-none w-full aspect-square flex items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:border-black/10 cursor-pointer"
+                    style={{ backgroundColor: bgColor }}
+                    onClick={() => mappedFilename && onIconClick(iconName, categoryType, mappedFilename, iconColor)}
+                  >
                     <CardContent className="p-0">
-                      {SvgComponent ? <SvgComponent className="w-8 h-8" style={{ color: iconColor }} /> : <span className="text-xs">N/A</span>}
+                      {SvgComponent ? <SvgComponent className="w-6 h-6" style={{ color: iconColor }} /> : <span className="text-xs">N/A</span>}
                     </CardContent>
                   </Card>
                 </TooltipTrigger>
@@ -194,7 +219,7 @@ const IconSection: React.FC<IconSectionProps> = ({ title, iconList, categoryType
           );
         })}
       </div>
-    </div>
+    </div >
   );
 };
 
@@ -215,12 +240,12 @@ const IconDisplay: React.FC<IconDisplayProps> = ({ searchQuery }) => {
     return Object.entries(icons.illustration)
       .map(([categoryKey, data]) => {
         if (categoryKey === "icon_assets_notes" || !data.subfolder) return null;
-        
-        const filteredModules = Object.keys(allSvgModules).filter(key => 
+
+        const filteredModules = Object.keys(allSvgModules).filter(key =>
           key.toLowerCase().startsWith(`/src/assets/icons/illust/${data.subfolder}/`.toLowerCase()) &&
           key.split('/').pop()?.replace('.svg', '').toLowerCase().includes(searchQuery.toLowerCase())
         );
-        
+
         return {
           categoryKey,
           data,
@@ -230,54 +255,186 @@ const IconDisplay: React.FC<IconDisplayProps> = ({ searchQuery }) => {
       .filter(item => item && item.filteredModules.length > 0);
   }, [icons.illustration, searchQuery]);
 
+  const [selectedIcon, setSelectedIcon] = useState<{ name: string; category: 'line' | 'fill' | 'illust'; filename: string; subfolder?: string; color: string } | null>(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [sheetConfig, setSheetConfig] = useState<{ color: string; size: 16 | 20 | 24 }>({ color: '#374151', size: 20 });
+
+  const handleIconClick = (name: string, category: 'line' | 'fill' | 'illust', filename: string, color: string, subfolder?: string) => {
+    setSelectedIcon({ name, category, filename, subfolder, color });
+    setSheetConfig({ color, size: 20 });
+    setIsSheetOpen(true);
+  };
+
+  const SvgPreview = selectedIcon ? getSvgComponentFromFilename(selectedIcon.filename, selectedIcon.category, selectedIcon.subfolder) : null;
+
+  // Usage code snippet generation
+  const getUsageCode = () => {
+    if (!selectedIcon) return '';
+    // Constructing a PascalCase component name from filename (e.g., ic_user_line -> IcUserLine)
+    const componentName = selectedIcon.filename
+      .split('_')
+      .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+      .join('');
+
+    const sizeClass = sheetConfig.size === 16 ? 'w-4 h-4' : sheetConfig.size === 20 ? 'w-5 h-5' : 'w-6 h-6';
+
+    return `<${componentName} className="${sizeClass}" style={{ color: '${sheetConfig.color}' }} />`;
+  };
+
   return (
-    <div className="container mx-auto py-8">
+    <div>
       <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
         <AnimatedTabsContent value="ui">
-          <IconSection title="Line Icons" iconList={icons.line.line_icons} categoryType="line" filenameMapping={icons.filenameMapping.line_icons} searchQuery={searchQuery} />
-          <IconSection title="Filled Icons" iconList={icons.filled.filled_icons} categoryType="fill" filenameMapping={icons.filenameMapping.filled_icons} searchQuery={searchQuery} />
+          <div className="pt-8">
+            <IconSection
+              title="Line Icons"
+              iconList={icons.line.line_icons}
+              categoryType="line"
+              filenameMapping={icons.filenameMapping.line_icons}
+              searchQuery={searchQuery}
+              onIconClick={handleIconClick}
+            />
+            <IconSection
+              title="Filled Icons"
+              iconList={icons.filled.filled_icons}
+              categoryType="fill"
+              filenameMapping={icons.filenameMapping.filled_icons}
+              searchQuery={searchQuery}
+              onIconClick={handleIconClick}
+            />
+          </div>
         </AnimatedTabsContent>
         <AnimatedTabsContent value="illustration">
-          <div className="grid grid-cols-1 gap-8 mt-6">
-              {filteredIllustrations.length > 0 ? (
-                filteredIllustrations.map((item) => {
-                  if (!item) return null;
-                  const { categoryKey, data, filteredModules } = item;
-                  
-                  return (
-                      <div key={categoryKey} className="mb-6">
-                          <h3 className="text-xl font-medium mb-4">{categoryKey}</h3>
-                          {data.notes && <p className="text-sm text-gray-600 mb-4">{data.notes}</p>}
-                          <div className="flex flex-wrap gap-6">
-                              {filteredModules.map((modulePathKey, index) => {
-                                      const filename = modulePathKey.split('/').pop()?.replace('.svg', '');
-                                      const SvgComponent = filename ? getSvgComponentFromFilename(filename, 'illust', data.subfolder) : null;
-                                      return (
-                                        <TooltipProvider key={index} delayDuration={100}>
-                                          <Tooltip>
-                                            <TooltipTrigger>
-                                              <Card className="w-24 h-24 flex items-center justify-center">
-                                                <CardContent className="p-0">
-                                                  {SvgComponent ? <SvgComponent className="w-8 h-8 text-foreground" /> : <span className="text-xs">N/A</span>}
-                                                </CardContent>
-                                              </Card>
-                                            </TooltipTrigger>
-                                            <TooltipContent>
-                                              <p>{filename || 'unknown'}</p>
-                                            </TooltipContent>
-                                          </Tooltip>
-                                        </TooltipProvider>
-                                      );
-                                  })}
-                          </div>
-                      </div>
-                  );
+          <div className="pt-8 grid grid-cols-1 gap-8">
+            {filteredIllustrations.length > 0 ? (
+              filteredIllustrations.map((item) => {
+                if (!item) return null;
+                const { categoryKey, data, filteredModules } = item;
+
+                return (
+                  <div key={categoryKey} className="mb-6">
+                    <h3 className="text-xl font-medium mb-4">{categoryKey}</h3>
+                    {data.notes && <p className="text-sm text-gray-600 mb-4">{data.notes}</p>}
+                    <div className="grid grid-cols-[repeat(auto-fill,minmax(6rem,1fr))] gap-4">
+                      {filteredModules.map((modulePathKey, index) => {
+                        const filename = modulePathKey.split('/').pop()?.replace('.svg', '');
+                        const SvgComponent = filename ? getSvgComponentFromFilename(filename, 'illust', data.subfolder) : null;
+
+                        // Default color for Illustrations is usually not controlled the same way or... 
+                        // Wait, Illustration section doesn't have the color picker in this implementation?
+                        // The UI shows color pickers inside IconSection. Illustrations are outside.
+                        // Let's assume default color for illustrations or add color picking there too?
+                        // For now, let's pass a default color for illustrations since they are standalone here.
+                        const defaultIllustColor = '#374151';
+
+                        return (
+                          <TooltipProvider key={index} delayDuration={100}>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Card
+                                  className="shadow-none w-full aspect-square flex items-center justify-center cursor-pointer hover:bg-secondary/50 transition-colors"
+                                  onClick={() => filename && handleIconClick(filename, 'illust', filename, defaultIllustColor, data.subfolder)}
+                                >
+                                  <CardContent className="p-0">
+                                    {SvgComponent ? <SvgComponent className="w-8 h-8 text-foreground" /> : <span className="text-xs">N/A</span>}
+                                  </CardContent>
+                                </Card>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>{filename || 'unknown'}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
               })) : (
-                <p className="text-gray-500">No illustration icons found for this query.</p>
-              )}
+              <p className="text-gray-500">No illustration icons found for this query.</p>
+            )}
           </div>
         </AnimatedTabsContent>
       </AnimatedTabs>
+
+      {selectedIcon && (
+        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+          <SheetContent side="bottom" className="sm:max-w-full" onOpenAutoFocus={(e) => e.preventDefault()}>
+            <SheetHeader>
+              <SheetTitle className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-lg">{selectedIcon.name}</span>
+                </div>
+              </SheetTitle>
+            </SheetHeader>
+            <div className="py-6 flex gap-8">
+              {/* Left Column: Visuals & Color Picker */}
+              <div className="w-1/5 flex flex-col bg-secondary/30 rounded-lg border border-border p-6 gap-6">
+                <div>
+                  <div className="flex items-end gap-4">
+                    {[16, 20, 24].map((size) => (
+                      <div
+                        key={size}
+                        className={`flex flex-col items-center gap-2 cursor-pointer transition-opacity ${sheetConfig.size === size ? 'opacity-100' : 'opacity-50 hover:opacity-100'}`}
+                        onClick={() => setSheetConfig(prev => ({ ...prev, size: size as 16 | 20 | 24 }))}
+                      >
+                        <div className={`flex items-center justify-center border border-black/5 bg-white rounded-md ${sheetConfig.size === size ? 'border-black' : ''}`}
+                          style={{ width: size + 16, height: size + 16 }}>
+                          {SvgPreview && (
+                            <SvgPreview
+                              width={size}
+                              height={size}
+                              style={{ color: sheetConfig.color }}
+                            />
+                          )}
+                        </div>
+                        <span className={`text-xs font-mono ${sheetConfig.size === size ? 'font-bold text-primary' : 'text-muted-foreground'}`}>{size}px</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <div>
+                    <ColorPalette purpose="icon" onColorSelect={(c) => setSheetConfig(prev => ({ ...prev, color: c }))} />
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Details & Code */}
+              <div className="flex flex-col gap-6 flex-1">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+                  <div>
+                    <span className="font-semibold block mb-1">Category</span>
+                    <span className="capitalize">{selectedIcon.category}</span>
+                  </div>
+                  <div>
+                    <span className="font-semibold block mb-1">Filename</span>
+                    <span className="font-mono text-muted-foreground">{selectedIcon.filename}.svg</span>
+                  </div>
+                  {selectedIcon.subfolder && (
+                    <div>
+                      <span className="font-semibold block mb-1">Subfolder</span>
+                      <span className="font-mono text-muted-foreground">{selectedIcon.subfolder}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Usage Code Section */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-semibold text-sm">Usage</span>
+                  </div>
+                  <div className="bg-muted p-4 rounded-md flex items-center justify-between font-mono text-xs border border-border">
+                    <code className="break-all">{getUsageCode()}</code>
+                    <Clipboard value={getUsageCode()} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
+      )}
     </div>
   );
 };

@@ -1,0 +1,60 @@
+{
+    "radius_tokens": [
+        {
+            "token": "rounded-none",
+            "value": "0px",
+            "rem": "0rem",
+            "variable": null,
+            "description": "반경 없음"
+        },
+        {
+            "token": "rounded-sm",
+            "value": "6px",
+            "rem": "calc(var(--radius) - 4px)",
+            "variable": "var(--radius)",
+            "description": "작은 컴포넌트, 인터랙티브 요소"
+        },
+        {
+            "token": "rounded-md",
+            "value": "8px",
+            "rem": "calc(var(--radius) - 2px)",
+            "variable": "var(--radius)",
+            "description": "중간 크기 컴포넌트, 카드"
+        },
+        {
+            "token": "rounded-lg",
+            "value": "10px",
+            "rem": "var(--radius)",
+            "variable": "var(--radius)",
+            "description": "큰 컨테이너, 모달"
+        },
+        {
+            "token": "rounded-xl",
+            "value": "12px",
+            "rem": "0.75rem",
+            "variable": null,
+            "description": "대형 컨테이너"
+        },
+        {
+            "token": "rounded-2xl",
+            "value": "16px",
+            "rem": "1rem",
+            "variable": null,
+            "description": "2XL 대형 컨테이너"
+        },
+        {
+            "token": "rounded-3xl",
+            "value": "24px",
+            "rem": "1.5rem",
+            "variable": null,
+            "description": "3XL 대형 컨테이너"
+        },
+        {
+            "token": "rounded-full",
+            "value": "9999px",
+            "rem": "9999px",
+            "variable": null,
+            "description": "완전한 원형, 배지, 아바타"
+        }
+    ]
+}

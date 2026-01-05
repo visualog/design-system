@@ -8,6 +8,10 @@ const Breadcrumb: React.FC = () => {
 
   const foundationPaths = ["colors", "typography", "spacing", "icons", "shadows"];
 
+  const pathMapping: Record<string, string> = {
+    spacing: 'Spacing & Layout',
+  };
+
   let displayPathnames = [...rawPathnames];
 
   // Handle root path ('/') specifically for Colors page
@@ -30,19 +34,19 @@ const Breadcrumb: React.FC = () => {
           const isFoundationSegment = (value === 'foundation');
 
           let currentPathSegment = '';
-          let currentTo = '/'; 
+          let currentTo = '/';
 
           if (isFoundationSegment) {
             currentPathSegment = 'foundation';
-            currentTo = '/'; 
+            currentTo = '/';
           } else {
             const originalSegmentIndex = rawPathnames.indexOf(value);
             if (originalSegmentIndex !== -1) {
-                currentPathSegment = value;
-                currentTo = `/${rawPathnames.slice(0, originalSegmentIndex + 1).join('/')}`;
+              currentPathSegment = value;
+              currentTo = `/${rawPathnames.slice(0, originalSegmentIndex + 1).join('/')}`;
             } else {
-                currentPathSegment = value;
-                currentTo = `/${value}`;
+              currentPathSegment = value;
+              currentTo = `/${value}`;
             }
           }
 
@@ -53,15 +57,15 @@ const Breadcrumb: React.FC = () => {
                 {
                   last ? (
                     <span className={`${index > 0 ? 'ml-1 md:ml-2' : ''} text-xs font-medium text-gray-900`}>
-                      {capitalize(currentPathSegment)}
+                      {pathMapping[currentPathSegment] || capitalize(currentPathSegment)}
                     </span>
                   ) : isFoundationSegment ? (
                     <span className={`${index > 0 ? 'ml-1 md:ml-2' : ''} text-xs font-medium text-gray-500`}>
-                      {capitalize(currentPathSegment)}
+                      {pathMapping[currentPathSegment] || capitalize(currentPathSegment)}
                     </span>
                   ) : (
                     <NavLink to={currentTo} className={`${index > 0 ? 'ml-1 md:ml-2' : ''} text-xs font-medium text-gray-700 hover:text-blue-600`}>
-                      {capitalize(currentPathSegment)}
+                      {pathMapping[currentPathSegment] || capitalize(currentPathSegment)}
                     </NavLink>
                   )
                 }

@@ -9,7 +9,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
-  const foundationPaths = ["/colors", "/typography", "/spacing", "/icons", "/shadows"];
+  const foundationPaths = ["/colors", "/typography", "/spacing", "/radius", "/icons", "/shadows"];
   const [isFoundationOpen, setIsFoundationOpen] = useState(false);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
     <>
       {/* Overlay for mobile sidebar */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
           onClick={toggleSidebar}
         ></div>
@@ -38,7 +38,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
 
       <aside className={`fixed top-0 left-0 h-screen w-60 bg-background p-4 border-r border-border z-50 transform md:translate-x-0 transition-transform duration-300
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        
+
         {/* Close button for mobile */}
         <button
           className="absolute top-4 right-4 md:hidden p-1"
@@ -51,21 +51,21 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         <nav>
           <ul className="space-y-1">
             <li>
-              <button 
+              <button
                 onClick={toggleFoundationMenu}
                 className="w-full flex items-center justify-between text-base text-foreground font-semibold p-2 rounded-md hover:bg-accent"
               >
                 <span>Foundation</span>
-                <ChevronDown 
-                  className={`w-5 h-5 transition-transform duration-200 ${isFoundationOpen ? 'rotate-180' : ''}`} 
+                <ChevronDown
+                  className={`w-5 h-5 transition-transform duration-200 ${isFoundationOpen ? 'rotate-180' : ''}`}
                 />
               </button>
               {isFoundationOpen && (
                 <ul className="pt-2 pl-4 space-y-1">
                   <li>
-                    <NavLink 
-                      to="/colors" 
-                      className={({ isActive }) => (isActive || location.pathname === '/') ? activeClassName : inactiveClassName} 
+                    <NavLink
+                      to="/colors"
+                      className={({ isActive }) => (isActive || location.pathname === '/') ? activeClassName : inactiveClassName}
                       onClick={toggleSidebar}
                     >
                       Colors
@@ -76,6 +76,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
                   </li>
                   <li>
                     <NavLink to="/spacing" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Spacing & Layout</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/radius" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Radius</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/motion" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Motion</NavLink>
                   </li>
                   <li>
                     <NavLink to="/icons" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Icons</NavLink>
