@@ -356,19 +356,16 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
         <>
           {/* --- Gray Section --- */}
           <section className="flex flex-col gap-4">
-            <h3 className="text-xl font-semibold">Gray</h3>
             <ColorGrid families={grayFamilies} levels={grayDisplayLevels} iconlessEmptyLevels={['alpha (10%)']} hiddenHeaderLevels={['alpha (10%)']} />
           </section>
 
           {/* --- Chromatic Section --- */}
           <section className="flex flex-col gap-4">
-            <h3 className="text-xl font-semibold">Chromatic</h3>
             <ColorGrid families={chromaticFamilies} levels={chromaticOnlyLevels} iconlessEmptyLevels={['white']} hiddenHeaderLevels={['white']} />
           </section>
 
           {/* --- Alpha Section --- */}
           <section className="flex flex-col gap-4">
-            <h3 className="text-xl font-semibold">Alpha</h3>
             <ColorGrid families={alphaFamilies} levels={grayDisplayLevels} hiddenHeaderLevels={['white', '100', 'alpha (10%)']} iconlessEmptyLevels={['white', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100', 'alpha (10%)']} />
           </section>
         </>
