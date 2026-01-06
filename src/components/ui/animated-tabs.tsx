@@ -33,7 +33,7 @@ export const AnimatedTabs = ({ tabs, activeTab, setActiveTab, children }: Animat
   }, [activeTab, tabs])
 
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab} className='w-full'>
+    <Tabs value={activeTab} onValueChange={setActiveTab} className='w-full flex flex-col gap-4'>
       <div className="relative flex justify-start">
         <TabsList className='bg-background rounded-none border-b border-border p-0'>
           {tabs.map((tab, index) => (

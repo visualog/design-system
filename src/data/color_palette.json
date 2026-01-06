@@ -1,131 +1,737 @@
 {
   "Blue": [
-    { "level": "10", "hex": "#E8F3FF", "rgb": "rgb(232, 243, 255)", "hsl": "hsl(211, 100, 95)", "variable": "color_blue_10" },
-    { "level": "20", "hex": "#D6E7FF", "rgb": "rgb(214, 231, 255)", "hsl": "hsl(215, 100, 92)", "variable": "color_blue_20" },
-    { "level": "30", "hex": "#ADCDFB", "rgb": "rgb(173, 205, 251)", "hsl": "hsl(215, 91, 83)", "variable": "color_blue_30" },
-    { "level": "40", "hex": "#84B5FB", "rgb": "rgb(132, 181, 251)", "hsl": "hsl(215, 94, 75)", "variable": "color_blue_40" },
-    { "level": "50", "hex": "#589BFA", "rgb": "rgb(88, 155, 250)", "hsl": "hsl(215, 94, 66)", "variable": "color_blue_50" },
-    { "level": "60", "hex": "#3182F6", "rgb": "rgb(49, 130, 246)", "hsl": "hsl(215, 92, 58)", "variable": "color_blue_60" },
-    { "level": "70", "hex": "#1B64DA", "rgb": "rgb(27, 100, 218)", "hsl": "hsl(217, 78, 48)", "variable": "color_blue_70" },
-    { "level": "80", "hex": "#164A9E", "rgb": "rgb(22, 74, 158)", "hsl": "hsl(217, 76, 35)", "variable": "color_blue_80" },
-    { "level": "90", "hex": "#1B3B6D", "rgb": "rgb(27, 59, 109)", "hsl": "hsl(217, 60, 27)", "variable": "color_blue_90" },
-    { "level": "100", "hex": "#252D38", "rgb": "rgb(37, 45, 56)", "hsl": "hsl(215, 20, 18)", "variable": "color_blue_100" }
+    {
+      "level": "10",
+      "hex": "#E8F3FF",
+      "rgb": "rgb(232, 243, 255)",
+      "hsl": "hsl(211, 100, 95)",
+      "variable": "color_blue_10"
+    },
+    {
+      "level": "20",
+      "hex": "#D6E7FF",
+      "rgb": "rgb(214, 231, 255)",
+      "hsl": "hsl(215, 100, 92)",
+      "variable": "color_blue_20"
+    },
+    {
+      "level": "30",
+      "hex": "#ADCDFB",
+      "rgb": "rgb(173, 205, 251)",
+      "hsl": "hsl(215, 91, 83)",
+      "variable": "color_blue_30"
+    },
+    {
+      "level": "40",
+      "hex": "#84B5FB",
+      "rgb": "rgb(132, 181, 251)",
+      "hsl": "hsl(215, 94, 75)",
+      "variable": "color_blue_40"
+    },
+    {
+      "level": "50",
+      "hex": "#589BFA",
+      "rgb": "rgb(88, 155, 250)",
+      "hsl": "hsl(215, 94, 66)",
+      "variable": "color_blue_50"
+    },
+    {
+      "level": "60",
+      "hex": "#3182F6",
+      "rgb": "rgb(49, 130, 246)",
+      "hsl": "hsl(215, 92, 58)",
+      "variable": "color_blue_60"
+    },
+    {
+      "level": "70",
+      "hex": "#1B64DA",
+      "rgb": "rgb(27, 100, 218)",
+      "hsl": "hsl(217, 78, 48)",
+      "variable": "color_blue_70"
+    },
+    {
+      "level": "80",
+      "hex": "#164A9E",
+      "rgb": "rgb(22, 74, 158)",
+      "hsl": "hsl(217, 76, 35)",
+      "variable": "color_blue_80"
+    },
+    {
+      "level": "90",
+      "hex": "#1B3B6D",
+      "rgb": "rgb(27, 59, 109)",
+      "hsl": "hsl(217, 60, 27)",
+      "variable": "color_blue_90"
+    },
+    {
+      "level": "100",
+      "hex": "#252D38",
+      "rgb": "rgb(37, 45, 56)",
+      "hsl": "hsl(215, 20, 18)",
+      "variable": "color_blue_100"
+    }
   ],
   "Gray": [
-    { "level": "white", "hex": "#FFFFFF", "rgb": "rgb(255, 255, 255)", "hsl": "hsl(0, 0, 100)", "variable": "color_white" },
-    { "level": "10", "hex": "#F6F8FA", "rgb": "rgb(246, 248, 250)", "hsl": "hsl(210, 29, 97)", "variable": "color_gray_10" },
-    { "level": "20", "hex": "#E9ECEF", "rgb": "rgb(233, 236, 239)", "hsl": "hsl(210, 16, 93)", "variable": "color_gray_20" },
-    { "level": "30", "hex": "#D1D6DB", "rgb": "rgb(209, 214, 219)", "hsl": "hsl(210, 12, 84)", "variable": "color_gray_30" },
-    { "level": "40", "hex": "#B5BBC2", "rgb": "rgb(181, 187, 194)", "hsl": "hsl(212, 10, 74)", "variable": "color_gray_40" },
-    { "level": "50", "hex": "#979DA8", "rgb": "rgb(151, 157, 168)", "hsl": "hsl(219, 9, 63)", "variable": "color_gray_50" },
-    { "level": "60", "hex": "#717985", "rgb": "rgb(113, 121, 133)", "hsl": "hsl(216, 8, 48)", "variable": "color_gray_60" },
-    { "level": "70", "hex": "#57606F", "rgb": "rgb(87, 96, 111)", "hsl": "hsl(218, 12, 39)", "variable": "color_gray_70" },
-    { "level": "80", "hex": "#424C5E", "rgb": "rgb(66, 76, 94)", "hsl": "hsl(219, 18, 31)", "variable": "color_gray_80" },
-    { "level": "90", "hex": "#313B48", "rgb": "rgb(49, 59, 72)", "hsl": "hsl(214, 19, 24)", "variable": "color_gray_90" },
-    { "level": "100", "hex": "#252D38", "rgb": "rgb(37, 45, 56)", "hsl": "hsl(215, 20, 18)", "variable": "color_gray_100" }
-  ],
-  "Cool Gray": [
-    { "level": "20", "hex": "#E4EBF2", "rgb": "rgb(228, 235, 242)", "hsl": "hsl(210, 35, 92)", "variable": "color_cool gray_20" },
-    { "level": "30", "hex": "#BECBDD", "rgb": "rgb(190, 203, 221)", "hsl": "hsl(215, 31, 81)", "variable": "color_cool gray_30" },
-    { "level": "50", "hex": "#9BABC0", "rgb": "rgb(155, 171, 192)", "hsl": "hsl(214, 23, 68)", "variable": "color_cool gray_50" },
-    { "level": "70", "hex": "#7287A2", "rgb": "rgb(114, 135, 162)", "hsl": "hsl(214, 21, 54)", "variable": "color_cool gray_70" },
-    { "level": "90", "hex": "#4B596B", "rgb": "rgb(75, 89, 107)", "hsl": "hsl(214, 18, 36)", "variable": "color_cool gray_90" },
-    { "level": "alpha (10%)", "hex": "#7287A2", "rgb": "rgb(114, 135, 162)", "hsl": "hsl(214, 21, 54)", "variable": "color_cool gray_alpha" }
+    {
+      "level": "white",
+      "hex": "#FFFFFF",
+      "rgb": "rgb(255, 255, 255)",
+      "hsl": "hsl(0, 0, 100)",
+      "variable": "color_white"
+    },
+    {
+      "level": "10",
+      "hex": "#F6F8FA",
+      "rgb": "rgb(246, 248, 250)",
+      "hsl": "hsl(210, 29, 97)",
+      "variable": "color_gray_10"
+    },
+    {
+      "level": "20",
+      "hex": "#E9ECEF",
+      "rgb": "rgb(233, 236, 239)",
+      "hsl": "hsl(210, 16, 93)",
+      "variable": "color_gray_20"
+    },
+    {
+      "level": "30",
+      "hex": "#D1D6DB",
+      "rgb": "rgb(209, 214, 219)",
+      "hsl": "hsl(210, 12, 84)",
+      "variable": "color_gray_30"
+    },
+    {
+      "level": "40",
+      "hex": "#B5BBC2",
+      "rgb": "rgb(181, 187, 194)",
+      "hsl": "hsl(212, 10, 74)",
+      "variable": "color_gray_40"
+    },
+    {
+      "level": "50",
+      "hex": "#979DA8",
+      "rgb": "rgb(151, 157, 168)",
+      "hsl": "hsl(219, 9, 63)",
+      "variable": "color_gray_50"
+    },
+    {
+      "level": "60",
+      "hex": "#717985",
+      "rgb": "rgb(113, 121, 133)",
+      "hsl": "hsl(216, 8, 48)",
+      "variable": "color_gray_60"
+    },
+    {
+      "level": "70",
+      "hex": "#57606F",
+      "rgb": "rgb(87, 96, 111)",
+      "hsl": "hsl(218, 12, 39)",
+      "variable": "color_gray_70"
+    },
+    {
+      "level": "80",
+      "hex": "#424C5E",
+      "rgb": "rgb(66, 76, 94)",
+      "hsl": "hsl(219, 18, 31)",
+      "variable": "color_gray_80"
+    },
+    {
+      "level": "90",
+      "hex": "#313B48",
+      "rgb": "rgb(49, 59, 72)",
+      "hsl": "hsl(214, 19, 24)",
+      "variable": "color_gray_90"
+    },
+    {
+      "level": "100",
+      "hex": "#252D38",
+      "rgb": "rgb(37, 45, 56)",
+      "hsl": "hsl(215, 20, 18)",
+      "variable": "color_gray_100"
+    }
   ],
   "Red": [
-    { "level": "20", "hex": "#FEEAE7", "rgb": "rgb(254, 234, 231)", "hsl": "hsl(8, 92, 95)", "variable": "color_red_20" },
-    { "level": "30", "hex": "#FFC1B9", "rgb": "rgb(255, 193, 185)", "hsl": "hsl(7, 100, 86)", "variable": "color_red_30" },
-    { "level": "50", "hex": "#F77E6E", "rgb": "rgb(247, 126, 110)", "hsl": "hsl(7, 90, 70)", "variable": "color_red_50" },
-    { "level": "60", "hex": "#EF5E4B", "rgb": "rgb(239, 94, 75)", "hsl": "hsl(7, 84, 62)", "variable": "color_red_60" },
-    { "level": "80", "hex": "#D84936", "rgb": "rgb(216, 73, 54)", "hsl": "hsl(7, 68, 53)", "variable": "color_red_80" },
-    { "level": "alpha (10%)", "hex": "#EF5E4B", "rgb": "rgb(239, 94, 75)", "hsl": "hsl(7, 84, 62)", "variable": "color_red_alpha" }
+    {
+      "level": "20",
+      "hex": "#FEEAE7",
+      "rgb": "rgb(254, 234, 231)",
+      "hsl": "hsl(8, 92, 95)",
+      "variable": "color_red_20"
+    },
+    {
+      "level": "30",
+      "hex": "#FFC1B9",
+      "rgb": "rgb(255, 193, 185)",
+      "hsl": "hsl(7, 100, 86)",
+      "variable": "color_red_30"
+    },
+    {
+      "level": "50",
+      "hex": "#F77E6E",
+      "rgb": "rgb(247, 126, 110)",
+      "hsl": "hsl(7, 90, 70)",
+      "variable": "color_red_50"
+    },
+    {
+      "level": "60",
+      "hex": "#EF5E4B",
+      "rgb": "rgb(239, 94, 75)",
+      "hsl": "hsl(7, 84, 62)",
+      "variable": "color_red_60"
+    },
+    {
+      "level": "80",
+      "hex": "#D84936",
+      "rgb": "rgb(216, 73, 54)",
+      "hsl": "hsl(7, 68, 53)",
+      "variable": "color_red_80"
+    },
+    {
+      "level": "alpha (10%)",
+      "hex": "#EF5E4B",
+      "rgb": "rgb(239, 94, 75)",
+      "hsl": "hsl(7, 84, 62)",
+      "variable": "color_red_alpha"
+    }
   ],
   "Orange": [
-    { "level": "20", "hex": "#FEF0DE", "rgb": "rgb(254, 240, 222)", "hsl": "hsl(34, 94, 93)", "variable": "color_orange_20" },
-    { "level": "30", "hex": "#FFD19A", "rgb": "rgb(255, 209, 154)", "hsl": "hsl(33, 100, 80)", "variable": "color_orange_30" },
-    { "level": "50", "hex": "#FCAF5C", "rgb": "rgb(252, 175, 92)", "hsl": "hsl(31, 96, 67)", "variable": "color_orange_50" },
-    { "level": "60", "hex": "#FAA131", "rgb": "rgb(250, 161, 49)", "hsl": "hsl(33, 95, 59)", "variable": "color_orange_60" },
-    { "level": "80", "hex": "#EC8A0E", "rgb": "rgb(236, 138, 14)", "hsl": "hsl(34, 89, 49)", "variable": "color_orange_80" },
-    { "level": "alpha (10%)", "hex": "#FAA131", "rgb": "rgb(250, 161, 49)", "hsl": "hsl(33, 95, 59)", "variable": "color_orange_alpha" }
-  ],
-  "Green": [
-    { "level": "10", "hex": "#EAF9F1", "rgb": "rgb(234, 249, 241)", "hsl": "hsl(148, 56, 95)", "variable": "color_green_10" },
-    { "level": "20", "hex": "#DCF5E8", "rgb": "rgb(220, 245, 232)", "hsl": "hsl(149, 56, 91)", "variable": "color_green_20" },
-    { "level": "30", "hex": "#B6E8CF", "rgb": "rgb(182, 232, 207)", "hsl": "hsl(150, 52, 81)", "variable": "color_green_30" },
-    { "level": "40", "hex": "#86DEB0", "rgb": "rgb(134, 222, 176)", "hsl": "hsl(149, 57, 70)", "variable": "color_green_40" },
-    { "level": "50", "hex": "#45CE85", "rgb": "rgb(69, 206, 133)", "hsl": "hsl(148, 58, 54)", "variable": "color_green_50" },
-    { "level": "60", "hex": "#05C072", "rgb": "rgb(5, 192, 114)", "hsl": "hsl(155, 95, 39)", "variable": "color_green_60" },
-    { "level": "70", "hex": "#139F56", "rgb": "rgb(19, 159, 86)", "hsl": "hsl(149, 79, 35)", "variable": "color_green_70" },
-    { "level": "80", "hex": "#0C8346", "rgb": "rgb(12, 131, 70)", "hsl": "hsl(149, 83, 28)", "variable": "color_green_80" },
-    { "level": "90", "hex": "#085B32", "rgb": "rgb(8, 91, 50)", "hsl": "hsl(150, 84, 19)", "variable": "color_green_90" },
-    { "level": "100", "hex": "#053E20", "rgb": "rgb(5, 62, 32)", "hsl": "hsl(148, 85, 13)", "variable": "color_green_100" },
-    { "level": "alpha (10%)", "hex": "#05C072", "rgb": "rgb(5, 192, 114)", "hsl": "hsl(155, 95, 39)", "variable": "color_green_alpha" }
-  ],
-  "Purple": [
-    { "level": "20", "hex": "#ECE8FF", "rgb": "rgb(236, 232, 255)", "hsl": "hsl(250, 100, 95)", "variable": "color_purple_20" },
-    { "level": "30", "hex": "#CBB9FF", "rgb": "rgb(203, 185, 255)", "hsl": "hsl(255, 100, 86)", "variable": "color_purple_30" },
-    { "level": "50", "hex": "#9B77FC", "rgb": "rgb(155, 119, 252)", "hsl": "hsl(256, 96, 73)", "variable": "color_purple_50" },
-    { "level": "70", "hex": "#8057EE", "rgb": "rgb(128, 87, 238)", "hsl": "hsl(256, 82, 64)", "variable": "color_purple_70" },
-    { "level": "90", "hex": "#5B3FCB", "rgb": "rgb(91, 63, 203)", "hsl": "hsl(252, 57, 52)", "variable": "color_purple_90" },
-    { "level": "alpha (10%)", "hex": "#8057EE", "rgb": "rgb(128, 87, 238)", "hsl": "hsl(256, 82, 64)", "variable": "color_purple_alpha" }
-  ],
-  "Light Blue": [
-    { "level": "20", "hex": "#D9E7FF", "rgb": "rgb(217, 231, 255)", "hsl": "hsl(218, 100, 93)", "variable": "color_light blue_20" },
-    { "level": "30", "hex": "#ABC7FD", "rgb": "rgb(171, 199, 253)", "hsl": "hsl(220, 95, 83)", "variable": "color_light blue_30" },
-    { "level": "50", "hex": "#5E92F5", "rgb": "rgb(94, 146, 245)", "hsl": "hsl(219, 88, 66)", "variable": "color_light blue_50" },
-    { "level": "70", "hex": "#2F6AE9", "rgb": "rgb(47, 106, 233)", "hsl": "hsl(221, 81, 55)", "variable": "color_light blue_70" },
-    { "level": "90", "hex": "#1B53CB", "rgb": "rgb(27, 83, 203)", "hsl": "hsl(221, 77, 45)", "variable": "color_light blue_90" },
-    { "level": "alpha (10%)", "hex": "#2F6AE9", "rgb": "rgb(47, 106, 233)", "hsl": "hsl(221, 81, 55)", "variable": "color_light blue_alpha" }
-  ],
-  "Deep Blue": [
-    { "level": "20", "hex": "#E4EAF9", "rgb": "rgb(228, 234, 249)", "hsl": "hsl(223, 64, 94)", "variable": "color_deep blue_20" },
-    { "level": "30", "hex": "#CFDCFA", "rgb": "rgb(207, 220, 250)", "hsl": "hsl(222, 81, 90)", "variable": "color_deep blue_30" },
-    { "level": "50", "hex": "#7299EB", "rgb": "rgb(114, 153, 235)", "hsl": "hsl(221, 75, 68)", "variable": "color_deep blue_50" },
-    { "level": "70", "hex": "#3E6AC8", "rgb": "rgb(62, 106, 200)", "hsl": "hsl(221, 56, 51)", "variable": "color_deep blue_70" },
-    { "level": "90", "hex": "#395BA3", "rgb": "rgb(57, 91, 163)", "hsl": "hsl(221, 48, 43)", "variable": "color_deep blue_90" },
-    { "level": "alpha (10%)", "hex": "#3E6AC8", "rgb": "rgb(62, 106, 200)", "hsl": "hsl(221, 56, 51)", "variable": "color_deep blue_alpha" }
-  ],
-  "Deep Green": [
-    { "level": "20", "hex": "#E8F2D9", "rgb": "rgb(232, 242, 217)", "hsl": "hsl(84, 49, 90)", "variable": "color_deep green_20" },
-    { "level": "30", "hex": "#C5E295", "rgb": "rgb(197, 226, 149)", "hsl": "hsl(83, 57, 74)", "variable": "color_deep green_30" },
-    { "level": "50", "hex": "#8DBF3F", "rgb": "rgb(141, 191, 63)", "hsl": "hsl(83, 50, 50)", "variable": "color_deep green_50" },
-    { "level": "70", "hex": "#64931A", "rgb": "rgb(100, 147, 26)", "hsl": "hsl(83, 70, 34)", "variable": "color_deep green_70" },
-    { "level": "90", "hex": "#42660B", "rgb": "rgb(66, 102, 11)", "hsl": "hsl(84, 81, 22)", "variable": "color_deep green_90" },
-    { "level": "alpha (10%)", "hex": "#64931A", "rgb": "rgb(100, 147, 26)", "hsl": "hsl(83, 70, 34)", "variable": "color_deep green_alpha" }
+    {
+      "level": "20",
+      "hex": "#FEF0DE",
+      "rgb": "rgb(254, 240, 222)",
+      "hsl": "hsl(34, 94, 93)",
+      "variable": "color_orange_20"
+    },
+    {
+      "level": "30",
+      "hex": "#FFD19A",
+      "rgb": "rgb(255, 209, 154)",
+      "hsl": "hsl(33, 100, 80)",
+      "variable": "color_orange_30"
+    },
+    {
+      "level": "50",
+      "hex": "#FCAF5C",
+      "rgb": "rgb(252, 175, 92)",
+      "hsl": "hsl(31, 96, 67)",
+      "variable": "color_orange_50"
+    },
+    {
+      "level": "60",
+      "hex": "#FAA131",
+      "rgb": "rgb(250, 161, 49)",
+      "hsl": "hsl(33, 95, 59)",
+      "variable": "color_orange_60"
+    },
+    {
+      "level": "80",
+      "hex": "#EC8A0E",
+      "rgb": "rgb(236, 138, 14)",
+      "hsl": "hsl(34, 89, 49)",
+      "variable": "color_orange_80"
+    },
+    {
+      "level": "alpha (10%)",
+      "hex": "#FAA131",
+      "rgb": "rgb(250, 161, 49)",
+      "hsl": "hsl(33, 95, 59)",
+      "variable": "color_orange_alpha"
+    }
   ],
   "Yellow Orange": [
-    { "level": "20", "hex": "#FDF3D9", "rgb": "rgb(253, 243, 217)", "hsl": "hsl(43, 90, 92)", "variable": "color_yellow orange_20" },
-    { "level": "30", "hex": "#FEE29F", "rgb": "rgb(254, 226, 159)", "hsl": "hsl(42, 98, 81)", "variable": "color_yellow orange_30" },
-    { "level": "50", "hex": "#F6C243", "rgb": "rgb(246, 194, 67)", "hsl": "hsl(43, 91, 61)", "variable": "color_yellow orange_50" },
-    { "level": "70", "hex": "#D49C13", "rgb": "rgb(212, 156, 19)", "hsl": "hsl(43, 84, 45)", "variable": "color_yellow orange_70" },
-    { "level": "90", "hex": "#A6780B", "rgb": "rgb(166, 120, 11)", "hsl": "hsl(42, 88, 35)", "variable": "color_yellow orange_90" },
-    { "level": "alpha (10%)", "hex": "#D49C13", "rgb": "rgb(212, 156, 19)", "hsl": "hsl(43, 84, 45)", "variable": "color_yellow orange_alpha" }
+    {
+      "level": "20",
+      "hex": "#FDF3D9",
+      "rgb": "rgb(253, 243, 217)",
+      "hsl": "hsl(43, 90, 92)",
+      "variable": "color_yellow orange_20"
+    },
+    {
+      "level": "30",
+      "hex": "#FEE29F",
+      "rgb": "rgb(254, 226, 159)",
+      "hsl": "hsl(42, 98, 81)",
+      "variable": "color_yellow orange_30"
+    },
+    {
+      "level": "50",
+      "hex": "#F6C243",
+      "rgb": "rgb(246, 194, 67)",
+      "hsl": "hsl(43, 91, 61)",
+      "variable": "color_yellow orange_50"
+    },
+    {
+      "level": "70",
+      "hex": "#D49C13",
+      "rgb": "rgb(212, 156, 19)",
+      "hsl": "hsl(43, 84, 45)",
+      "variable": "color_yellow orange_70"
+    },
+    {
+      "level": "90",
+      "hex": "#A6780B",
+      "rgb": "rgb(166, 120, 11)",
+      "hsl": "hsl(42, 88, 35)",
+      "variable": "color_yellow orange_90"
+    },
+    {
+      "level": "alpha (10%)",
+      "hex": "#D49C13",
+      "rgb": "rgb(212, 156, 19)",
+      "hsl": "hsl(43, 84, 45)",
+      "variable": "color_yellow_orange_alpha"
+    }
+  ],
+  "Green": [
+    {
+      "level": "10",
+      "hex": "#EAF9F1",
+      "rgb": "rgb(234, 249, 241)",
+      "hsl": "hsl(148, 56, 95)",
+      "variable": "color_green_10"
+    },
+    {
+      "level": "20",
+      "hex": "#DCF5E8",
+      "rgb": "rgb(220, 245, 232)",
+      "hsl": "hsl(149, 56, 91)",
+      "variable": "color_green_20"
+    },
+    {
+      "level": "30",
+      "hex": "#B6E8CF",
+      "rgb": "rgb(182, 232, 207)",
+      "hsl": "hsl(150, 52, 81)",
+      "variable": "color_green_30"
+    },
+    {
+      "level": "40",
+      "hex": "#86DEB0",
+      "rgb": "rgb(134, 222, 176)",
+      "hsl": "hsl(149, 57, 70)",
+      "variable": "color_green_40"
+    },
+    {
+      "level": "50",
+      "hex": "#45CE85",
+      "rgb": "rgb(69, 206, 133)",
+      "hsl": "hsl(148, 58, 54)",
+      "variable": "color_green_50"
+    },
+    {
+      "level": "60",
+      "hex": "#05C072",
+      "rgb": "rgb(5, 192, 114)",
+      "hsl": "hsl(155, 95, 39)",
+      "variable": "color_green_60"
+    },
+    {
+      "level": "70",
+      "hex": "#139F56",
+      "rgb": "rgb(19, 159, 86)",
+      "hsl": "hsl(149, 79, 35)",
+      "variable": "color_green_70"
+    },
+    {
+      "level": "80",
+      "hex": "#0C8346",
+      "rgb": "rgb(12, 131, 70)",
+      "hsl": "hsl(149, 83, 28)",
+      "variable": "color_green_80"
+    },
+    {
+      "level": "90",
+      "hex": "#085B32",
+      "rgb": "rgb(8, 91, 50)",
+      "hsl": "hsl(150, 84, 19)",
+      "variable": "color_green_90"
+    },
+    {
+      "level": "100",
+      "hex": "#053E20",
+      "rgb": "rgb(5, 62, 32)",
+      "hsl": "hsl(148, 85, 13)",
+      "variable": "color_green_100"
+    },
+    {
+      "level": "alpha (10%)",
+      "hex": "#05C072",
+      "rgb": "rgb(5, 192, 114)",
+      "hsl": "hsl(155, 95, 39)",
+      "variable": "color_green_alpha"
+    }
+  ],
+  "Deep Green": [
+    {
+      "level": "20",
+      "hex": "#E8F2D9",
+      "rgb": "rgb(232, 242, 217)",
+      "hsl": "hsl(84, 49, 90)",
+      "variable": "color_deep green_20"
+    },
+    {
+      "level": "30",
+      "hex": "#C5E295",
+      "rgb": "rgb(197, 226, 149)",
+      "hsl": "hsl(83, 57, 74)",
+      "variable": "color_deep green_30"
+    },
+    {
+      "level": "50",
+      "hex": "#8DBF3F",
+      "rgb": "rgb(141, 191, 63)",
+      "hsl": "hsl(83, 50, 50)",
+      "variable": "color_deep green_50"
+    },
+    {
+      "level": "70",
+      "hex": "#64931A",
+      "rgb": "rgb(100, 147, 26)",
+      "hsl": "hsl(83, 70, 34)",
+      "variable": "color_deep green_70"
+    },
+    {
+      "level": "90",
+      "hex": "#42660B",
+      "rgb": "rgb(66, 102, 11)",
+      "hsl": "hsl(84, 81, 22)",
+      "variable": "color_deep green_90"
+    },
+    {
+      "level": "alpha (10%)",
+      "hex": "#64931A",
+      "rgb": "rgb(100, 147, 26)",
+      "hsl": "hsl(83, 70, 34)",
+      "variable": "color_deep_green_alpha"
+    }
   ],
   "Cyan": [
-    { "level": "20", "hex": "#DAF9F9", "rgb": "rgb(207, 241, 241)", "hsl": "hsl(180, 55, 88)", "variable": "color_cyan_20" },
-    { "level": "30", "hex": "#9BE1DF", "rgb": "rgb(155, 225, 223)", "hsl": "hsl(178, 54, 75)", "variable": "color_cyan_30" },
-    { "level": "50", "hex": "#57CBC8", "rgb": "rgb(87, 203, 200)", "hsl": "hsl(178, 53, 57)", "variable": "color_cyan_50" },
-    { "level": "70", "hex": "#23A8A5", "rgb": "rgb(35, 168, 165)", "hsl": "hsl(179, 66, 40)", "variable": "color_cyan_70" },
-    { "level": "90", "hex": "#067A77", "rgb": "rgb(6, 122, 119)", "hsl": "hsl(178, 91, 25)", "variable": "color_cyan_90" },
-    { "level": "alpha (10%)", "hex": "#23A8A5", "rgb": "rgb(35, 168, 165)", "hsl": "hsl(179, 66, 40)", "variable": "color_cyan_alpha" }
+    {
+      "level": "20",
+      "hex": "#DAF9F9",
+      "rgb": "rgb(207, 241, 241)",
+      "hsl": "hsl(180, 55, 88)",
+      "variable": "color_cyan_20"
+    },
+    {
+      "level": "30",
+      "hex": "#9BE1DF",
+      "rgb": "rgb(155, 225, 223)",
+      "hsl": "hsl(178, 54, 75)",
+      "variable": "color_cyan_30"
+    },
+    {
+      "level": "50",
+      "hex": "#57CBC8",
+      "rgb": "rgb(87, 203, 200)",
+      "hsl": "hsl(178, 53, 57)",
+      "variable": "color_cyan_50"
+    },
+    {
+      "level": "70",
+      "hex": "#23A8A5",
+      "rgb": "rgb(35, 168, 165)",
+      "hsl": "hsl(179, 66, 40)",
+      "variable": "color_cyan_70"
+    },
+    {
+      "level": "90",
+      "hex": "#067A77",
+      "rgb": "rgb(6, 122, 119)",
+      "hsl": "hsl(178, 91, 25)",
+      "variable": "color_cyan_90"
+    },
+    {
+      "level": "alpha (10%)",
+      "hex": "#23A8A5",
+      "rgb": "rgb(35, 168, 165)",
+      "hsl": "hsl(179, 66, 40)",
+      "variable": "color_cyan_alpha"
+    }
+  ],
+  "Light Blue": [
+    {
+      "level": "20",
+      "hex": "#D9E7FF",
+      "rgb": "rgb(217, 231, 255)",
+      "hsl": "hsl(218, 100, 93)",
+      "variable": "color_light blue_20"
+    },
+    {
+      "level": "30",
+      "hex": "#ABC7FD",
+      "rgb": "rgb(171, 199, 253)",
+      "hsl": "hsl(220, 95, 83)",
+      "variable": "color_light blue_30"
+    },
+    {
+      "level": "50",
+      "hex": "#5E92F5",
+      "rgb": "rgb(94, 146, 245)",
+      "hsl": "hsl(219, 88, 66)",
+      "variable": "color_light blue_50"
+    },
+    {
+      "level": "70",
+      "hex": "#2F6AE9",
+      "rgb": "rgb(47, 106, 233)",
+      "hsl": "hsl(221, 81, 55)",
+      "variable": "color_light blue_70"
+    },
+    {
+      "level": "90",
+      "hex": "#1B53CB",
+      "rgb": "rgb(27, 83, 203)",
+      "hsl": "hsl(221, 77, 45)",
+      "variable": "color_light blue_90"
+    },
+    {
+      "level": "alpha (10%)",
+      "hex": "#2F6AE9",
+      "rgb": "rgb(47, 106, 233)",
+      "hsl": "hsl(221, 81, 55)",
+      "variable": "color_light_blue_alpha"
+    }
+  ],
+  "Deep Blue": [
+    {
+      "level": "20",
+      "hex": "#E4EAF9",
+      "rgb": "rgb(228, 234, 249)",
+      "hsl": "hsl(223, 64, 94)",
+      "variable": "color_deep blue_20"
+    },
+    {
+      "level": "30",
+      "hex": "#CFDCFA",
+      "rgb": "rgb(207, 220, 250)",
+      "hsl": "hsl(222, 81, 90)",
+      "variable": "color_deep blue_30"
+    },
+    {
+      "level": "50",
+      "hex": "#7299EB",
+      "rgb": "rgb(114, 153, 235)",
+      "hsl": "hsl(221, 75, 68)",
+      "variable": "color_deep blue_50"
+    },
+    {
+      "level": "70",
+      "hex": "#3E6AC8",
+      "rgb": "rgb(62, 106, 200)",
+      "hsl": "hsl(221, 56, 51)",
+      "variable": "color_deep blue_70"
+    },
+    {
+      "level": "90",
+      "hex": "#395BA3",
+      "rgb": "rgb(57, 91, 163)",
+      "hsl": "hsl(221, 48, 43)",
+      "variable": "color_deep blue_90"
+    },
+    {
+      "level": "alpha (10%)",
+      "hex": "#3E6AC8",
+      "rgb": "rgb(62, 106, 200)",
+      "hsl": "hsl(221, 56, 51)",
+      "variable": "color_deep_blue_alpha"
+    }
+  ],
+  "Purple": [
+    {
+      "level": "20",
+      "hex": "#ECE8FF",
+      "rgb": "rgb(236, 232, 255)",
+      "hsl": "hsl(250, 100, 95)",
+      "variable": "color_purple_20"
+    },
+    {
+      "level": "30",
+      "hex": "#CBB9FF",
+      "rgb": "rgb(203, 185, 255)",
+      "hsl": "hsl(255, 100, 86)",
+      "variable": "color_purple_30"
+    },
+    {
+      "level": "50",
+      "hex": "#9B77FC",
+      "rgb": "rgb(155, 119, 252)",
+      "hsl": "hsl(256, 96, 73)",
+      "variable": "color_purple_50"
+    },
+    {
+      "level": "70",
+      "hex": "#8057EE",
+      "rgb": "rgb(128, 87, 238)",
+      "hsl": "hsl(256, 82, 64)",
+      "variable": "color_purple_70"
+    },
+    {
+      "level": "90",
+      "hex": "#5B3FCB",
+      "rgb": "rgb(91, 63, 203)",
+      "hsl": "hsl(252, 57, 52)",
+      "variable": "color_purple_90"
+    },
+    {
+      "level": "alpha (10%)",
+      "hex": "#8057EE",
+      "rgb": "rgb(128, 87, 238)",
+      "hsl": "hsl(256, 82, 64)",
+      "variable": "color_purple_alpha"
+    }
   ],
   "Pink": [
-    { "level": "20", "hex": "#FCE8ED", "rgb": "rgb(252, 232, 237)", "hsl": "hsl(345, 77, 95)", "variable": "color_pink_20" },
-    { "level": "30", "hex": "#F8B7C9", "rgb": "rgb(248, 183, 201)", "hsl": "hsl(343, 82, 85)", "variable": "color_pink_30" },
-    { "level": "50", "hex": "#F083A2", "rgb": "rgb(240, 131, 162)", "hsl": "hsl(343, 78, 73)", "variable": "color_pink_50" },
-    { "level": "70", "hex": "#E9648A", "rgb": "rgb(233, 100, 138)", "hsl": "hsl(343, 75, 65)", "variable": "color_pink_70" },
-    { "level": "90", "hex": "#C74168", "rgb": "rgb(199, 65, 104)", "hsl": "hsl(343, 54, 52)", "variable": "color_pink_90" },
-    { "level": "alpha (10%)", "hex": "#E9648A", "rgb": "rgb(233, 100, 138)", "hsl": "hsl(343, 75, 65)", "variable": "color_pink_alpha" }
+    {
+      "level": "20",
+      "hex": "#FCE8ED",
+      "rgb": "rgb(252, 232, 237)",
+      "hsl": "hsl(345, 77, 95)",
+      "variable": "color_pink_20"
+    },
+    {
+      "level": "30",
+      "hex": "#F8B7C9",
+      "rgb": "rgb(248, 183, 201)",
+      "hsl": "hsl(343, 82, 85)",
+      "variable": "color_pink_30"
+    },
+    {
+      "level": "50",
+      "hex": "#F083A2",
+      "rgb": "rgb(240, 131, 162)",
+      "hsl": "hsl(343, 78, 73)",
+      "variable": "color_pink_50"
+    },
+    {
+      "level": "70",
+      "hex": "#E9648A",
+      "rgb": "rgb(233, 100, 138)",
+      "hsl": "hsl(343, 75, 65)",
+      "variable": "color_pink_70"
+    },
+    {
+      "level": "90",
+      "hex": "#C74168",
+      "rgb": "rgb(199, 65, 104)",
+      "hsl": "hsl(343, 54, 52)",
+      "variable": "color_pink_90"
+    },
+    {
+      "level": "alpha (10%)",
+      "hex": "#E9648A",
+      "rgb": "rgb(233, 100, 138)",
+      "hsl": "hsl(343, 75, 65)",
+      "variable": "color_pink_alpha"
+    }
   ],
-  "Black Alpha": [
-    { "level": "10 (10%)", "hex": "#000000", "rgb": "rgb(0, 0, 0)", "hsl": "hsl(0, 0, 0)", "variable": "color_blackalpha" },
-    { "level": "20 (20%)", "hex": "#000000", "rgb": "rgb(0, 0, 0)", "hsl": "hsl(0, 0, 0)", "variable": "color_blackalpha" },
-    { "level": "30 (30%)", "hex": "#000000", "rgb": "rgb(0, 0, 0)", "hsl": "hsl(0, 0, 0)", "variable": "color_blackalpha" },
-    { "level": "40 (40%)", "hex": "#000000", "rgb": "rgb(0, 0, 0)", "hsl": "hsl(0, 0, 0)", "variable": "color_blackalpha" },
-    { "level": "50 (50%)", "hex": "#000000", "rgb": "rgb(0, 0, 0)", "hsl": "hsl(0, 0, 0)", "variable": "color_blackalpha" },
-    { "level": "60 (60%)", "hex": "#000000", "rgb": "rgb(0, 0, 0)", "hsl": "hsl(0, 0, 0)", "variable": "color_blackalpha" },
-    { "level": "70 (70%)", "hex": "#000000", "rgb": "rgb(0, 0, 0)", "hsl": "hsl(0, 0, 0)", "variable": "color_blackalpha" },
-    { "level": "80 (80%)", "hex": "#000000", "rgb": "rgb(0, 0, 0)", "hsl": "hsl(0, 0, 0)", "variable": "color_blackalpha" },
-    { "level": "90 (90%)", "hex": "#000000", "rgb": "rgb(0, 0, 0)", "hsl": "hsl(0, 0, 0)", "variable": "color_blackalpha" }
+  "Cool Gray": [
+    {
+      "level": "20",
+      "hex": "#E4EBF2",
+      "rgb": "rgb(228, 235, 242)",
+      "hsl": "hsl(210, 35, 92)",
+      "variable": "color_cool gray_20"
+    },
+    {
+      "level": "30",
+      "hex": "#BECBDD",
+      "rgb": "rgb(190, 203, 221)",
+      "hsl": "hsl(215, 31, 81)",
+      "variable": "color_cool gray_30"
+    },
+    {
+      "level": "50",
+      "hex": "#9BABC0",
+      "rgb": "rgb(155, 171, 192)",
+      "hsl": "hsl(214, 23, 68)",
+      "variable": "color_cool gray_50"
+    },
+    {
+      "level": "70",
+      "hex": "#7287A2",
+      "rgb": "rgb(114, 135, 162)",
+      "hsl": "hsl(214, 21, 54)",
+      "variable": "color_cool gray_70"
+    },
+    {
+      "level": "90",
+      "hex": "#4B596B",
+      "rgb": "rgb(75, 89, 107)",
+      "hsl": "hsl(214, 18, 36)",
+      "variable": "color_cool gray_90"
+    },
+    {
+      "level": "alpha (10%)",
+      "hex": "#7287A2",
+      "rgb": "rgb(114, 135, 162)",
+      "hsl": "hsl(214, 21, 54)",
+      "variable": "color_cool_gray_alpha"
+    }
+  ],
+  "Black alpha": [
+    {
+      "level": "10 (10%)",
+      "hex": "#000000",
+      "rgb": "rgb(0, 0, 0)",
+      "hsl": "hsl(0, 0, 0)",
+      "variable": "color_blackalpha"
+    },
+    {
+      "level": "20 (20%)",
+      "hex": "#000000",
+      "rgb": "rgb(0, 0, 0)",
+      "hsl": "hsl(0, 0, 0)",
+      "variable": "color_blackalpha"
+    },
+    {
+      "level": "30 (30%)",
+      "hex": "#000000",
+      "rgb": "rgb(0, 0, 0)",
+      "hsl": "hsl(0, 0, 0)",
+      "variable": "color_blackalpha"
+    },
+    {
+      "level": "40 (40%)",
+      "hex": "#000000",
+      "rgb": "rgb(0, 0, 0)",
+      "hsl": "hsl(0, 0, 0)",
+      "variable": "color_blackalpha"
+    },
+    {
+      "level": "50 (50%)",
+      "hex": "#000000",
+      "rgb": "rgb(0, 0, 0)",
+      "hsl": "hsl(0, 0, 0)",
+      "variable": "color_blackalpha"
+    },
+    {
+      "level": "60 (60%)",
+      "hex": "#000000",
+      "rgb": "rgb(0, 0, 0)",
+      "hsl": "hsl(0, 0, 0)",
+      "variable": "color_blackalpha"
+    },
+    {
+      "level": "70 (70%)",
+      "hex": "#000000",
+      "rgb": "rgb(0, 0, 0)",
+      "hsl": "hsl(0, 0, 0)",
+      "variable": "color_blackalpha"
+    },
+    {
+      "level": "80 (80%)",
+      "hex": "#000000",
+      "rgb": "rgb(0, 0, 0)",
+      "hsl": "hsl(0, 0, 0)",
+      "variable": "color_blackalpha"
+    },
+    {
+      "level": "90 (90%)",
+      "hex": "#000000",
+      "rgb": "rgb(0, 0, 0)",
+      "hsl": "hsl(0, 0, 0)",
+      "variable": "color_blackalpha"
+    }
   ]
 }

@@ -18,17 +18,17 @@ export const resolveColorToken = (tokenRef: string | undefined): string | undefi
         for (const category of Object.values(themeMapping)) {
             if (normalizedToken in category) {
                 const mappedToken = (category as any)[normalizedToken] as string;
-                
+
                 // Let's check if the mapped token itself is a theme token (light/dark specific)
                 const lightDarkMatch = mappedToken.match(/^(color_light|color_dark)_(.+)$/);
-                if(lightDarkMatch) {
+                if (lightDarkMatch) {
                     const result = resolve(mappedToken);
                     if (result) {
                         colorResolverCache.set(token, result);
                         return result;
                     }
                 }
-                
+
                 const result = resolve(mappedToken);
                 if (result) {
                     colorResolverCache.set(token, result);
@@ -36,14 +36,14 @@ export const resolveColorToken = (tokenRef: string | undefined): string | undefi
                 }
             }
         }
-        
+
         // Check direct palette mapping
         const paletteMatch = normalizedToken.match(/^color_([A-Za-z\s]+)_(\S+)$/);
         if (paletteMatch) {
             const [, family, level] = paletteMatch;
             const familyKey = family.replace(/\s/g, '');
             const colorFamily = (palette as any)[familyKey];
-            
+
             if (colorFamily && Array.isArray(colorFamily)) {
                 const shade = colorFamily.find(s => s.level.toString().trim() === level.toString().trim());
                 if (shade?.hex) {
@@ -52,7 +52,7 @@ export const resolveColorToken = (tokenRef: string | undefined): string | undefi
                 }
             }
         }
-        
+
         colorResolverCache.set(token, undefined);
         return undefined;
     };
@@ -65,24 +65,25 @@ export const resolveColorToken = (tokenRef: string | undefined): string | undefi
 export const resolveSemanticToken = (semanticToken: string): { light: string, dark: string } => {
     const { semanticMapping } = designSystemData.colors;
 
-    let lightThemeToken: string | undefined = undefined;
-    let darkThemeToken: string | undefined = undefined;
+    let themeToken: string | undefined = undefined;
 
+    // Find the theme token that the semantic token maps to
     for (const category of Object.values(semanticMapping)) {
         if (semanticToken in category) {
-            const baseThemeToken = (category as any)[semanticToken] as string;
-            lightThemeToken = baseThemeToken.replace('color_', 'color_light_');
-            darkThemeToken = baseThemeToken.replace('color_', 'color_dark_');
+            themeToken = (category as any)[semanticToken] as string;
             break;
         }
     }
 
-    if (!lightThemeToken || !darkThemeToken) {
+    if (!themeToken) {
         return { light: '#FFFFFF', dark: '#000000' };
     }
 
-    const lightHex = resolveColorToken(lightThemeToken) || '#FFFFFF';
-    const darkHex = resolveColorToken(darkThemeToken) || '#000000';
+    // Resolve the theme token to its actual hex value
+    const resolvedHex = resolveColorToken(themeToken) || '#CCCCCC';
 
-    return { light: lightHex, dark: darkHex };
+    // For now, return the same color for both light and dark modes
+    // TODO: Implement proper light/dark theme mapping when theme_color_mapping.json
+    // is restructured to have separate light/dark variants
+    return { light: resolvedHex, dark: resolvedHex };
 };

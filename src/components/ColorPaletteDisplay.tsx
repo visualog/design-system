@@ -50,10 +50,11 @@ const ColorSwatch: React.FC<ColorProps> = ({ level, hex, rgb, familyName }) => {
         backgroundImage: `
               linear-gradient(${rgbaColor}, ${rgbaColor}),
               linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%),
-              linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%)
+              linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%),
+              linear-gradient(#fff, #fff)
             `,
-        backgroundSize: `100%, 16px 16px, 16px 16px`,
-        backgroundPosition: `0 0, 0 0, 8px 8px`
+        backgroundSize: `100%, 16px 16px, 16px 16px, 100%`,
+        backgroundPosition: `0 0, 0 0, 8px 8px, 0 0`
       };
 
       const alphaHex = Math.round(opacityValue * 2.55).toString(16).padStart(2, '0').toUpperCase();
@@ -68,11 +69,12 @@ const ColorSwatch: React.FC<ColorProps> = ({ level, hex, rgb, familyName }) => {
 
   const displayLevel = String(level).replace(/\s\(.*\)/, '');
   let finalDisplayLevel = displayLevel;
-  if (finalDisplayLevel === 'alpha') {
+  // Only add _10 suffix for Black alpha tokens
+  if (finalDisplayLevel === 'alpha' && familyName.toLowerCase().includes('black')) {
     finalDisplayLevel = 'alpha_10';
   }
   const formattedFamily = familyName.toLowerCase().replace(/\s/g, '_');
-  const capitalizedFormattedFamily = formattedFamily.split('_').map(word => capitalizeFirstLetter(word)).join('_');
+  const capitalizedFormattedFamily = formattedFamily.split('_').map(word => word === 'alpha' ? 'alpha' : capitalizeFirstLetter(word)).join('_');
   const tokenName = `$color_${capitalizedFormattedFamily}_${finalDisplayLevel}`;
 
   return (
@@ -189,10 +191,11 @@ const TokensDisplay: React.FC<{ colors: any }> = ({ colors }) => (
                   backgroundImage: `
                       linear-gradient(${rgbaColor}, ${rgbaColor}),
                       linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%),
-                      linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%)
+                      linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%),
+                      linear-gradient(#fff, #fff)
                     `,
-                  backgroundSize: `100%, 16px 16px, 16px 16px`,
-                  backgroundPosition: `0 0, 0 0, 8px 8px`
+                  backgroundSize: `100%, 16px 16px, 16px 16px, 100%`,
+                  backgroundPosition: `0 0, 0 0, 8px 8px, 0 0`
                 };
 
                 const alphaHex = Math.round(opacityValue * 2.55).toString(16).padStart(2, '0').toUpperCase();
@@ -205,12 +208,13 @@ const TokensDisplay: React.FC<{ colors: any }> = ({ colors }) => (
             const displayLevel = String(color.level).replace(/\s\(.*\)/, '');
             let finalDisplayLevel = displayLevel;
 
-            if (finalDisplayLevel === 'alpha') {
+            // Only add _10 suffix for Black alpha tokens
+            if (finalDisplayLevel === 'alpha' && colorFamily.toLowerCase().includes('black')) {
               finalDisplayLevel = 'alpha_10';
             }
 
             const formattedFamily = colorFamily.toLowerCase().replace(/\s/g, '_');
-            const capitalizedFormattedFamily = formattedFamily.split('_').map(word => capitalizeFirstLetter(word)).join('_');
+            const capitalizedFormattedFamily = formattedFamily.split('_').map(word => word === 'alpha' ? 'alpha' : capitalizeFirstLetter(word)).join('_');
             const tokenName = `$color_${capitalizedFormattedFamily}_${finalDisplayLevel}`;
 
             return (
@@ -302,11 +306,12 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
       const filteredShades = shades.filter((color: any) => {
         const displayLevel = String(color.level).replace(/\s\(.*\)/, '');
         let finalDisplayLevel = displayLevel;
-        if (finalDisplayLevel === 'alpha') {
+        // Only add _10 suffix for Black alpha tokens
+        if (finalDisplayLevel === 'alpha' && family.toLowerCase().includes('black')) {
           finalDisplayLevel = 'alpha_10';
         }
         const formattedFamily = family.toLowerCase().replace(/\s/g, '_');
-        const capitalizedFormattedFamily = formattedFamily.split('_').map(word => capitalizeFirstLetter(word)).join('_');
+        const capitalizedFormattedFamily = formattedFamily.split('_').map(word => word === 'alpha' ? 'alpha' : capitalizeFirstLetter(word)).join('_');
         const tokenName = `$color_${capitalizedFormattedFamily}_${finalDisplayLevel}`;
 
         let displayHex = color.hex;
@@ -372,48 +377,45 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
       {/* Tokens Table - Show if view is 'all' or 'table' */}
       {view !== 'grid' && (
         <section className="flex flex-col gap-4">
-          <div className="flex justify-between items-center">
-            <h3 className="text-xl font-semibold">토큰</h3>
-            <div className="flex items-center gap-2">
-              <div className="relative">
-                <Input
-                  placeholder={`${tokenCount}개 토큰 검색...`}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-48 shadow-none pr-9"
-                />
-                {searchTerm && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
-                    onClick={() => setSearchTerm('')}
+          <div className="flex items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="w-48 justify-between shadow-none">
+                  <span>{getDropdownTriggerText()}</span>
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="max-h-64 overflow-y-auto">
+                <DropdownMenuItem onSelect={() => handleFamilySelection('All')}>전체</DropdownMenuItem>
+                {Object.keys(colors.palette).map(family => (
+                  <DropdownMenuCheckboxItem
+                    key={family}
+                    checked={selectedFamilies.includes(family)}
+                    onCheckedChange={() => handleFamilySelection(family)}
+                    className="capitalize"
                   >
-                    <X className="h-4 w-4" />
-                  </Button>
-                )}
-              </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="w-48 justify-between shadow-none">
-                    <span>{getDropdownTriggerText()}</span>
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="max-h-64 overflow-y-auto">
-                  <DropdownMenuItem onSelect={() => handleFamilySelection('All')}>전체</DropdownMenuItem>
-                  {Object.keys(colors.palette).map(family => (
-                    <DropdownMenuCheckboxItem
-                      key={family}
-                      checked={selectedFamilies.includes(family)}
-                      onCheckedChange={() => handleFamilySelection(family)}
-                      className="capitalize"
-                    >
-                      {family}
-                    </DropdownMenuCheckboxItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    {family}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <div className="relative">
+              <Input
+                placeholder={`${tokenCount}개 토큰 검색...`}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-48 shadow-none pr-9"
+              />
+              {searchTerm && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
+                  onClick={() => setSearchTerm('')}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              )}
             </div>
           </div>
           <TokensDisplay colors={filteredColors} />
