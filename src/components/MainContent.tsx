@@ -73,7 +73,7 @@ const MainContent: React.FC<MainContentProps> = ({ children }) => {
   return (
     <main className="flex-1">
       {/* Sticky Header with Breadcrumb */}
-      <div className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border px-6 md:px-8 lg:px-12 py-3 relative">
+      <div className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border px-6 md:px-8 lg:px-12 pt-5 pb-3 relative">
         <div className="max-w-[760px] mx-auto">
           <Breadcrumb />
         </div>
@@ -87,7 +87,7 @@ const MainContent: React.FC<MainContentProps> = ({ children }) => {
       </div>
 
       {/* Main Scrollable Content */}
-      <div className="p-6 md:p-8 lg:p-12 pt-6">
+      <div className="p-6 md:p-8 lg:p-12 pt-8">
         <article className="max-w-[760px] mx-auto flex flex-col gap-4">
           {children}
         </article>
