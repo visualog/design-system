@@ -79,10 +79,9 @@ const RadiusDisplay: React.FC = () => {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-1/4">토큰명</TableHead>
-                                <TableHead className="w-1/4">값</TableHead>
-                                <TableHead className="w-1/4">변수</TableHead>
-                                <TableHead className="w-1/4">설명</TableHead>
+                                <TableHead className="w-1/3">토큰명</TableHead>
+                                <TableHead className="w-1/3">값</TableHead>
+                                <TableHead className="w-1/3">설명</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -96,14 +95,7 @@ const RadiusDisplay: React.FC = () => {
                                     </TableCell>
                                     <TableCell className="text-muted-foreground font-mono text-xs">
                                         {token.value}
-                                        {token.value !== token.rem && (
-                                            <>
-                                                <span className="text-muted-foreground/30"> / </span>
-                                                {token.rem}
-                                            </>
-                                        )}
                                     </TableCell>
-                                    <TableCell className="text-muted-foreground font-mono text-xs">{token.variable || <span className="text-muted-foreground/30">-</span>}</TableCell>
                                     <TableCell className="text-sm">{token.description}</TableCell>
                                 </TableRow>
                             ))}

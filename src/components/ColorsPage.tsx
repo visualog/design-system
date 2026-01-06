@@ -4,12 +4,16 @@ import ThemeColorMappingDisplay from './ThemeColorMappingDisplay';
 import SemanticColorMappingDisplay from './SemanticColorMappingDisplay';
 import { AnimatedTabs, AnimatedTabsContent } from "@/components/ui/animated-tabs";
 
+import ColorUsage from './ColorUsage';
+
 const ColorsPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('raw');
+  const [activeTab, setActiveTab] = useState('scale');
   const tabs = [
-    { name: '전체 색상 (Raw Colors)', value: 'raw' },
-    { name: '테마 색상 (Theme Colors)', value: 'theme' },
-    { name: '시맨틱 색상 (Semantic Colors)', value: 'semantic' }
+    { name: '스케일', value: 'scale' },
+    { name: '원시 색상', value: 'raw' },
+    { name: '테마 색상', value: 'theme' },
+    { name: '시맨틱 색상', value: 'semantic' },
+    { name: '사용 가이드', value: 'usage' }
   ];
 
   return (
@@ -22,9 +26,14 @@ const ColorsPage: React.FC = () => {
       </div>
 
       <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
+        <AnimatedTabsContent value="scale">
+          <div className="pt-8">
+            <ColorPaletteDisplay view="grid" />
+          </div>
+        </AnimatedTabsContent>
         <AnimatedTabsContent value="raw">
           <div className="pt-8">
-            <ColorPaletteDisplay />
+            <ColorPaletteDisplay view="table" />
           </div>
         </AnimatedTabsContent>
         <AnimatedTabsContent value="theme">
@@ -35,6 +44,11 @@ const ColorsPage: React.FC = () => {
         <AnimatedTabsContent value="semantic">
           <div className="pt-8">
             <SemanticColorMappingDisplay />
+          </div>
+        </AnimatedTabsContent>
+        <AnimatedTabsContent value="usage">
+          <div className="pt-8">
+            <ColorUsage />
           </div>
         </AnimatedTabsContent>
       </AnimatedTabs>

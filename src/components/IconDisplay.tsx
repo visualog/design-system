@@ -1,4 +1,5 @@
 import React, { useState, useRef, useMemo } from 'react';
+import { RotateCcw } from 'lucide-react';
 import { designSystemData } from '../utils/dataLoader';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -137,11 +138,14 @@ interface IconSectionProps {
   onIconClick: (name: string, category: 'line' | 'fill', filename: string, color: string) => void;
 }
 
+
+
+// ... existing code ...
+
 const IconSection: React.FC<IconSectionProps> = ({ title, iconList, categoryType, filenameMapping, searchQuery, onIconClick }) => {
   const [iconColor, setIconColor] = useState(DEFAULT_ICON_COLOR);
   const [bgColor, setBgColor] = useState(DEFAULT_BG_COLOR);
 
-  const RefreshIcon = getSvgComponentFromFilename('refresh', 'line');
   const isPristine = iconColor === DEFAULT_ICON_COLOR && bgColor === DEFAULT_BG_COLOR;
 
   const handleReset = () => {
@@ -186,7 +190,7 @@ const IconSection: React.FC<IconSectionProps> = ({ title, iconList, categoryType
           </Popover>
           {!isPristine && (
             <Button onClick={handleReset} variant="ghost" size="icon" aria-label="Reset colors">
-              {RefreshIcon && <RefreshIcon className="w-5 h-5" />}
+              <RotateCcw className="w-5 h-5" />
             </Button>
           )}
         </div>

@@ -38,7 +38,7 @@ const SpacingLayoutDisplay: React.FC = () => {
                     </div>
                   </TableCell>
                   <TableCell className="text-muted-foreground font-mono text-xs">
-                    {s.px}px <span className="text-muted-foreground/30">/</span> {s.rem}rem
+                    {s.px}px
                   </TableCell>
                   <TableCell>
                     <div className="bg-blue-200" style={{ height: '24px', width: `${s.px}px` }}></div>

@@ -31,12 +31,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
       {/* Overlay for mobile sidebar */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[70] md:hidden"
           onClick={toggleSidebar}
         ></div>
       )}
 
-      <aside className={`fixed top-0 left-0 h-screen w-60 bg-background p-4 border-r border-border z-50 transform md:translate-x-0 transition-transform duration-300
+      <aside className={`fixed top-0 left-0 h-screen w-60 bg-background p-4 border-r border-border z-[80] transform md:translate-x-0 transition-transform duration-300
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
 
         {/* Close button for mobile */}
@@ -47,7 +47,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           <X className="w-6 h-6 text-foreground" />
         </button>
 
-        <h1 className="text-2xl font-semibold text-foreground mb-8 px-2">Design System</h1>
+        <h1 className="text-xl font-bold text-foreground mb-8 px-2">Design System</h1>
         <nav>
           <ul className="space-y-1">
             <li>

@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import MainContent from './components/MainContent';
 import { Menu } from 'lucide-react';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { Button } from '@/components/ui/button';
 
 // Import individual page components
 import ColorsPage from './components/ColorsPage';
@@ -24,20 +25,21 @@ function App() {
   return (
     <TooltipProvider>
       <BrowserRouter>
-        <div className="flex min-h-screen">
-          {/* Hamburger menu for mobile */}
-          <button
-            className="md:hidden p-4 fixed top-0 left-0 z-50"
-            onClick={toggleSidebar}
-          >
-            <Menu className="w-6 h-6 text-foreground" />
-          </button>
-
+        <div className="flex min-h-screen bg-background">
           {/* Sidebar */}
           <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
           {/* Main content area */}
-          <div className="flex-1 transition-all duration-300 md:pl-60">
+          <div className="flex-1 flex flex-col transition-all duration-300 md:pl-60">
+            {/* Mobile Header */}
+            <header className="md:hidden flex items-center h-14 px-4 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-[60]">
+              <Button variant="ghost" size="icon" onClick={toggleSidebar} className="-ml-2 mr-2">
+                <Menu className="w-5 h-5" />
+                <span className="sr-only">Toggle Menu</span>
+              </Button>
+              <h1 className="font-semibold text-lg">Design System</h1>
+            </header>
+
             <Routes>
               <Route path="/" element={<MainContent><ColorsPage /></MainContent>} /> {/* Default to Colors */}
               <Route path="/colors" element={<MainContent><ColorsPage /></MainContent>} />

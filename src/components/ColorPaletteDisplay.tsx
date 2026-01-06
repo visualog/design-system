@@ -79,7 +79,7 @@ const ColorSwatch: React.FC<ColorProps> = ({ level, hex, rgb, familyName }) => {
     <Tooltip>
       <TooltipTrigger asChild>
         <div
-          className="w-12 h-12 relative group"
+          className="w-full h-full relative group rounded-sm"
           style={finalStyle}
         >
         </div>
@@ -101,46 +101,54 @@ const ColorGrid: React.FC<{
   iconlessEmptyLevels?: string[];
   hiddenHeaderLevels?: string[];
 }> = ({ families, levels, iconlessEmptyLevels, hiddenHeaderLevels }) => (
-  <div className="grid items-center gap-0.5" style={{ gridTemplateColumns: `minmax(7.5rem, auto) repeat(${levels.length}, 3rem)` }}>
+  <div className="flex flex-col gap-2 w-full">
     {/* Header Row */}
-    <div /> {/* Empty cell for color family name column */}
-    {levels.map(level => {
-      const displayLevel = level === 'alpha (10%)' ? '10%' : level;
-      return (
-        <div key={level} className="w-12 h-6 flex items-center justify-center text-xs font-medium text-gray-400">
-          {hiddenHeaderLevels?.includes(level) ? '' : displayLevel}
-        </div>
-      );
-    })}
-
-    {/* Color Family Rows */}
-    {families.map(([familyName, shades]) => (
-      <React.Fragment key={familyName}>
-        <div className="text-sm capitalize text-gray-400">{familyName.replace(/([A-Z])/g, ' $1').trim()}</div>
+    <div className="flex items-center gap-1">
+      <div className="w-24 flex-shrink-0" /> {/* Empty cell for color family name column */}
+      <div className="flex-1 flex gap-1">
         {levels.map(level => {
-          const shade = shades.find(s => {
-            let normalizedShadeLevel = String(s.level);
-            const numericPercentageMatch = String(s.level).match(/^(\d+)\s\((\d+)%\)/); // Matches "10 (10%)"
-            if (numericPercentageMatch) {
-              normalizedShadeLevel = numericPercentageMatch[1]; // Extracts "10"
-            }
-            return normalizedShadeLevel === level;
-          });
+          const displayLevel = level === 'alpha (10%)' ? '10%' : level;
           return (
-            <div key={`${familyName}-${level}`} className="w-12 h-12 flex items-center justify-center">
-              {shade ? <ColorSwatch {...shade} familyName={familyName} /> : (
-                iconlessEmptyLevels?.includes(level) ? <div /> : (
-                  <div className="w-10 h-10 flex items-center justify-center">
-                    <span className="material-symbols-rounded text-gray-200 text-lg" style={{ fontVariationSettings: "'wght' 300" }}>
-                      format_color_reset
-                    </span>
-                  </div>
-                )
-              )}
+            <div key={level} className="flex-1 flex items-center justify-center text-[10px] md:text-xs font-medium text-gray-400 min-w-0">
+              {hiddenHeaderLevels?.includes(level) ? '' : displayLevel}
             </div>
           );
         })}
-      </React.Fragment>
+      </div>
+    </div>
+
+    {/* Color Family Rows */}
+    {families.map(([familyName, shades]) => (
+      <div key={familyName} className="flex items-stretch gap-1">
+        <div className="w-24 flex-shrink-0 flex items-center text-sm capitalize text-gray-400 break-words">
+          {familyName.replace(/([A-Z])/g, ' $1').trim()}
+        </div>
+        <div className="flex-1 flex gap-1">
+          {levels.map(level => {
+            const shade = shades.find(s => {
+              let normalizedShadeLevel = String(s.level);
+              const numericPercentageMatch = String(s.level).match(/^(\d+)\s\((\d+)%\)/); // Matches "10 (10%)"
+              if (numericPercentageMatch) {
+                normalizedShadeLevel = numericPercentageMatch[1]; // Extracts "10"
+              }
+              return normalizedShadeLevel === level;
+            });
+            return (
+              <div key={`${familyName}-${level}`} className="flex-1 aspect-square min-w-0">
+                {shade ? <ColorSwatch {...shade} familyName={familyName} /> : (
+                  iconlessEmptyLevels?.includes(level) ? <div /> : (
+                    <div className="w-full h-full flex items-center justify-center bg-muted/20 rounded-sm">
+                      <span className="material-symbols-rounded text-gray-200 text-xs" style={{ fontVariationSettings: "'wght' 300" }}>
+                        -
+                      </span>
+                    </div>
+                  )
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
     ))}
   </div>
 );
@@ -229,7 +237,12 @@ const TokensDisplay: React.FC<{ colors: any }> = ({ colors }) => (
 
 
 // --- Main component, restructured ---
-const ColorPaletteDisplay: React.FC = () => {
+// --- Main component, restructured ---
+interface ColorPaletteDisplayProps {
+  view?: 'all' | 'grid' | 'table';
+}
+
+const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' }) => {
   const { colors } = designSystemData;
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>(['All']);
@@ -333,72 +346,79 @@ const ColorPaletteDisplay: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-12">
+      {/* Visual Grids - Show if view is 'all' or 'grid' */}
+      {view !== 'table' && (
+        <>
+          {/* --- Gray Section --- */}
+          <section className="flex flex-col gap-4">
+            <h3 className="text-xl font-semibold">Gray</h3>
+            <ColorGrid families={grayFamilies} levels={grayDisplayLevels} iconlessEmptyLevels={['alpha (10%)']} hiddenHeaderLevels={['alpha (10%)']} />
+          </section>
 
-      {/* --- Gray Section --- */}
-      <section className="flex flex-col gap-4">
-        <h3 className="text-xl font-semibold">Gray</h3>
-        <ColorGrid families={grayFamilies} levels={grayDisplayLevels} iconlessEmptyLevels={['alpha (10%)']} hiddenHeaderLevels={['alpha (10%)']} />
-      </section>
+          {/* --- Chromatic Section --- */}
+          <section className="flex flex-col gap-4">
+            <h3 className="text-xl font-semibold">Chromatic</h3>
+            <ColorGrid families={chromaticFamilies} levels={chromaticOnlyLevels} iconlessEmptyLevels={['white']} hiddenHeaderLevels={['white']} />
+          </section>
 
-      {/* --- Chromatic Section --- */}
-      <section className="flex flex-col gap-4">
-        <h3 className="text-xl font-semibold">Chromatic</h3>
-        <ColorGrid families={chromaticFamilies} levels={chromaticOnlyLevels} iconlessEmptyLevels={['white']} hiddenHeaderLevels={['white']} />
-      </section>
+          {/* --- Alpha Section --- */}
+          <section className="flex flex-col gap-4">
+            <h3 className="text-xl font-semibold">Alpha</h3>
+            <ColorGrid families={alphaFamilies} levels={grayDisplayLevels} hiddenHeaderLevels={['white', '100', 'alpha (10%)']} iconlessEmptyLevels={['white', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100', 'alpha (10%)']} />
+          </section>
+        </>
+      )}
 
-      {/* --- Alpha Section --- */}
-      <section className="flex flex-col gap-4">
-        <h3 className="text-xl font-semibold">Alpha</h3>
-        <ColorGrid families={alphaFamilies} levels={grayDisplayLevels} hiddenHeaderLevels={['white', '100', 'alpha (10%)']} iconlessEmptyLevels={['white', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100', 'alpha (10%)']} />
-      </section>
-
-      <section className="flex flex-col gap-4">
-        <div className="flex justify-between items-center">
-          <h3 className="text-xl font-semibold">토큰</h3>
-          <div className="flex items-center gap-2">
-            <div className="relative">
-              <Input
-                placeholder={`${tokenCount}개 토큰 검색...`}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-48 shadow-none pr-9"
-              />
-              {searchTerm && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
-                  onClick={() => setSearchTerm('')}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              )}
-            </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="w-48 justify-between shadow-none">
-                  <span>{getDropdownTriggerText()}</span>
-                  <ChevronDown className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="max-h-64 overflow-y-auto">
-                <DropdownMenuItem onSelect={() => handleFamilySelection('All')}>전체</DropdownMenuItem>
-                {Object.keys(colors.palette).map(family => (
-                  <DropdownMenuCheckboxItem
-                    key={family}
-                    checked={selectedFamilies.includes(family)}
-                    onCheckedChange={() => handleFamilySelection(family)}
-                    className="capitalize"
+      {/* Tokens Table - Show if view is 'all' or 'table' */}
+      {view !== 'grid' && (
+        <section className="flex flex-col gap-4">
+          <div className="flex justify-between items-center">
+            <h3 className="text-xl font-semibold">토큰</h3>
+            <div className="flex items-center gap-2">
+              <div className="relative">
+                <Input
+                  placeholder={`${tokenCount}개 토큰 검색...`}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-48 shadow-none pr-9"
+                />
+                {searchTerm && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
+                    onClick={() => setSearchTerm('')}
                   >
-                    {family}
-                  </DropdownMenuCheckboxItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+                    <X className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="w-48 justify-between shadow-none">
+                    <span>{getDropdownTriggerText()}</span>
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="max-h-64 overflow-y-auto">
+                  <DropdownMenuItem onSelect={() => handleFamilySelection('All')}>전체</DropdownMenuItem>
+                  {Object.keys(colors.palette).map(family => (
+                    <DropdownMenuCheckboxItem
+                      key={family}
+                      checked={selectedFamilies.includes(family)}
+                      onCheckedChange={() => handleFamilySelection(family)}
+                      className="capitalize"
+                    >
+                      {family}
+                    </DropdownMenuCheckboxItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
-        </div>
-        <TokensDisplay colors={filteredColors} />
-      </section>
+          <TokensDisplay colors={filteredColors} />
+        </section>
+      )}
     </div>
   );
 };

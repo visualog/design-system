@@ -54,10 +54,8 @@ const SemanticColorMappingDisplay: React.FC = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-1/4 px-4 text-xs h-auto">토큰명</TableHead>
-                  <TableHead className="w-1/4 px-4 text-xs h-auto">매핑</TableHead>
-                  <TableHead className="w-1/4 px-4 text-xs h-auto">라이트 모드</TableHead>
-                  <TableHead className="w-1/4 px-4 text-xs h-auto">다크 모드</TableHead>
+                  <TableHead className="w-1/2 px-4 text-xs h-auto">토큰명</TableHead>
+                  <TableHead className="w-1/2 px-4 text-xs h-auto">매핑</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -70,39 +68,25 @@ const SemanticColorMappingDisplay: React.FC = () => {
                       description.toLowerCase().includes(term);
                   })
                   .map(([semanticVar, themeVar]) => {
-                    const { light, dark } = resolveSemanticToken(semanticVar);
+                    const { light } = resolveSemanticToken(semanticVar);
 
 
                     return (
                       <TableRow key={semanticVar}>
                         <TableCell className="font-mono text-sm font-medium whitespace-nowrap">
                           <div className="flex items-center gap-2">
+                            <ColorSwatch color={light} />
                             <span className="text-primary">${semanticVar}</span>
                             <Clipboard value={`$${semanticVar}`} />
                           </div>
-                          {semanticDescriptions[semanticVar] && (
-                            <div className="text-xs text-muted-foreground mt-1 font-sans font-normal">
-                              {semanticDescriptions[semanticVar]}
-                            </div>
-                          )}
+
                         </TableCell>
                         <TableCell className="font-mono text-xs whitespace-nowrap text-muted-foreground">
                           <div className="flex items-center">
                             <span>${themeVar as string}</span>
                           </div>
                         </TableCell>
-                        <TableCell className="font-mono text-xs whitespace-nowrap text-muted-foreground">
-                          <div className="flex items-center gap-2">
-                            <ColorSwatch color={light} />
-                            <span>{light || 'N/A'}</span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="font-mono text-xs whitespace-nowrap text-muted-foreground">
-                          <div className="flex items-center gap-2">
-                            <ColorSwatch color={dark} />
-                            <span>{dark || 'N/A'}</span>
-                          </div>
-                        </TableCell>
+
                       </TableRow>
                     );
                   })}
