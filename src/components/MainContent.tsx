@@ -87,7 +87,7 @@ const MainContent: React.FC<MainContentProps> = ({ children }) => {
       </div>
 
       {/* Main Scrollable Content */}
-      <div className="px-6 pb-6 md:px-8 md:pb-8 lg:px-12 lg:pb-12 pt-2">
+      <div className="px-6 pb-6 md:px-8 md:pb-8 lg:px-12 lg:pb-12 pt-4">
         <article className="max-w-[760px] mx-auto flex flex-col gap-4">
           {children}
         </article>
