@@ -353,7 +353,7 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
     <div className="flex flex-col gap-12">
       {/* Visual Grids - Show if view is 'all' or 'grid' */}
       {view !== 'table' && (
-        <>
+        <div className="mt-4">
           {/* --- Gray Section --- */}
           <section className="flex flex-col gap-4">
             <ColorGrid families={grayFamilies} levels={grayDisplayLevels} iconlessEmptyLevels={['alpha (10%)']} hiddenHeaderLevels={['alpha (10%)']} />
@@ -368,7 +368,7 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
           <section className="flex flex-col gap-4">
             <ColorGrid families={alphaFamilies} levels={grayDisplayLevels} hiddenHeaderLevels={['white', '100', 'alpha (10%)']} iconlessEmptyLevels={['white', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100', 'alpha (10%)']} />
           </section>
-        </>
+        </div>
       )}
 
       {/* Tokens Table - Show if view is 'all' or 'table' */}
