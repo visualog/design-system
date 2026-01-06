@@ -353,7 +353,7 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
     <div className="flex flex-col gap-12">
       {/* Visual Grids - Show if view is 'all' or 'grid' */}
       {view !== 'table' && (
-        <div className="mt-4">
+        <div className="mt-4 flex flex-col gap-6">
           {/* --- Gray Section --- */}
           <section className="flex flex-col gap-4">
             <ColorGrid families={grayFamilies} levels={grayDisplayLevels} iconlessEmptyLevels={['alpha (10%)']} hiddenHeaderLevels={['alpha (10%)']} />
