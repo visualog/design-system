@@ -122,7 +122,7 @@ const ColorGrid: React.FC<{
     {/* Color Family Rows */}
     {families.map(([familyName, shades]) => (
       <div key={familyName} className="flex items-stretch gap-1">
-        <div className="w-24 flex-shrink-0 flex items-center text-sm capitalize text-gray-400 break-words">
+        <div className="w-24 flex-shrink-0 flex items-center text-sm capitalize text-foreground break-words">
           {familyName.replace(/([A-Z])/g, ' $1').trim()}
         </div>
         <div className="flex-1 flex gap-1">
