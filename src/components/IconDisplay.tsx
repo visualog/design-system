@@ -455,11 +455,11 @@ const IconDisplay: React.FC = () => {
                   </div>
                 </SheetTitle>
               </SheetHeader>
-              <div className="py-6 flex gap-8">
+              <div className="py-6 flex flex-col md:flex-row gap-6 md:gap-8">
                 {/* Left Column: Visuals & Color Picker */}
-                <div className="w-1/5 flex flex-col bg-secondary/30 rounded-lg border border-border p-6 gap-6">
+                <div className="w-full md:w-1/3 lg:w-1/4 flex flex-col bg-secondary/30 rounded-lg border border-border p-4 md:p-6 gap-6">
                   <div>
-                    <div className="flex items-end gap-4">
+                    <div className="flex items-end gap-4 justify-center md:justify-start">
                       {[16, 20, 24].map((size) => (
                         <div
                           key={size}
@@ -491,14 +491,14 @@ const IconDisplay: React.FC = () => {
 
                 {/* Right Column: Details & Code */}
                 <div className="flex flex-col gap-6 flex-1">
-                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
                     <div>
                       <span className="font-semibold block mb-1">Category</span>
                       <span className="capitalize">{selectedIcon.category}</span>
                     </div>
                     <div>
                       <span className="font-semibold block mb-1">Filename</span>
-                      <span className="font-mono text-muted-foreground">{selectedIcon.filename}.svg</span>
+                      <span className="font-mono text-muted-foreground break-all">{selectedIcon.filename}.svg</span>
                     </div>
                     {selectedIcon.subfolder && (
                       <div>
@@ -513,8 +513,8 @@ const IconDisplay: React.FC = () => {
                     <div className="flex items-center justify-between mb-2">
                       <span className="font-semibold text-sm">Usage</span>
                     </div>
-                    <div className="bg-muted p-4 rounded-md flex items-center justify-between font-mono text-xs border border-border">
-                      <code className="break-all">{getUsageCode()}</code>
+                    <div className="bg-muted p-4 rounded-md flex items-start sm:items-center justify-between gap-2 font-mono text-xs border border-border flex-col sm:flex-row">
+                      <code className="break-all flex-1">{getUsageCode()}</code>
                       <Clipboard value={getUsageCode()} />
                     </div>
                   </div>
