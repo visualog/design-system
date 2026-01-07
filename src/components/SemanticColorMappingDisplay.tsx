@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { SearchBar } from './SearchBar';
 import { designSystemData } from '../utils/dataLoader';
 import { Clipboard } from './ui/clipboard';
 import { resolveSemanticToken } from '../lib/colorUtils';
@@ -12,9 +13,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
 import { Button } from './ui/button';
-import { X, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -94,24 +94,11 @@ const SemanticColorMappingDisplay: React.FC = () => {
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
-        <div className="relative">
-          <Input
-            placeholder={`${filteredTokenCount}개 토큰 검색...`}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-80 shadow-none pr-9"
-          />
-          {searchTerm && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
-              onClick={() => setSearchTerm('')}
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          )}
-        </div>
+        <SearchBar
+          placeholder={`${filteredTokenCount}개 토큰 검색...`}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </div>
 
       <div className="overflow-hidden">

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react';
-import { RotateCcw, Search } from 'lucide-react';
+import { SearchBar } from './SearchBar';
+import { RotateCcw } from 'lucide-react';
 import { designSystemData } from '../utils/dataLoader';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,7 +14,6 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Clipboard } from './ui/clipboard';
-import { Input } from '@/components/ui/input';
 import { ChevronDown } from 'lucide-react';
 import {
   DropdownMenu,
@@ -345,16 +345,12 @@ const IconDisplay: React.FC = () => {
               searchQuery={lineSearchQuery}
               onIconClick={handleIconClick}
               searchInput={
-                <div className="relative w-80">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="text"
-                    placeholder={`${lineIconCount}개 아이콘 검색...`}
-                    className="w-full pl-9 pr-4 py-2 rounded-lg shadow-none"
-                    value={lineSearchQuery}
-                    onChange={(e) => setLineSearchQuery(e.target.value)}
-                  />
-                </div>
+                <SearchBar
+                  placeholder={`${lineIconCount}개 아이콘 검색...`}
+                  value={lineSearchQuery}
+                  onChange={(e) => setLineSearchQuery(e.target.value)}
+                />
+
               }
             />
           </div>
@@ -369,20 +365,16 @@ const IconDisplay: React.FC = () => {
               searchQuery={filledSearchQuery}
               onIconClick={handleIconClick}
               searchInput={
-                <div className="relative w-80">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="text"
-                    placeholder={`${filledIconCount}개 아이콘 검색...`}
-                    className="w-full pl-9 pr-4 py-2 rounded-lg shadow-none"
-                    value={filledSearchQuery}
-                    onChange={(e) => setFilledSearchQuery(e.target.value)}
-                  />
-                </div>
+                <SearchBar
+                  placeholder={`${filledIconCount}개 아이콘 검색...`}
+                  value={filledSearchQuery}
+                  onChange={(e) => setFilledSearchQuery(e.target.value)}
+                />
+
               }
             />
           </div>
-        </AnimatedTabsContent>
+        </AnimatedTabsContent >
         <AnimatedTabsContent value="illustration">
           <div>
             <div className="flex flex-col gap-6">
@@ -408,16 +400,11 @@ const IconDisplay: React.FC = () => {
                       ))}
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <div className="relative w-80">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      type="text"
-                      placeholder={`${illustIconCount}개 아이콘 검색...`}
-                      className="w-full pl-9 pr-4 py-2 rounded-lg shadow-none"
-                      value={illustSearchQuery}
-                      onChange={(e) => setIllustSearchQuery(e.target.value)}
-                    />
-                  </div>
+                  <SearchBar
+                    placeholder={`${illustIconCount}개 아이콘 검색...`}
+                    value={illustSearchQuery}
+                    onChange={(e) => setIllustSearchQuery(e.target.value)}
+                  />
                 </div>
               </div>
 
@@ -454,87 +441,90 @@ const IconDisplay: React.FC = () => {
             </div>
           </div>
         </AnimatedTabsContent>
-      </AnimatedTabs>
+      </AnimatedTabs >
 
-      {selectedIcon && (
-        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-          <SheetContent side="bottom" className="sm:max-w-full" onOpenAutoFocus={(e) => e.preventDefault()}>
-            <SheetHeader>
-              <SheetTitle className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-lg">{selectedIcon.name}</span>
-                </div>
-              </SheetTitle>
-            </SheetHeader>
-            <div className="py-6 flex gap-8">
-              {/* Left Column: Visuals & Color Picker */}
-              <div className="w-1/5 flex flex-col bg-secondary/30 rounded-lg border border-border p-6 gap-6">
-                <div>
-                  <div className="flex items-end gap-4">
-                    {[16, 20, 24].map((size) => (
-                      <div
-                        key={size}
-                        className={`flex flex-col items-center gap-2 cursor-pointer transition-opacity ${sheetConfig.size === size ? 'opacity-100' : 'opacity-50 hover:opacity-100'}`}
-                        onClick={() => setSheetConfig(prev => ({ ...prev, size: size as 16 | 20 | 24 }))}
-                      >
-                        <div className={`flex items-center justify-center border border-black/5 bg-white rounded-md ${sheetConfig.size === size ? 'border-black' : ''}`}
-                          style={{ width: size + 16, height: size + 16 }}>
-                          {SvgPreview && (
-                            <SvgPreview
-                              width={size}
-                              height={size}
-                              style={{ color: sheetConfig.color }}
-                            />
-                          )}
+
+      {
+        selectedIcon && (
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <SheetContent side="bottom" className="sm:max-w-full" onOpenAutoFocus={(e) => e.preventDefault()}>
+              <SheetHeader>
+                <SheetTitle className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-lg">{selectedIcon.name}</span>
+                  </div>
+                </SheetTitle>
+              </SheetHeader>
+              <div className="py-6 flex gap-8">
+                {/* Left Column: Visuals & Color Picker */}
+                <div className="w-1/5 flex flex-col bg-secondary/30 rounded-lg border border-border p-6 gap-6">
+                  <div>
+                    <div className="flex items-end gap-4">
+                      {[16, 20, 24].map((size) => (
+                        <div
+                          key={size}
+                          className={`flex flex-col items-center gap-2 cursor-pointer transition-opacity ${sheetConfig.size === size ? 'opacity-100' : 'opacity-50 hover:opacity-100'}`}
+                          onClick={() => setSheetConfig(prev => ({ ...prev, size: size as 16 | 20 | 24 }))}
+                        >
+                          <div className={`flex items-center justify-center border border-black/5 bg-white rounded-md ${sheetConfig.size === size ? 'border-black' : ''}`}
+                            style={{ width: size + 16, height: size + 16 }}>
+                            {SvgPreview && (
+                              <SvgPreview
+                                width={size}
+                                height={size}
+                                style={{ color: sheetConfig.color }}
+                              />
+                            )}
+                          </div>
+                          <span className={`text-xs font-mono ${sheetConfig.size === size ? 'font-bold text-primary' : 'text-muted-foreground'}`}>{size}px</span>
                         </div>
-                        <span className={`text-xs font-mono ${sheetConfig.size === size ? 'font-bold text-primary' : 'text-muted-foreground'}`}>{size}px</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <div>
-                    <ColorPalette purpose="icon" onColorSelect={(c) => setSheetConfig(prev => ({ ...prev, color: c }))} />
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column: Details & Code */}
-              <div className="flex flex-col gap-6 flex-1">
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-                  <div>
-                    <span className="font-semibold block mb-1">Category</span>
-                    <span className="capitalize">{selectedIcon.category}</span>
-                  </div>
-                  <div>
-                    <span className="font-semibold block mb-1">Filename</span>
-                    <span className="font-mono text-muted-foreground">{selectedIcon.filename}.svg</span>
-                  </div>
-                  {selectedIcon.subfolder && (
-                    <div>
-                      <span className="font-semibold block mb-1">Subfolder</span>
-                      <span className="font-mono text-muted-foreground">{selectedIcon.subfolder}</span>
+                      ))}
                     </div>
-                  )}
+                  </div>
+
+                  <div>
+                    <div>
+                      <ColorPalette purpose="icon" onColorSelect={(c) => setSheetConfig(prev => ({ ...prev, color: c }))} />
+                    </div>
+                  </div>
                 </div>
 
-                {/* Usage Code Section */}
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-semibold text-sm">Usage</span>
+                {/* Right Column: Details & Code */}
+                <div className="flex flex-col gap-6 flex-1">
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <span className="font-semibold block mb-1">Category</span>
+                      <span className="capitalize">{selectedIcon.category}</span>
+                    </div>
+                    <div>
+                      <span className="font-semibold block mb-1">Filename</span>
+                      <span className="font-mono text-muted-foreground">{selectedIcon.filename}.svg</span>
+                    </div>
+                    {selectedIcon.subfolder && (
+                      <div>
+                        <span className="font-semibold block mb-1">Subfolder</span>
+                        <span className="font-mono text-muted-foreground">{selectedIcon.subfolder}</span>
+                      </div>
+                    )}
                   </div>
-                  <div className="bg-muted p-4 rounded-md flex items-center justify-between font-mono text-xs border border-border">
-                    <code className="break-all">{getUsageCode()}</code>
-                    <Clipboard value={getUsageCode()} />
+
+                  {/* Usage Code Section */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-semibold text-sm">Usage</span>
+                    </div>
+                    <div className="bg-muted p-4 rounded-md flex items-center justify-between font-mono text-xs border border-border">
+                      <code className="break-all">{getUsageCode()}</code>
+                      <Clipboard value={getUsageCode()} />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </SheetContent>
-        </Sheet>
-      )}
-    </div>
+            </SheetContent>
+          </Sheet>
+        )
+      }
+    </div >
   );
 };
 

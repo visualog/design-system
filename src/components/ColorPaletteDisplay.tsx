@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { SearchBar } from './SearchBar';
 import { designSystemData } from '../utils/dataLoader';
 
 import {
@@ -14,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
+
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -23,7 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from './ui/button';
-import { ChevronDown, X, Search } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 // --- Reusable Color Swatch (already exists) ---
 interface ColorProps {
@@ -396,30 +397,17 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder={`${tokenCount}개 토큰 검색...`}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-80 shadow-none px-9"
-              />
-              {searchTerm && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
-                  onClick={() => setSearchTerm('')}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              )}
-            </div>
+            <SearchBar
+              placeholder={`${tokenCount}개 토큰 검색...`}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
           <TokensDisplay colors={filteredColors} />
         </section>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 };
 

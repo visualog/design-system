@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { SearchBar } from './SearchBar';
 import { designSystemData } from '../utils/dataLoader';
 import { Clipboard } from './ui/clipboard';
 import {
@@ -17,8 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "./ui/button";
-import { ChevronDown, Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { ChevronDown } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -118,15 +118,12 @@ const TypographyDisplay: React.FC = () => {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <div className="relative w-80">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder={`${filteredTypography.length}개 토큰 검색...`}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 w-full shadow-none"
-          />
-        </div>
+
+        <SearchBar
+          placeholder={`${filteredTypography.length}개 토큰 검색...`}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
       </div>
 
       <div className="overflow-hidden">
@@ -159,7 +156,7 @@ const TypographyDisplay: React.FC = () => {
 
       {selectedStyle && (
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-          <SheetContent side="bottom" className="sm:max-w-full" onOpenAutoFocus={(e) => e.preventDefault()}>
+          <SheetContent side="bottom" className="sm:max-w-full z-[100]" onOpenAutoFocus={(e) => e.preventDefault()}>
             <SheetHeader>
               <SheetTitle className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
