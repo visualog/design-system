@@ -304,7 +304,7 @@ const IconDisplay: React.FC = () => {
   // Calculate icon counts
   const lineIconCount = icons.line.line_icons.length;
   const filledIconCount = icons.filled.filled_icons.length;
-  const illustIconCount = allIllustrationIcons.length;
+  const illustIconCount = filteredIllustrations.length;
 
   const [selectedIcon, setSelectedIcon] = useState<{ name: string; category: 'line' | 'fill' | 'illust'; filename: string; subfolder?: string; color: string } | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
