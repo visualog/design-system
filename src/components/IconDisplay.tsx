@@ -1,5 +1,5 @@
 import React, { useState, useRef, useMemo } from 'react';
-import { RotateCcw } from 'lucide-react';
+import { RotateCcw, Search } from 'lucide-react';
 import { designSystemData } from '../utils/dataLoader';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -345,13 +345,16 @@ const IconDisplay: React.FC = () => {
               searchQuery={lineSearchQuery}
               onIconClick={handleIconClick}
               searchInput={
-                <Input
-                  type="text"
-                  placeholder={`${lineIconCount}개 아이콘 검색...`}
-                  className="w-80 px-4 py-2 rounded-lg shadow-none"
-                  value={lineSearchQuery}
-                  onChange={(e) => setLineSearchQuery(e.target.value)}
-                />
+                <div className="relative w-80">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder={`${lineIconCount}개 아이콘 검색...`}
+                    className="w-full pl-9 pr-4 py-2 rounded-lg shadow-none"
+                    value={lineSearchQuery}
+                    onChange={(e) => setLineSearchQuery(e.target.value)}
+                  />
+                </div>
               }
             />
           </div>
@@ -366,13 +369,16 @@ const IconDisplay: React.FC = () => {
               searchQuery={filledSearchQuery}
               onIconClick={handleIconClick}
               searchInput={
-                <Input
-                  type="text"
-                  placeholder={`${filledIconCount}개 아이콘 검색...`}
-                  className="w-80 px-4 py-2 rounded-lg shadow-none"
-                  value={filledSearchQuery}
-                  onChange={(e) => setFilledSearchQuery(e.target.value)}
-                />
+                <div className="relative w-80">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder={`${filledIconCount}개 아이콘 검색...`}
+                    className="w-full pl-9 pr-4 py-2 rounded-lg shadow-none"
+                    value={filledSearchQuery}
+                    onChange={(e) => setFilledSearchQuery(e.target.value)}
+                  />
+                </div>
               }
             />
           </div>
@@ -402,13 +408,16 @@ const IconDisplay: React.FC = () => {
                       ))}
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <Input
-                    type="text"
-                    placeholder={`${illustIconCount}개 아이콘 검색...`}
-                    className="w-80 px-4 py-2 rounded-lg shadow-none"
-                    value={illustSearchQuery}
-                    onChange={(e) => setIllustSearchQuery(e.target.value)}
-                  />
+                  <div className="relative w-80">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="text"
+                      placeholder={`${illustIconCount}개 아이콘 검색...`}
+                      className="w-full pl-9 pr-4 py-2 rounded-lg shadow-none"
+                      value={illustSearchQuery}
+                      onChange={(e) => setIllustSearchQuery(e.target.value)}
+                    />
+                  </div>
                 </div>
               </div>
 

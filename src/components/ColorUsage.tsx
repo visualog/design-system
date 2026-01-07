@@ -1,6 +1,6 @@
 import React from 'react';
 import GuidelineItem from './ui/GuidelineItem';
-import { Button } from './ui/button';
+
 
 const ColorUsage: React.FC = () => {
     return (
@@ -14,10 +14,11 @@ const ColorUsage: React.FC = () => {
                         description="배경색과 텍스트 색상 간의 명도 대비를 4.5:1 이상(WCAG AA 기준)으로 유지하여 가독성을 보장하세요."
                     >
                         <div className="flex flex-col gap-4 w-full px-8">
-                            <div className="bg-primary p-4 rounded-md text-primary-foreground text-center font-medium">
+                            {/* Example using explicit high contrast colors */}
+                            <div className="bg-blue-600 p-4 rounded-md text-white text-center font-medium">
                                 가독성이 좋은 텍스트
                             </div>
-                            <div className="bg-muted p-4 rounded-md text-foreground text-center font-medium">
+                            <div className="bg-gray-100 p-4 rounded-md text-gray-900 text-center font-medium">
                                 명확한 대비
                             </div>
                         </div>
@@ -48,7 +49,11 @@ const ColorUsage: React.FC = () => {
                         description="오류(Error), 성공(Success), 경고(Warning) 색상은 해당 상태를 전달하는 데에만 제한적으로 사용하세요."
                     >
                         <div className="flex gap-4 justify-center items-center">
-                            <Button variant="destructive">삭제하기</Button>
+                            {/* Explicit Error Button Style */}
+                            <button className="px-4 py-2 bg-red-600 text-white rounded-md font-medium hover:bg-red-700 transition-colors">
+                                삭제하기
+                            </button>
+                            {/* Explicit Success Text Style */}
                             <div className="text-green-600 font-medium">저장 완료</div>
                         </div>
                     </GuidelineItem>
@@ -58,7 +63,10 @@ const ColorUsage: React.FC = () => {
                         description="단순히 '빨간색이 예뻐서' 혹은 '눈에 띄게 하려고' 오류 색상을 버튼이나 배경에 사용하지 마세요."
                     >
                         <div className="flex gap-4 justify-center items-center">
-                            <Button className="bg-red-500 hover:bg-red-600 text-white">가입하기</Button>
+                            {/* Misuse of Error Color example */}
+                            <button className="px-4 py-2 bg-red-500 text-white rounded-md font-medium hover:bg-red-600 transition-colors">
+                                가입하기
+                            </button>
                         </div>
                     </GuidelineItem>
                 </div>
@@ -73,9 +81,12 @@ const ColorUsage: React.FC = () => {
                         description="브랜드 색상은 페이지의 가장 중요한 액션(Primary Action)이나 활성 상태를 강조할 때 사용하세요."
                     >
                         <div className="flex flex-col gap-4 w-full max-w-xs items-center">
-                            <Button>시작하기</Button>
-                            <div className="w-full bg-primary/10 h-2 rounded-full overflow-hidden">
-                                <div className="bg-primary w-2/3 h-full" />
+                            {/* Explicit Brand Button Style */}
+                            <button className="px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition-colors">
+                                시작하기
+                            </button>
+                            <div className="w-full bg-blue-100 h-2 rounded-full overflow-hidden">
+                                <div className="bg-blue-600 w-2/3 h-full" />
                             </div>
                         </div>
                     </GuidelineItem>
@@ -84,8 +95,10 @@ const ColorUsage: React.FC = () => {
                         title="과도한 사용 지양"
                         description="브랜드 색상을 남발하면 시각적 피로도를 높이고 중요도가 희석됩니다. 배경 전체에 사용하거나 모든 버튼에 적용하지 마세요."
                     >
-                        <div className="w-full h-full bg-primary/20 flex items-center justify-center p-8 rounded-lg">
-                            <div className="text-primary font-bold text-center">모든 곳에<br />브랜드 컬러 사용</div>
+                        <div className="w-full h-full bg-blue-50 flex items-center justify-center p-8 rounded-lg overflow-hidden border border-blue-100">
+                            <div className="text-blue-600 font-bold text-center leading-relaxed">
+                                모든 곳에<br />브랜드 컬러 사용
+                            </div>
                         </div>
                     </GuidelineItem>
                 </div>

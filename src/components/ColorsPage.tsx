@@ -27,7 +27,7 @@ const ColorsPage: React.FC = () => {
 
       <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
         <AnimatedTabsContent value="scale">
-          <div>
+          <div className="mt-6">
             <ColorPaletteDisplay view="grid" />
           </div>
         </AnimatedTabsContent>
@@ -47,7 +47,7 @@ const ColorsPage: React.FC = () => {
           </div>
         </AnimatedTabsContent>
         <AnimatedTabsContent value="usage">
-          <div>
+          <div className="mt-6">
             <ColorUsage />
           </div>
         </AnimatedTabsContent>

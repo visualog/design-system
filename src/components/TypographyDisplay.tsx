@@ -17,7 +17,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "./ui/button";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import {
   Sheet,
   SheetContent,
@@ -29,6 +30,7 @@ const TypographyDisplay: React.FC = () => {
   const { typography } = designSystemData;
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [selectedStyle, setSelectedStyle] = useState<any>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const getFontWeight = (weight: string) => {
     if (weight.includes('Bold')) return 700;
@@ -78,13 +80,22 @@ const TypographyDisplay: React.FC = () => {
   const availableCategories = Object.keys(typography).filter(key => key !== 'font_family');
 
   const filteredTypography = Object.entries(typography)
-    .filter(([key]) => key !== 'font_family' && (selectedCategories.includes('All') || selectedCategories.includes(key)));
+    .filter(([key]) => key !== 'font_family')
+    .flatMap(([category, styles]: [string, any]) =>
+      styles.map((style: any) => ({ ...style, category }))
+    )
+    .filter((style) => {
+      const matchesCategory = selectedCategories.includes('All') || selectedCategories.includes(style.category);
+      const matchesSearch = style.style_name.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
 
 
 
   return (
     <div className="font-pretendard flex flex-col gap-4">
-      <div className="flex justify-end">
+
+      <div className="flex gap-4 items-center">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="w-48 justify-between shadow-none">
@@ -106,6 +117,16 @@ const TypographyDisplay: React.FC = () => {
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
+
+        <div className="relative w-80">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder={`${filteredTypography.length}개 토큰 검색...`}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-9 w-full shadow-none"
+          />
+        </div>
       </div>
 
       <div className="overflow-hidden">
@@ -119,22 +140,19 @@ const TypographyDisplay: React.FC = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredTypography
-              .flatMap(([category, styles]: [string, any]) =>
-                styles.map((style: any, index: number) => (
-                  <TableRow key={`${category}-${index}`} onClick={() => handleRowClick(style)} className="cursor-pointer hover:bg-accent/50 transition-colors">
-                    <TableCell className="font-mono text-sm font-medium">
-                      <div className="flex items-center gap-2">
-                        <span className="text-primary">${style.style_name}</span>
-                        <Clipboard value={style.style_name} />
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground font-mono text-xs">{style.size}px</TableCell>
-                    <TableCell className="text-muted-foreground font-mono text-xs">{style.line_height}px</TableCell>
-                    <TableCell className="text-muted-foreground font-mono text-xs">{style.weight}</TableCell>
-                  </TableRow>
-                ))
-              )}
+            {filteredTypography.map((style: any, index: number) => (
+              <TableRow key={`${style.category}-${index}`} onClick={() => handleRowClick(style)} className="cursor-pointer hover:bg-accent/50 transition-colors">
+                <TableCell className="font-mono text-sm font-medium">
+                  <div className="flex items-center gap-2">
+                    <span className="text-primary">${style.style_name}</span>
+                    <Clipboard value={style.style_name} />
+                  </div>
+                </TableCell>
+                <TableCell className="text-muted-foreground font-mono text-xs">{style.size}px</TableCell>
+                <TableCell className="text-muted-foreground font-mono text-xs">{style.line_height}px</TableCell>
+                <TableCell className="text-muted-foreground font-mono text-xs">{style.weight}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div>

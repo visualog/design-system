@@ -23,7 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from './ui/button';
-import { ChevronDown, X } from 'lucide-react';
+import { ChevronDown, X, Search } from 'lucide-react';
 
 // --- Reusable Color Swatch (already exists) ---
 interface ColorProps {
@@ -397,11 +397,12 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
               </DropdownMenuContent>
             </DropdownMenu>
             <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder={`${tokenCount}개 토큰 검색...`}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-80 shadow-none pr-9"
+                className="w-80 shadow-none px-9"
               />
               {searchTerm && (
                 <Button

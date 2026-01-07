@@ -24,8 +24,8 @@ const GuidelineItem: React.FC<GuidelineItemProps> = ({
     return (
         <div className={cn("flex flex-col gap-4 p-0", className)}>
             <div className={cn(
-                "rounded-lg overflow-hidden border bg-background flex items-center justify-center p-8 min-h-[200px]",
-                isDo ? "border-green-200" : isCaution ? "border-yellow-200" : "border-red-200"
+                "rounded-lg overflow-hidden border flex items-center justify-center p-8 min-h-[200px]",
+                isDo ? "border-green-100 bg-green-50/30" : isCaution ? "border-yellow-100 bg-yellow-50/30" : "border-red-100 bg-red-50/30"
             )}>
                 {children}
             </div>

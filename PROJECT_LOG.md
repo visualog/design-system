@@ -55,3 +55,21 @@
 - Completed: Displayed hex value next to color chip in "Preview" column in `ThemeColorMappingDisplay.tsx`.
 - Completed: Removed `h-10` from `TableHead` in `ThemeColorMappingDisplay.tsx` by adding `h-auto`.
 - Clarified token hierarchy (Raw Value -> Palette Token -> Theme Token -> Semantic Token).
+
+## 2026년 1월 7일 수요일
+
+- Completed: Standardized icon layout (illustration icons) and added category filtering.
+- Completed: Fixed unicode text display issues in UI components.
+- Completed: Standardized search bar width to w-80 across Colors and Icons pages.
+- Completed: Refined Shadow page layout: matching Radius page structure, added Description column.
+- Completed: Updated Shadow tokens: value simplification (removed spread), renamed to `shadow_X` format, updated descriptions to 'Elevation' concept with Usage (Optional/Mandatory).
+- Completed: Updated Shadow display: moved level labels inside sample boxes, removed external labels.
+- Completed: Updated Radius tokens: renamed to `rounded_X` format, updated display to handle new naming.
+- Completed: Updated Spacing tokens: renamed to `spacing_X` format (removed `--` prefix), updated display table headers to '기기 너비'.
+- Completed: Implemented sticky header bottom border interaction on scroll in `MainContent.tsx`.
+- Completed: Consolidated and standardized page titles and section headers across Layout/Spacing pages.
+- Completed: Refined Color Usage examples to be independent of site theme, using explicit HTML/CSS instead of `shadcn/ui` components.
+- Completed: Increased top margin for 'Scale' and 'Usage' tabs in Colors page to `mt-6`.
+- Completed: Updated Guideline Item styling with lighter backgrounds (`bg-*-50/30`) and borders (`border-*-100`).
+- Completed: Standardized Typography page layout: Left-aligned dropdown and search bar, added search filtering.
+- Completed: Standardized all search bars (Colors, Typography, Icons) with search icons and localized Korean placeholders.
