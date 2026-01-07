@@ -21,13 +21,13 @@ const RadiusDisplay: React.FC = () => {
                     <h2 className="text-xl font-bold">스케일</h2>
                 </div>
 
-                <div className="w-full border border-border rounded-xl bg-secondary/10 p-8">
+                <div className="w-full border border-border rounded-xl bg-secondary p-8">
                     <div className="flex flex-wrap gap-8 justify-center">
                         {radius.radius_tokens.map((token: any) => (
-                            token.token !== "rounded-none" && (
+                            token.token !== "rounded_none" && (
                                 <div key={token.token} className="flex flex-col items-center gap-4">
                                     <div
-                                        className={`w-24 h-24 bg-white border-2 border-primary flex flex-col items-center justify-center gap-1 shadow-none ${token.token} relative overflow-hidden`}
+                                        className={`w-24 h-24 bg-white border border flex flex-col items-center justify-center gap-1 shadow-none ${token.token.replace('_', '-')} relative overflow-hidden`}
                                         title={token.token}
                                     >
                                         {/* Visual Guides for Radius (All 4 corners) - Filled, No Border */}
@@ -61,7 +61,7 @@ const RadiusDisplay: React.FC = () => {
                                         />
 
                                         <span className="text-sm font-bold text-primary relative z-10">
-                                            {token.token === 'rounded-full' ? 'full' : token.token.replace('rounded-', '')}
+                                            {token.token === 'rounded_full' ? 'full' : token.token.replace('rounded_', '')}
                                         </span>
                                         <span className="text-[10px] text-muted-foreground relative z-10">{token.value}</span>
                                     </div>

@@ -13,6 +13,15 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Clipboard } from './ui/clipboard';
+import { Input } from '@/components/ui/input';
+import { ChevronDown } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuCheckboxItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 // --- Helper function to get SVG components ---
 const allSvgModules = import.meta.glob<{ default: React.FC<React.SVGProps<SVGSVGElement>> }>('/src/assets/icons/**/*.svg', { eager: true });
@@ -136,13 +145,14 @@ interface IconSectionProps {
   filenameMapping: any;
   searchQuery: string;
   onIconClick: (name: string, category: 'line' | 'fill', filename: string, color: string) => void;
+  searchInput?: React.ReactNode;
 }
 
 
 
 // ... existing code ...
 
-const IconSection: React.FC<IconSectionProps> = ({ title, iconList, categoryType, filenameMapping, searchQuery, onIconClick }) => {
+const IconSection: React.FC<IconSectionProps> = ({ iconList, categoryType, filenameMapping, searchQuery, onIconClick, searchInput }) => {
   const [iconColor, setIconColor] = useState(DEFAULT_ICON_COLOR);
   const [bgColor, setBgColor] = useState(DEFAULT_BG_COLOR);
 
@@ -164,10 +174,10 @@ const IconSection: React.FC<IconSectionProps> = ({ title, iconList, categoryType
   }, [iconList, searchQuery]);
 
   return (
-    <div className="mb-12">
-      <div className="flex items-center mb-6">
-        <h2 className="text-xl font-semibold">{title}</h2>
-        <div className="flex items-center gap-2 ml-auto">
+    <div className="flex flex-col gap-6">
+      <div className="flex items-center justify-between">
+        {searchInput}
+        <div className="flex items-center gap-2">
           <Popover>
             <PopoverTrigger>
               <ColorChipTrigger color={iconColor} />
@@ -228,36 +238,73 @@ const IconSection: React.FC<IconSectionProps> = ({ title, iconList, categoryType
 };
 
 // --- Main Icon Display Component ---
-interface IconDisplayProps {
-  searchQuery: string;
-}
-
-const IconDisplay: React.FC<IconDisplayProps> = ({ searchQuery }) => {
+const IconDisplay: React.FC = () => {
+  const [lineSearchQuery, setLineSearchQuery] = useState('');
+  const [filledSearchQuery, setFilledSearchQuery] = useState('');
+  const [illustSearchQuery, setIllustSearchQuery] = useState('');
+  const [illustCategory, setIllustCategory] = useState('All');
   const { icons } = designSystemData;
-  const [activeTab, setActiveTab] = useState('ui');
+  const [activeTab, setActiveTab] = useState('line');
   const tabs = [
-    { name: 'UI Icons', value: 'ui' },
+    { name: 'Line Icons', value: 'line' },
+    { name: 'Filled Icons', value: 'filled' },
     { name: 'Illustration Icons', value: 'illustration' }
   ];
 
+  // Create category name mapping
+  const illustCategoryNames: Record<string, string> = useMemo(() => {
+    const categories: Record<string, string> = {};
+    Object.entries(icons.illustration).forEach(([categoryKey, data]) => {
+      if (categoryKey !== "icon_assets_notes" && data.subfolder) {
+        // Map category keys to display names
+        if (categoryKey.toLowerCase().includes('document')) {
+          categories[categoryKey] = 'Document';
+        } else if (categoryKey.toLowerCase().includes('card')) {
+          categories[categoryKey] = 'Card';
+        } else if (categoryKey.toLowerCase().includes('fed')) {
+          categories[categoryKey] = 'FED';
+        } else if (categoryKey.toLowerCase().includes('film')) {
+          categories[categoryKey] = 'FILM';
+        } else {
+          categories[categoryKey] = categoryKey;
+        }
+      }
+    });
+    return categories;
+  }, [icons.illustration]);
+
+  // Flatten all illustration icons with category info
+  const allIllustrationIcons = useMemo(() => {
+    const iconsList: Array<{ filename: string; category: string; subfolder: string; moduleKey: string }> = [];
+
+    Object.entries(icons.illustration).forEach(([categoryKey, data]) => {
+      if (categoryKey === "icon_assets_notes" || !data.subfolder) return;
+
+      Object.keys(allSvgModules)
+        .filter(key => key.toLowerCase().startsWith(`/src/assets/icons/illust/${data.subfolder}/`.toLowerCase()))
+        .forEach(moduleKey => {
+          const filename = moduleKey.split('/').pop()?.replace('.svg', '');
+          if (filename) {
+            iconsList.push({ filename, category: categoryKey, subfolder: data.subfolder, moduleKey });
+          }
+        });
+    });
+
+    return iconsList;
+  }, [icons.illustration]);
+
   const filteredIllustrations = useMemo(() => {
-    return Object.entries(icons.illustration)
-      .map(([categoryKey, data]) => {
-        if (categoryKey === "icon_assets_notes" || !data.subfolder) return null;
+    return allIllustrationIcons.filter(icon => {
+      const matchesSearch = icon.filename.toLowerCase().includes(illustSearchQuery.toLowerCase());
+      const matchesCategory = illustCategory === 'All' || icon.category === illustCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [allIllustrationIcons, illustSearchQuery, illustCategory]);
 
-        const filteredModules = Object.keys(allSvgModules).filter(key =>
-          key.toLowerCase().startsWith(`/src/assets/icons/illust/${data.subfolder}/`.toLowerCase()) &&
-          key.split('/').pop()?.replace('.svg', '').toLowerCase().includes(searchQuery.toLowerCase())
-        );
-
-        return {
-          categoryKey,
-          data,
-          filteredModules
-        };
-      })
-      .filter(item => item && item.filteredModules.length > 0);
-  }, [icons.illustration, searchQuery]);
+  // Calculate icon counts
+  const lineIconCount = icons.line.line_icons.length;
+  const filledIconCount = icons.filled.filled_icons.length;
+  const illustIconCount = allIllustrationIcons.length;
 
   const [selectedIcon, setSelectedIcon] = useState<{ name: string; category: 'line' | 'fill' | 'illust'; filename: string; subfolder?: string; color: string } | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -288,75 +335,114 @@ const IconDisplay: React.FC<IconDisplayProps> = ({ searchQuery }) => {
   return (
     <div>
       <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
-        <AnimatedTabsContent value="ui">
-          <div className="pt-8">
+        <AnimatedTabsContent value="line">
+          <div>
             <IconSection
               title="Line Icons"
               iconList={icons.line.line_icons}
               categoryType="line"
               filenameMapping={icons.filenameMapping.line_icons}
-              searchQuery={searchQuery}
+              searchQuery={lineSearchQuery}
               onIconClick={handleIconClick}
+              searchInput={
+                <Input
+                  type="text"
+                  placeholder={`${lineIconCount}개 아이콘 검색...`}
+                  className="w-80 px-4 py-2 rounded-lg shadow-none"
+                  value={lineSearchQuery}
+                  onChange={(e) => setLineSearchQuery(e.target.value)}
+                />
+              }
             />
+          </div>
+        </AnimatedTabsContent>
+        <AnimatedTabsContent value="filled">
+          <div>
             <IconSection
               title="Filled Icons"
               iconList={icons.filled.filled_icons}
               categoryType="fill"
               filenameMapping={icons.filenameMapping.filled_icons}
-              searchQuery={searchQuery}
+              searchQuery={filledSearchQuery}
               onIconClick={handleIconClick}
+              searchInput={
+                <Input
+                  type="text"
+                  placeholder={`${filledIconCount}개 아이콘 검색...`}
+                  className="w-80 px-4 py-2 rounded-lg shadow-none"
+                  value={filledSearchQuery}
+                  onChange={(e) => setFilledSearchQuery(e.target.value)}
+                />
+              }
             />
           </div>
         </AnimatedTabsContent>
         <AnimatedTabsContent value="illustration">
-          <div className="pt-8 grid grid-cols-1 gap-8">
-            {filteredIllustrations.length > 0 ? (
-              filteredIllustrations.map((item) => {
-                if (!item) return null;
-                const { categoryKey, data, filteredModules } = item;
+          <div>
+            <div className="flex flex-col gap-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="w-48 justify-between shadow-none">
+                        <span>{illustCategory === 'All' ? '전체' : illustCategoryNames[illustCategory] || illustCategory}</span>
+                        <ChevronDown className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem onSelect={() => setIllustCategory('All')}>전체</DropdownMenuItem>
+                      {Object.entries(illustCategoryNames).map(([categoryKey, displayName]) => (
+                        <DropdownMenuCheckboxItem
+                          key={categoryKey}
+                          checked={illustCategory === categoryKey}
+                          onCheckedChange={() => setIllustCategory(categoryKey)}
+                        >
+                          {displayName}
+                        </DropdownMenuCheckboxItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <Input
+                    type="text"
+                    placeholder={`${illustIconCount}개 아이콘 검색...`}
+                    className="w-80 px-4 py-2 rounded-lg shadow-none"
+                    value={illustSearchQuery}
+                    onChange={(e) => setIllustSearchQuery(e.target.value)}
+                  />
+                </div>
+              </div>
 
-                return (
-                  <div key={categoryKey} className="mb-6">
-                    <h3 className="text-xl font-medium mb-4">{categoryKey}</h3>
-                    {data.notes && <p className="text-sm text-gray-600 mb-4">{data.notes}</p>}
-                    <div className="grid grid-cols-[repeat(auto-fill,minmax(6rem,1fr))] gap-4">
-                      {filteredModules.map((modulePathKey, index) => {
-                        const filename = modulePathKey.split('/').pop()?.replace('.svg', '');
-                        const SvgComponent = filename ? getSvgComponentFromFilename(filename, 'illust', data.subfolder) : null;
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-2">
+                {filteredIllustrations.length > 0 ? (
+                  filteredIllustrations.map((icon, index) => {
+                    const SvgComponent = getSvgComponentFromFilename(icon.filename, 'illust', icon.subfolder);
+                    const defaultIllustColor = '#374151';
 
-                        // Default color for Illustrations is usually not controlled the same way or... 
-                        // Wait, Illustration section doesn't have the color picker in this implementation?
-                        // The UI shows color pickers inside IconSection. Illustrations are outside.
-                        // Let's assume default color for illustrations or add color picking there too?
-                        // For now, let's pass a default color for illustrations since they are standalone here.
-                        const defaultIllustColor = '#374151';
-
-                        return (
-                          <TooltipProvider key={index} delayDuration={100}>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Card
-                                  className="shadow-none w-full aspect-square flex items-center justify-center cursor-pointer hover:bg-secondary/50 transition-colors"
-                                  onClick={() => filename && handleIconClick(filename, 'illust', filename, defaultIllustColor, data.subfolder)}
-                                >
-                                  <CardContent className="p-0">
-                                    {SvgComponent ? <SvgComponent className="w-8 h-8 text-foreground" /> : <span className="text-xs">N/A</span>}
-                                  </CardContent>
-                                </Card>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>{filename || 'unknown'}</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })) : (
-              <p className="text-gray-500">No illustration icons found for this query.</p>
-            )}
+                    return (
+                      <TooltipProvider key={index} delayDuration={100}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Card
+                              className="shadow-none w-full aspect-square flex items-center justify-center cursor-pointer hover:bg-secondary/50 transition-colors"
+                              onClick={() => handleIconClick(icon.filename, 'illust', icon.filename, defaultIllustColor, icon.subfolder)}
+                            >
+                              <CardContent className="p-0">
+                                {SvgComponent ? <SvgComponent className="w-8 h-8 text-foreground" /> : <span className="text-xs">N/A</span>}
+                              </CardContent>
+                            </Card>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{icon.filename}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    );
+                  })
+                ) : (
+                  <p className="text-gray-500">No illustration icons found for this query.</p>
+                )}
+              </div>
+            </div>
           </div>
         </AnimatedTabsContent>
       </AnimatedTabs>

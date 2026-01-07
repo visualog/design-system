@@ -7,6 +7,7 @@ interface MainContentProps {
 
 const MainContent: React.FC<MainContentProps> = ({ children }) => {
   const progressBarRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   const targetProgress = useRef(0);
   const currentProgress = useRef(0);
   const rafId = useRef<number | null>(null);
@@ -57,6 +58,14 @@ const MainContent: React.FC<MainContentProps> = ({ children }) => {
           progressBarRef.current.style.opacity = '0';
         }
       }, 1000);
+      // Show/hide border based on scroll position
+      if (headerRef.current) {
+        if (totalScroll > 0) {
+          headerRef.current.classList.add('border-b', 'border-border');
+        } else {
+          headerRef.current.classList.remove('border-b', 'border-border');
+        }
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -73,7 +82,10 @@ const MainContent: React.FC<MainContentProps> = ({ children }) => {
   return (
     <main className="flex-1">
       {/* Sticky Header with Breadcrumb */}
-      <div className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md px-6 md:px-8 lg:px-12 pt-6 pb-4 relative">
+      <div
+        ref={headerRef}
+        className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md px-6 md:px-8 lg:px-12 pt-6 pb-4 relative transition-colors duration-200"
+      >
         <div className="max-w-[760px] mx-auto">
           <Breadcrumb />
         </div>

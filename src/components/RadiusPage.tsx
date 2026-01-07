@@ -11,9 +11,7 @@ const RadiusPage: React.FC = () => {
                 </p>
             </div>
 
-            <div className="pt-4">
-                <RadiusDisplay />
-            </div>
+            <RadiusDisplay />
         </div>
     );
 };

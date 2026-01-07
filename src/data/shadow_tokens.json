@@ -1,34 +1,29 @@
 {
   "shadow_tokens": [
     {
-      "token": "shadow0",
-      "css_value": "none",
-      "description": "대부분의 케이스에서 사용"
+      "token": "shadow_100",
+      "css_value": "0px 1px 4px 0px rgba(25,31,40,0.12)",
+      "description": "Elevation 1 - 카드, 일반적인 컨텐츠 (선택)"
     },
     {
-      "token": "shadow100",
-      "css_value": "0px 1px 4px 0px rgba(25,31,40,0.12), 0px 0px 1px 0px rgba(0,0,0,0.04)",
-      "description": "FAB"
-    },
-    {
-      "token": "shadow200",
+      "token": "shadow_200",
       "css_value": "0px 2px 8px 0px rgba(25,31,40,0.12)",
-      "description": "Select option group"
+      "description": "Elevation 2 - 드롭다운, 팝오버 (필수)"
     },
     {
-      "token": "shadow300",
+      "token": "shadow_300",
       "css_value": "0px 4px 12px 0px rgba(25,31,40,0.12)",
-      "description": "Pop-up / Modal / Date Picker / Dropdown / Toast / Client"
+      "description": "Elevation 3 - 모달, 다이얼로그 (필수)"
     },
     {
-      "token": "shadow400",
+      "token": "shadow_400",
       "css_value": "0px 4px 16px 0px rgba(25,31,40,0.20)",
-      "description": "Cards"
+      "description": "Elevation 4 - 토스트, 중요 알림 (필수)"
     },
     {
-      "token": "shadow500",
+      "token": "shadow_500",
       "css_value": "0px 8px 20px 0px rgba(25,31,40,0.24)",
-      "description": "Tooltips"
+      "description": "Elevation 5 - 툴팁, 플로팅 액션 버튼(FAB) (필수)"
     }
   ]
 }

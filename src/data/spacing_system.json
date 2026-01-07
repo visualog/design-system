@@ -1,22 +1,94 @@
 {
   "spacing_values": [
-    { "px": 0, "rem": 0, "variable": "--spacing-0" },
-    { "px": 2, "rem": 0.125, "variable": "--spacing-1" },
-    { "px": 4, "rem": 0.25, "variable": "--spacing-2" },
-    { "px": 6, "rem": 0.375, "variable": "--spacing-3" },
-    { "px": 8, "rem": 0.5, "variable": "--spacing-4" },
-    { "px": 10, "rem": 0.625, "variable": "--spacing-5" },
-    { "px": 12, "rem": 0.75, "variable": "--spacing-6" },
-    { "px": 16, "rem": 1, "variable": "--spacing-7" },
-    { "px": 20, "rem": 1.25, "variable": "--spacing-8" },
-    { "px": 24, "rem": 1.5, "variable": "--spacing-9" },
-    { "px": 28, "rem": 1.75, "variable": "--spacing-10" },
-    { "px": 32, "rem": 2, "variable": "--spacing-11" },
-    { "px": 36, "rem": 2.25, "variable": "--spacing-12" },
-    { "px": 40, "rem": 2.5, "variable": "--spacing-13" },
-    { "px": 48, "rem": 3, "variable": "--spacing-14" },
-    { "px": 64, "rem": 4, "variable": "--spacing-15" },
-    { "px": 80, "rem": 5, "variable": "--spacing-16" },
-    { "px": 144, "rem": 9, "variable": "--spacing-17" }
+    {
+      "px": 0,
+      "rem": 0,
+      "variable": "spacing_0"
+    },
+    {
+      "px": 2,
+      "rem": 0.125,
+      "variable": "spacing_1"
+    },
+    {
+      "px": 4,
+      "rem": 0.25,
+      "variable": "spacing_2"
+    },
+    {
+      "px": 6,
+      "rem": 0.375,
+      "variable": "spacing_3"
+    },
+    {
+      "px": 8,
+      "rem": 0.5,
+      "variable": "spacing_4"
+    },
+    {
+      "px": 10,
+      "rem": 0.625,
+      "variable": "spacing_5"
+    },
+    {
+      "px": 12,
+      "rem": 0.75,
+      "variable": "spacing_6"
+    },
+    {
+      "px": 16,
+      "rem": 1,
+      "variable": "spacing_7"
+    },
+    {
+      "px": 20,
+      "rem": 1.25,
+      "variable": "spacing_8"
+    },
+    {
+      "px": 24,
+      "rem": 1.5,
+      "variable": "spacing_9"
+    },
+    {
+      "px": 28,
+      "rem": 1.75,
+      "variable": "spacing_10"
+    },
+    {
+      "px": 32,
+      "rem": 2,
+      "variable": "spacing_11"
+    },
+    {
+      "px": 36,
+      "rem": 2.25,
+      "variable": "spacing_12"
+    },
+    {
+      "px": 40,
+      "rem": 2.5,
+      "variable": "spacing_13"
+    },
+    {
+      "px": 48,
+      "rem": 3,
+      "variable": "spacing_14"
+    },
+    {
+      "px": 64,
+      "rem": 4,
+      "variable": "spacing_15"
+    },
+    {
+      "px": 80,
+      "rem": 5,
+      "variable": "spacing_16"
+    },
+    {
+      "px": 144,
+      "rem": 9,
+      "variable": "spacing_17"
+    }
   ]
 }

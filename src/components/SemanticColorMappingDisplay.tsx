@@ -99,7 +99,7 @@ const SemanticColorMappingDisplay: React.FC = () => {
             placeholder={`${filteredTokenCount}개 토큰 검색...`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-48 shadow-none pr-9"
+            className="w-80 shadow-none pr-9"
           />
           {searchTerm && (
             <Button

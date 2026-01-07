@@ -106,12 +106,12 @@ const SpacingLayoutDisplay: React.FC = () => {
 
       {/* Main Layouts (Mobile/Tablet) Table */}
       <section className="flex flex-col gap-4">
-        <h2 className="text-xl font-bold">메인 레이아웃 (모바일/태블릿)</h2>
+        <h2 className="text-xl font-bold">모바일/태블릿</h2>
         <div className="overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-1/4 px-4 text-xs h-auto">기기 너비 범위</TableHead>
+                <TableHead className="w-1/4 px-4 text-xs h-auto">기기 너비</TableHead>
                 <TableHead className="w-1/4 px-4 text-xs h-auto">좌측 여백</TableHead>
                 <TableHead className="w-1/4 px-4 text-xs h-auto">우측 여백</TableHead>
                 <TableHead className="w-1/4 px-4 text-xs h-auto">거터</TableHead>
@@ -133,12 +133,12 @@ const SpacingLayoutDisplay: React.FC = () => {
 
       {/* Main Layouts (Desktop) Table */}
       <section className="flex flex-col gap-4">
-        <h2 className="text-xl font-bold">메인 레이아웃 (데스크톱)</h2>
+        <h2 className="text-xl font-bold">데스크톱</h2>
         <div className="overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-1/6 px-4 text-xs h-auto whitespace-nowrap">기기 너비 범위</TableHead>
+                <TableHead className="w-1/6 px-4 text-xs h-auto whitespace-nowrap">기기 너비</TableHead>
                 <TableHead className="w-1/6 px-4 text-xs h-auto whitespace-nowrap">좌측 여백</TableHead>
                 <TableHead className="w-1/6 px-4 text-xs h-auto whitespace-nowrap">우측 여백</TableHead>
                 <TableHead className="w-1/6 px-4 text-xs h-auto whitespace-nowrap">거터</TableHead>
