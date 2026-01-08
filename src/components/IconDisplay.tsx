@@ -419,7 +419,7 @@ const IconDisplay: React.FC = () => {
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Card
-                              className="shadow-none w-full aspect-square flex items-center justify-center cursor-pointer hover:bg-secondary/50 transition-colors"
+                              className="shadow-none w-full aspect-square flex items-center justify-center cursor-pointer hover:bg-secondary/50 transition-all duration-200 hover:-translate-y-1"
                               onClick={() => handleIconClick(icon.filename, 'illust', icon.filename, defaultIllustColor, icon.subfolder)}
                             >
                               <CardContent className="p-0">

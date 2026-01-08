@@ -3,6 +3,7 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 
 export default {
   darkMode: ["class"],
+  safelist: ["rounded-xl", "rounded-2xl", "rounded-3xl"],
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',

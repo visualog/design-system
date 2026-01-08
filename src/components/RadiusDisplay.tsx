@@ -27,33 +27,33 @@ const RadiusDisplay: React.FC = () => {
                             token.token !== "rounded_none" && (
                                 <div key={token.token} className="flex flex-col items-center gap-4">
                                     <div
-                                        className={`w-24 h-24 bg-white border border flex flex-col items-center justify-center gap-1 shadow-none ${token.token.replace('_', '-')} relative overflow-hidden`}
+                                        className={`w-24 h-24 bg-white border border flex flex-col items-center justify-center gap-1 shadow-none ${token.token.replace('_', '-')} relative`}
                                         title={token.token}
                                     >
                                         {/* Visual Guides for Radius (All 4 corners) - Filled, No Border */}
                                         <div
-                                            className="absolute -top-[2px] -left-[2px] bg-red-500/30 rounded-full"
+                                            className="absolute -top-[1px] -left-[1px] bg-red-500/40 rounded-full z-20"
                                             style={{
                                                 width: `calc(${token.value} * 2)`,
                                                 height: `calc(${token.value} * 2)`
                                             }}
                                         />
                                         <div
-                                            className="absolute -top-[2px] -right-[2px] bg-red-500/30 rounded-full"
+                                            className="absolute -top-[1px] -right-[1px] bg-red-500/40 rounded-full z-20"
                                             style={{
                                                 width: `calc(${token.value} * 2)`,
                                                 height: `calc(${token.value} * 2)`
                                             }}
                                         />
                                         <div
-                                            className="absolute -bottom-[2px] -left-[2px] bg-red-500/30 rounded-full"
+                                            className="absolute -bottom-[1px] -left-[1px] bg-red-500/40 rounded-full z-20"
                                             style={{
                                                 width: `calc(${token.value} * 2)`,
                                                 height: `calc(${token.value} * 2)`
                                             }}
                                         />
                                         <div
-                                            className="absolute -bottom-[2px] -right-[2px] bg-red-500/30 rounded-full"
+                                            className="absolute -bottom-[1px] -right-[1px] bg-red-500/40 rounded-full z-20"
                                             style={{
                                                 width: `calc(${token.value} * 2)`,
                                                 height: `calc(${token.value} * 2)`

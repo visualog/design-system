@@ -73,3 +73,9 @@
 - Completed: Updated Guideline Item styling with lighter backgrounds (`bg-*-50/30`) and borders (`border-*-100`).
 - Completed: Standardized Typography page layout: Left-aligned dropdown and search bar, added search filtering.
 - Completed: Standardized all search bars (Colors, Typography, Icons) with search icons and localized Korean placeholders.
+
+## 2026년 1월 9일 금요일
+
+- Completed: Safelisted `rounded-2xl` and `rounded-3xl` classes in `tailwind.config.js` to fix missing styles.
+- Completed: Updated `RadiusDisplay.tsx` to enhance visual guides (overlapping circles, increased z-index, adjusted transparency).
+- Completed: Syncronized `index.css` radius variable definitions (xl, 2xl, 3xl) with `radius.json` to ensure consistency.
