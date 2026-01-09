@@ -4,7 +4,7 @@ import NestedRadiusDisplay from './NestedRadiusDisplay';
 
 const RadiusPage: React.FC = () => {
     return (
-        <div id="radius" className="mb-16 flex flex-col gap-12">
+        <div id="radius" className="flex flex-col gap-12">
             <div className="flex flex-col gap-4">
                 <h1 className="text-4xl font-bold text-foreground">Radius</h1>
                 <p className="text-base text-muted-foreground">
@@ -13,7 +13,7 @@ const RadiusPage: React.FC = () => {
             </div>
 
             <RadiusDisplay />
-            <NestedRadiusDisplay />
+            {/* <NestedRadiusDisplay /> */}
         </div>
     );
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { HighlightText } from './ui/HighlightText';
 import { SearchBar } from './SearchBar';
 import { designSystemData } from '../utils/dataLoader';
 
@@ -160,7 +161,7 @@ const ColorGrid: React.FC<{
 const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 // --- New component for the Tokens table ---
-const TokensDisplay: React.FC<{ colors: any }> = ({ colors }) => (
+const TokensDisplay: React.FC<{ colors: any; searchTerm: string }> = ({ colors, searchTerm }) => (
   <div className="overflow-hidden">
     <Table>
       <TableHeader>
@@ -223,12 +224,12 @@ const TokensDisplay: React.FC<{ colors: any }> = ({ colors }) => (
                 <TableCell className="px-4 font-mono text-sm whitespace-nowrap">
                   <div className="flex items-center gap-2">
                     <div className="w-5 h-5 rounded-full border border-black/10" style={finalChipStyle}></div>
-                    <span>{tokenName}</span>
+                    <span><HighlightText text={tokenName} highlight={searchTerm} /></span>
                   </div>
                 </TableCell>
                 <TableCell className="px-4 font-mono text-xs text-muted-foreground whitespace-nowrap">
                   <div className="flex items-center">
-                    <span className="font-mono">{displayHex}</span>
+                    <span className="font-mono"><HighlightText text={displayHex} highlight={searchTerm} /></span>
                   </div>
                 </TableCell>
               </TableRow>
@@ -403,7 +404,7 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <TokensDisplay colors={filteredColors} />
+          <TokensDisplay colors={filteredColors} searchTerm={searchTerm} />
         </section>
       )
       }

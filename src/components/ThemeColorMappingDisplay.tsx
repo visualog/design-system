@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { HighlightText } from './ui/HighlightText';
 import { SearchBar } from './SearchBar';
 import { designSystemData } from '../utils/dataLoader';
 
@@ -214,12 +215,14 @@ const ThemeColorMappingDisplay: React.FC = () => {
                             })() : (
                               <div className="w-5 h-5 rounded-full bg-gray-200 border border-black/10"></div>
                             )}
-                            <span className="text-primary">${themeVar}</span>
+                            <span className="text-primary">
+                              $<HighlightText text={themeVar} highlight={searchTerm} />
+                            </span>
                           </div>
                         </TableCell>
                         <TableCell className="px-4 font-mono text-xs text-muted-foreground">
                           <div className="flex items-center">
-                            <span>{rawTokenName}</span>
+                            <span><HighlightText text={rawTokenName} highlight={searchTerm} /></span>
                           </div>
                         </TableCell>
                       </TableRow>

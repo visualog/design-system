@@ -27,7 +27,7 @@ const RadiusDisplay: React.FC = () => {
                             token.token !== "rounded_none" && (
                                 <div key={token.token} className="flex flex-col items-center gap-4">
                                     <div
-                                        className={`w-24 h-24 bg-white border border flex flex-col items-center justify-center gap-1 shadow-none ${token.token.replace('_', '-')} relative`}
+                                        className={`w-24 h-24 bg-white border border flex flex-col items-center justify-center gap-1 shadow-none ${token.token.replace('_', '-')} relative overflow-hidden`}
                                         title={token.token}
                                     >
                                         {/* Visual Guides for Radius (All 4 corners) - Filled, No Border */}

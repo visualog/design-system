@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { HighlightText } from './ui/HighlightText';
 import { SearchBar } from './SearchBar';
 import { designSystemData } from '../utils/dataLoader';
 import { Clipboard } from './ui/clipboard';
@@ -140,8 +141,14 @@ const TypographyDisplay: React.FC = () => {
             {filteredTypography.map((style: any, index: number) => (
               <TableRow key={`${style.category}-${index}`} onClick={() => handleRowClick(style)} className="cursor-pointer hover:bg-accent/50 transition-colors">
                 <TableCell className="font-mono text-sm font-medium">
+                  import {HighlightText} from './ui/HighlightText';
+
+                  // ... (inside component) ...
+
                   <div className="flex items-center gap-2">
-                    <span className="text-primary">${style.style_name}</span>
+                    <span className="text-primary">
+                      $<HighlightText text={style.style_name} highlight={searchQuery} />
+                    </span>
                     <Clipboard value={style.style_name} />
                   </div>
                 </TableCell>
@@ -182,8 +189,9 @@ const TypographyDisplay: React.FC = () => {
                     fontSize: `${selectedStyle.size}px`,
                     lineHeight: `${selectedStyle.line_height}px`,
                     fontWeight: getFontWeight(selectedStyle.weight),
-                    background: `linear-gradient(to bottom, rgba(255,0,0,0.1) 1px, transparent 1px, transparent 4px)`,
-                    backgroundSize: `100% 4px`
+                    backgroundImage: `linear-gradient(to bottom, rgba(255,0,0,0.05) 1px, transparent 1px)`,
+                    backgroundSize: `100% 4px`,
+                    backgroundRepeat: 'repeat'
                   }}>
                   디자인 시스템 폰트 미리보기입니다. 폰트의 가독성을 확인합니다. 1234567890!@#$%^&*()_+
                 </p>
@@ -197,8 +205,9 @@ const TypographyDisplay: React.FC = () => {
                     fontSize: `${selectedStyle.size}px`,
                     lineHeight: `${selectedStyle.line_height}px`,
                     fontWeight: getFontWeight(selectedStyle.weight),
-                    background: `linear-gradient(to bottom, rgba(255,0,0,0.1) 1px, transparent 1px, transparent 4px)`,
-                    backgroundSize: `100% 4px`
+                    backgroundImage: `linear-gradient(to bottom, rgba(255,0,0,0.05) 1px, transparent 1px)`,
+                    backgroundSize: `100% 4px`,
+                    backgroundRepeat: 'repeat'
                   }}>
                   The quick brown fox jumps over the lazy dog. 1234567890!@#$%^&*()_+
                 </p>

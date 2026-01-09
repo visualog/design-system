@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { HighlightText } from './ui/HighlightText';
 import { SearchBar } from './SearchBar';
 import { designSystemData } from '../utils/dataLoader';
 import { Clipboard } from './ui/clipboard';
@@ -31,9 +32,9 @@ const SemanticColorMappingDisplay: React.FC = () => {
   // Group name mapping for display
   const groupNames: Record<string, string> = {
     'text': 'Text',
-    'background': 'Background',
-    'border': 'Border',
-    'icon': 'Icon'
+    'backgrounds': 'Background',
+    'borders': 'Border',
+    'icons': 'Icon'
   };
 
   const handleCategorySelection = (category: string) => {
@@ -136,13 +137,17 @@ const SemanticColorMappingDisplay: React.FC = () => {
                         <TableCell className="font-mono text-sm font-medium whitespace-nowrap">
                           <div className="flex items-center gap-2">
                             <ColorSwatch color={light} />
-                            <span className="text-primary">${semanticVar}</span>
+                            <span className="text-primary">
+                              $<HighlightText text={semanticVar} highlight={searchTerm} />
+                            </span>
                             <Clipboard value={`$${semanticVar}`} />
                           </div>
                         </TableCell>
                         <TableCell className="font-mono text-xs whitespace-nowrap text-muted-foreground">
                           <div className="flex items-center">
-                            <span>${themeVar as string}</span>
+                            <span>
+                              $<HighlightText text={themeVar as string} highlight={searchTerm} />
+                            </span>
                           </div>
                         </TableCell>
                       </TableRow>
