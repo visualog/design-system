@@ -79,3 +79,7 @@
 - Completed: Safelisted `rounded-2xl` and `rounded-3xl` classes in `tailwind.config.js` to fix missing styles.
 - Completed: Updated `RadiusDisplay.tsx` to enhance visual guides (overlapping circles, increased z-index, adjusted transparency).
 - Completed: Syncronized `index.css` radius variable definitions (xl, 2xl, 3xl) with `radius.json` to ensure consistency.
+- Completed: Implemented 'Nested Radius' guideline section in `RadiusPage` with an interactive simulator (`NestedRadiusDisplay.tsx`).
+- Completed: Refined 'Nested Radius' visual style: applied green padding color (browser inspector style) and removed outer shadow.
+- Completed: Implemented snapped sliders for 'Nested Radius' using design system tokens (Radius tokens for outer slider, Spacing tokens for padding slider).
+- Completed: Fixed runtime errors in `NestedRadiusDisplay` (React import, state hoisting, data loading) to ensure stable rendering.
