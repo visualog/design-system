@@ -218,11 +218,14 @@ const ThemeColorMappingDisplay: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-1/2 px-4 text-xs h-auto">
+              <TableHead className="w-[35%] px-4 text-xs h-auto">
                 토큰명
               </TableHead>
-              <TableHead className="w-1/2 px-4 text-xs h-auto">
+              <TableHead className="w-[35%] px-4 text-xs h-auto">
                 매핑
+              </TableHead>
+              <TableHead className="w-[30%] px-4 text-xs h-auto">
+                값
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -291,6 +294,8 @@ const ThemeColorMappingDisplay: React.FC = () => {
                     }
 
 
+                    const displayHexValue = color ? (isDarkMode ? (color.hexDark || color.hex) : color.hex) : '';
+
                     return (
                       <TableRow key={themeVar} className="group">
                         <TableCell className="px-4 font-mono text-sm font-medium">
@@ -353,6 +358,16 @@ const ThemeColorMappingDisplay: React.FC = () => {
                           <div className="flex items-center">
                             <span><HighlightText text={rawTokenName} highlight={searchTerm} /></span>
                           </div>
+                        </TableCell>
+                        <TableCell className="px-4 font-mono text-xs text-muted-foreground w-[30%]">
+                          {displayHexValue ? (
+                            <span className="uppercase">
+                              {displayHexValue}
+                              {isDarkMode && <span className="text-gray-400 normal-case"> (Dark)</span>}
+                            </span>
+                          ) : (
+                            <span className="text-gray-300">-</span>
+                          )}
                         </TableCell>
                       </TableRow>
                     );
