@@ -277,8 +277,19 @@ const ThemeColorMappingDisplay: React.FC = () => {
 
                 const filteredEntries = Object.entries(mappings).filter(([themeVar, rawVar]) => {
                   // Primary Filter: Search Term
-                  const term = searchTerm.toLowerCase();
-                  const matchesSearch = themeVar.toLowerCase().includes(term) || (rawVar as string).toLowerCase().includes(term);
+                  const termString = searchTerm.toLowerCase();
+                  const orGroups = termString.split(',').map(g => g.trim()).filter(g => g.length > 0);
+
+                  const matchesSearch = orGroups.length === 0 || orGroups.some(group => {
+                    const andTerms = group.split('+').map(t => t.trim()).filter(t => t.length > 0);
+                    if (andTerms.length === 0) return true;
+
+                    return andTerms.every(term =>
+                      themeVar.toLowerCase().includes(term) ||
+                      (rawVar as string).toLowerCase().includes(term)
+                    );
+                  });
+
                   if (!matchesSearch) return false;
 
                   // Secondary Filter: Avatar Group

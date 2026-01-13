@@ -22,12 +22,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Switch } from "@/components/ui/switch";
 
 const SemanticColorMappingDisplay: React.FC = () => {
   const { colors } = designSystemData;
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>(['All']);
   const [selectedAvatarGroup, setSelectedAvatarGroup] = useState('All');
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const AVATAR_SORT_ORDER = [
     'red', 'orange', 'yellowOrange', 'green', 'deepGreen',
@@ -243,6 +245,16 @@ const SemanticColorMappingDisplay: React.FC = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+        <div className="flex items-center gap-2 ml-auto">
+          <Switch
+            checked={isDarkMode}
+            onCheckedChange={setIsDarkMode}
+            id="dark-mode-semantic"
+          />
+          <label htmlFor="dark-mode-semantic" className="text-xs font-medium leading-none cursor-pointer whitespace-nowrap text-gray-500">
+            {isDarkMode ? 'Dark' : 'Light'}
+          </label>
+        </div>
       </div>
 
       <div className="overflow-hidden">
@@ -266,7 +278,6 @@ const SemanticColorMappingDisplay: React.FC = () => {
 
               // Then filter by search term & avatar subgroup
               const filteredEntries = groupTokens.filter((token: any) => {
-                const term = searchTerm.toLowerCase();
                 const devToken = token.devToken || '';
                 const designToken = token.designToken || '';
                 const val = token.value || '';
@@ -279,9 +290,24 @@ const SemanticColorMappingDisplay: React.FC = () => {
                   }
                 }
 
-                return devToken.toLowerCase().includes(term) ||
-                  designToken.toLowerCase().includes(term) ||
-                  val.toLowerCase().includes(term);
+                const termString = searchTerm.toLowerCase();
+                // Split by comma for OR logic
+                const orGroups = termString.split(',').map(g => g.trim()).filter(g => g.length > 0);
+
+                if (orGroups.length === 0) return true;
+
+                // Match if ANY OR-group is satisfied
+                // An OR-group is satisfied if ALL its AND-terms (split by +) match
+                return orGroups.some(group => {
+                  const andTerms = group.split('+').map(t => t.trim()).filter(t => t.length > 0);
+                  if (andTerms.length === 0) return true;
+
+                  return andTerms.every(term =>
+                    devToken.toLowerCase().includes(term) ||
+                    designToken.toLowerCase().includes(term) ||
+                    val.toLowerCase().includes(term)
+                  );
+                });
               }).sort((a: any, b: any) => {
                 // Sorting mostly for Avatar or if needed later
                 if (group.id !== 'avatar') return 0;
@@ -323,14 +349,15 @@ const SemanticColorMappingDisplay: React.FC = () => {
                 <React.Fragment key={group.id}>
                   {filteredEntries.map((token: any) => {
                     const { devToken, designToken } = token;
-                    const { light } = resolveSemanticToken(devToken);
+                    const { light, dark } = resolveSemanticToken(devToken);
+                    const displayColor = isDarkMode ? dark : light;
 
                     return (
                       <TableRow key={devToken}>
                         <TableCell className="font-mono text-sm font-medium">
                           <div className="flex flex-col gap-1 py-1">
                             <div className="flex items-center gap-2">
-                              <ColorSwatch color={light} />
+                              <ColorSwatch color={displayColor} />
                               <span className="text-foreground font-semibold whitespace-nowrap">
                                 <HighlightText text={designToken || '-'} highlight={searchTerm} />
                               </span>
@@ -347,7 +374,10 @@ const SemanticColorMappingDisplay: React.FC = () => {
                           <HighlightText text={token.value} highlight={searchTerm} />
                         </TableCell>
                         <TableCell className="font-mono text-xs text-muted-foreground whitespace-nowrap align-top pt-4">
-                          <span className="uppercase">{light}</span>
+                          <span className="uppercase">
+                            {displayColor}
+                            {isDarkMode && <span className="text-gray-400 normal-case"> (Dark)</span>}
+                          </span>
                         </TableCell>
                       </TableRow>
                     );

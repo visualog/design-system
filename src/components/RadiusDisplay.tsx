@@ -89,7 +89,7 @@ const RadiusDisplay: React.FC = () => {
                                 <TableRow key={index} className="hover:bg-muted/30">
                                     <TableCell className="font-mono text-sm font-medium">
                                         <div className="flex items-center gap-2">
-                                            <span className="text-primary">${token.token}</span>
+                                            <span className="text-primary">{token.token}</span>
                                             <Clipboard value={token.token} />
                                         </div>
                                     </TableCell>

@@ -87,7 +87,18 @@ const TypographyDisplay: React.FC = () => {
     )
     .filter((style) => {
       const matchesCategory = selectedCategories.includes('All') || selectedCategories.includes(style.category);
-      const matchesSearch = style.style_name.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const termString = searchQuery.toLowerCase();
+      const orGroups = termString.split(',').map(g => g.trim()).filter(g => g.length > 0);
+
+      const matchesSearch = orGroups.length === 0 || orGroups.some(group => {
+        const andTerms = group.split('+').map(t => t.trim()).filter(t => t.length > 0);
+        if (andTerms.length === 0) return true;
+
+        return andTerms.every(term =>
+          style.style_name.toLowerCase().includes(term)
+        );
+      });
       return matchesCategory && matchesSearch;
     });
 
@@ -141,13 +152,9 @@ const TypographyDisplay: React.FC = () => {
             {filteredTypography.map((style: any, index: number) => (
               <TableRow key={`${style.category}-${index}`} onClick={() => handleRowClick(style)} className="cursor-pointer hover:bg-accent/50 transition-colors">
                 <TableCell className="font-mono text-sm font-medium">
-                  import {HighlightText} from './ui/HighlightText';
-
-                  // ... (inside component) ...
-
                   <div className="flex items-center gap-2">
                     <span className="text-primary">
-                      $<HighlightText text={style.style_name} highlight={searchQuery} />
+                      <HighlightText text={style.style_name} highlight={searchQuery} />
                     </span>
                     <Clipboard value={style.style_name} />
                   </div>
@@ -167,7 +174,7 @@ const TypographyDisplay: React.FC = () => {
             <SheetHeader>
               <SheetTitle className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-lg">${selectedStyle.style_name}</span>
+                  <span className="font-mono text-lg">{selectedStyle.style_name}</span>
                   <Clipboard value={selectedStyle.style_name} />
                 </div>
               </SheetTitle>

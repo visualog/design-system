@@ -431,7 +431,21 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
         }
 
         const searchTermLower = searchTerm.toLowerCase();
-        return tokenName.toLowerCase().includes(searchTermLower) || displayHex.toLowerCase().includes(searchTermLower);
+        const orGroups = searchTermLower.split(',').map(g => g.trim()).filter(g => g.length > 0);
+
+        // If no terms, match all
+        if (orGroups.length === 0) return true;
+
+        // Match if ANY OR-group is satisfied
+        return orGroups.some(group => {
+          const andTerms = group.split('+').map(t => t.trim()).filter(t => t.length > 0);
+          if (andTerms.length === 0) return true;
+
+          return andTerms.every(term =>
+            tokenName.toLowerCase().includes(term) ||
+            displayHex.toLowerCase().includes(term)
+          );
+        });
       });
 
       if (filteredShades.length > 0) {

@@ -33,8 +33,8 @@ const SpacingLayoutDisplay: React.FC = () => {
                 <TableRow key={index}>
                   <TableCell className="font-mono text-sm font-medium">
                     <div className="flex items-center gap-2">
-                      <span className="text-primary">${s.variable}</span>
-                      <Clipboard value={`$${s.variable}`} />
+                      <span className="text-primary">{s.variable}</span>
+                      <Clipboard value={s.variable} />
                     </div>
                   </TableCell>
                   <TableCell className="text-muted-foreground font-mono text-xs">
