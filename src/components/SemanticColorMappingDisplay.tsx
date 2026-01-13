@@ -4,7 +4,6 @@ import { SearchBar } from './SearchBar';
 import { designSystemData } from '../utils/dataLoader';
 import { Clipboard } from './ui/clipboard';
 import { resolveSemanticToken } from '../lib/colorUtils';
-import { semanticDescriptions } from '../data/semantic_descriptions';
 
 import {
   Table,
@@ -32,9 +31,10 @@ const SemanticColorMappingDisplay: React.FC = () => {
   // Group name mapping for display
   const groupNames: Record<string, string> = {
     'text': 'Text',
-    'backgrounds': 'Background',
-    'borders': 'Border',
-    'icons': 'Icon'
+    'bg': 'Background',
+    'border': 'Border',
+    'icon': 'Icon',
+    'avatar': 'Avatar'
   };
 
   const handleCategorySelection = (category: string) => {
@@ -63,10 +63,10 @@ const SemanticColorMappingDisplay: React.FC = () => {
 
   // Calculate filtered token count based on selected categories
   const filteredTokenCount = selectedCategories.includes('All')
-    ? Object.values(colors.semanticMapping).reduce((sum, mappings) => sum + Object.keys(mappings).length, 0)
+    ? Object.values(colors.semanticMapping).reduce((sum, tokens) => sum + (Array.isArray(tokens) ? tokens.length : 0), 0)
     : Object.entries(colors.semanticMapping)
       .filter(([category]) => selectedCategories.includes(category))
-      .reduce((sum, [, mappings]) => sum + Object.keys(mappings).length, 0);
+      .reduce((sum, [, tokens]) => sum + (Array.isArray(tokens) ? (tokens as any[]).length : 0), 0);
 
   const ColorSwatch: React.FC<{ color: string }> = ({ color }) => (
     <div className="w-5 h-5 rounded-full border border-border" style={{ backgroundColor: color }}></div>
@@ -107,47 +107,52 @@ const SemanticColorMappingDisplay: React.FC = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="w-1/2 px-4 text-xs h-auto">토큰명</TableHead>
-              <TableHead className="w-1/2 px-4 text-xs h-auto">매핑</TableHead>
+              <TableHead className="w-1/2 px-4 text-xs h-auto">개발 토큰</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Object.entries(colors.semanticMapping).map(([category, mappings]) => {
-              // Apply category filter
+            {Object.entries(colors.semanticMapping).map(([category, tokens]) => {
               if (!selectedCategories.includes('All') && !selectedCategories.includes(category)) {
                 return null;
               }
 
-              const filteredEntries = Object.entries(mappings).filter(([semanticVar, themeVar]) => {
+              const tokenList = Array.isArray(tokens) ? tokens : [];
+
+              const filteredEntries = tokenList.filter((token: any) => {
                 const term = searchTerm.toLowerCase();
-                const description = semanticDescriptions[semanticVar as string] || '';
-                return semanticVar.toLowerCase().includes(term) ||
-                  (themeVar as string).toLowerCase().includes(term) ||
-                  description.toLowerCase().includes(term);
+                const devToken = token.devToken || '';
+                const designToken = token.designToken || '';
+                const val = token.value || '';
+
+                return devToken.toLowerCase().includes(term) ||
+                  designToken.toLowerCase().includes(term) ||
+                  val.toLowerCase().includes(term);
               });
 
               if (filteredEntries.length === 0) return null;
 
               return (
                 <React.Fragment key={category}>
-                  {filteredEntries.map(([semanticVar, themeVar]) => {
-                    const { light } = resolveSemanticToken(semanticVar);
+                  {filteredEntries.map((token: any) => {
+                    const { devToken, designToken } = token;
+                    const { light } = resolveSemanticToken(devToken);
 
                     return (
-                      <TableRow key={semanticVar}>
+                      <TableRow key={devToken}>
                         <TableCell className="font-mono text-sm font-medium whitespace-nowrap">
                           <div className="flex items-center gap-2">
                             <ColorSwatch color={light} />
-                            <span className="text-primary">
-                              $<HighlightText text={semanticVar} highlight={searchTerm} />
+                            <span className="text-primary tracking-tight">
+                              <HighlightText text={designToken || devToken} highlight={searchTerm} />
                             </span>
-                            <Clipboard value={`$${semanticVar}`} />
                           </div>
                         </TableCell>
                         <TableCell className="font-mono text-xs whitespace-nowrap text-muted-foreground">
-                          <div className="flex items-center">
+                          <div className="flex items-center gap-2">
                             <span>
-                              $<HighlightText text={themeVar as string} highlight={searchTerm} />
+                              <HighlightText text={devToken} highlight={searchTerm} />
                             </span>
+                            <Clipboard value={devToken} />
                           </div>
                         </TableCell>
                       </TableRow>

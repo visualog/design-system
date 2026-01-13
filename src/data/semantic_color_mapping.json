@@ -1,199 +1,862 @@
 {
-  "text": {
-    "Color_text_primary": "color_neutral_100",
-    "Color_text_secondary": "color_neutral_60",
-    "Color_text_disabled": "color_neutral_30",
-    "Color_text_inverse": "color_neutral_white",
-    "Color_text_brand": "color_brand_60",
-    "Color_text_error": "color_error_60",
-    "Color_text_success": "color_success_60",
-    "Color_text_info": "color_neutral_40",
-    "Color_text_loading": "color_loading_60",
-    "Color_text_interactive_primary": "color_neutral_100",
-    "Color_text_interactive_primary_disabled": "color_neutral_30",
-    "Color_text_interactive_brand": "color_brand_60",
-    "Color_text_interactive_brand_disabled": "color_brand_30",
-    "Color_text_interactive_brand_hover": "color_brand_70",
-    "Color_text_interactive_error": "color_error_60",
-    "Color_text_interactive_error_disabled": "color_error_20",
-    "Color_text_interactive_inverse": "color_neutral_white"
-  },
-  "backgrounds": {
-    "Color_bg_primary": "color_Gray_white",
-    "Color_bg_secondary": "color_neutral_10",
-    "Color_bg_tertiary": "color_neutral_20",
-    "Color_bg_strong": "color_coolgray_70",
-    "Color_bg_tooltip": "color_CoolGray_90",
-    "Color_bg_brand": "color_brand_60",
-    "Color_bg_error": "color_error_60",
-    "Color_bg_error_disabled": "color_error_20",
-    "Color_bg_success": "color_success_60",
-    "Color_bg_success_disabled": "color_success_20",
-    "Color_bg_loading": "color_loading_60",
-    "Color_bg_loading_disabled": "color_loading_20",
-    "Color_bg_interactive_primary": "color_neutral_20",
-    "Color_bg_interactive_primary_disabled": "color_neutral_20",
-    "Color_bg_interactive_primary_hover": "color_neutral_30",
-    "Color_bg_interactive_secondary": "color_neutral_white",
-    "Color_bg_interactive_secondary_disabled": "color_neutral_white",
-    "Color_bg_interactive_secondary_hover": "color_neutral_20",
-    "Color_bg_interactive_tertiary": "color_neutral_10",
-    "Color_bg_interactive_selected": "color_brand_10",
-    "Color_bg_interactive_brand": "color_brand_60",
-    "Color_bg_interactive_brand_disabled": "color_brand_30",
-    "Color_bg_interactive_brand_hover": "color_brand_70",
-    "Color_bg_interactive_brand_secondary": "color_brand_10",
-    "Color_bg_interactive_brand_secondary_hover": "color_brand_30",
-    "Color_bg_interactive_error": "color_error_20",
-    "Color_bg_interactive_error_disabled": "color_error_20",
-    "Color_bg_interactive_error_hovered": "color_error_60",
-    "Color_bg_interactive_error_popup": "color_error_60",
-    "Color_bg_interactive_error_popup_disabled": "color_error_20",
-    "Color_bg_interactive_error_popup_hovered": "color_error_80",
-    "Color_bg_interactive_toggle_off": "color_neutral_60",
-    "Color_bg_interactive_toggle_on": "color_Blue_60"
-  },
-  "borders": {
-    "Color_border_primary": "color_neutral_20",
-    "Color_border_secondary": "color_neutral_30",
-    "Color_border_inverse": "color_neutral_white",
-    "Color_border_info": "color_neutral_40",
-    "Color_border_interactive_card": "color_neutral_20",
-    "Color_border_interactive_input": "color_neutral_30",
-    "Color_border_interactive_popup": "color_neutral_20",
-    "Color_border_interactive_selected": "color_brand_60",
-    "Color_border_interactive_error": "color_error_60"
-  },
-  "icons": {
-    "Color_icon_primary": "color/neutral/100",
-    "Color_icon_inverse": "color/neutral/white",
-    "Color_icon_brand": "color/avatar/60",
-    "Color_icon_error": "color/error/60",
-    "Color_icon_success": "color/success/60",
-    "Color_icon_info": "color/neutral/40",
-    "Color_icon_loading": "color/loading/60",
-    "Color_icon_interactive_primary": "color/neutral/100",
-    "Color_icon_interactive_primary_disabled": "color/neutral/30",
-    "Color_icon_interactive_secondary": "color/neutral/40",
-    "Color_icon_interactive_secondary_disabled": "color/neutral/30",
-    "Color_icon_interactive_tertiary": "color/neutral/60",
-    "Color_icon_interactive_selected": "color/avatar/60",
-    "Color_icon_interactive_brand": "color/brand/60",
-    "Color_icon_interactive_brand_disabled": "color/brand/30",
-    "Color_icon_interactive_brand_hovered": "color/brand/70",
-    "Color_icon_interactive_error": "color/error/60",
-    "Color_icon_interactive_inverse": "color/neutral/white"
-  },
-  "avatar": {
-    "Color_avatar_cool gray_bg": "color_avatar_cool_gray_20",
-    "Color_avatar_cool gray_bg_bold": "color_avatar_cool_gray_30",
-    "Color_avatar_cool gray_border": "color_CoolGray_alpha",
-    "Color_avatar_cool gray_border_black": "color_avatar_black_alpha_10",
-    "Color_avatar_cool gray_icon": "color_avatar_cool_gray_50",
-    "Color_avatar_cool gray_icon_inverse": "Color_icon_inverse",
-    "Color_avatar_cool gray_text": "color_avatar_cool_gray_70",
-    "Color_avatar_cool gray_text_inverse": "Color_text_inverse",
-    "Color_avatar_cyan_bg": "color_avatar_cyan_20",
-    "Color_avatar_cyan_bg_bold": "color_avatar_cyan_50",
-    "Color_avatar_cyan_border": "color_Cyan_alpha",
-    "Color_avatar_cyan_border_black": "color_avatar_black_alpha_10",
-    "Color_avatar_cyan_icon": "color_avatar_cyan_50",
-    "Color_avatar_cyan_icon_inverse": "Color_icon_inverse",
-    "Color_avatar_cyan_text": "color_avatar_cyan_70",
-    "Color_avatar_cyan_text_inverse": "Color_text_inverse",
-    "Color_avatar_deep blue_bg": "color_avatar_deep_blue_20",
-    "Color_avatar_deep blue_bg_bold": "color_avatar_deep_blue_70",
-    "Color_avatar_deep blue_border": "color_DeepBlue_alpha",
-    "Color_avatar_deep blue_border_black": "color_avatar_black_alpha_10",
-    "Color_avatar_deep blue_icon": "color_avatar_deep_blue_70",
-    "Color_avatar_deep blue_icon_inverse": "Color_icon_inverse",
-    "Color_avatar_deep blue_text": "color_avatar_deep_blue_70",
-    "Color_avatar_deep blue_text_inverse": "Color_text_inverse",
-    "Color_avatar_deep green_bg": "color_avatar_deep_green_20",
-    "Color_avatar_deep green_bg_bold": "color_avatar_deep_green_50",
-    "Color_avatar_deep green_border": "color_DeepGreen_alpha",
-    "Color_avatar_deep green_border_black": "color_avatar_black_alpha_10",
-    "Color_avatar_deep green_icon": "color_avatar_deep_green_50",
-    "Color_avatar_deep green_icon_inverse": "Color_icon_inverse",
-    "Color_avatar_deep green_text": "color_avatar_deep_green_70",
-    "Color_avatar_deep green_text_inverse": "Color_text_inverse",
-    "Color_avatar_green_bg": "color_avatar_green_20",
-    "Color_avatar_green_bg_bold": "color_avatar_green_50",
-    "Color_avatar_green_border": "color_Green_alpha",
-    "Color_avatar_green_border_black": "color_avatar_black_alpha_10",
-    "Color_avatar_green_icon": "color_avatar_green_50",
-    "Color_avatar_green_icon_inverse": "Color_icon_inverse",
-    "Color_avatar_green_text": "color_avatar_green_60",
-    "Color_avatar_green_text_inverse": "Color_text_inverse",
-    "Color_avatar_inverse": "color_neutral_white",
-    "Color_avatar_light blue_bg": "color_avatar_light_blue_20",
-    "Color_avatar_light blue_bg_bold": "color_avatar_light_blue_50",
-    "Color_avatar_light blue_border": "color_LightBlue_alpha",
-    "Color_avatar_light blue_border_black": "color_avatar_black_alpha_10",
-    "Color_avatar_light blue_icon": "color_avatar_light_blue_50",
-    "Color_avatar_light blue_icon_inverse": "Color_icon_inverse",
-    "Color_avatar_light blue_text": "color_avatar_light_blue_70",
-    "Color_avatar_light blue_text_inverse": "Color_text_inverse",
-    "Color_avatar_orange_bg": "color_avatar_orange_20",
-    "Color_avatar_orange_bg_bold": "color_avatar_orange_50",
-    "Color_avatar_orange_border": "color_Orange_alpha",
-    "Color_avatar_orange_border_black": "color_avatar_black_alpha_10",
-    "Color_avatar_orange_icon": "color_avatar_orange_50",
-    "Color_avatar_orange_icon_inverse": "Color_icon_inverse",
-    "Color_avatar_orange_text": "color_avatar_orange_60",
-    "Color_avatar_orange_text_inverse": "Color_text_inverse",
-    "Color_avatar_pink_bg": "color_avatar_pink_20",
-    "Color_avatar_pink_bg_bold": "color_avatar_pink_70",
-    "Color_avatar_pink_border": "color_Pink_alpha",
-    "Color_avatar_pink_border_black": "color_avatar_black_alpha_10",
-    "Color_avatar_pink_icon": "color_avatar_pink_50",
-    "Color_avatar_pink_icon_inverse": "Color_icon_inverse",
-    "Color_avatar_pink_text": "color_avatar_pink_70",
-    "Color_avatar_pink_text_inverse": "Color_text_inverse",
-    "Color_avatar_purple_bg": "color_avatar_purple_20",
-    "Color_avatar_purple_bg_bold": "color_avatar_purple_50",
-    "Color_avatar_purple_border": "color_Purple_alpha",
-    "Color_avatar_purple_border_black": "color_avatar_black_alpha_10",
-    "Color_avatar_purple_icon": "color_avatar_purple_50",
-    "Color_avatar_purple_icon_inverse": "Color_icon_inverse",
-    "Color_avatar_purple_text": "color_avatar_purple_70",
-    "Color_avatar_purple_text_inverse": "Color_text_inverse",
-    "Color_avatar_red_bg": "color_avatar_red_20",
-    "Color_avatar_red_bg_bold": "color_avatar_red_50",
-    "Color_avatar_red_border": "color_Red_alpha",
-    "Color_avatar_red_border_black": "color_avatar_black_alpha_10",
-    "Color_avatar_red_icon": "color_avatar_red_50",
-    "Color_avatar_red_icon_inverse": "Color_icon_inverse",
-    "Color_avatar_red_text": "color_avatar_red_60",
-    "Color_avatar_red_text_inverse": "Color_text_inverse",
-    "Color_avatar_yellow orange_bg": "color_avatar_yellow_orange_20",
-    "Color_avatar_yellow orange_bg_bold": "color_avatar_yellow_orange_50",
-    "Color_avatar_yellow orange_border": "color_YellowOrange_alpha",
-    "Color_avatar_yellow orange_border_black": "color_avatar_black_alpha_10",
-    "Color_avatar_yellow orange_icon": "color_avatar_yellow_orange_50",
-    "Color_avatar_yellow orange_icon_inverse": "Color_icon_inverse",
-    "Color_avatar_yellow orange_text": "color_avatar_yellow_orange_70",
-    "Color_avatar_yellow orange_text_inverse": "Color_text_inverse"
-  },
-  "foundations": {
-    "Color_background": "color_background",
-    "Color_foreground": "color_foreground",
-    "Color_card": "color_card",
-    "Color_card_foreground": "color_card_foreground",
-    "Color_popover": "color_popover",
-    "Color_popover_foreground": "color_popover_foreground",
-    "Color_primary": "color_primary",
-    "Color_primary_foreground": "color_primary_foreground",
-    "Color_secondary": "color_secondary",
-    "Color_secondary_foreground": "color_secondary_foreground",
-    "Color_muted": "color_muted",
-    "Color_muted_foreground": "color_muted_foreground",
-    "Color_accent": "color_accent",
-    "Color_accent_foreground": "color_accent_foreground",
-    "Color_destructive": "color_destructive",
-    "Color_destructive_foreground": "color_destructive_foreground",
-    "Color_border": "color_border",
-    "Color_input": "color_input",
-    "Color_ring": "color_ring"
-  }
+  "text": [
+    {
+      "devToken": "text.primary",
+      "designToken": "Color/text/primary",
+      "value": "neutral/100"
+    },
+    {
+      "devToken": "text.secondary",
+      "designToken": "Color/text/secondary",
+      "value": "neutral/60"
+    },
+    {
+      "devToken": "text.disabled",
+      "designToken": "Color/text/disabled",
+      "value": "neutral/30"
+    },
+    {
+      "devToken": "text.inverse",
+      "designToken": "Color/text/inverse",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "text.brand",
+      "designToken": "Color/text/brand",
+      "value": "brand/60"
+    },
+    {
+      "devToken": "text.error",
+      "designToken": "Color/text/error",
+      "value": "error/60"
+    },
+    {
+      "devToken": "text.error_light",
+      "designToken": "Color/text/error-light",
+      "value": ""
+    },
+    {
+      "devToken": "text.success",
+      "designToken": "Color/text/success",
+      "value": "success/60"
+    },
+    {
+      "devToken": "text.success_light",
+      "designToken": "Color/text/success-light",
+      "value": ""
+    },
+    {
+      "devToken": "text.info",
+      "designToken": "Color/text/info",
+      "value": "neutral/40"
+    },
+    {
+      "devToken": "text.loading",
+      "designToken": "Color/text/loading",
+      "value": "loading/60"
+    },
+    {
+      "devToken": "text.interactive.primary",
+      "designToken": "Color/text/interactive/primary",
+      "value": "neutral/100"
+    },
+    {
+      "devToken": "text.interactive.primary_disabled",
+      "designToken": "Color/text/interactive/primary-disabled",
+      "value": "neutral/30"
+    },
+    {
+      "devToken": "text.interactive.brand",
+      "designToken": "Color/text/interactive/brand",
+      "value": "brand/60"
+    },
+    {
+      "devToken": "text.interactive.brand_hover",
+      "designToken": "Color/text/interactive/brand-hover",
+      "value": "brand/70"
+    },
+    {
+      "devToken": "text.interactive.brand_disabled",
+      "designToken": "Color/text/interactive/brand-disabled",
+      "value": "brand/30"
+    },
+    {
+      "devToken": "text.interactive.error",
+      "designToken": "Color/text/interactive/error",
+      "value": "error/60"
+    },
+    {
+      "devToken": "text.interactive.error_disabled",
+      "designToken": "Color/text/interactive/error-disabled",
+      "value": "error/20"
+    },
+    {
+      "devToken": "text.interactive.inverse",
+      "designToken": "Color/text/interactive/inverse",
+      "value": "neutral/white"
+    }
+  ],
+  "bg": [
+    {
+      "devToken": "bg.primary",
+      "designToken": "Color/bg/primary",
+      "value": "Gray/white"
+    },
+    {
+      "devToken": "bg.secondary",
+      "designToken": "Color/bg/secondary",
+      "value": "neutral/10"
+    },
+    {
+      "devToken": "bg.tertiary",
+      "designToken": "Color/bg/tertiary",
+      "value": "neutral/20"
+    },
+    {
+      "devToken": "bg.strong",
+      "designToken": "Color/bg/strong",
+      "value": "coolgray/70"
+    },
+    {
+      "devToken": "bg.brand",
+      "designToken": "Color/bg/brand",
+      "value": "brand/60"
+    },
+    {
+      "devToken": "bg.tooltip",
+      "designToken": "Color/bg/tooltip",
+      "value": "CoolGray/90"
+    },
+    {
+      "devToken": "bg.error",
+      "designToken": "Color/bg/error",
+      "value": "error/60"
+    },
+    {
+      "devToken": "bg.error_disabled",
+      "designToken": "Color/bg/error_disabled",
+      "value": "error/20"
+    },
+    {
+      "devToken": "bg.loading",
+      "designToken": "Color/bg/loading",
+      "value": "loading/60"
+    },
+    {
+      "devToken": "bg.loading_disabled",
+      "designToken": "Color/bg/loading_disabled",
+      "value": "loading/20"
+    },
+    {
+      "devToken": "bg.success",
+      "designToken": "Color/bg/success",
+      "value": "success/60"
+    },
+    {
+      "devToken": "bg.success_disabled",
+      "designToken": "Color/bg/success_disabled",
+      "value": "success/20"
+    },
+    {
+      "devToken": "bg.interactive.primary",
+      "designToken": "Color/bg/interactive/primary",
+      "value": "neutral/20"
+    },
+    {
+      "devToken": "bg.interactive.primary_hover",
+      "designToken": "Color/bg/interactive/primary-hover",
+      "value": "neutral/30"
+    },
+    {
+      "devToken": "bg.interactive.primary_disabled",
+      "designToken": "Color/bg/interactive/primary-disabled",
+      "value": "neutral/20"
+    },
+    {
+      "devToken": "bg.interactive.secondary",
+      "designToken": "Color/bg/interactive/secondary",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "bg.interactive.secondary_hover",
+      "designToken": "Color/bg/interactive/secondary-hover",
+      "value": "neutral/20"
+    },
+    {
+      "devToken": "bg.interactive.secondary_disabled",
+      "designToken": "Color/bg/interactive/secondary-disabled",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "bg.interactive.tertiary",
+      "designToken": "Color/bg/interactive/tertiary",
+      "value": "neutral/10"
+    },
+    {
+      "devToken": "bg.interactive.selected",
+      "designToken": "Color/bg/interactive/selected",
+      "value": "brand/10"
+    },
+    {
+      "devToken": "bg.interactive.brand",
+      "designToken": "Color/bg/interactive/brand",
+      "value": "brand/60"
+    },
+    {
+      "devToken": "bg.interactive.brand_hover",
+      "designToken": "Color/bg/interactive/brand-hover",
+      "value": "brand/70"
+    },
+    {
+      "devToken": "bg.interactive.brand_disabled",
+      "designToken": "Color/bg/interactive/brand-disabled",
+      "value": "brand/30"
+    },
+    {
+      "devToken": "bg.interactive.brand_secondary",
+      "designToken": "Color/bg/interactive/brand-secondary",
+      "value": "brand/10"
+    },
+    {
+      "devToken": "bg.interactive.brand_secondary_hover",
+      "designToken": "Color/bg/interactive/brand-secondary-hover",
+      "value": "brand/30"
+    },
+    {
+      "devToken": "bg.interactive.error",
+      "designToken": "Color/bg/interactive/error",
+      "value": "error/20"
+    },
+    {
+      "devToken": "bg.interactive.error_hovered",
+      "designToken": "Color/bg/interactive/error-hovered",
+      "value": "error/60"
+    },
+    {
+      "devToken": "bg.interactive.error_disabled",
+      "designToken": "Color/bg/interactive/error-disabled",
+      "value": "error/20"
+    },
+    {
+      "devToken": "bg.interactive.error_popup",
+      "designToken": "Color/bg/interactive/error-popup",
+      "value": "error/60"
+    },
+    {
+      "devToken": "bg.interactive.error_popup_hovered",
+      "designToken": "Color/bg/interactive/error-popup-hovered",
+      "value": "error/80"
+    },
+    {
+      "devToken": "bg.interactive.error_popup_disabled",
+      "designToken": "Color/bg/interactive/error-popup-disabled",
+      "value": "error/20"
+    },
+    {
+      "devToken": "bg.interactive.toggle_on",
+      "designToken": "Color/bg/interactive/toggle-on",
+      "value": "Blue/60"
+    },
+    {
+      "devToken": "bg.interactive.toggle_off",
+      "designToken": "Color/bg/interactive/toggle-off",
+      "value": "neutral/60"
+    }
+  ],
+  "icon": [
+    {
+      "devToken": "icon.primary",
+      "designToken": "Color/icon/primary",
+      "value": "neutral/100"
+    },
+    {
+      "devToken": "icon.brand",
+      "designToken": "Color/icon/brand",
+      "value": "avatar/60"
+    },
+    {
+      "devToken": "icon.error",
+      "designToken": "Color/icon/error",
+      "value": "error/60"
+    },
+    {
+      "devToken": "icon.success",
+      "designToken": "Color/icon/success",
+      "value": "success/60"
+    },
+    {
+      "devToken": "icon.loading",
+      "designToken": "Color/icon/loading",
+      "value": "loading/60"
+    },
+    {
+      "devToken": "icon.info",
+      "designToken": "Color/icon/info",
+      "value": "neutral/40"
+    },
+    {
+      "devToken": "icon.inverse",
+      "designToken": "Color/icon/inverse",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "icon.interactive.primary",
+      "designToken": "Color/icon/interactive/primary",
+      "value": "neutral/100"
+    },
+    {
+      "devToken": "icon.interactive.primary_disabled",
+      "designToken": "Color/icon/interactive/primary-disabled",
+      "value": "neutral/30"
+    },
+    {
+      "devToken": "icon.interactive.secondary",
+      "designToken": "Color/icon/interactive/secondary",
+      "value": "neutral/40"
+    },
+    {
+      "devToken": "icon.interactive.secondary_disabled",
+      "designToken": "Color/icon/interactive/secondary-disabled",
+      "value": "neutral/30"
+    },
+    {
+      "devToken": "icon.interactive.tertiary",
+      "designToken": "Color/icon/interactive/tertiary",
+      "value": "neutral/60"
+    },
+    {
+      "devToken": "icon.interactive.brand",
+      "designToken": "Color/icon/interactive/brand",
+      "value": "brand/60"
+    },
+    {
+      "devToken": "icon.interactive.brand_hovered",
+      "designToken": "Color/icon/interactive/brand-hovered",
+      "value": "brand/70"
+    },
+    {
+      "devToken": "icon.interactive.brand_disabled",
+      "designToken": "Color/icon/interactive/brand-disabled",
+      "value": "brand/30"
+    },
+    {
+      "devToken": "icon.interactive.error",
+      "designToken": "Color/icon/interactive/error",
+      "value": "error/60"
+    },
+    {
+      "devToken": "icon.interactive.selected",
+      "designToken": "Color/icon/interactive/selected",
+      "value": "avatar/60"
+    },
+    {
+      "devToken": "icon.interactive.inverse",
+      "designToken": "Color/icon/interactive/inverse",
+      "value": "neutral/white"
+    }
+  ],
+  "border": [
+    {
+      "devToken": "border.primary",
+      "designToken": "Color/border/primary",
+      "value": "neutral/20"
+    },
+    {
+      "devToken": "border.secondary",
+      "designToken": "Color/border/secondary",
+      "value": "neutral/30"
+    },
+    {
+      "devToken": "border.tertiary",
+      "designToken": "Color/border/tertiary",
+      "value": ""
+    },
+    {
+      "devToken": "border.info",
+      "designToken": "Color/border/info",
+      "value": "neutral/40"
+    },
+    {
+      "devToken": "border.inverse",
+      "designToken": "Color/border/inverse",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "border.interactive.input",
+      "designToken": "Color/border/interactive/input",
+      "value": "neutral/30"
+    },
+    {
+      "devToken": "border.interactive.input_hover",
+      "designToken": "Color/border/interactive/input-hover",
+      "value": ""
+    },
+    {
+      "devToken": "border.interactive.card",
+      "designToken": "Color/border/interactive/card",
+      "value": "neutral/20"
+    },
+    {
+      "devToken": "border.interactive.popup",
+      "designToken": "Color/border/interactive/popup",
+      "value": "neutral/20"
+    },
+    {
+      "devToken": "border.interactive.selected",
+      "designToken": "Color/border/interactive/selected",
+      "value": "brand/60"
+    },
+    {
+      "devToken": "border.interactive.error",
+      "designToken": "Color/border/interactive/error",
+      "value": "error/60"
+    }
+  ],
+  "avatar": [
+    {
+      "devToken": "avatar.red.bg",
+      "designToken": "Color/avatar/red/bg",
+      "value": "avatar/red/20"
+    },
+    {
+      "devToken": "avatar.red.bg_bold",
+      "designToken": "Color/avatar/red/bg-bold",
+      "value": "avatar/red/50"
+    },
+    {
+      "devToken": "avatar.red.text",
+      "designToken": "Color/avatar/red/text",
+      "value": "avatar/red/60"
+    },
+    {
+      "devToken": "avatar.red.text_inverse",
+      "designToken": "Color/avatar/red/text-inverse",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.red.icon",
+      "designToken": "Color/avatar/red/icon",
+      "value": "avatar/red/50"
+    },
+    {
+      "devToken": "avatar.red.icon_inverse",
+      "designToken": "Color/avatar/red/icon-inverse",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.red.border",
+      "designToken": "Color/avatar/red/border",
+      "value": "Red/alpha"
+    },
+    {
+      "devToken": "avatar.red.border_black",
+      "designToken": "Color/avatar/red/border-black",
+      "value": "avatar/blackAlpha/10"
+    },
+    {
+      "devToken": "avatar.orange.bg",
+      "designToken": "Color/avatar/orange/bg",
+      "value": "avatar/orange/20"
+    },
+    {
+      "devToken": "avatar.orange.bg_bold",
+      "designToken": "Color/avatar/orange/bg-bold",
+      "value": "avatar/orange/50"
+    },
+    {
+      "devToken": "avatar.orange.text",
+      "designToken": "Color/avatar/orange/text",
+      "value": "avatar/orange/60"
+    },
+    {
+      "devToken": "avatar.orange.text_inverse",
+      "designToken": "Color/avatar/orange/text-inverse",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.orange.icon",
+      "designToken": "Color/avatar/orange/icon",
+      "value": "avatar/orange/50"
+    },
+    {
+      "devToken": "avatar.orange.icon_inverse",
+      "designToken": "Color/avatar/orange/icon-inverse",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.orange.border",
+      "designToken": "Color/avatar/orange/border",
+      "value": "Orange/alpha"
+    },
+    {
+      "devToken": "avatar.orange.border_black",
+      "designToken": "Color/avatar/orange/border-black",
+      "value": "avatar/blackAlpha/10"
+    },
+    {
+      "devToken": "avatar.yellowOrange.bg",
+      "designToken": "",
+      "value": "avatar/yellowOrange/20"
+    },
+    {
+      "devToken": "avatar.yellowOrange.bg_bold",
+      "designToken": "",
+      "value": "avatar/yellowOrange/50"
+    },
+    {
+      "devToken": "avatar.yellowOrange.text",
+      "designToken": "",
+      "value": "avatar/yellowOrange/70"
+    },
+    {
+      "devToken": "avatar.yellowOrange.text_inverse",
+      "designToken": "",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.yellowOrange.icon",
+      "designToken": "",
+      "value": "avatar/yellowOrange/50"
+    },
+    {
+      "devToken": "avatar.yellowOrange.icon_inverse",
+      "designToken": "",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.yellowOrange.border",
+      "designToken": "",
+      "value": "YellowOrange/alpha"
+    },
+    {
+      "devToken": "avatar.yellowOrange.border_black",
+      "designToken": "",
+      "value": "avatar/blackAlpha/10"
+    },
+    {
+      "devToken": "avatar.green.bg",
+      "designToken": "Color/avatar/green/bg",
+      "value": "avatar/green/20"
+    },
+    {
+      "devToken": "avatar.green.bg_bold",
+      "designToken": "Color/avatar/green/bg-bold",
+      "value": "avatar/green/50"
+    },
+    {
+      "devToken": "avatar.green.text",
+      "designToken": "Color/avatar/green/text",
+      "value": "avatar/green/60"
+    },
+    {
+      "devToken": "avatar.green.text_inverse",
+      "designToken": "Color/avatar/green/text-inverse",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.green.icon",
+      "designToken": "Color/avatar/green/icon",
+      "value": "avatar/green/50"
+    },
+    {
+      "devToken": "avatar.green.icon_inverse",
+      "designToken": "Color/avatar/green/icon-inverse",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.green.border",
+      "designToken": "Color/avatar/green/border",
+      "value": "Green/alpha"
+    },
+    {
+      "devToken": "avatar.green.border_black",
+      "designToken": "Color/avatar/green/border-black",
+      "value": "avatar/blackAlpha/10"
+    },
+    {
+      "devToken": "avatar.deepGreen.bg",
+      "designToken": "",
+      "value": "avatar/deepGreen/20"
+    },
+    {
+      "devToken": "avatar.deepGreen.bg_bold",
+      "designToken": "",
+      "value": "avatar/deepGreen/50"
+    },
+    {
+      "devToken": "avatar.deepGreen.text",
+      "designToken": "",
+      "value": "avatar/deepGreen/70"
+    },
+    {
+      "devToken": "avatar.deepGreen.text_inverse",
+      "designToken": "",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.deepGreen.icon",
+      "designToken": "",
+      "value": "avatar/deepGreen/50"
+    },
+    {
+      "devToken": "avatar.deepGreen.icon_inverse",
+      "designToken": "",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.deepGreen.border",
+      "designToken": "",
+      "value": "DeepGreen/alpha"
+    },
+    {
+      "devToken": "avatar.deepGreen.border_black",
+      "designToken": "",
+      "value": "avatar/blackAlpha/10"
+    },
+    {
+      "devToken": "avatar.cyan.bg",
+      "designToken": "Color/avatar/cyan/bg",
+      "value": "avatar/cyan/20"
+    },
+    {
+      "devToken": "avatar.cyan.bg_bold",
+      "designToken": "Color/avatar/cyan/bg-bold",
+      "value": "avatar/cyan/50"
+    },
+    {
+      "devToken": "avatar.cyan.text",
+      "designToken": "Color/avatar/cyan/text",
+      "value": "avatar/cyan/70"
+    },
+    {
+      "devToken": "avatar.cyan.text_inverse",
+      "designToken": "Color/avatar/cyan/text-inverse",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.cyan.icon",
+      "designToken": "Color/avatar/cyan/icon",
+      "value": "avatar/cyan/50"
+    },
+    {
+      "devToken": "avatar.cyan.icon_inverse",
+      "designToken": "Color/avatar/cyan/icon-inverse",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.cyan.border",
+      "designToken": "Color/avatar/cyan/border",
+      "value": "Cyan/alpha"
+    },
+    {
+      "devToken": "avatar.cyan.border_black",
+      "designToken": "Color/avatar/cyan/border-black",
+      "value": "avatar/blackAlpha/10"
+    },
+    {
+      "devToken": "avatar.lightBlue.bg",
+      "designToken": "",
+      "value": "avatar/lightBlue/20"
+    },
+    {
+      "devToken": "avatar.lightBlue.bg_bold",
+      "designToken": "",
+      "value": "avatar/lightBlue/50"
+    },
+    {
+      "devToken": "avatar.lightBlue.text",
+      "designToken": "",
+      "value": "avatar/lightBlue/70"
+    },
+    {
+      "devToken": "avatar.lightBlue.text_inverse",
+      "designToken": "",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.lightBlue.icon",
+      "designToken": "",
+      "value": "avatar/lightBlue/50"
+    },
+    {
+      "devToken": "avatar.lightBlue.icon_docu",
+      "designToken": "",
+      "value": ""
+    },
+    {
+      "devToken": "avatar.lightBlue.icon_inverse",
+      "designToken": "",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.lightBlue.border",
+      "designToken": "",
+      "value": "LightBlue/alpha"
+    },
+    {
+      "devToken": "avatar.lightBlue.border_black",
+      "designToken": "",
+      "value": "avatar/blackAlpha/10"
+    },
+    {
+      "devToken": "avatar.deepBlue.bg",
+      "designToken": "",
+      "value": "avatar/deepBlue/20"
+    },
+    {
+      "devToken": "avatar.deepBlue.bg_bold",
+      "designToken": "",
+      "value": "avatar/deepBlue/70"
+    },
+    {
+      "devToken": "avatar.deepBlue.text",
+      "designToken": "",
+      "value": "avatar/deepBlue/70"
+    },
+    {
+      "devToken": "avatar.deepBlue.text_inverse",
+      "designToken": "",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.deepBlue.icon",
+      "designToken": "",
+      "value": "avatar/deepBlue/70"
+    },
+    {
+      "devToken": "avatar.deepBlue.icon_inverse",
+      "designToken": "",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.deepBlue.border",
+      "designToken": "",
+      "value": "DeepBlue/alpha"
+    },
+    {
+      "devToken": "avatar.deepBlue.border_black",
+      "designToken": "",
+      "value": "avatar/blackAlpha/10"
+    },
+    {
+      "devToken": "avatar.purple.bg",
+      "designToken": "Color/avatar/purple/bg",
+      "value": "avatar/purple/20"
+    },
+    {
+      "devToken": "avatar.purple.bg_bold",
+      "designToken": "Color/avatar/purple/bg-bold",
+      "value": "avatar/purple/50"
+    },
+    {
+      "devToken": "avatar.purple.text",
+      "designToken": "Color/avatar/purple/text",
+      "value": "avatar/purple/70"
+    },
+    {
+      "devToken": "avatar.purple.text_inverse",
+      "designToken": "Color/avatar/purple/text-inverse",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.purple.icon",
+      "designToken": "Color/avatar/purple/icon",
+      "value": "avatar/purple/50"
+    },
+    {
+      "devToken": "avatar.purple.icon_inverse",
+      "designToken": "Color/avatar/purple/icon-inverse",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.purple.border",
+      "designToken": "Color/avatar/purple/border",
+      "value": "Purple/alpha"
+    },
+    {
+      "devToken": "avatar.purple.border_black",
+      "designToken": "Color/avatar/purple/border-black",
+      "value": "avatar/blackAlpha/10"
+    },
+    {
+      "devToken": "avatar.pink.bg",
+      "designToken": "Color/avatar/pink/bg",
+      "value": "avatar/pink/20"
+    },
+    {
+      "devToken": "avatar.pink.bg_bold",
+      "designToken": "Color/avatar/pink/bg-bold",
+      "value": "avatar/pink/70"
+    },
+    {
+      "devToken": "avatar.pink.text",
+      "designToken": "Color/avatar/pink/text",
+      "value": "avatar/pink/70"
+    },
+    {
+      "devToken": "avatar.pink.text_inverse",
+      "designToken": "Color/avatar/pink/text-inverse",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.pink.icon",
+      "designToken": "Color/avatar/pink/icon",
+      "value": "avatar/pink/50"
+    },
+    {
+      "devToken": "avatar.pink.icon_inverse",
+      "designToken": "Color/avatar/pink/icon-inverse",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.pink.border",
+      "designToken": "Color/avatar/pink/border",
+      "value": "Pink/alpha"
+    },
+    {
+      "devToken": "avatar.pink.border_black",
+      "designToken": "Color/avatar/pink/border-black",
+      "value": "avatar/blackAlpha/10"
+    },
+    {
+      "devToken": "avatar.coolGray.bg",
+      "designToken": "",
+      "value": "avatar/coolGray/20"
+    },
+    {
+      "devToken": "avatar.coolGray.bg_bold",
+      "designToken": "",
+      "value": "avatar/coolGray/30"
+    },
+    {
+      "devToken": "avatar.coolGray.text",
+      "designToken": "",
+      "value": "avatar/coolGray/70"
+    },
+    {
+      "devToken": "avatar.coolGray.text_inverse",
+      "designToken": "",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.coolGray.icon",
+      "designToken": "",
+      "value": "avatar/coolGray/50"
+    },
+    {
+      "devToken": "avatar.coolGray.icon_inverse",
+      "designToken": "",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "avatar.coolGray.border",
+      "designToken": "",
+      "value": "CoolGray/alpha"
+    },
+    {
+      "devToken": "avatar.coolGray.border_black",
+      "designToken": "",
+      "value": "avatar/blackAlpha/10"
+    }
+  ]
 }
