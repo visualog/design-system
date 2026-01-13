@@ -538,16 +538,24 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
               </DropdownMenuTrigger>
               <DropdownMenuContent className="max-h-64 overflow-y-auto">
                 <DropdownMenuItem onSelect={() => handleFamilySelection('All')}>전체</DropdownMenuItem>
-                {Object.keys(colors.palette).map(family => (
-                  <DropdownMenuCheckboxItem
-                    key={family}
-                    checked={selectedFamilies.includes(family)}
-                    onCheckedChange={() => handleFamilySelection(family)}
-                    className="capitalize"
-                  >
-                    {family}
-                  </DropdownMenuCheckboxItem>
-                ))}
+                {Object.keys(colors.palette)
+                  .sort((a, b) => {
+                    const idxA = tableOrder.indexOf(a);
+                    const idxB = tableOrder.indexOf(b);
+                    const valA = idxA === -1 ? 999 : idxA;
+                    const valB = idxB === -1 ? 999 : idxB;
+                    return valA - valB;
+                  })
+                  .map(family => (
+                    <DropdownMenuCheckboxItem
+                      key={family}
+                      checked={selectedFamilies.includes(family)}
+                      onCheckedChange={() => handleFamilySelection(family)}
+                      className="capitalize"
+                    >
+                      {family}
+                    </DropdownMenuCheckboxItem>
+                  ))}
               </DropdownMenuContent>
             </DropdownMenu>
             <SearchBar

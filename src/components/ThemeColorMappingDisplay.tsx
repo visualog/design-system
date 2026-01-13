@@ -30,9 +30,10 @@ const ThemeColorMappingDisplay: React.FC = () => {
   const groupNames: Record<string, string> = {
     'brand': 'Brand',
     'neutral': 'Neutral',
-    'request_status': 'Request Status',
-    'avatar': 'Avatar',
-    'foundations': 'Foundations'
+    'error': 'Error',
+    'loading': 'Loading',
+    'success': 'Success',
+    'avatar': 'Avatar'
   };
 
   const handleCategorySelection = (category: string) => {
@@ -197,7 +198,7 @@ const ThemeColorMappingDisplay: React.FC = () => {
                       // MD uses 'alpha' for level 'alpha (10%)'
                       const cleanLevel = displayLevel === 'alpha (10%)' ? 'alpha' : displayLevel;
 
-                      rawTokenName = `light/${cleanFamily}/${cleanLevel}`;
+                      rawTokenName = `${cleanFamily}/${cleanLevel}`;
                     }
 
                     // Format Theme Token Name: Family/Sub/Level
