@@ -25,6 +25,7 @@ const ThemeColorMappingDisplay: React.FC = () => {
   const { colors } = designSystemData;
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>(['All']);
+  const [selectedAvatarGroup, setSelectedAvatarGroup] = useState('All');
 
   // Group name mapping for display
   const groupNames: Record<string, string> = {
@@ -37,6 +38,11 @@ const ThemeColorMappingDisplay: React.FC = () => {
   };
 
   const handleCategorySelection = (category: string) => {
+    // Reset avatar sub-filter when changing main category
+    if (category !== 'avatar') {
+      setSelectedAvatarGroup('All');
+    }
+
     if (category === 'All') {
       setSelectedCategories(['All']);
     } else {
@@ -58,6 +64,22 @@ const ThemeColorMappingDisplay: React.FC = () => {
       return groupNames[selectedCategories[0]] || selectedCategories[0];
     }
     return `${selectedCategories.length}개 그룹`;
+  };
+
+  // Extract unique avatar groups
+  const avatarTokens = colors.themeMapping['avatar'] || {};
+  const uniqueAvatarGroups = Array.from(new Set(
+    Object.keys(avatarTokens).map(key => {
+      // color_avatar_red_20 -> red
+      // color_avatar_cool_gray_20 -> cool gray
+      const parts = key.replace(/^color_avatar_/, '').split('_');
+      parts.pop(); // Remove level
+      return parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+    })
+  )).sort();
+
+  const getAvatarDropdownText = () => {
+    return selectedAvatarGroup === 'All' ? '전체 색상' : selectedAvatarGroup;
   };
 
   const findColorDataByVariable = (variableName: string) => {
@@ -130,12 +152,12 @@ const ThemeColorMappingDisplay: React.FC = () => {
       <div className="flex items-center gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="w-48 justify-between shadow-none">
+            <Button variant="outline" className="w-40 justify-between shadow-none">
               <span>{getDropdownTriggerText()}</span>
               <ChevronDown className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="max-h-64 overflow-y-auto">
+          <DropdownMenuContent className="w-40 max-h-64 overflow-y-auto">
             <DropdownMenuItem onSelect={() => handleCategorySelection('All')}>전체</DropdownMenuItem>
             {Object.entries(groupNames).map(([key, name]) => (
               <DropdownMenuCheckboxItem
@@ -148,6 +170,31 @@ const ThemeColorMappingDisplay: React.FC = () => {
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
+
+        {/* Secondary Dropdown for Avatar Groups */}
+        {selectedCategories.length === 1 && selectedCategories[0] === 'avatar' && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="w-40 justify-between shadow-none">
+                <span>{getAvatarDropdownText()}</span>
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-40 max-h-64 overflow-y-auto">
+              <DropdownMenuItem onSelect={() => setSelectedAvatarGroup('All')}>전체 색상</DropdownMenuItem>
+              {uniqueAvatarGroups.map(group => (
+                <DropdownMenuCheckboxItem
+                  key={group}
+                  checked={selectedAvatarGroup === group}
+                  onCheckedChange={() => setSelectedAvatarGroup(selectedAvatarGroup === group ? 'All' : group)}
+                >
+                  {group}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+
         <SearchBar
           placeholder={`${filteredTokenCount}개 토큰 검색...`}
           value={searchTerm}
@@ -175,8 +222,20 @@ const ThemeColorMappingDisplay: React.FC = () => {
               }
 
               const filteredEntries = Object.entries(mappings).filter(([themeVar, rawVar]) => {
+                // Primary Filter: Search Term
                 const term = searchTerm.toLowerCase();
-                return themeVar.toLowerCase().includes(term) || (rawVar as string).toLowerCase().includes(term);
+                const matchesSearch = themeVar.toLowerCase().includes(term) || (rawVar as string).toLowerCase().includes(term);
+                if (!matchesSearch) return false;
+
+                // Secondary Filter: Avatar Group
+                if (category === 'avatar' && selectedAvatarGroup !== 'All') {
+                  const parts = themeVar.replace(/^color_avatar_/, '').split('_');
+                  parts.pop();
+                  const group = parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+                  if (group !== selectedAvatarGroup) return false;
+                }
+
+                return true;
               });
 
               if (filteredEntries.length === 0) return null;

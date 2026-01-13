@@ -531,12 +531,12 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
           <div className="flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="w-48 justify-between shadow-none">
+                <Button variant="outline" className="w-40 justify-between shadow-none">
                   <span>{getDropdownTriggerText()}</span>
                   <ChevronDown className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="max-h-64 overflow-y-auto">
+              <DropdownMenuContent className="w-40 max-h-64 overflow-y-auto">
                 <DropdownMenuItem onSelect={() => handleFamilySelection('All')}>전체</DropdownMenuItem>
                 {Object.keys(colors.palette)
                   .sort((a, b) => {
