@@ -80,30 +80,40 @@ const ThemeColorMappingDisplay: React.FC = () => {
     }
 
     // Handle standard pattern: color_Family_Level
-    if (parts.length < 3) return { shade: null, paletteFamily: null };
-
-    const family = parts[1];
-    const level = parts[2];
-
+    // NEW LOGIC: Try to find by direct variable match in semantic/palette data first
+    // This supports the new "Family/Level" format (e.g. "Blue/10") directly
     const palette = colors.palette as Record<string, any[]>;
-
     for (const paletteFamily in palette) {
-      if (paletteFamily.replace(/\s/g, '').toLowerCase() === family.toLowerCase()) {
-        // Try exact match first
-        let shade = palette[paletteFamily].find(s => String(s.level) === level);
+      const shade = palette[paletteFamily].find(s => s.variable === variableName);
+      if (shade) {
+        return { shade, paletteFamily };
+      }
+    }
 
-        // If level is 'alpha' and not found, try matching level that contains 'alpha'
-        if (!shade && level === 'alpha') {
-          shade = palette[paletteFamily].find(s =>
-            String(s.level).toLowerCase().includes('alpha')
-          );
-        }
+    // LEGACY LOGIC: Handle standard pattern: color_Family_Level
+    if (parts.length >= 3) {
+      const family = parts[1];
+      const level = parts[2];
 
-        if (shade) {
-          return { shade, paletteFamily };
+      for (const paletteFamily in palette) {
+        if (paletteFamily.replace(/\s/g, '').toLowerCase() === family.toLowerCase()) {
+          // Try exact match first
+          let shade = palette[paletteFamily].find(s => String(s.level) === level);
+
+          // If level is 'alpha' and not found, try matching level that contains 'alpha'
+          if (!shade && level === 'alpha') {
+            shade = palette[paletteFamily].find(s =>
+              String(s.level).toLowerCase().includes('alpha')
+            );
+          }
+
+          if (shade) {
+            return { shade, paletteFamily };
+          }
         }
       }
     }
+
     return { shade: null, paletteFamily: null };
   };
 
@@ -149,7 +159,7 @@ const ThemeColorMappingDisplay: React.FC = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="w-1/2 px-4 text-xs h-auto">
-                토큰
+                토큰명
               </TableHead>
               <TableHead className="w-1/2 px-4 text-xs h-auto">
                 매핑
@@ -177,25 +187,82 @@ const ThemeColorMappingDisplay: React.FC = () => {
                   {filteredEntries.map(([themeVar, rawVar]) => {
                     const { shade: color, paletteFamily } = findColorDataByVariable(rawVar as string);
 
+                    // Format Raw Token Name: light/Family/Level
                     let rawTokenName = rawVar as string;
                     if (color && paletteFamily) {
                       const displayLevel = String(color.level).replace(/\s\(.*\)/, '');
-                      rawTokenName = `$color_${paletteFamily.toLowerCase().replace(/\s/g, '_')}_${displayLevel}`;
+                      // Remove spaces from paletteFamily (e.g. Yellow Orange -> YellowOrange)
+                      const cleanFamily = paletteFamily.replace(/\s/g, '');
+                      // Logic to handle alpha in level if needed (e.g. alpha (10%) -> alpha)
+                      // MD uses 'alpha' for level 'alpha (10%)'
+                      const cleanLevel = displayLevel === 'alpha (10%)' ? 'alpha' : displayLevel;
+
+                      rawTokenName = `light/${cleanFamily}/${cleanLevel}`;
                     }
+
+                    // Format Theme Token Name: Family/Sub/Level
+                    // Strip 'color_'
+                    let themeTokenName = themeVar.replace(/^color_/, '');
+                    const parts = themeTokenName.split('_');
+
+                    if (parts[0] === 'avatar' && parts.length > 2) {
+                      // Special handling for avatar: avatar/yellow orange/20
+                      const level = parts.pop(); // Remove level
+                      const category = parts.shift(); // Remove avatar
+                      const subName = parts.map((p, i) => i === 0 ? p : p.charAt(0).toUpperCase() + p.slice(1)).join(''); // Join yellow_orange -> yellowOrange
+                      themeTokenName = `${category}/${subName}/${level}`;
+                    } else {
+                      // General case: brand/10, error/20
+                      const level = parts.pop();
+                      const name = parts.join(' '); // usually single word unless there are others
+                      themeTokenName = `${name}/${level}`;
+                    }
+
 
                     return (
                       <TableRow key={themeVar} className="group">
                         <TableCell className="px-4 font-mono text-sm font-medium">
                           <div className="flex items-center gap-2">
                             {color ? (() => {
-                              const isAlpha = themeVar.toLowerCase().includes('alpha');
+                              // Determine if we should treat this as an alpha chip
+                              // 1. If Hex has 9 characters (#RRGGBBAA)
+                              // 2. If 'alpha' is in the name/level AND we can extract a percentage
+
+                              let opacity = 1;
+                              let isActuallyAlpha = false;
+
+                              if (color.hex.length === 9) {
+                                isActuallyAlpha = true;
+                                const alphaHex = color.hex.substring(7, 9);
+                                opacity = parseInt(alphaHex, 16) / 255;
+                              } else {
+                                // Fallback: try to match (xx%) in level
+                                const opacityMatch = String(color.level).match(/\((\d+)%\)/);
+                                if (opacityMatch && opacityMatch[1]) {
+                                  isActuallyAlpha = true;
+                                  opacity = parseInt(opacityMatch[1], 10) / 100;
+                                } else if (themeVar.toLowerCase().includes('alpha')) {
+                                  // Fallback for 'alpha' named tokens without 9-char hex or % level
+                                  // This catches "Red alpha" where level might just be "alpha" (often implies 10% or similar depending on implementation, 
+                                  // but if hex is 7 chars it's actually opaque in the hex string? 
+                                  // Actually earlier we saw Red alpha had 9 char hex.
+                                  // So this might trigger for things that SHOULD have 9 char hex but don't.
+                                  // But let's verify if we should force it.
+                                  // If strictly relying on data, we only check hex or level %.
+                                  // User said "Black alpha/10" was showing weird. Black alpha hexes ARE 9 chars.
+                                  // so the first check covers them.
+                                }
+                              }
+
+                              // Refine isActuallyAlpha: if opacity < 1 or strictly determined
+                              if (opacity >= 1 && !isActuallyAlpha) isActuallyAlpha = false;
+
+
                               let chipStyle: React.CSSProperties = {};
 
-                              if (isAlpha) {
+                              if (isActuallyAlpha) {
                                 // For alpha tokens, use checkered pattern background with alpha color overlay
-                                // Add white background layer at the bottom to isolate from row hover effects
-                                const opacity = 0.1; // 10% opacity for alpha tokens
-                                const rgbaColor = color.rgb.replace('rgb', 'rgba').replace(')', `, ${opacity})`);
+                                const rgbaColor = color.rgb.replace('rgb', 'rgba').replace(')', `, ${opacity.toFixed(2)})`);
 
                                 chipStyle = {
                                   backgroundImage: `
@@ -216,7 +283,7 @@ const ThemeColorMappingDisplay: React.FC = () => {
                               <div className="w-5 h-5 rounded-full bg-gray-200 border border-black/10"></div>
                             )}
                             <span className="text-primary">
-                              $<HighlightText text={themeVar} highlight={searchTerm} />
+                              <HighlightText text={themeTokenName} highlight={searchTerm} />
                             </span>
                           </div>
                         </TableCell>

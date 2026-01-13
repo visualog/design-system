@@ -106,7 +106,7 @@ const SemanticColorMappingDisplay: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-1/2 px-4 text-xs h-auto">토큰</TableHead>
+              <TableHead className="w-1/2 px-4 text-xs h-auto">토큰명</TableHead>
               <TableHead className="w-1/2 px-4 text-xs h-auto">매핑</TableHead>
             </TableRow>
           </TableHeader>

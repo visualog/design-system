@@ -16,7 +16,7 @@ import motionTokens from '../data/motion.json';
 
 export const designSystemData = {
   colors: {
-    palette: colorPalette,
+    palette: colorPalette.colors.palette,
     themeMapping: themeColorMapping,
     semanticMapping: semanticColorMapping,
   },

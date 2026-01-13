@@ -86,3 +86,8 @@
 - Completed: Refined 'Nested Radius' UI: renamed title to "중첩 라디우스", removed redundant "Calculated" label and formula code block.
 - Completed: Fixed 'Nested Radius' slider alignment: used absolute positioning with calc() offset to align markers perfectly with the slider thumb center.
 - Completed: Fixed 'Nested Radius' slider thumb vertical alignment: applied explicit Tailwind styles to reset native input appearance and center the thumb on the track.
+- **2025-01-09**:
+  - Implemented **Search Highlight**: Added `HighlightText` component and applied it to Typography and Color tables.
+  - Fixed **Semantic Color Filter**: Resolved bug where filtering by Background/Border/Icon showed empty results (fixed header key mismatch).
+  - Fixed **Radius Page Layout**: Resolved excessive bottom whitespace by adding `overflow-hidden` to clip large guide circles.
+  - Refined **Nested Radius UI**: Improved slider alignment and visual styles.
