@@ -42,7 +42,7 @@ const ColorSwatch: React.FC<ColorProps & { isDarkMode?: boolean }> = ({ level, h
   let finalStyle: React.CSSProperties = {};
 
   // Define displayHex first
-  let displayHex = (isDarkMode && hexDark) ? hexDark : hex;
+  let displayHex = isDarkMode ? hexDark : hex;
 
   // Check if color is valid for current mode
   if (!displayHex) {
@@ -247,7 +247,7 @@ const TokensDisplay: React.FC<{ colors: any; searchTerm: string; isDarkMode: boo
             (shades as any[]).map((color: any, index: number) => {
               let finalChipStyle: React.CSSProperties = {};
 
-              let displayHex = (isDarkMode && color.hexDark) ? color.hexDark : color.hex;
+              let displayHex = isDarkMode ? color.hexDark : color.hex;
 
               // Handle missing color for current mode
               if (!displayHex) {
@@ -440,7 +440,9 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
       return acc;
     }, {} as Record<string, any[]>);
 
-  const tokenCount = Object.values(filteredColors).flat().length;
+  const tokenCount = Object.values(filteredColors).flat().filter((color: any) => {
+    return isDarkMode ? !!color.hexDark : !!color.hex;
+  }).length;
   // const placeholderText = `Search ${tokenCount} tokens...`; // Unused
 
   const getDropdownTriggerText = () => {
