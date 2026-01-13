@@ -33,7 +33,7 @@
     {
       "devToken": "text.error_light",
       "designToken": "Color/text/error-light",
-      "value": ""
+      "value": "error/50"
     },
     {
       "devToken": "text.success",
@@ -43,17 +43,17 @@
     {
       "devToken": "text.success_light",
       "designToken": "Color/text/success-light",
-      "value": ""
-    },
-    {
-      "devToken": "text.info",
-      "designToken": "Color/text/info",
-      "value": "neutral/40"
+      "value": "success/50"
     },
     {
       "devToken": "text.loading",
       "designToken": "Color/text/loading",
       "value": "loading/60"
+    },
+    {
+      "devToken": "text.info",
+      "designToken": "Color/text/info",
+      "value": "neutral/40"
     },
     {
       "devToken": "text.interactive.primary",
@@ -96,173 +96,6 @@
       "value": "neutral/white"
     }
   ],
-  "bg": [
-    {
-      "devToken": "bg.primary",
-      "designToken": "Color/bg/primary",
-      "value": "Gray/white"
-    },
-    {
-      "devToken": "bg.secondary",
-      "designToken": "Color/bg/secondary",
-      "value": "neutral/10"
-    },
-    {
-      "devToken": "bg.tertiary",
-      "designToken": "Color/bg/tertiary",
-      "value": "neutral/20"
-    },
-    {
-      "devToken": "bg.strong",
-      "designToken": "Color/bg/strong",
-      "value": "coolgray/70"
-    },
-    {
-      "devToken": "bg.brand",
-      "designToken": "Color/bg/brand",
-      "value": "brand/60"
-    },
-    {
-      "devToken": "bg.tooltip",
-      "designToken": "Color/bg/tooltip",
-      "value": "CoolGray/90"
-    },
-    {
-      "devToken": "bg.error",
-      "designToken": "Color/bg/error",
-      "value": "error/60"
-    },
-    {
-      "devToken": "bg.error_disabled",
-      "designToken": "Color/bg/error_disabled",
-      "value": "error/20"
-    },
-    {
-      "devToken": "bg.loading",
-      "designToken": "Color/bg/loading",
-      "value": "loading/60"
-    },
-    {
-      "devToken": "bg.loading_disabled",
-      "designToken": "Color/bg/loading_disabled",
-      "value": "loading/20"
-    },
-    {
-      "devToken": "bg.success",
-      "designToken": "Color/bg/success",
-      "value": "success/60"
-    },
-    {
-      "devToken": "bg.success_disabled",
-      "designToken": "Color/bg/success_disabled",
-      "value": "success/20"
-    },
-    {
-      "devToken": "bg.interactive.primary",
-      "designToken": "Color/bg/interactive/primary",
-      "value": "neutral/20"
-    },
-    {
-      "devToken": "bg.interactive.primary_hover",
-      "designToken": "Color/bg/interactive/primary-hover",
-      "value": "neutral/30"
-    },
-    {
-      "devToken": "bg.interactive.primary_disabled",
-      "designToken": "Color/bg/interactive/primary-disabled",
-      "value": "neutral/20"
-    },
-    {
-      "devToken": "bg.interactive.secondary",
-      "designToken": "Color/bg/interactive/secondary",
-      "value": "neutral/white"
-    },
-    {
-      "devToken": "bg.interactive.secondary_hover",
-      "designToken": "Color/bg/interactive/secondary-hover",
-      "value": "neutral/20"
-    },
-    {
-      "devToken": "bg.interactive.secondary_disabled",
-      "designToken": "Color/bg/interactive/secondary-disabled",
-      "value": "neutral/white"
-    },
-    {
-      "devToken": "bg.interactive.tertiary",
-      "designToken": "Color/bg/interactive/tertiary",
-      "value": "neutral/10"
-    },
-    {
-      "devToken": "bg.interactive.selected",
-      "designToken": "Color/bg/interactive/selected",
-      "value": "brand/10"
-    },
-    {
-      "devToken": "bg.interactive.brand",
-      "designToken": "Color/bg/interactive/brand",
-      "value": "brand/60"
-    },
-    {
-      "devToken": "bg.interactive.brand_hover",
-      "designToken": "Color/bg/interactive/brand-hover",
-      "value": "brand/70"
-    },
-    {
-      "devToken": "bg.interactive.brand_disabled",
-      "designToken": "Color/bg/interactive/brand-disabled",
-      "value": "brand/30"
-    },
-    {
-      "devToken": "bg.interactive.brand_secondary",
-      "designToken": "Color/bg/interactive/brand-secondary",
-      "value": "brand/10"
-    },
-    {
-      "devToken": "bg.interactive.brand_secondary_hover",
-      "designToken": "Color/bg/interactive/brand-secondary-hover",
-      "value": "brand/30"
-    },
-    {
-      "devToken": "bg.interactive.error",
-      "designToken": "Color/bg/interactive/error",
-      "value": "error/20"
-    },
-    {
-      "devToken": "bg.interactive.error_hovered",
-      "designToken": "Color/bg/interactive/error-hovered",
-      "value": "error/60"
-    },
-    {
-      "devToken": "bg.interactive.error_disabled",
-      "designToken": "Color/bg/interactive/error-disabled",
-      "value": "error/20"
-    },
-    {
-      "devToken": "bg.interactive.error_popup",
-      "designToken": "Color/bg/interactive/error-popup",
-      "value": "error/60"
-    },
-    {
-      "devToken": "bg.interactive.error_popup_hovered",
-      "designToken": "Color/bg/interactive/error-popup-hovered",
-      "value": "error/80"
-    },
-    {
-      "devToken": "bg.interactive.error_popup_disabled",
-      "designToken": "Color/bg/interactive/error-popup-disabled",
-      "value": "error/20"
-    },
-    {
-      "devToken": "bg.interactive.toggle_on",
-      "designToken": "Color/bg/interactive/toggle-on",
-      "value": "Blue/60"
-    },
-    {
-      "devToken": "bg.interactive.toggle_off",
-      "designToken": "Color/bg/interactive/toggle-off",
-      "value": "neutral/60"
-    }
-  ],
   "icon": [
     {
       "devToken": "icon.primary",
@@ -272,7 +105,7 @@
     {
       "devToken": "icon.brand",
       "designToken": "Color/icon/brand",
-      "value": "avatar/60"
+      "value": "brand/60"
     },
     {
       "devToken": "icon.error",
@@ -347,12 +180,179 @@
     {
       "devToken": "icon.interactive.selected",
       "designToken": "Color/icon/interactive/selected",
-      "value": "avatar/60"
+      "value": "brand/60"
     },
     {
       "devToken": "icon.interactive.inverse",
       "designToken": "Color/icon/interactive/inverse",
       "value": "neutral/white"
+    }
+  ],
+  "bg": [
+    {
+      "devToken": "bg.primary",
+      "designToken": "Color/bg/primary",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "bg.secondary",
+      "designToken": "Color/bg/secondary",
+      "value": "neutral/10"
+    },
+    {
+      "devToken": "bg.tertiary",
+      "designToken": "Color/bg/tertiary",
+      "value": "neutral/20"
+    },
+    {
+      "devToken": "bg.strong",
+      "designToken": "Color/bg/strong",
+      "value": "CoolGray/70"
+    },
+    {
+      "devToken": "bg.tooltip",
+      "designToken": "Color/bg/tooltip",
+      "value": "CoolGray/90"
+    },
+    {
+      "devToken": "bg.brand",
+      "designToken": "Color/bg/brand",
+      "value": "brand/60"
+    },
+    {
+      "devToken": "bg.error",
+      "designToken": "Color/bg/error",
+      "value": "error/60"
+    },
+    {
+      "devToken": "bg.error_disabled",
+      "designToken": "Color/bg/error_disabled",
+      "value": "error/20"
+    },
+    {
+      "devToken": "bg.success",
+      "designToken": "Color/bg/success",
+      "value": "success/60"
+    },
+    {
+      "devToken": "bg.success_disabled",
+      "designToken": "Color/bg/success_disabled",
+      "value": "success/20"
+    },
+    {
+      "devToken": "bg.loading",
+      "designToken": "Color/bg/loading",
+      "value": "loading/60"
+    },
+    {
+      "devToken": "bg.loading_disabled",
+      "designToken": "Color/bg/loading_disabled",
+      "value": "loading/20"
+    },
+    {
+      "devToken": "bg.interactive.primary",
+      "designToken": "Color/bg/interactive/primary",
+      "value": "neutral/20"
+    },
+    {
+      "devToken": "bg.interactive.primary_hover",
+      "designToken": "Color/bg/interactive/primary-hover",
+      "value": "neutral/30"
+    },
+    {
+      "devToken": "bg.interactive.primary_disabled",
+      "designToken": "Color/bg/interactive/primary-disabled",
+      "value": "neutral/20"
+    },
+    {
+      "devToken": "bg.interactive.secondary",
+      "designToken": "Color/bg/interactive/secondary",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "bg.interactive.secondary_hover",
+      "designToken": "Color/bg/interactive/secondary-hover",
+      "value": "neutral/20"
+    },
+    {
+      "devToken": "bg.interactive.secondary_disabled",
+      "designToken": "Color/bg/interactive/secondary-disabled",
+      "value": "neutral/white"
+    },
+    {
+      "devToken": "bg.interactive.tertiary",
+      "designToken": "Color/bg/interactive/tertiary",
+      "value": "neutral/10"
+    },
+    {
+      "devToken": "bg.interactive.brand",
+      "designToken": "Color/bg/interactive/brand",
+      "value": "brand/60"
+    },
+    {
+      "devToken": "bg.interactive.brand_hover",
+      "designToken": "Color/bg/interactive/brand-hover",
+      "value": "brand/70"
+    },
+    {
+      "devToken": "bg.interactive.brand_disabled",
+      "designToken": "Color/bg/interactive/brand-disabled",
+      "value": "brand/30"
+    },
+    {
+      "devToken": "bg.interactive.brand_secondary",
+      "designToken": "Color/bg/interactive/brand-secondary",
+      "value": "brand/10"
+    },
+    {
+      "devToken": "bg.interactive.brand_secondary_hover",
+      "designToken": "Color/bg/interactive/brand-secondary-hover",
+      "value": "brand/30"
+    },
+    {
+      "devToken": "bg.interactive.selected",
+      "designToken": "Color/bg/interactive/selected",
+      "value": "brand/10"
+    },
+    {
+      "devToken": "bg.interactive.error",
+      "designToken": "Color/bg/interactive/error",
+      "value": "error/20"
+    },
+    {
+      "devToken": "bg.interactive.error_hovered",
+      "designToken": "Color/bg/interactive/error-hovered",
+      "value": "error/60"
+    },
+    {
+      "devToken": "bg.interactive.error_disabled",
+      "designToken": "Color/bg/interactive/error-disabled",
+      "value": "error/20"
+    },
+    {
+      "devToken": "bg.interactive.error_popup",
+      "designToken": "Color/bg/interactive/error-popup",
+      "value": "error/60"
+    },
+    {
+      "devToken": "bg.interactive.error_popup_hovered",
+      "designToken": "Color/bg/interactive/error-popup-hovered",
+      "value": "error/80"
+    },
+    {
+      "devToken": "bg.interactive.error_popup_disabled",
+      "designToken": "Color/bg/interactive/error-popup-disabled",
+      "value": "error/20"
+    },
+    {
+      "devToken": "bg.interactive.toggle_on",
+      "designToken": "Color/bg/interactive/toggle-on",
+      "value": "brand/60"
+    },
+    {
+      "devToken": "bg.interactive.toggle_off",
+      "designToken": "Color/bg/interactive/toggle-off",
+      "value": "neutral/60"
     }
   ],
   "border": [
@@ -369,7 +369,7 @@
     {
       "devToken": "border.tertiary",
       "designToken": "Color/border/tertiary",
-      "value": ""
+      "value": "neutral/10"
     },
     {
       "devToken": "border.info",
@@ -389,7 +389,7 @@
     {
       "devToken": "border.interactive.input_hover",
       "designToken": "Color/border/interactive/input-hover",
-      "value": ""
+      "value": "neutral/40"
     },
     {
       "devToken": "border.interactive.card",
@@ -414,16 +414,6 @@
   ],
   "avatar": [
     {
-      "devToken": "avatar.red.bg",
-      "designToken": "Color/avatar/red/bg",
-      "value": "avatar/red/20"
-    },
-    {
-      "devToken": "avatar.red.bg_bold",
-      "designToken": "Color/avatar/red/bg-bold",
-      "value": "avatar/red/50"
-    },
-    {
       "devToken": "avatar.red.text",
       "designToken": "Color/avatar/red/text",
       "value": "avatar/red/60"
@@ -444,24 +434,24 @@
       "value": "neutral/white"
     },
     {
+      "devToken": "avatar.red.bg",
+      "designToken": "Color/avatar/red/bg",
+      "value": "avatar/red/20"
+    },
+    {
+      "devToken": "avatar.red.bg_bold",
+      "designToken": "Color/avatar/red/bg-bold",
+      "value": "avatar/red/50"
+    },
+    {
       "devToken": "avatar.red.border",
       "designToken": "Color/avatar/red/border",
-      "value": "Red/alpha"
+      "value": "avatar/red/alpha"
     },
     {
       "devToken": "avatar.red.border_black",
       "designToken": "Color/avatar/red/border-black",
       "value": "avatar/blackAlpha/10"
-    },
-    {
-      "devToken": "avatar.orange.bg",
-      "designToken": "Color/avatar/orange/bg",
-      "value": "avatar/orange/20"
-    },
-    {
-      "devToken": "avatar.orange.bg_bold",
-      "designToken": "Color/avatar/orange/bg-bold",
-      "value": "avatar/orange/50"
     },
     {
       "devToken": "avatar.orange.text",
@@ -484,9 +474,19 @@
       "value": "neutral/white"
     },
     {
+      "devToken": "avatar.orange.bg",
+      "designToken": "Color/avatar/orange/bg",
+      "value": "avatar/orange/20"
+    },
+    {
+      "devToken": "avatar.orange.bg_bold",
+      "designToken": "Color/avatar/orange/bg-bold",
+      "value": "avatar/orange/50"
+    },
+    {
       "devToken": "avatar.orange.border",
       "designToken": "Color/avatar/orange/border",
-      "value": "Orange/alpha"
+      "value": "avatar/orange/alpha"
     },
     {
       "devToken": "avatar.orange.border_black",
@@ -494,54 +494,44 @@
       "value": "avatar/blackAlpha/10"
     },
     {
-      "devToken": "avatar.yellowOrange.bg",
-      "designToken": "",
-      "value": "avatar/yellowOrange/20"
-    },
-    {
-      "devToken": "avatar.yellowOrange.bg_bold",
-      "designToken": "",
-      "value": "avatar/yellowOrange/50"
-    },
-    {
       "devToken": "avatar.yellowOrange.text",
-      "designToken": "",
+      "designToken": "Color/avatar/yellow orange/text",
       "value": "avatar/yellowOrange/70"
     },
     {
       "devToken": "avatar.yellowOrange.text_inverse",
-      "designToken": "",
+      "designToken": "Color/avatar/yellow orange/text-inverse",
       "value": "neutral/white"
     },
     {
       "devToken": "avatar.yellowOrange.icon",
-      "designToken": "",
+      "designToken": "Color/avatar/yellow orange/icon",
       "value": "avatar/yellowOrange/50"
     },
     {
       "devToken": "avatar.yellowOrange.icon_inverse",
-      "designToken": "",
+      "designToken": "Color/avatar/yellow orange/icon-inverse",
       "value": "neutral/white"
     },
     {
+      "devToken": "avatar.yellowOrange.bg",
+      "designToken": "Color/avatar/yellow orange/bg",
+      "value": "avatar/yellowOrange/20"
+    },
+    {
+      "devToken": "avatar.yellowOrange.bg_bold",
+      "designToken": "Color/avatar/yellow orange/bg-bold",
+      "value": "avatar/yellowOrange/50"
+    },
+    {
       "devToken": "avatar.yellowOrange.border",
-      "designToken": "",
-      "value": "YellowOrange/alpha"
+      "designToken": "Color/avatar/yellow orange/border",
+      "value": "avatar/yellowOrange/alpha"
     },
     {
       "devToken": "avatar.yellowOrange.border_black",
-      "designToken": "",
+      "designToken": "Color/avatar/yellow orange/border-black",
       "value": "avatar/blackAlpha/10"
-    },
-    {
-      "devToken": "avatar.green.bg",
-      "designToken": "Color/avatar/green/bg",
-      "value": "avatar/green/20"
-    },
-    {
-      "devToken": "avatar.green.bg_bold",
-      "designToken": "Color/avatar/green/bg-bold",
-      "value": "avatar/green/50"
     },
     {
       "devToken": "avatar.green.text",
@@ -559,14 +549,29 @@
       "value": "avatar/green/50"
     },
     {
+      "devToken": "avatar.green.icon_docu",
+      "designToken": "Color/avatar/green/icon-docu",
+      "value": "avatar/green/60"
+    },
+    {
       "devToken": "avatar.green.icon_inverse",
       "designToken": "Color/avatar/green/icon-inverse",
       "value": "neutral/white"
     },
     {
+      "devToken": "avatar.green.bg",
+      "designToken": "Color/avatar/green/bg",
+      "value": "avatar/green/20"
+    },
+    {
+      "devToken": "avatar.green.bg_bold",
+      "designToken": "Color/avatar/green/bg-bold",
+      "value": "avatar/green/50"
+    },
+    {
       "devToken": "avatar.green.border",
       "designToken": "Color/avatar/green/border",
-      "value": "Green/alpha"
+      "value": "avatar/green/alpha"
     },
     {
       "devToken": "avatar.green.border_black",
@@ -574,54 +579,44 @@
       "value": "avatar/blackAlpha/10"
     },
     {
-      "devToken": "avatar.deepGreen.bg",
-      "designToken": "",
-      "value": "avatar/deepGreen/20"
-    },
-    {
-      "devToken": "avatar.deepGreen.bg_bold",
-      "designToken": "",
-      "value": "avatar/deepGreen/50"
-    },
-    {
       "devToken": "avatar.deepGreen.text",
-      "designToken": "",
+      "designToken": "Color/avatar/deep green/text",
       "value": "avatar/deepGreen/70"
     },
     {
       "devToken": "avatar.deepGreen.text_inverse",
-      "designToken": "",
+      "designToken": "Color/avatar/deep green/text-inverse",
       "value": "neutral/white"
     },
     {
       "devToken": "avatar.deepGreen.icon",
-      "designToken": "",
+      "designToken": "Color/avatar/deep green/icon",
       "value": "avatar/deepGreen/50"
     },
     {
       "devToken": "avatar.deepGreen.icon_inverse",
-      "designToken": "",
+      "designToken": "Color/avatar/deep green/icon-inverse",
       "value": "neutral/white"
     },
     {
+      "devToken": "avatar.deepGreen.bg",
+      "designToken": "Color/avatar/deep green/bg",
+      "value": "avatar/deepGreen/20"
+    },
+    {
+      "devToken": "avatar.deepGreen.bg_bold",
+      "designToken": "Color/avatar/deep green/bg-bold",
+      "value": "avatar/deepGreen/50"
+    },
+    {
       "devToken": "avatar.deepGreen.border",
-      "designToken": "",
-      "value": "DeepGreen/alpha"
+      "designToken": "Color/avatar/deep green/border",
+      "value": "avatar/deepGreen/alpha"
     },
     {
       "devToken": "avatar.deepGreen.border_black",
-      "designToken": "",
+      "designToken": "Color/avatar/deep green/border-black",
       "value": "avatar/blackAlpha/10"
-    },
-    {
-      "devToken": "avatar.cyan.bg",
-      "designToken": "Color/avatar/cyan/bg",
-      "value": "avatar/cyan/20"
-    },
-    {
-      "devToken": "avatar.cyan.bg_bold",
-      "designToken": "Color/avatar/cyan/bg-bold",
-      "value": "avatar/cyan/50"
     },
     {
       "devToken": "avatar.cyan.text",
@@ -644,9 +639,19 @@
       "value": "neutral/white"
     },
     {
+      "devToken": "avatar.cyan.bg",
+      "designToken": "Color/avatar/cyan/bg",
+      "value": "avatar/cyan/20"
+    },
+    {
+      "devToken": "avatar.cyan.bg_bold",
+      "designToken": "Color/avatar/cyan/bg-bold",
+      "value": "avatar/cyan/50"
+    },
+    {
       "devToken": "avatar.cyan.border",
       "designToken": "Color/avatar/cyan/border",
-      "value": "Cyan/alpha"
+      "value": "avatar/cyan/alpha"
     },
     {
       "devToken": "avatar.cyan.border_black",
@@ -654,99 +659,89 @@
       "value": "avatar/blackAlpha/10"
     },
     {
-      "devToken": "avatar.lightBlue.bg",
-      "designToken": "",
-      "value": "avatar/lightBlue/20"
-    },
-    {
-      "devToken": "avatar.lightBlue.bg_bold",
-      "designToken": "",
-      "value": "avatar/lightBlue/50"
-    },
-    {
       "devToken": "avatar.lightBlue.text",
-      "designToken": "",
+      "designToken": "Color/avatar/light blue/text",
       "value": "avatar/lightBlue/70"
     },
     {
       "devToken": "avatar.lightBlue.text_inverse",
-      "designToken": "",
+      "designToken": "Color/avatar/light blue/text-inverse",
       "value": "neutral/white"
     },
     {
       "devToken": "avatar.lightBlue.icon",
-      "designToken": "",
+      "designToken": "Color/avatar/light blue/icon",
       "value": "avatar/lightBlue/50"
     },
     {
       "devToken": "avatar.lightBlue.icon_docu",
-      "designToken": "",
-      "value": ""
+      "designToken": "Color/avatar/light blue/icon-docu",
+      "value": "avatar/lightBlue/60"
     },
     {
       "devToken": "avatar.lightBlue.icon_inverse",
-      "designToken": "",
+      "designToken": "Color/avatar/light blue/icon-inverse",
       "value": "neutral/white"
     },
     {
+      "devToken": "avatar.lightBlue.bg",
+      "designToken": "Color/avatar/light blue/bg",
+      "value": "avatar/lightBlue/20"
+    },
+    {
+      "devToken": "avatar.lightBlue.bg_bold",
+      "designToken": "Color/avatar/light blue/bg-bold",
+      "value": "avatar/lightBlue/50"
+    },
+    {
       "devToken": "avatar.lightBlue.border",
-      "designToken": "",
-      "value": "LightBlue/alpha"
+      "designToken": "Color/avatar/light blue/border",
+      "value": "avatar/lightBlue/alpha"
     },
     {
       "devToken": "avatar.lightBlue.border_black",
-      "designToken": "",
+      "designToken": "Color/avatar/light blue/border-black",
       "value": "avatar/blackAlpha/10"
     },
     {
-      "devToken": "avatar.deepBlue.bg",
-      "designToken": "",
-      "value": "avatar/deepBlue/20"
-    },
-    {
-      "devToken": "avatar.deepBlue.bg_bold",
-      "designToken": "",
-      "value": "avatar/deepBlue/70"
-    },
-    {
       "devToken": "avatar.deepBlue.text",
-      "designToken": "",
+      "designToken": "Color/avatar/deep blue/text",
       "value": "avatar/deepBlue/70"
     },
     {
       "devToken": "avatar.deepBlue.text_inverse",
-      "designToken": "",
+      "designToken": "Color/avatar/deep blue/text-inverse",
       "value": "neutral/white"
     },
     {
       "devToken": "avatar.deepBlue.icon",
-      "designToken": "",
+      "designToken": "Color/avatar/deep blue/icon",
       "value": "avatar/deepBlue/70"
     },
     {
       "devToken": "avatar.deepBlue.icon_inverse",
-      "designToken": "",
+      "designToken": "Color/avatar/deep blue/icon-inverse",
       "value": "neutral/white"
     },
     {
+      "devToken": "avatar.deepBlue.bg",
+      "designToken": "Color/avatar/deep blue/bg",
+      "value": "avatar/deepBlue/20"
+    },
+    {
+      "devToken": "avatar.deepBlue.bg_bold",
+      "designToken": "Color/avatar/deep blue/bg-bold",
+      "value": "avatar/deepBlue/70"
+    },
+    {
       "devToken": "avatar.deepBlue.border",
-      "designToken": "",
-      "value": "DeepBlue/alpha"
+      "designToken": "Color/avatar/deep blue/border",
+      "value": "avatar/deepBlue/alpha"
     },
     {
       "devToken": "avatar.deepBlue.border_black",
-      "designToken": "",
+      "designToken": "Color/avatar/deep blue/border-black",
       "value": "avatar/blackAlpha/10"
-    },
-    {
-      "devToken": "avatar.purple.bg",
-      "designToken": "Color/avatar/purple/bg",
-      "value": "avatar/purple/20"
-    },
-    {
-      "devToken": "avatar.purple.bg_bold",
-      "designToken": "Color/avatar/purple/bg-bold",
-      "value": "avatar/purple/50"
     },
     {
       "devToken": "avatar.purple.text",
@@ -769,24 +764,24 @@
       "value": "neutral/white"
     },
     {
+      "devToken": "avatar.purple.bg",
+      "designToken": "Color/avatar/purple/bg",
+      "value": "avatar/purple/20"
+    },
+    {
+      "devToken": "avatar.purple.bg_bold",
+      "designToken": "Color/avatar/purple/bg-bold",
+      "value": "avatar/purple/50"
+    },
+    {
       "devToken": "avatar.purple.border",
       "designToken": "Color/avatar/purple/border",
-      "value": "Purple/alpha"
+      "value": "avatar/purple/alpha"
     },
     {
       "devToken": "avatar.purple.border_black",
       "designToken": "Color/avatar/purple/border-black",
       "value": "avatar/blackAlpha/10"
-    },
-    {
-      "devToken": "avatar.pink.bg",
-      "designToken": "Color/avatar/pink/bg",
-      "value": "avatar/pink/20"
-    },
-    {
-      "devToken": "avatar.pink.bg_bold",
-      "designToken": "Color/avatar/pink/bg-bold",
-      "value": "avatar/pink/70"
     },
     {
       "devToken": "avatar.pink.text",
@@ -809,9 +804,19 @@
       "value": "neutral/white"
     },
     {
+      "devToken": "avatar.pink.bg",
+      "designToken": "Color/avatar/pink/bg",
+      "value": "avatar/pink/20"
+    },
+    {
+      "devToken": "avatar.pink.bg_bold",
+      "designToken": "Color/avatar/pink/bg-bold",
+      "value": "avatar/pink/70"
+    },
+    {
       "devToken": "avatar.pink.border",
       "designToken": "Color/avatar/pink/border",
-      "value": "Pink/alpha"
+      "value": "avatar/pink/alpha"
     },
     {
       "devToken": "avatar.pink.border_black",
@@ -819,43 +824,43 @@
       "value": "avatar/blackAlpha/10"
     },
     {
-      "devToken": "avatar.coolGray.bg",
-      "designToken": "",
-      "value": "avatar/coolGray/20"
-    },
-    {
-      "devToken": "avatar.coolGray.bg_bold",
-      "designToken": "",
-      "value": "avatar/coolGray/30"
-    },
-    {
       "devToken": "avatar.coolGray.text",
-      "designToken": "",
+      "designToken": "Color/avatar/cool gray/text",
       "value": "avatar/coolGray/70"
     },
     {
       "devToken": "avatar.coolGray.text_inverse",
-      "designToken": "",
+      "designToken": "Color/avatar/cool gray/text-inverse",
       "value": "neutral/white"
     },
     {
       "devToken": "avatar.coolGray.icon",
-      "designToken": "",
+      "designToken": "Color/avatar/cool gray/icon",
       "value": "avatar/coolGray/50"
     },
     {
       "devToken": "avatar.coolGray.icon_inverse",
-      "designToken": "",
+      "designToken": "Color/avatar/cool gray/icon-inverse",
       "value": "neutral/white"
     },
     {
+      "devToken": "avatar.coolGray.bg",
+      "designToken": "Color/avatar/cool gray/bg",
+      "value": "avatar/coolGray/20"
+    },
+    {
+      "devToken": "avatar.coolGray.bg_bold",
+      "designToken": "Color/avatar/cool gray/bg-bold",
+      "value": "avatar/coolGray/30"
+    },
+    {
       "devToken": "avatar.coolGray.border",
-      "designToken": "",
-      "value": "CoolGray/alpha"
+      "designToken": "Color/avatar/cool gray/border",
+      "value": "avatar/coolGray/alpha"
     },
     {
       "devToken": "avatar.coolGray.border_black",
-      "designToken": "",
+      "designToken": "Color/avatar/cool gray/border-black",
       "value": "avatar/blackAlpha/10"
     }
   ]

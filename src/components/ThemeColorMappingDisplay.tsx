@@ -40,8 +40,8 @@ const ThemeColorMappingDisplay: React.FC = () => {
     'brand': 'Brand',
     'neutral': 'Neutral',
     'error': 'Error',
-    'loading': 'Loading',
     'success': 'Success',
+    'loading': 'Loading',
     'avatar': 'Avatar'
   };
 
@@ -154,10 +154,32 @@ const ThemeColorMappingDisplay: React.FC = () => {
 
   // Calculate filtered token count based on selected categories
   const filteredTokenCount = selectedCategories.includes('All')
-    ? Object.values(colors.themeMapping).reduce((sum, mappings) => sum + Object.keys(mappings).length, 0)
+    ? Object.entries(colors.themeMapping).reduce((sum, [category, mappings]) => {
+      if (category === 'avatar' && selectedAvatarGroup !== 'All') {
+        const count = Object.keys(mappings).filter(key => {
+          const parts = key.replace(/^color_avatar_/, '').split('_');
+          parts.pop();
+          const group = parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+          return group === selectedAvatarGroup;
+        }).length;
+        return sum + count;
+      }
+      return sum + Object.keys(mappings).length;
+    }, 0)
     : Object.entries(colors.themeMapping)
       .filter(([category]) => selectedCategories.includes(category))
-      .reduce((sum, [, mappings]) => sum + Object.keys(mappings).length, 0);
+      .reduce((sum, [category, mappings]) => {
+        if (category === 'avatar' && selectedAvatarGroup !== 'All') {
+          const count = Object.keys(mappings).filter(key => {
+            const parts = key.replace(/^color_avatar_/, '').split('_');
+            parts.pop();
+            const group = parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+            return group === selectedAvatarGroup;
+          }).length;
+          return sum + count;
+        }
+        return sum + Object.keys(mappings).length;
+      }, 0);
 
   return (
     <div className="flex flex-col gap-4">
@@ -240,168 +262,175 @@ const ThemeColorMappingDisplay: React.FC = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Object.entries(colors.themeMapping).map(([category, mappings]) => {
-              // Apply category filter
-              if (!selectedCategories.includes('All') && !selectedCategories.includes(category)) {
-                return null;
-              }
-
-              const filteredEntries = Object.entries(mappings).filter(([themeVar, rawVar]) => {
-                // Primary Filter: Search Term
-                const term = searchTerm.toLowerCase();
-                const matchesSearch = themeVar.toLowerCase().includes(term) || (rawVar as string).toLowerCase().includes(term);
-                if (!matchesSearch) return false;
-
-                // Secondary Filter: Avatar Group
-                if (category === 'avatar' && selectedAvatarGroup !== 'All') {
-                  const parts = themeVar.replace(/^color_avatar_/, '').split('_');
-                  parts.pop();
-                  const group = parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
-                  if (group !== selectedAvatarGroup) return false;
-                }
-
-                return true;
-              }).sort((a, b) => {
-                if (category !== 'avatar') return 0; // Keep original order for non-avatar
-                const getGroup = (key: string) => {
-                  const parts = key.replace(/^color_avatar_/, '').split('_');
-                  parts.pop(); // remove level
-                  return parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
-                };
-                const groupA = getGroup(a[0]);
-                const groupB = getGroup(b[0]);
-                const idxA = AVATAR_ORDER.indexOf(groupA);
-                const idxB = AVATAR_ORDER.indexOf(groupB);
-
-                if (groupA === groupB) {
-                  // If same group, sort by level usually, but here just key string compare fallback
-                  return a[0].localeCompare(b[0]);
-                }
+            {Object.entries(colors.themeMapping)
+              .sort(([a], [b]) => {
+                const keys = Object.keys(groupNames);
+                const idxA = keys.indexOf(a);
+                const idxB = keys.indexOf(b);
                 return (idxA === -1 ? 999 : idxA) - (idxB === -1 ? 999 : idxB);
-              });
+              })
+              .map(([category, mappings]) => {
+                // Apply category filter
+                if (!selectedCategories.includes('All') && !selectedCategories.includes(category)) {
+                  return null;
+                }
 
-              if (filteredEntries.length === 0) return null;
+                const filteredEntries = Object.entries(mappings).filter(([themeVar, rawVar]) => {
+                  // Primary Filter: Search Term
+                  const term = searchTerm.toLowerCase();
+                  const matchesSearch = themeVar.toLowerCase().includes(term) || (rawVar as string).toLowerCase().includes(term);
+                  if (!matchesSearch) return false;
 
-              return (
-                <React.Fragment key={category}>
+                  // Secondary Filter: Avatar Group
+                  if (category === 'avatar' && selectedAvatarGroup !== 'All') {
+                    const parts = themeVar.replace(/^color_avatar_/, '').split('_');
+                    parts.pop();
+                    const group = parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+                    if (group !== selectedAvatarGroup) return false;
+                  }
 
-                  {/* Token Rows */}
-                  {filteredEntries.map(([themeVar, rawVar]) => {
-                    const { shade: color, paletteFamily } = findColorDataByVariable(rawVar as string);
+                  return true;
+                }).sort((a, b) => {
+                  if (category !== 'avatar') return 0; // Keep original order for non-avatar
+                  const getGroup = (key: string) => {
+                    const parts = key.replace(/^color_avatar_/, '').split('_');
+                    parts.pop(); // remove level
+                    return parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+                  };
+                  const groupA = getGroup(a[0]);
+                  const groupB = getGroup(b[0]);
+                  const idxA = AVATAR_ORDER.indexOf(groupA);
+                  const idxB = AVATAR_ORDER.indexOf(groupB);
 
-                    // Format Raw Token Name: light/Family/Level
-                    let rawTokenName = rawVar as string;
-                    if (color && paletteFamily) {
-                      const displayLevel = String(color.level).replace(/\s\(.*\)/, '');
-                      // Remove spaces from paletteFamily (e.g. Yellow Orange -> YellowOrange)
-                      const cleanFamily = paletteFamily.replace(/\s/g, '');
-                      // Logic to handle alpha in level if needed (e.g. alpha (10%) -> alpha)
-                      // MD uses 'alpha' for level 'alpha (10%)'
-                      const cleanLevel = displayLevel === 'alpha (10%)' ? 'alpha' : displayLevel;
+                  if (groupA === groupB) {
+                    // If same group, sort by level usually, but here just key string compare fallback
+                    return a[0].localeCompare(b[0]);
+                  }
+                  return (idxA === -1 ? 999 : idxA) - (idxB === -1 ? 999 : idxB);
+                });
 
-                      rawTokenName = `${cleanFamily}/${cleanLevel}`;
-                    }
+                if (filteredEntries.length === 0) return null;
 
-                    // Format Theme Token Name: Family/Sub/Level
-                    // Strip 'color_'
-                    let themeTokenName = themeVar.replace(/^color_/, '');
-                    const parts = themeTokenName.split('_');
+                return (
+                  <React.Fragment key={category}>
 
-                    if (parts[0] === 'avatar' && parts.length > 2) {
-                      // Special handling for avatar: avatar/yellow orange/20
-                      const level = parts.pop(); // Remove level
-                      const category = parts.shift(); // Remove avatar
-                      const subName = parts.map((p, i) => i === 0 ? p : p.charAt(0).toUpperCase() + p.slice(1)).join(''); // Join yellow_orange -> yellowOrange
-                      themeTokenName = `${category}/${subName}/${level}`;
-                    } else {
-                      // General case: brand/10, error/20
-                      const level = parts.pop();
-                      const name = parts.join(' '); // usually single word unless there are others
-                      themeTokenName = `${name}/${level}`;
-                    }
+                    {/* Token Rows */}
+                    {filteredEntries.map(([themeVar, rawVar]) => {
+                      const { shade: color, paletteFamily } = findColorDataByVariable(rawVar as string);
+
+                      // Format Raw Token Name: light/Family/Level
+                      let rawTokenName = rawVar as string;
+                      if (color && paletteFamily) {
+                        const displayLevel = String(color.level).replace(/\s\(.*\)/, '');
+                        // Remove spaces from paletteFamily (e.g. Yellow Orange -> YellowOrange)
+                        const cleanFamily = paletteFamily.replace(/\s/g, '');
+                        // Logic to handle alpha in level if needed (e.g. alpha (10%) -> alpha)
+                        // MD uses 'alpha' for level 'alpha (10%)'
+                        const cleanLevel = displayLevel === 'alpha (10%)' ? 'alpha' : displayLevel;
+
+                        rawTokenName = `${cleanFamily}/${cleanLevel}`;
+                      }
+
+                      // Format Theme Token Name: Family/Sub/Level
+                      // Strip 'color_'
+                      let themeTokenName = themeVar.replace(/^color_/, '');
+                      const parts = themeTokenName.split('_');
+
+                      if (parts[0] === 'avatar' && parts.length > 2) {
+                        // Special handling for avatar: avatar/yellow orange/20
+                        const level = parts.pop(); // Remove level
+                        const category = parts.shift(); // Remove avatar
+                        const subName = parts.map((p, i) => i === 0 ? p : p.charAt(0).toUpperCase() + p.slice(1)).join(''); // Join yellow_orange -> yellowOrange
+                        themeTokenName = `${category}/${subName}/${level}`;
+                      } else {
+                        // General case: brand/10, error/20
+                        const level = parts.pop();
+                        const name = parts.join(' '); // usually single word unless there are others
+                        themeTokenName = `${name}/${level}`;
+                      }
 
 
-                    const displayHexValue = color ? (isDarkMode ? (color.hexDark || color.hex) : color.hex) : '';
+                      const displayHexValue = color ? (isDarkMode ? (color.hexDark || color.hex) : color.hex) : '';
 
-                    return (
-                      <TableRow key={themeVar} className="group">
-                        <TableCell className="px-4 font-mono text-sm font-medium">
-                          <div className="flex items-center gap-2">
-                            {color ? (() => {
-                              // Determine if we should treat this as an alpha chip
-                              const hexToUse = isDarkMode ? (color.hexDark || color.hex) : color.hex;
+                      return (
+                        <TableRow key={themeVar} className="group">
+                          <TableCell className="px-4 font-mono text-sm font-medium">
+                            <div className="flex items-center gap-2">
+                              {color ? (() => {
+                                // Determine if we should treat this as an alpha chip
+                                const hexToUse = isDarkMode ? (color.hexDark || color.hex) : color.hex;
 
-                              if (!hexToUse) return <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center text-[10px] text-gray-400">-</div>;
+                                if (!hexToUse) return <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center text-[10px] text-gray-400">-</div>;
 
-                              let opacity = 1;
-                              let isActuallyAlpha = false;
+                                let opacity = 1;
+                                let isActuallyAlpha = false;
 
-                              if (hexToUse.length === 9) {
-                                isActuallyAlpha = true;
-                                const alphaHex = hexToUse.substring(7, 9);
-                                opacity = parseInt(alphaHex, 16) / 255;
-                              } else {
-                                const opacityMatch = String(color.level).match(/\((\d+)%\)/);
-                                if (opacityMatch && opacityMatch[1]) {
+                                if (hexToUse.length === 9) {
                                   isActuallyAlpha = true;
-                                  opacity = parseInt(opacityMatch[1], 10) / 100;
+                                  const alphaHex = hexToUse.substring(7, 9);
+                                  opacity = parseInt(alphaHex, 16) / 255;
+                                } else {
+                                  const opacityMatch = String(color.level).match(/\((\d+)%\)/);
+                                  if (opacityMatch && opacityMatch[1]) {
+                                    isActuallyAlpha = true;
+                                    opacity = parseInt(opacityMatch[1], 10) / 100;
+                                  }
                                 }
-                              }
 
-                              if (opacity >= 1 && !isActuallyAlpha) isActuallyAlpha = false;
+                                if (opacity >= 1 && !isActuallyAlpha) isActuallyAlpha = false;
 
-                              let chipStyle: React.CSSProperties = {};
+                                let chipStyle: React.CSSProperties = {};
 
-                              if (isActuallyAlpha) {
-                                const r = parseInt(hexToUse.slice(1, 3), 16);
-                                const g = parseInt(hexToUse.slice(3, 5), 16);
-                                const b = parseInt(hexToUse.slice(5, 7), 16);
-                                const rgbaColor = `rgba(${r}, ${g}, ${b}, ${opacity.toFixed(2)})`;
+                                if (isActuallyAlpha) {
+                                  const r = parseInt(hexToUse.slice(1, 3), 16);
+                                  const g = parseInt(hexToUse.slice(3, 5), 16);
+                                  const b = parseInt(hexToUse.slice(5, 7), 16);
+                                  const rgbaColor = `rgba(${r}, ${g}, ${b}, ${opacity.toFixed(2)})`;
 
-                                chipStyle = {
-                                  backgroundImage: `
+                                  chipStyle = {
+                                    backgroundImage: `
                                     linear-gradient(${rgbaColor}, ${rgbaColor}),
                                     linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%),
                                     linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%),
                                     linear-gradient(#fff, #fff)
                                   `,
-                                  backgroundSize: `100%, 8px 8px, 8px 8px, 100%`,
-                                  backgroundPosition: `0 0, 0 0, 4px 4px, 0 0`
-                                };
-                              } else {
-                                chipStyle = { backgroundColor: hexToUse };
-                              }
+                                    backgroundSize: `100%, 8px 8px, 8px 8px, 100%`,
+                                    backgroundPosition: `0 0, 0 0, 4px 4px, 0 0`
+                                  };
+                                } else {
+                                  chipStyle = { backgroundColor: hexToUse };
+                                }
 
-                              return <div className="w-5 h-5 rounded-full border border-black/10" style={chipStyle}></div>;
-                            })() : (
-                              <div className="w-5 h-5 rounded-full bg-gray-200 border border-black/10"></div>
+                                return <div className="w-5 h-5 rounded-full border border-black/10" style={chipStyle}></div>;
+                              })() : (
+                                <div className="w-5 h-5 rounded-full bg-gray-200 border border-black/10"></div>
+                              )}
+                              <span className="text-primary">
+                                <HighlightText text={themeTokenName} highlight={searchTerm} />
+                              </span>
+                            </div>
+                          </TableCell>
+                          <TableCell className="px-4 font-mono text-xs text-muted-foreground">
+                            <div className="flex items-center">
+                              <span><HighlightText text={rawTokenName} highlight={searchTerm} /></span>
+                            </div>
+                          </TableCell>
+                          <TableCell className="px-4 font-mono text-xs text-muted-foreground w-[30%]">
+                            {displayHexValue ? (
+                              <span className="uppercase">
+                                {displayHexValue}
+                                {isDarkMode && <span className="text-gray-400 normal-case"> (Dark)</span>}
+                              </span>
+                            ) : (
+                              <span className="text-gray-300">-</span>
                             )}
-                            <span className="text-primary">
-                              <HighlightText text={themeTokenName} highlight={searchTerm} />
-                            </span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="px-4 font-mono text-xs text-muted-foreground">
-                          <div className="flex items-center">
-                            <span><HighlightText text={rawTokenName} highlight={searchTerm} /></span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="px-4 font-mono text-xs text-muted-foreground w-[30%]">
-                          {displayHexValue ? (
-                            <span className="uppercase">
-                              {displayHexValue}
-                              {isDarkMode && <span className="text-gray-400 normal-case"> (Dark)</span>}
-                            </span>
-                          ) : (
-                            <span className="text-gray-300">-</span>
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </React.Fragment>
-              );
-            })}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </React.Fragment>
+                );
+              })}
           </TableBody>
         </Table>
       </div>

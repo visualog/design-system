@@ -65,10 +65,11 @@ def parse_dev_tokens(filepath):
     return tokens
 
 def normalize_key(key):
-    """Normalizes key for matching: remove Color/, dots, slashes, underscores, hyphens, lowercase."""
-    key = key.replace('Color/', '')
-    key = re.sub(r'[\./_\-]', '', key)
-    return key.lower()
+    """Normalizes key for matching."""
+    # Remove 'Color/' prefix case-insensitively
+    key = re.sub(r'^Color/', '', key, flags=re.IGNORECASE)
+    # Remove all non-alphanumeric characters (including spaces, dots, slashes) and lowercase
+    return re.sub(r'[^a-zA-Z0-9]', '', key).lower()
 
 def main():
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

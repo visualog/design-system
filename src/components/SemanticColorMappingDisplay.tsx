@@ -35,13 +35,70 @@ const SemanticColorMappingDisplay: React.FC = () => {
     'coolGray', 'blackAlpha'
   ];
 
+  // Definition of display groups with custom filtering logic
+  const displayGroups = [
+    {
+      id: 'text',
+      label: 'Text',
+      dataKey: 'text',
+      filter: (t: any) => !t.devToken.includes('.interactive')
+    },
+    {
+      id: 'text-interactive',
+      label: 'Text Interactive',
+      dataKey: 'text',
+      filter: (t: any) => t.devToken.includes('.interactive')
+    },
+    {
+      id: 'icon',
+      label: 'Icon',
+      dataKey: 'icon',
+      filter: (t: any) => !t.devToken.includes('.interactive')
+    },
+    {
+      id: 'icon-interactive',
+      label: 'Icon Interactive',
+      dataKey: 'icon',
+      filter: (t: any) => t.devToken.includes('.interactive')
+    },
+    {
+      id: 'bg',
+      label: 'BG',
+      dataKey: 'bg',
+      filter: (t: any) => !t.devToken.includes('.interactive')
+    },
+    {
+      id: 'bg-interactive',
+      label: 'BG Interactive',
+      dataKey: 'bg',
+      filter: (t: any) => t.devToken.includes('.interactive')
+    },
+    {
+      id: 'border',
+      label: 'Border',
+      dataKey: 'border',
+      filter: (t: any) => !t.devToken.includes('.interactive')
+    },
+    {
+      id: 'border-interactive',
+      label: 'Border Interactive',
+      dataKey: 'border',
+      filter: (t: any) => t.devToken.includes('.interactive')
+    },
+    {
+      id: 'avatar',
+      label: 'Avatar',
+      dataKey: 'avatar',
+      filter: () => true
+    },
+  ];
+
   // Extract unique avatar groups
   const avatarTokens = (colors.semanticMapping['avatar'] || []) as any[];
   const uniqueAvatarGroups = Array.from(new Set(
     avatarTokens.map(token => {
       const parts = token.devToken.split('.');
       // avatar.red.bg -> red
-      // avatar.lightBlue.bg -> lightBlue
       if (parts.length >= 2) return parts[1];
       return '';
     }).filter(Boolean)
@@ -55,29 +112,21 @@ const SemanticColorMappingDisplay: React.FC = () => {
     return selectedAvatarGroup === 'All' ? '전체 색상' : selectedAvatarGroup;
   };
 
-  // Group name mapping for display
-  const groupNames: Record<string, string> = {
-    'text': 'Text',
-    'bg': 'Background',
-    'border': 'Border',
-    'icon': 'Icon',
-    'avatar': 'Avatar'
-  };
-
-  const handleCategorySelection = (category: string) => {
-    // Reset avatar sub-filter when changing main category
-    if (category !== 'avatar') {
+  const handleCategorySelection = (categoryId: string) => {
+    // Reset avatar sub-filter when changing from avatar to something else
+    // (Though with multi-select logic, implies mixed usage, but usually single select focused)
+    if (categoryId !== 'avatar' && !selectedCategories.includes('avatar')) {
       setSelectedAvatarGroup('All');
     }
 
-    if (category === 'All') {
+    if (categoryId === 'All') {
       setSelectedCategories(['All']);
     } else {
       const newSelection = selectedCategories.includes('All')
-        ? [category]
-        : selectedCategories.includes(category)
-          ? selectedCategories.filter(c => c !== category)
-          : [...selectedCategories, category];
+        ? [categoryId]
+        : selectedCategories.includes(categoryId)
+          ? selectedCategories.filter(c => c !== categoryId)
+          : [...selectedCategories, categoryId];
 
       setSelectedCategories(newSelection.length === 0 ? ['All'] : newSelection);
     }
@@ -88,20 +137,57 @@ const SemanticColorMappingDisplay: React.FC = () => {
       return '전체';
     }
     if (selectedCategories.length === 1) {
-      return groupNames[selectedCategories[0]] || selectedCategories[0];
+      const group = displayGroups.find(g => g.id === selectedCategories[0]);
+      return group ? group.label : selectedCategories[0];
     }
     return `${selectedCategories.length}개 그룹`;
   };
 
-  // Calculate filtered token count based on selected categories
+  // Calculate filtered token count based on selected display groups
   const filteredTokenCount = selectedCategories.includes('All')
-    ? Object.values(colors.semanticMapping).reduce((sum, tokens) => sum + (Array.isArray(tokens) ? tokens.length : 0), 0)
-    : Object.entries(colors.semanticMapping)
-      .filter(([category]) => selectedCategories.includes(category))
-      .reduce((sum, [, tokens]) => sum + (Array.isArray(tokens) ? (tokens as any[]).length : 0), 0);
+    ? displayGroups.reduce((sum, group) => {
+      const tokens = ((colors.semanticMapping as any)[group.dataKey] || []) as any[];
+      // Filter by group logic (interactive vs non-interactive)
+      let groupTokens = tokens.filter(group.filter);
+
+      // If this group is avatar and a specific avatar group is selected, filter further
+      if (group.id === 'avatar' && selectedAvatarGroup !== 'All') {
+        groupTokens = groupTokens.filter((t: any) => {
+          const parts = t.devToken.split('.');
+          return parts.length >= 2 && parts[1] === selectedAvatarGroup;
+        });
+      }
+      return sum + groupTokens.length;
+    }, 0)
+    : displayGroups
+      .filter(group => selectedCategories.includes(group.id))
+      .reduce((sum, group) => {
+        const tokens = ((colors.semanticMapping as any)[group.dataKey] || []) as any[];
+        // Filter by group logic (interactive vs non-interactive)
+        let groupTokens = tokens.filter(group.filter);
+
+        // If this group is avatar and a specific avatar group is selected, filter further
+        if (group.id === 'avatar' && selectedAvatarGroup !== 'All') {
+          groupTokens = groupTokens.filter((t: any) => {
+            const parts = t.devToken.split('.');
+            return parts.length >= 2 && parts[1] === selectedAvatarGroup;
+          });
+        }
+        return sum + groupTokens.length;
+      }, 0);
 
   const ColorSwatch: React.FC<{ color: string }> = ({ color }) => (
-    <div className="w-5 h-5 rounded-full border border-border" style={{ backgroundColor: color }}></div>
+    <div className="w-5 h-5 rounded-full border border-border relative overflow-hidden bg-white">
+      <div
+        className="absolute inset-0 opacity-20"
+        style={{
+          backgroundImage: 'linear-gradient(45deg, #000 25%, transparent 25%), linear-gradient(-45deg, #000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000 75%), linear-gradient(-45deg, transparent 75%, #000 75%)',
+          backgroundSize: '8px 8px',
+          backgroundPosition: '0 0, 0 4px, 4px -4px, -4px 0px'
+        }}
+      />
+      <div className="absolute inset-0" style={{ backgroundColor: color }}></div>
+    </div>
   );
 
   return (
@@ -116,13 +202,13 @@ const SemanticColorMappingDisplay: React.FC = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-40 max-h-64 overflow-y-auto">
             <DropdownMenuItem onSelect={() => handleCategorySelection('All')}>전체</DropdownMenuItem>
-            {Object.entries(groupNames).map(([key, name]) => (
+            {displayGroups.map((group) => (
               <DropdownMenuCheckboxItem
-                key={key}
-                checked={selectedCategories.includes(key)}
-                onCheckedChange={() => handleCategorySelection(key)}
+                key={group.id}
+                checked={selectedCategories.includes(group.id)}
+                onCheckedChange={() => handleCategorySelection(group.id)}
               >
-                {name}
+                {group.label}
               </DropdownMenuCheckboxItem>
             ))}
           </DropdownMenuContent>
@@ -169,21 +255,24 @@ const SemanticColorMappingDisplay: React.FC = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Object.entries(colors.semanticMapping).map(([category, tokens]) => {
-              if (!selectedCategories.includes('All') && !selectedCategories.includes(category)) {
+            {displayGroups.map((group) => {
+              if (!selectedCategories.includes('All') && !selectedCategories.includes(group.id)) {
                 return null;
               }
 
-              const tokenList = Array.isArray(tokens) ? tokens : [];
+              const rawTokens = ((colors.semanticMapping as any)[group.dataKey] || []) as any[];
+              // First filter by group logic (interactive vs non-interactive)
+              const groupTokens = rawTokens.filter(group.filter);
 
-              const filteredEntries = tokenList.filter((token: any) => {
+              // Then filter by search term & avatar subgroup
+              const filteredEntries = groupTokens.filter((token: any) => {
                 const term = searchTerm.toLowerCase();
                 const devToken = token.devToken || '';
                 const designToken = token.designToken || '';
                 const val = token.value || '';
 
                 // Avatar Sub-filter
-                if (category === 'avatar' && selectedAvatarGroup !== 'All') {
+                if (group.id === 'avatar' && selectedAvatarGroup !== 'All') {
                   const parts = devToken.split('.');
                   if (parts.length >= 2 && parts[1] !== selectedAvatarGroup) {
                     return false;
@@ -194,7 +283,9 @@ const SemanticColorMappingDisplay: React.FC = () => {
                   designToken.toLowerCase().includes(term) ||
                   val.toLowerCase().includes(term);
               }).sort((a: any, b: any) => {
-                if (category !== 'avatar') return 0;
+                // Sorting mostly for Avatar or if needed later
+                if (group.id !== 'avatar') return 0;
+
                 const getGroup = (dt: string) => {
                   const parts = dt.split('.');
                   return parts.length >= 2 ? parts[1] : '';
@@ -205,6 +296,22 @@ const SemanticColorMappingDisplay: React.FC = () => {
                 const idxB = AVATAR_SORT_ORDER.indexOf(groupB);
 
                 if (groupA === groupB) {
+                  const getTypePriority = (token: string) => {
+                    const parts = token.split('.');
+                    if (parts.length < 3) return 99;
+                    const type = parts[2];
+                    if (type.startsWith('text')) return 1;
+                    if (type.startsWith('icon')) return 2;
+                    if (type.startsWith('bg')) return 3;
+                    if (type.startsWith('border')) return 4;
+                    return 99;
+                  };
+
+                  const pA = getTypePriority(a.devToken || '');
+                  const pB = getTypePriority(b.devToken || '');
+
+                  if (pA !== pB) return pA - pB;
+
                   return (a.devToken || '').localeCompare(b.devToken || '');
                 }
                 return (idxA === -1 ? 999 : idxA) - (idxB === -1 ? 999 : idxB);
@@ -213,7 +320,7 @@ const SemanticColorMappingDisplay: React.FC = () => {
               if (filteredEntries.length === 0) return null;
 
               return (
-                <React.Fragment key={category}>
+                <React.Fragment key={group.id}>
                   {filteredEntries.map((token: any) => {
                     const { devToken, designToken } = token;
                     const { light } = resolveSemanticToken(devToken);
