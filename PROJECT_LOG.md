@@ -91,3 +91,8 @@
   - Fixed **Semantic Color Filter**: Resolved bug where filtering by Background/Border/Icon showed empty results (fixed header key mismatch).
   - Fixed **Radius Page Layout**: Resolved excessive bottom whitespace by adding `overflow-hidden` to clip large guide circles.
   - Refined **Nested Radius UI**: Improved slider alignment and visual styles.
+  - **2025-01-14**:
+    - **Standardized Heading Sizes**: Updated global and component-specific styles to enforce `text-lg` (1.125rem) for all `h3` and `h4` elements.
+      - Updated `index.css` with a global rule.
+      - Refined `ColorUsage.tsx`, `GuidelineItem.tsx`, and `TypographyDisplay.tsx` to align with the new standard.
+    - **Fixed Icon Click Crash**: Resolved an issue where clicking an icon caused the application to crash due to a data key mismatch (`icons` vs `icon`) in `IconDisplay.tsx`.

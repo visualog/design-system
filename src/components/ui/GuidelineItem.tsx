@@ -31,7 +31,7 @@ const GuidelineItem: React.FC<GuidelineItemProps> = ({
             </div>
             <div className="flex flex-col gap-1">
                 <h4 className={cn(
-                    "flex items-center gap-2 font-bold text-base",
+                    "flex items-center gap-2 font-bold text-lg",
                     isDo ? "text-green-700" : isCaution ? "text-yellow-700" : "text-red-700"
                 )}>
                     {isDo && <CheckCircle2 className="w-5 h-5" />}

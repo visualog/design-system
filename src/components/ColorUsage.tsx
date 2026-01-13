@@ -6,7 +6,7 @@ const ColorUsage: React.FC = () => {
     return (
         <div className="flex flex-col gap-12">
             <section className="flex flex-col gap-6">
-                <h3 className="text-xl font-bold">접근성 (Accessibility)</h3>
+                <h3 className="text-lg font-bold">접근성 (Accessibility)</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
                     <GuidelineItem
                         type="do"
@@ -41,7 +41,7 @@ const ColorUsage: React.FC = () => {
             </section>
 
             <section className="flex flex-col gap-6">
-                <h3 className="text-xl font-bold">의미 전달 (Semantics)</h3>
+                <h3 className="text-lg font-bold">의미 전달 (Semantics)</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
                     <GuidelineItem
                         type="do"
@@ -73,7 +73,7 @@ const ColorUsage: React.FC = () => {
             </section>
 
             <section className="flex flex-col gap-6">
-                <h3 className="text-xl font-bold">브랜드 색상 (Brand Colors)</h3>
+                <h3 className="text-lg font-bold">브랜드 색상 (Brand Colors)</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
                     <GuidelineItem
                         type="do"

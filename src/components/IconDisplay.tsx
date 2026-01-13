@@ -37,7 +37,17 @@ const getSvgComponentFromFilename = (filename: string, category: 'line' | 'fill'
 
   const fullModulePath = `${modulePathPrefix}${filename}.svg`.toLowerCase();
   const moduleKey = Object.keys(allSvgModules).find(key => key.toLowerCase() === fullModulePath);
-  return moduleKey && allSvgModules[moduleKey] ? allSvgModules[moduleKey].default : null;
+
+  if (moduleKey && allSvgModules[moduleKey]) {
+    const mod = allSvgModules[moduleKey];
+    if (!mod.default) {
+      console.warn(`[IconDisplay] Module found for ${filename} but no default export. keys:`, Object.keys(mod));
+      return null;
+    }
+    return mod.default;
+  }
+  console.warn(`[IconDisplay] Icon module not found for: ${fullModulePath}`);
+  return null;
 };
 
 import { resolveColorToken } from '../lib/colorUtils';
@@ -67,23 +77,29 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onColorSelect, purpose, cla
     customColorInputRef.current?.click();
   };
 
-  const semanticColorTokens = purpose === 'icon' ? semanticMapping.icons : semanticMapping.backgrounds;
+  const semanticColorTokens = purpose === 'icon' ? semanticMapping.icon : semanticMapping.bg;
 
   let resolvedColors: { name: string; hex: string }[] = [];
 
   if (purpose === 'icon') {
     resolvedColors = ICON_COLOR_ORDER.map(semanticName => {
-      const tokenRef = semanticMapping.icons[semanticName as keyof typeof semanticMapping.icons];
+      // Find the token object where devToken matches semanticName
+      const tokenObj = (semanticMapping.icon as any[]).find((t: any) => t.devToken === semanticName);
+      // Resolve the value from the found token object
+      const tokenRef = tokenObj ? tokenObj.value : undefined;
       const hex = resolveColorToken(tokenRef);
       return { name: semanticName, hex: hex || '#CCCCCC' };
     }).filter(color => color.hex !== '#CCCCCC');
   } else {
-    for (const [semanticName, tokenRef] of Object.entries(semanticColorTokens)) {
-      const hex = resolveColorToken(tokenRef as string);
+    // Backgrounds logic - iterate over the array
+    (semanticColorTokens as any[]).forEach((tokenObj: any) => {
+      const semanticName = tokenObj.devToken;
+      const tokenRef = tokenObj.value;
+      const hex = resolveColorToken(tokenRef);
       if (hex) {
         resolvedColors.push({ name: semanticName, hex });
       }
-    }
+    });
   }
 
   return (

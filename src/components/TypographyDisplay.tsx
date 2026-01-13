@@ -190,7 +190,7 @@ const TypographyDisplay: React.FC = () => {
 
               {/* Third Row: Korean Sample */}
               <div>
-                <h4 className="font-semibold mb-2">한글</h4>
+                <h4 className="font-semibold mb-2 text-lg">한글</h4>
                 <p className="p-4"
                   style={{
                     fontSize: `${selectedStyle.size}px`,
@@ -206,7 +206,7 @@ const TypographyDisplay: React.FC = () => {
 
               {/* Fourth Row: English Sample */}
               <div>
-                <h4 className="font-semibold mb-2">영문</h4>
+                <h4 className="font-semibold mb-2 text-lg">영문</h4>
                 <p className="p-4"
                   style={{
                     fontSize: `${selectedStyle.size}px`,
