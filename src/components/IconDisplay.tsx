@@ -60,13 +60,13 @@ interface ColorPaletteProps {
 }
 
 const ICON_COLOR_ORDER = [
-  'Color_icon_primary', 'Color_icon_info', 'Color_icon_interactive_primary',
-  'Color_icon_interactive_primary-disabled', 'Color_icon_interactive_secondary',
-  'Color_icon_interactive_secondary-disabled', 'Color_icon_interactive_tertiary',
-  'Color_icon_interactive_inverse', 'Color_icon_inverse', 'Color_icon_brand',
-  'Color_icon_interactive_brand', 'Color_icon_interactive_brand-hovered',
-  'Color_icon_interactive_selected', 'Color_icon_interactive_brand-disabled',
-  'Color_icon_loading', 'Color_icon_success', 'Color_icon_error', 'Color_icon_interactive_error'
+  'icon.primary', 'icon.info', 'icon.interactive.primary',
+  'icon.interactive.primary_disabled', 'icon.interactive.secondary',
+  'icon.interactive.secondary_disabled', 'icon.interactive.tertiary',
+  'icon.interactive.inverse', 'icon.inverse', 'icon.brand',
+  'icon.interactive.brand', 'icon.interactive.brand_hovered',
+  'icon.interactive.selected', 'icon.interactive.brand_disabled',
+  'icon.loading', 'icon.success', 'icon.error', 'icon.interactive.error'
 ];
 
 const ColorPalette: React.FC<ColorPaletteProps> = ({ onColorSelect, purpose, className = '' }) => {
@@ -499,9 +499,11 @@ const IconDisplay: React.FC = () => {
                   </div>
 
                   <div>
-                    <div>
-                      <ColorPalette purpose="icon" onColorSelect={(c) => setSheetConfig(prev => ({ ...prev, color: c }))} />
-                    </div>
+                    {selectedIcon.category !== 'illust' && (
+                      <div>
+                        <ColorPalette purpose="icon" onColorSelect={(c) => setSheetConfig(prev => ({ ...prev, color: c }))} />
+                      </div>
+                    )}
                   </div>
                 </div>
 
