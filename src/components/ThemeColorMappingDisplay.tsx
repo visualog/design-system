@@ -23,6 +23,12 @@ import {
 import { Switch } from "@/components/ui/switch";
 
 const ThemeColorMappingDisplay: React.FC = () => {
+  const AVATAR_ORDER = [
+    'Red', 'Orange', 'Yellow Orange', 'Green', 'Deep Green',
+    'Cyan', 'Light Blue', 'Deep Blue', 'Purple', 'Pink',
+    'Cool Gray', 'Black Alpha'
+  ];
+
   const { colors } = designSystemData;
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>(['All']);
@@ -78,7 +84,11 @@ const ThemeColorMappingDisplay: React.FC = () => {
       parts.pop(); // Remove level
       return parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
     })
-  )).sort();
+  )).sort((a, b) => {
+    const idxA = AVATAR_ORDER.indexOf(a);
+    const idxB = AVATAR_ORDER.indexOf(b);
+    return (idxA === -1 ? 999 : idxA) - (idxB === -1 ? 999 : idxB);
+  });
 
   const getAvatarDropdownText = () => {
     return selectedAvatarGroup === 'All' ? '전체 색상' : selectedAvatarGroup;
@@ -251,6 +261,23 @@ const ThemeColorMappingDisplay: React.FC = () => {
                 }
 
                 return true;
+              }).sort((a, b) => {
+                if (category !== 'avatar') return 0; // Keep original order for non-avatar
+                const getGroup = (key: string) => {
+                  const parts = key.replace(/^color_avatar_/, '').split('_');
+                  parts.pop(); // remove level
+                  return parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+                };
+                const groupA = getGroup(a[0]);
+                const groupB = getGroup(b[0]);
+                const idxA = AVATAR_ORDER.indexOf(groupA);
+                const idxB = AVATAR_ORDER.indexOf(groupB);
+
+                if (groupA === groupB) {
+                  // If same group, sort by level usually, but here just key string compare fallback
+                  return a[0].localeCompare(b[0]);
+                }
+                return (idxA === -1 ? 999 : idxA) - (idxB === -1 ? 999 : idxB);
               });
 
               if (filteredEntries.length === 0) return null;
