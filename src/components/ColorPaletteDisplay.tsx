@@ -251,21 +251,7 @@ const TokensDisplay: React.FC<{ colors: any; searchTerm: string; isDarkMode: boo
 
               // Handle missing color for current mode
               if (!displayHex) {
-                return (
-                  <TableRow key={`${colorFamily}-${index}`} className="bg-white">
-                    <TableCell className="px-4 font-mono text-sm whitespace-nowrap">
-                      <div className="flex items-center gap-2">
-                        <div className="w-5 h-5 flex items-center justify-center bg-muted/20 rounded-full border border-black/10">
-                          <span className="text-[10px] text-gray-300">-</span>
-                        </div>
-                        <span className="text-gray-400"><HighlightText text={`${colorFamily}/${String(color.level).replace(/\s\(.*\)/, '')}`} highlight={searchTerm} /></span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="px-4 font-mono text-xs text-muted-foreground whitespace-nowrap">
-                      <span className="text-gray-300">-</span>
-                    </TableCell>
-                  </TableRow>
-                );
+                return null;
               }
 
               const levelString = String(color.level).toLowerCase();
