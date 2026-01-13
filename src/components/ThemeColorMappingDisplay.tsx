@@ -20,12 +20,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Switch } from "@/components/ui/switch";
 
 const ThemeColorMappingDisplay: React.FC = () => {
   const { colors } = designSystemData;
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>(['All']);
   const [selectedAvatarGroup, setSelectedAvatarGroup] = useState('All');
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Group name mapping for display
   const groupNames: Record<string, string> = {
@@ -200,6 +202,16 @@ const ThemeColorMappingDisplay: React.FC = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+        <div className="flex items-center gap-2 ml-auto">
+          <Switch
+            checked={isDarkMode}
+            onCheckedChange={setIsDarkMode}
+            id="dark-mode-theme"
+          />
+          <label htmlFor="dark-mode-theme" className="text-xs font-medium leading-none cursor-pointer whitespace-nowrap text-gray-500">
+            {isDarkMode ? 'Dark' : 'Light'}
+          </label>
+        </div>
       </div>
 
       <div className="overflow-hidden">
@@ -285,44 +297,34 @@ const ThemeColorMappingDisplay: React.FC = () => {
                           <div className="flex items-center gap-2">
                             {color ? (() => {
                               // Determine if we should treat this as an alpha chip
-                              // 1. If Hex has 9 characters (#RRGGBBAA)
-                              // 2. If 'alpha' is in the name/level AND we can extract a percentage
+                              const hexToUse = isDarkMode ? (color.hexDark || color.hex) : color.hex;
+
+                              if (!hexToUse) return <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center text-[10px] text-gray-400">-</div>;
 
                               let opacity = 1;
                               let isActuallyAlpha = false;
 
-                              if (color.hex.length === 9) {
+                              if (hexToUse.length === 9) {
                                 isActuallyAlpha = true;
-                                const alphaHex = color.hex.substring(7, 9);
+                                const alphaHex = hexToUse.substring(7, 9);
                                 opacity = parseInt(alphaHex, 16) / 255;
                               } else {
-                                // Fallback: try to match (xx%) in level
                                 const opacityMatch = String(color.level).match(/\((\d+)%\)/);
                                 if (opacityMatch && opacityMatch[1]) {
                                   isActuallyAlpha = true;
                                   opacity = parseInt(opacityMatch[1], 10) / 100;
-                                } else if (themeVar.toLowerCase().includes('alpha')) {
-                                  // Fallback for 'alpha' named tokens without 9-char hex or % level
-                                  // This catches "Red alpha" where level might just be "alpha" (often implies 10% or similar depending on implementation, 
-                                  // but if hex is 7 chars it's actually opaque in the hex string? 
-                                  // Actually earlier we saw Red alpha had 9 char hex.
-                                  // So this might trigger for things that SHOULD have 9 char hex but don't.
-                                  // But let's verify if we should force it.
-                                  // If strictly relying on data, we only check hex or level %.
-                                  // User said "Black alpha/10" was showing weird. Black alpha hexes ARE 9 chars.
-                                  // so the first check covers them.
                                 }
                               }
 
-                              // Refine isActuallyAlpha: if opacity < 1 or strictly determined
                               if (opacity >= 1 && !isActuallyAlpha) isActuallyAlpha = false;
-
 
                               let chipStyle: React.CSSProperties = {};
 
                               if (isActuallyAlpha) {
-                                // For alpha tokens, use checkered pattern background with alpha color overlay
-                                const rgbaColor = color.rgb.replace('rgb', 'rgba').replace(')', `, ${opacity.toFixed(2)})`);
+                                const r = parseInt(hexToUse.slice(1, 3), 16);
+                                const g = parseInt(hexToUse.slice(3, 5), 16);
+                                const b = parseInt(hexToUse.slice(5, 7), 16);
+                                const rgbaColor = `rgba(${r}, ${g}, ${b}, ${opacity.toFixed(2)})`;
 
                                 chipStyle = {
                                   backgroundImage: `
@@ -335,7 +337,7 @@ const ThemeColorMappingDisplay: React.FC = () => {
                                   backgroundPosition: `0 0, 0 0, 4px 4px, 0 0`
                                 };
                               } else {
-                                chipStyle = { backgroundColor: color.hex };
+                                chipStyle = { backgroundColor: hexToUse };
                               }
 
                               return <div className="w-5 h-5 rounded-full border border-black/10" style={chipStyle}></div>;
