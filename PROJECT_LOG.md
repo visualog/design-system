@@ -100,3 +100,4 @@
     - **Enhanced Icon Sheet**:
         - Removed color chips for **Illustration Icons** as they are not customizable.
         - Extended size options for Illustration Icons to include `[16, 20, 24, 28, 32, 40]`, while maintaining `[16, 20, 24]` for standard icons.
+        - Removed the `.svg` extension from the filename display for a cleaner UI.

@@ -518,7 +518,7 @@ const IconDisplay: React.FC = () => {
                     </div>
                     <div>
                       <span className="font-semibold block mb-1">Filename</span>
-                      <span className="font-mono text-muted-foreground break-all">{selectedIcon.filename}.svg</span>
+                      <span className="font-mono text-muted-foreground break-all">{selectedIcon.filename}</span>
                     </div>
                     {selectedIcon.subfolder && (
                       <div>
