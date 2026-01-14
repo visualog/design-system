@@ -92,12 +92,12 @@
   - Fixed **Radius Page Layout**: Resolved excessive bottom whitespace by adding `overflow-hidden` to clip large guide circles.
   - Refined **Nested Radius UI**: Improved slider alignment and visual styles.
   - **2025-01-14**:
-    - **Standardized Heading Sizes**: Updated global and component-specific styles to enforce `text-lg` (1.125rem) for all `h3` and `h4` elements.
-      - Updated `index.css` with a global rule.
-      - Refined `ColorUsage.tsx`, `GuidelineItem.tsx`, and `TypographyDisplay.tsx` to align with the new standard.
-    - **Fixed Icon Click Crash**: Resolved an issue where clicking an icon caused the application to crash due to a data key mismatch (`icons` vs `icon`) in `IconDisplay.tsx`.
-    - **Fixed Missing Icon Color Chips**: Corrected `ICON_COLOR_ORDER` keys in `IconDisplay.tsx` to match the new `devToken` format (dot notation) in `semantic_color_mapping.json`, restoring the missing color chips in the icon detail sheet.
-    - **Enhanced Icon Sheet**:
-        - Removed color chips for **Illustration Icons** as they are not customizable.
-        - Extended size options for Illustration Icons to include `[16, 20, 24, 28, 32, 40]`, while maintaining `[16, 20, 24]` for standard icons.
-        - Removed the `.svg` extension from the filename display for a cleaner UI.
+    - **헤딩 크기 표준화 (Standardized Heading Sizes)**: 모든 `h3` 및 `h4` 요소에 `text-lg` (1.125rem)를 강제 적용하도록 전역 및 컴포넌트별 스타일을 업데이트했습니다.
+      - `index.css`에 전역 규칙을 추가했습니다.
+      - 새로운 표준에 맞춰 `ColorUsage.tsx`, `GuidelineItem.tsx`, `TypographyDisplay.tsx`를 수정했습니다.
+    - **아이콘 클릭 크래시 수정 (Fixed Icon Click Crash)**: `IconDisplay.tsx`에서 데이터 키 불일치(`icons` vs `icon`)로 인해 아이콘 클릭 시 애플리케이션이 충돌하던 문제를 해결했습니다.
+    - **아이콘 컬러 칩 누락 수정 (Fixed Missing Icon Color Chips)**: `IconDisplay.tsx`의 `ICON_COLOR_ORDER` 키를 `semantic_color_mapping.json`의 새로운 `devToken` 형식(점 표기법)과 일치하도록 수정하여 아이콘 상세 시트에서 컬러 칩을 복구했습니다.
+    - **아이콘 시트 개선 (Enhanced Icon Sheet)**:
+        - **일러스트레이션 아이콘**은 색상 변경이 불가능하므로 컬러 칩을 제거했습니다.
+        - **일러스트레이션 아이콘**의 사이즈 옵션을 `[16, 20, 24, 28, 32, 40]`으로 확장했습니다 (기존 아이콘은 `[16, 20, 24]` 유지).
+        - 깔끔한 UI를 위해 파일명 표시에서 `.svg` 확장자를 제거했습니다.
