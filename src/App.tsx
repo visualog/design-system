@@ -14,6 +14,8 @@ import RadiusPage from './components/RadiusPage';
 import MotionPage from './components/MotionPage';
 import IconsPage from './components/IconsPage';
 import ShadowsPage from './components/ShadowsPage';
+import SiteSettingsPage from './components/SiteSettingsPage';
+import SiteComponentsPage from './components/SiteComponentsPage';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -61,7 +63,10 @@ function App() {
               <Route path="/radius" element={<MainContent><RadiusPage /></MainContent>} />
               <Route path="/motion" element={<MainContent><MotionPage /></MainContent>} />
               <Route path="/icons" element={<MainContent><IconsPage /></MainContent>} />
+              <Route path="/icons" element={<MainContent><IconsPage /></MainContent>} />
               <Route path="/shadows" element={<MainContent><ShadowsPage /></MainContent>} />
+              <Route path="/site-settings" element={<MainContent><SiteSettingsPage /></MainContent>} />
+              <Route path="/site-settings/components" element={<MainContent><SiteComponentsPage /></MainContent>} />
               {/* Fallback for unknown routes */}
               <Route path="*" element={<MainContent><div>404 Not Found</div></MainContent>} />
             </Routes>
