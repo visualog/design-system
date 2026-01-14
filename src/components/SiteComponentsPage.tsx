@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowLeft, Box } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Separator } from '@/components/ui/separator';
+
 import { AnimatedTabs } from '@/components/ui/animated-tabs';
 import { getAllComponents } from '@/data/componentRegistry';
 
@@ -70,7 +70,7 @@ const SiteComponentsPage = () => {
                                 </div>
                             </div>
 
-                            <Separator />
+
 
                             {/* 결과 목록 */}
                             {filteredComponents.length > 0 ? (
