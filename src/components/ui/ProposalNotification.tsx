@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Lightbulb, PanelLeft, PanelRight, PanelBottom } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Lightbulb, PanelLeft, PanelRight, PanelBottom, ExternalLink } from 'lucide-react';
 import {
     Tooltip,
     TooltipContent,
@@ -47,7 +48,7 @@ UI 필터에 'Primary' 옵션 추가.
 
 #### 3. 설명: \`semantic_descriptions.ts\`
 \`[Category]: [Description]\` 형식으로 설명 표준화 유지.`,
-        targetPage: '/colors',
+        targetPage: '/colors?tab=theme',
     }
 ];
 
@@ -60,6 +61,7 @@ interface ProposalNotificationProps {
 const ProposalNotification: React.FC<ProposalNotificationProps> = ({
     message = "개선 제안이 있습니다!"
 }) => {
+    const navigate = useNavigate();
     const [isExpanded, setIsExpanded] = useState(false);
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -239,6 +241,20 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                                     );
                                 })}
                             </div>
+
+                            {/* 해당 페이지로 이동 버튼 */}
+                            {selectedProposal.targetPage && (
+                                <button
+                                    onClick={() => {
+                                        navigate(selectedProposal.targetPage!);
+                                        setIsSheetOpen(false);
+                                    }}
+                                    className="mt-6 flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
+                                >
+                                    <ExternalLink size={14} />
+                                    해당 페이지로 이동
+                                </button>
+                            )}
                         </div>
                     )}
                 </SheetContent>

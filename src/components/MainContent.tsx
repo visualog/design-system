@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import Breadcrumb from './ui/Breadcrumb';
 import ProposalNotification from './ui/ProposalNotification';
 
@@ -8,8 +7,6 @@ interface MainContentProps {
 }
 
 const MainContent: React.FC<MainContentProps> = ({ children }) => {
-  const location = useLocation();
-  const isColorsPage = location.pathname === '/' || location.pathname === '/colors';
   const progressBarRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const targetProgress = useRef(0);
@@ -92,7 +89,7 @@ const MainContent: React.FC<MainContentProps> = ({ children }) => {
       >
         <div className="max-w-[760px] mx-auto flex items-center justify-between">
           <Breadcrumb />
-          {isColorsPage && <ProposalNotification />}
+          <ProposalNotification />
         </div>
 
         {/* Scroll Progress Indicator */}

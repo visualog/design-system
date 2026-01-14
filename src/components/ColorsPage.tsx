@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ColorPaletteDisplay from './ColorPaletteDisplay';
 import ThemeColorMappingDisplay from './ThemeColorMappingDisplay';
 import SemanticColorMappingDisplay from './SemanticColorMappingDisplay';
@@ -7,7 +8,16 @@ import { AnimatedTabs, AnimatedTabsContent } from "@/components/ui/animated-tabs
 import ColorUsage from './ColorUsage';
 
 const ColorsPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('scale');
+  const [searchParams] = useSearchParams();
+  const tabFromUrl = searchParams.get('tab');
+  const [activeTab, setActiveTab] = useState(tabFromUrl || 'scale');
+
+  // URL 파라미터 변경 시 탭 업데이트
+  useEffect(() => {
+    if (tabFromUrl && ['scale', 'raw', 'theme', 'semantic', 'usage'].includes(tabFromUrl)) {
+      setActiveTab(tabFromUrl);
+    }
+  }, [tabFromUrl]);
   const tabs = [
     { name: '스케일', value: 'scale' },
     { name: '원시 컬러', value: 'raw' },
