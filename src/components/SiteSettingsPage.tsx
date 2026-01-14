@@ -19,12 +19,12 @@ const SiteSettingsPage = () => {
             <Separator />
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {/* Placeholder Component for Theme Settings */}
+                {/* Value Component for Theme Settings */}
                 <SettingCard
                     icon={<Palette className="w-6 h-6" />}
                     title="Theme Management"
                     description="Customize global colors, fonts, and radii."
-                    status="Coming Soon"
+                    href="/site-settings/theme"
                 />
 
                 {/* Placeholder Component for Layout Settings */}
@@ -32,7 +32,7 @@ const SiteSettingsPage = () => {
                     icon={<Layout className="w-6 h-6" />}
                     title="Layout Config"
                     description="Adjust sidebar width, navigation structure, and page layout."
-                    status="Coming Soon"
+                    href="/site-settings/layout"
                 />
 
 

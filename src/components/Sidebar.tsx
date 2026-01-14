@@ -66,8 +66,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         ></div>
       )}
 
-      <aside className={`fixed top-0 left-0 h-screen w-60 bg-background border-r border-border z-[80] transform md:translate-x-0 transition-transform duration-300 flex flex-col
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`fixed top-0 left-0 h-screen bg-background border-r border-border z-[80] transform md:translate-x-0 transition-transform duration-300 flex flex-col
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        style={{ width: 'var(--sidebar-width)' }}
+      >
 
         {/* Close button for mobile */}
         <button

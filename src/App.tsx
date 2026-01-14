@@ -16,6 +16,9 @@ import IconsPage from './components/IconsPage';
 import ShadowsPage from './components/ShadowsPage';
 import SiteSettingsPage from './components/SiteSettingsPage';
 import SiteComponentsPage from './components/SiteComponentsPage';
+import SiteThemePage from './components/SiteThemePage';
+import SiteLayoutPage from './components/SiteLayoutPage';
+import SiteTypographyPage from './components/SiteTypographyPage';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -45,7 +48,12 @@ function App() {
           <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
           {/* Main content area */}
-          <div className="flex-1 flex flex-col transition-all duration-300 md:pl-60">
+          <div
+            className="flex-1 flex flex-col transition-all duration-300"
+            style={{
+              paddingLeft: window.innerWidth >= 768 ? 'var(--sidebar-width)' : '0'
+            }}
+          >
             {/* Mobile Header */}
             <header className="md:hidden flex items-center h-14 px-4 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-[60]">
               <Button variant="ghost" size="icon" onClick={toggleSidebar} className="-ml-2 mr-2">
@@ -67,6 +75,9 @@ function App() {
               <Route path="/shadows" element={<MainContent><ShadowsPage /></MainContent>} />
               <Route path="/site-settings" element={<MainContent><SiteSettingsPage /></MainContent>} />
               <Route path="/site-settings/components" element={<MainContent><SiteComponentsPage /></MainContent>} />
+              <Route path="/site-settings/theme" element={<MainContent><SiteThemePage /></MainContent>} />
+              <Route path="/site-settings/layout" element={<MainContent><SiteLayoutPage /></MainContent>} />
+              <Route path="/site-settings/typography" element={<MainContent><SiteTypographyPage /></MainContent>} />
               {/* Fallback for unknown routes */}
               <Route path="*" element={<MainContent><div>404 Not Found</div></MainContent>} />
             </Routes>
