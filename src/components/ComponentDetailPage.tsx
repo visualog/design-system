@@ -289,7 +289,8 @@ const ComponentDetailPage = () => {
                 <AnimatedTabsContent value="preview">
                     <div className="space-y-8">
                         <section>
-                            <h2 className="text-xl font-semibold mb-4">변형 (Variants)</h2>
+                            <h2 className="sr-only">미리보기 (Preview)</h2>
+                            <h3 className="text-xl font-semibold mb-4">변형 (Variants)</h3>
                             <div className="grid gap-6">
                                 {meta.variants.map((variant, index) => (
                                     <VariantPreview
@@ -310,7 +311,8 @@ const ComponentDetailPage = () => {
                 <AnimatedTabsContent value="code">
                     <div className="space-y-6">
                         <section>
-                            <h2 className="text-xl font-semibold mb-4">사용법 (Usage)</h2>
+                            <h2 className="sr-only">코드 (Code)</h2>
+                            <h3 className="text-xl font-semibold mb-4">사용법 (Usage)</h3>
                             <CodeBlock
                                 code={meta.usage}
                                 onCopy={() => copyToClipboard(meta.usage, 'usage')}
@@ -324,7 +326,8 @@ const ComponentDetailPage = () => {
                 <AnimatedTabsContent value="props">
                     <div className="space-y-6">
                         <section>
-                            <h2 className="text-xl font-semibold mb-4">속성 (Props)</h2>
+                            <h2 className="sr-only">속성 (Props)</h2>
+                            <h3 className="text-xl font-semibold mb-4">속성 (Props)</h3>
                             <PropsTable props={meta.props} />
                         </section>
                     </div>

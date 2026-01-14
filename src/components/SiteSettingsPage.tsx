@@ -9,10 +9,10 @@ const SiteSettingsPage = () => {
             <div>
                 <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
                     <Settings className="w-8 h-8" />
-                    Site Settings
+                    사이트 설정 (Site Settings)
                 </h1>
                 <p className="text-lg text-muted-foreground mt-2">
-                    Manage configuration and UI components for the Design System site.
+                    디자인 시스템 사이트의 환경 설정 및 UI 컴포넌트를 관리합니다.
                 </p>
             </div>
 
@@ -22,16 +22,16 @@ const SiteSettingsPage = () => {
                 {/* Value Component for Theme Settings */}
                 <SettingCard
                     icon={<Palette className="w-6 h-6" />}
-                    title="Theme Management"
-                    description="Customize global colors, fonts, and radii."
+                    title="테마 관리 (Theme Management)"
+                    description="글로벌 색상, 폰트, 라디우스 등 사이트의 전반적인 테마를 설정합니다."
                     href="/site-settings/theme"
                 />
 
                 {/* Placeholder Component for Layout Settings */}
                 <SettingCard
                     icon={<Layout className="w-6 h-6" />}
-                    title="Layout Config"
-                    description="Adjust sidebar width, navigation structure, and page layout."
+                    title="레이아웃 설정 (Layout Config)"
+                    description="사이드바 너비, 내비게이션 구조 등 페이지 레이아웃을 조정합니다."
                     href="/site-settings/layout"
                 />
 
@@ -39,16 +39,16 @@ const SiteSettingsPage = () => {
                 {/* Typography Settings */}
                 <SettingCard
                     icon={<Type className="w-6 h-6" />}
-                    title="Typography"
-                    description="Manage font family, base sizes, line height, and weights."
+                    title="타이포그래피 (Typography)"
+                    description="폰트 패밀리, 기본 크기, 줄 높이, 굵기 등을 관리합니다."
                     href="/site-settings/typography"
                 />
 
                 {/* Placeholder Component for Components Settings */}
                 <SettingCard
                     icon={<Box className="w-6 h-6" />}
-                    title="Components"
-                    description="Configure style presets for UI components."
+                    title="컴포넌트 (Components)"
+                    description="UI 컴포넌트의 스타일 프리셋과 상세 명세를 설정합니다."
                     href="/site-settings/components"
                 />
             </div>

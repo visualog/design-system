@@ -353,6 +353,7 @@ const IconDisplay: React.FC = () => {
       <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
         <AnimatedTabsContent value="line">
           <div>
+            <h2 className="sr-only">라인 아이콘 (Line Icons)</h2>
             <IconSection
               title="Line Icons"
               iconList={icons.line.line_icons}
@@ -373,6 +374,7 @@ const IconDisplay: React.FC = () => {
         </AnimatedTabsContent>
         <AnimatedTabsContent value="filled">
           <div>
+            <h2 className="sr-only">필드 아이콘 (Filled Icons)</h2>
             <IconSection
               title="Filled Icons"
               iconList={icons.filled.filled_icons}
@@ -393,6 +395,7 @@ const IconDisplay: React.FC = () => {
         </AnimatedTabsContent >
         <AnimatedTabsContent value="illustration">
           <div>
+            <h2 className="sr-only">일러스트 아이콘 (Illustration Icons)</h2>
             <div className="flex flex-col gap-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">

@@ -32,15 +32,15 @@ const SiteComponentsPage = () => {
                         className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 text-sm font-medium"
                     >
                         <ArrowLeft className="w-4 h-4" />
-                        Back to Settings
+                        Back to Settings (설정으로 돌아가기)
                     </Link>
                 </div>
                 <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
                     <Box className="w-8 h-8" />
-                    Components
+                    컴포넌트 (Components)
                 </h1>
                 <p className="text-lg text-muted-foreground mt-2">
-                    Reusable UI components used throughout the Design System site.
+                    디자인 시스템 사이트 전반에서 사용되는 재사용 가능한 UI 컴포넌트입니다.
                 </p>
 
                 {/* 검색 및 필터 컨트롤 */}
@@ -67,7 +67,7 @@ const SiteComponentsPage = () => {
                     <div className="relative w-full md:w-72">
                         <input
                             type="text"
-                            placeholder="Search components..."
+                            placeholder="컴포넌트 검색..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full h-10 px-3 pl-10 rounded-md border bg-background text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -126,12 +126,12 @@ const SiteComponentsPage = () => {
                 </div>
             ) : (
                 <div className="text-center py-20 text-muted-foreground">
-                    <p className="text-lg">No components found matching your criteria.</p>
+                    <p className="text-lg">일치하는 컴포넌트가 없습니다.</p>
                     <button
                         onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
                         className="mt-4 text-primary hover:underline text-sm"
                     >
-                        Clear filters
+                        필터 초기화
                     </button>
                 </div>
             )}

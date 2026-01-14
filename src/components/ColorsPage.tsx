@@ -38,26 +38,31 @@ const ColorsPage: React.FC = () => {
       <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
         <AnimatedTabsContent value="scale">
           <div className="mt-6">
+            <h2 className="sr-only">스케일 (Scale)</h2>
             <ColorPaletteDisplay view="grid" />
           </div>
         </AnimatedTabsContent>
         <AnimatedTabsContent value="raw">
           <div>
+            <h2 className="sr-only">원시 컬러 (Raw Colors)</h2>
             <ColorPaletteDisplay view="table" />
           </div>
         </AnimatedTabsContent>
         <AnimatedTabsContent value="theme">
           <div>
+            <h2 className="sr-only">테마 컬러 (Theme Colors)</h2>
             <ThemeColorMappingDisplay />
           </div>
         </AnimatedTabsContent>
         <AnimatedTabsContent value="semantic">
           <div>
+            <h2 className="sr-only">시맨틱 컬러 (Semantic Colors)</h2>
             <SemanticColorMappingDisplay />
           </div>
         </AnimatedTabsContent>
         <AnimatedTabsContent value="usage">
           <div className="mt-6">
+            <h2 className="sr-only">사용 가이드 (Usage Guide)</h2>
             <ColorUsage />
           </div>
         </AnimatedTabsContent>

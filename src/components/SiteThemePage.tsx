@@ -122,15 +122,15 @@ const SiteThemePage = () => {
                         className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 text-sm font-medium"
                     >
                         <ArrowLeft className="w-4 h-4" />
-                        Back to Settings
+                        Back to Settings (설정으로 돌아가기)
                     </Link>
                 </div>
                 <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
                     <Palette className="w-8 h-8" />
-                    Theme Management
+                    테마 관리 (Theme Management)
                 </h1>
                 <p className="text-lg text-muted-foreground mt-2">
-                    Customize the global look and feel of the site.
+                    사이트의 전반적인 모양과 느낌을 사용자 정의합니다.
                 </p>
             </div>
 
@@ -139,8 +139,8 @@ const SiteThemePage = () => {
             <div className="grid gap-8">
                 {/* Mode Section */}
                 <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">Mode</h2>
-                    <p className="text-muted-foreground">Select the color mode for the site.</p>
+                    <h2 className="text-xl font-semibold">모드 (Mode)</h2>
+                    <p className="text-muted-foreground">사이트의 색상 모드를 선택합니다.</p>
                     <div className="grid grid-cols-3 gap-4 max-w-xl">
                         <button
                             onClick={() => toggleMode('light')}
@@ -164,8 +164,8 @@ const SiteThemePage = () => {
 
                 {/* Radius Section */}
                 <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">Radius</h2>
-                    <p className="text-muted-foreground">Adjust the rounded corners of UI elements.</p>
+                    <h2 className="text-xl font-semibold">반경 (Radius)</h2>
+                    <p className="text-muted-foreground">UI 요소의 모서리 둥글기를 조정합니다.</p>
                     <div className="flex flex-wrap gap-4">
                         {radiusOptions.map((option) => (
                             <button
@@ -192,8 +192,8 @@ const SiteThemePage = () => {
 
                 {/* Color Section */}
                 <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">Primary Color</h2>
-                    <p className="text-muted-foreground">Choose the primary brand color.</p>
+                    <h2 className="text-xl font-semibold">기본 색상 (Primary Color)</h2>
+                    <p className="text-muted-foreground">브랜드의 주요 색상을 선택합니다.</p>
                     <div className="flex flex-wrap gap-4">
                         {colorPresets.map((preset) => (
                             <button

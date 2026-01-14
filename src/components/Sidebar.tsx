@@ -83,7 +83,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           ref={scrollContainerRef}
           className="p-4 flex-1 overflow-y-auto"
         >
-          <h1 className="text-xl font-bold text-foreground mb-8 px-2">Design System</h1>
+          <h1 className="text-xl font-bold text-foreground mb-8 px-2">디자인 시스템</h1>
           <nav>
             <ul className="space-y-1">
               <li>
@@ -91,7 +91,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
                   onClick={toggleFoundationMenu}
                   className="w-full flex items-center justify-between text-base text-foreground font-semibold p-2 rounded-md hover:bg-accent"
                 >
-                  <span>Foundation</span>
+                  <span>파운데이션 (Foundation)</span>
                   <ChevronDown
                     className={`w-5 h-5 transition-transform duration-200 ${isFoundationOpen ? 'rotate-180' : ''}`}
                   />
@@ -104,17 +104,17 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
                         className={({ isActive }) => (isActive || location.pathname === '/') ? activeClassName : inactiveClassName}
                         onClick={toggleSidebar}
                       >
-                        Colors
+                        컬러 (Colors)
                       </NavLink>
                     </li>
                     <li>
-                      <NavLink to="/typography" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Typography</NavLink>
+                      <NavLink to="/typography" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>타이포그래피 (Typography)</NavLink>
                     </li>
                     <li>
-                      <NavLink to="/spacing" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Spacing & Layout</NavLink>
+                      <NavLink to="/spacing" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>간격 및 레이아웃 (Spacing & Layout)</NavLink>
                     </li>
                     <li>
-                      <NavLink to="/radius" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Radius</NavLink>
+                      <NavLink to="/radius" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>반경 (Radius)</NavLink>
                     </li>
                     {/* Motion page hidden for now
                     <li>
@@ -122,10 +122,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
                     </li>
                     */}
                     <li>
-                      <NavLink to="/icons" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Icons</NavLink>
+                      <NavLink to="/icons" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>아이콘 (Icons)</NavLink>
                     </li>
                     <li>
-                      <NavLink to="/shadows" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Shadows</NavLink>
+                      <NavLink to="/shadows" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>그림자 (Shadows)</NavLink>
                     </li>
                   </ul>
                 )}
@@ -141,7 +141,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
             to="/site-settings"
             className={({ isActive }) => `flex items-center justify-center p-2 rounded-md hover:bg-accent transition-colors duration-200 ${isActive ? 'text-primary bg-accent' : 'text-foreground'}`}
             onClick={toggleSidebar}
-            title="Site Settings"
+            title="사이트 설정"
           >
             <Settings className="w-5 h-5" />
           </NavLink>

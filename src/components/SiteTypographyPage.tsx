@@ -103,15 +103,15 @@ const SiteTypographyPage = () => {
                         className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 text-sm font-medium"
                     >
                         <ArrowLeft className="w-4 h-4" />
-                        Back to Settings
+                        Back to Settings (설정으로 돌아가기)
                     </Link>
                 </div>
                 <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
                     <Type className="w-8 h-8" />
-                    Typography Settings
+                    타이포그래피 설정 (Typography Settings)
                 </h1>
                 <p className="text-lg text-muted-foreground mt-2">
-                    Customize font family, size, line height, and weight for the site.
+                    사이트의 폰트 패밀리, 크기, 줄 높이, 굵기를 사용자 정의합니다.
                 </p>
             </div>
 
@@ -120,8 +120,8 @@ const SiteTypographyPage = () => {
             <div className="grid gap-8 max-w-3xl">
                 {/* Font Family Section */}
                 <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">Font Family</h2>
-                    <p className="text-muted-foreground">Select the primary font for the site.</p>
+                    <h2 className="text-xl font-semibold">폰트 패밀리 (Font Family)</h2>
+                    <p className="text-muted-foreground">사이트의 기본 폰트를 선택합니다.</p>
                     <div className="grid gap-3">
                         {fontFamilyOptions.map((option) => (
                             <button
@@ -145,8 +145,8 @@ const SiteTypographyPage = () => {
 
                 {/* Base Font Size Section */}
                 <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">Base Font Size</h2>
-                    <p className="text-muted-foreground">Adjust the root font size. This affects all REM-based spacing.</p>
+                    <h2 className="text-xl font-semibold">기본 폰트 크기 (Base Font Size)</h2>
+                    <p className="text-muted-foreground">루트 폰트 크기를 조정합니다. 이는 모든 REM 기반 간격에 영향을 미칩니다.</p>
                     <div className="flex flex-wrap gap-3">
                         {fontSizeOptions.map((option) => (
                             <button
@@ -165,8 +165,8 @@ const SiteTypographyPage = () => {
 
                 {/* Line Height Section */}
                 <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">Line Height</h2>
-                    <p className="text-muted-foreground">Control the spacing between lines of text.</p>
+                    <h2 className="text-xl font-semibold">줄 높이 (Line Height)</h2>
+                    <p className="text-muted-foreground">텍스트 줄 간격을 제어합니다.</p>
                     <div className="flex flex-wrap gap-3">
                         {lineHeightOptions.map((option) => (
                             <button
@@ -193,8 +193,8 @@ const SiteTypographyPage = () => {
 
                 {/* Font Weight Section */}
                 <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">Default Font Weight</h2>
-                    <p className="text-muted-foreground">Set the default weight for body text.</p>
+                    <h2 className="text-xl font-semibold">기본 폰트 굵기 (Default Font Weight)</h2>
+                    <p className="text-muted-foreground">본문 텍스트의 기본 굵기를 설정합니다.</p>
                     <div className="flex flex-wrap gap-3">
                         {fontWeightOptions.map((option) => (
                             <button
@@ -213,7 +213,7 @@ const SiteTypographyPage = () => {
 
                 {/* Type Scale Preview */}
                 <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">Type Scale Preview</h2>
+                    <h2 className="text-xl font-semibold">타입 스케일 미리보기 (Type Scale Preview)</h2>
                     <div className="space-y-6 p-6 border rounded-xl bg-card">
                         <div className="space-y-1">
                             <span className="text-xs text-muted-foreground font-mono">H1 / 4xl</span>
