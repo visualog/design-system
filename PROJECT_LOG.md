@@ -113,3 +113,7 @@
     - **요소 선택 모드 (Element Selection Mode)**: 마우스 호버로 화면의 요소를 선택하고 하이라이팅하는 기능을 구현했습니다.
     - **제안 다이얼로그 (Proposal Dialog)**: 선택된 요소에 대해 개선 제안을 작성할 수 있는 모달 다이얼로그를 추가했습니다.
     - **UX 개선 (UX Improvements)**: `React Portal`을 사용하여 오버레이와 모달의 위치(Stacking Context) 문제를 해결하고, 보이지 않는 요소가 선택되는 문제를 수정했습니다.
+- **사이트 설정 한글화 (Localization)**:
+    - `SiteSettingsPage`, `SiteThemePage`, `SiteLayoutPage`, `SiteTypographyPage`, `SiteComponentsPage`, `Sidebar` 등 주요 설정 페이지와 내비게이션의 텍스트를 한글로 번역했습니다.
+- **접근성 개선 (Accessibility)**:
+    - **Hidden H2 패턴**: `ComponentDetailPage`, `ColorsPage`, `IconDisplay`의 탭 패널 내에 `sr-only` 클래스를 가진 숨겨진 `h2` 태그를 추가하여, 시각적 디자인을 유지하면서 논리적인 문서 구조(H1 -> H2 -> H3)를 보완했습니다.
