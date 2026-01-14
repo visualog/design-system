@@ -117,3 +117,6 @@
     - `SiteSettingsPage`, `SiteThemePage`, `SiteLayoutPage`, `SiteTypographyPage`, `SiteComponentsPage`, `Sidebar` 등 주요 설정 페이지와 내비게이션의 텍스트를 한글로 번역했습니다.
 - **접근성 개선 (Accessibility)**:
     - **Hidden H2 패턴**: `ComponentDetailPage`, `ColorsPage`, `IconDisplay`의 탭 패널 내에 `sr-only` 클래스를 가진 숨겨진 `h2` 태그를 추가하여, 시각적 디자인을 유지하면서 논리적인 문서 구조(H1 -> H2 -> H3)를 보완했습니다.
+- **버그 수정 (Bug Fixes)**: `ComponentDetailPage`에서 `AnimatedTabs` 미리보기가 렌더링되지 않던 문제를 해당 컴포넌트를 직접 렌더링하는 케이스를 추가하여 해결했습니다.
+- **기능 개선 (Enhancements)**: `MeasureOverlay`를 업데이트하여 Flex/Grid 컨테이너의 내부 간격(Gap)도 시각적으로 표시하도록 개선했습니다.
+- **병합 (Merge)**: `feature/site-ui-management` 브랜치를 `main`으로 병합하여 모든 변경 사항을 배포에 반영했습니다.
