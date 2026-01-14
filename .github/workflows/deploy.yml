@@ -3,7 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
+    branches:
       - main
+      - feature/site-ui-management
 
 permissions:
   contents: read
