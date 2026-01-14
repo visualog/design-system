@@ -103,25 +103,25 @@ const SiteTypographyPage = () => {
                         className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 text-sm font-medium"
                     >
                         <ArrowLeft className="w-4 h-4" />
-                        Back to Settings (설정으로 돌아가기)
+                        Back to Settings
                     </Link>
                 </div>
                 <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
                     <Type className="w-8 h-8" />
-                    타이포그래피 설정 (Typography Settings)
+                    Typography Settings
                 </h1>
                 <p className="text-lg text-muted-foreground mt-2">
-                    사이트의 폰트 패밀리, 크기, 줄 높이, 굵기를 사용자 정의합니다.
+                    Customize the site's font family, size, line height, and weight.
                 </p>
             </div>
 
-            <Separator />
+
 
             <div className="grid gap-8 max-w-3xl">
                 {/* Font Family Section */}
                 <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">폰트 패밀리 (Font Family)</h2>
-                    <p className="text-muted-foreground">사이트의 기본 폰트를 선택합니다.</p>
+                    <h2 className="text-xl font-semibold">Font Family</h2>
+                    <p className="text-muted-foreground">Select the default font family.</p>
                     <div className="grid gap-3">
                         {fontFamilyOptions.map((option) => (
                             <button
@@ -145,8 +145,8 @@ const SiteTypographyPage = () => {
 
                 {/* Base Font Size Section */}
                 <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">기본 폰트 크기 (Base Font Size)</h2>
-                    <p className="text-muted-foreground">루트 폰트 크기를 조정합니다. 이는 모든 REM 기반 간격에 영향을 미칩니다.</p>
+                    <h2 className="text-xl font-semibold">Base Font Size</h2>
+                    <p className="text-muted-foreground">Adjust root font size. This affects all REM-based spacing.</p>
                     <div className="flex flex-wrap gap-3">
                         {fontSizeOptions.map((option) => (
                             <button
@@ -165,8 +165,8 @@ const SiteTypographyPage = () => {
 
                 {/* Line Height Section */}
                 <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">줄 높이 (Line Height)</h2>
-                    <p className="text-muted-foreground">텍스트 줄 간격을 제어합니다.</p>
+                    <h2 className="text-xl font-semibold">Line Height</h2>
+                    <p className="text-muted-foreground">Control text line spacing.</p>
                     <div className="flex flex-wrap gap-3">
                         {lineHeightOptions.map((option) => (
                             <button
@@ -182,8 +182,8 @@ const SiteTypographyPage = () => {
                     {/* Preview */}
                     <div className="p-6 border rounded-xl bg-card mt-4">
                         <p style={{ lineHeight: lineHeight }}>
-                            디자인 시스템은 일관된 사용자 경험을 제공하기 위해 구축되었습니다.
-                            타이포그래피, 컬러, 스페이싱 등의 기본 요소부터 컴포넌트까지 체계적으로 정의합니다.
+                            Design systems are built to provide a consistent user experience.
+                            systematically defining everything from basic elements like typography, color, and spacing to components.
                             This is a sample paragraph to preview the line height setting.
                         </p>
                     </div>
@@ -193,8 +193,8 @@ const SiteTypographyPage = () => {
 
                 {/* Font Weight Section */}
                 <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">기본 폰트 굵기 (Default Font Weight)</h2>
-                    <p className="text-muted-foreground">본문 텍스트의 기본 굵기를 설정합니다.</p>
+                    <h2 className="text-xl font-semibold">Default Font Weight</h2>
+                    <p className="text-muted-foreground">Set the default weight for body text.</p>
                     <div className="flex flex-wrap gap-3">
                         {fontWeightOptions.map((option) => (
                             <button
@@ -213,7 +213,7 @@ const SiteTypographyPage = () => {
 
                 {/* Type Scale Preview */}
                 <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">타입 스케일 미리보기 (Type Scale Preview)</h2>
+                    <h2 className="text-xl font-semibold">Type Scale Preview</h2>
                     <div className="space-y-6 p-6 border rounded-xl bg-card">
                         <div className="space-y-1">
                             <span className="text-xs text-muted-foreground font-mono">H1 / 4xl</span>
@@ -234,11 +234,9 @@ const SiteTypographyPage = () => {
                         <div className="space-y-1">
                             <span className="text-xs text-muted-foreground font-mono">Body / base</span>
                             <p className="leading-7">
-                                디자인 시스템은 일관된 사용자 경험을 제공합니다.
+                                Design systems provide a consistent user experience.
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                             </p>
-                        </div>
-                        <div className="space-y-1">
                             <span className="text-xs text-muted-foreground font-mono">Small / sm</span>
                             <p className="text-sm text-muted-foreground">
                                 Small text for captions, hints, or secondary information.

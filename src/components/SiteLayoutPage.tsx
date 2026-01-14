@@ -36,27 +36,27 @@ const SiteLayoutPage = () => {
                         className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 text-sm font-medium"
                     >
                         <ArrowLeft className="w-4 h-4" />
-                        Back to Settings (설정으로 돌아가기)
+                        Back to Settings
                     </Link>
                 </div>
                 <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
                     <Layout className="w-8 h-8" />
-                    레이아웃 설정 (Layout Config)
+                    Layout Config
                 </h1>
                 <p className="text-lg text-muted-foreground mt-2">
-                    사이트의 레이아웃 구조와 치수를 조정합니다.
+                    Adjust the site's layout structure and dimensions.
                 </p>
             </div>
 
-            <Separator />
+
 
             <div className="grid gap-8 max-w-2xl">
                 {/* Sidebar Width Section */}
                 <section className="space-y-6">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h2 className="text-xl font-semibold">사이드바 너비 (Sidebar Width)</h2>
-                            <p className="text-muted-foreground">내비게이션 사이드바의 너비를 설정합니다.</p>
+                            <h2 className="text-xl font-semibold">Sidebar Width</h2>
+                            <p className="text-muted-foreground">Set the width of the navigation sidebar.</p>
                         </div>
                         <span className="font-mono text-sm bg-muted px-2 py-1 rounded">
                             {sidebarWidth}px
@@ -78,7 +78,7 @@ const SiteLayoutPage = () => {
                             <span className="text-sm font-medium text-muted-foreground w-12 text-right">320px</span>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                            기본 너비는 240px입니다. 슬라이더를 드래그하여 실시간으로 크기를 조정하세요.
+                            Default width is 240px. Drag the slider to adjust in real-time.
                         </p>
                     </div>
                 </section>
@@ -87,8 +87,8 @@ const SiteLayoutPage = () => {
 
                 {/* Future placeholders */}
                 <section className="opacity-50 pointer-events-none">
-                    <h2 className="text-xl font-semibold mb-2">콘텐츠 너비 (Content Width) - 준비 중</h2>
-                    <p className="text-muted-foreground mb-4">메인 콘텐츠 영역의 최대 너비를 제한합니다.</p>
+                    <h2 className="text-xl font-semibold mb-2">Content Width (Coming Soon)</h2>
+                    <p className="text-muted-foreground mb-4">Limit the maximum width of the main content area.</p>
                     <div className="h-2 bg-muted rounded w-full"></div>
                 </section>
             </div>

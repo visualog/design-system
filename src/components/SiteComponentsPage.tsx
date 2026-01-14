@@ -39,15 +39,15 @@ const SiteComponentsPage = () => {
                         className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 text-sm font-medium"
                     >
                         <ArrowLeft className="w-4 h-4" />
-                        Back to Settings (설정으로 돌아가기)
+                        Back to Settings
                     </Link>
                 </div>
                 <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
                     <Box className="w-8 h-8" />
-                    컴포넌트 (Components)
+                    Components
                 </h1>
                 <p className="text-lg text-muted-foreground mt-2">
-                    디자인 시스템 사이트 전반에서 사용되는 재사용 가능한 UI 컴포넌트입니다.
+                    Reusable UI components used throughout the design system site.
                 </p>
 
                 <div className="mt-8">
