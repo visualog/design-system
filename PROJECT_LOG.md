@@ -99,6 +99,13 @@
 - **아이콘 클릭 크래시 수정 (Fixed Icon Click Crash)**: `IconDisplay.tsx`에서 데이터 키 불일치(`icons` vs `icon`)로 인해 아이콘 클릭 시 애플리케이션이 충돌하던 문제를 해결했습니다.
 - **아이콘 컬러 칩 누락 수정 (Fixed Missing Icon Color Chips)**: `IconDisplay.tsx`의 `ICON_COLOR_ORDER` 키를 `semantic_color_mapping.json`의 새로운 `devToken` 형식(점 표기법)과 일치하도록 수정하여 아이콘 상세 시트에서 컬러 칩을 복구했습니다.
 - **아이콘 시트 개선 (Enhanced Icon Sheet)**:
-    - **일러스트레이션 아이콘**은 색상 변경이 불가능하므로 컬러 칩을 제거했습니다.
     - **일러스트레이션 아이콘**의 사이즈 옵션을 `[16, 20, 24, 28, 32, 40]`으로 확장했습니다 (기존 아이콘은 `[16, 20, 24]` 유지).
     - 깔끔한 UI를 위해 파일명 표시에서 `.svg` 확장자를 제거했습니다.
+- **컴포넌트 상세 페이지 구현 (Component Detail Page Implementation)**:
+    - `ComponentDetailPage` 템플릿 및 동적 라우팅을 구현했습니다.
+    - `componentRegistry.ts`에 7개 컴포넌트(Button, Card, Input, Tooltip, Separator, Popover, Sheet)에 대한 메타데이터(Props, Variants, Usage)를 정의했습니다.
+    - **검색 및 필터링 (Search & Filtering)**: 컴포넌트 이름/설명 검색 및 카테고리 탭(UI, Layout, Feedback 등) 필터링 기능을 추가했습니다.
+    - **카드 레이아웃 개선**: 컴포넌트 카드 디자인을 개선(배지 위치 조정, 메타데이터 수직 정렬)하여 가독성을 높였습니다.
+- **개발자 경험 기능 (DX Features)**:
+    - **코드 토글 (Code Toggle)**: 변형(Variant) 미리보기에서 코드를 기본적으로 숨기고, 호버 시 나타나는 버튼으로 토글하는 기능을 구현했습니다.
+    - **측정 모드 (Measurement Mode)**: 컴포넌트의 패딩(Padding)과 크기(Width/Height)를 시각적으로 확인할 수 있는 '측정 모드'를 자(Ruler) 아이콘 버튼으로 구현했습니다. `ComputedStyle`을 활용하여 정확한 픽셀 값을 표시합니다.

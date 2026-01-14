@@ -36,12 +36,12 @@ const SiteSettingsPage = () => {
                 />
 
 
-                {/* Placeholder Component for Typography Settings */}
+                {/* Typography Settings */}
                 <SettingCard
                     icon={<Type className="w-6 h-6" />}
                     title="Typography"
-                    description="Manage base font sizes and heading scales."
-                    status="Coming Soon"
+                    description="Manage font family, base sizes, line height, and weights."
+                    href="/site-settings/typography"
                 />
 
                 {/* Placeholder Component for Components Settings */}

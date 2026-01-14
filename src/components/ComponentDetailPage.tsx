@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Copy, Check } from 'lucide-react';
+import { ArrowLeft, Copy, Check, Code, Ruler } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -178,13 +178,39 @@ const LivePreview: React.FC<{ componentName: string; variantName: string }> = ({
 
     // Clipboard
     if (name === 'clipboard') {
-        return <Clipboard text="Hello World" />;
+        return <Clipboard value="Hello World" />;
     }
 
     // GuidelineItem
     if (name === 'guideline-item') {
-        if (variantName === 'Do') return <GuidelineItem type="do">Use semantic colors</GuidelineItem>;
-        if (variantName === "Don't") return <GuidelineItem type="dont">Don't use hardcoded colors</GuidelineItem>;
+        if (variantName === 'Do') return (
+            <div className="w-full max-w-md">
+                <GuidelineItem
+                    type="do"
+                    title="Use Semantic Colors"
+                    description="Always use semantic color tokens instead of hardcoded hex values."
+                >
+                    <div className="flex items-center gap-2 p-4 border rounded bg-background">
+                        <div className="h-8 w-8 rounded bg-primary" />
+                        <span className="text-sm font-medium">Primary Color</span>
+                    </div>
+                </GuidelineItem>
+            </div>
+        );
+        if (variantName === "Don't") return (
+            <div className="w-full max-w-md">
+                <GuidelineItem
+                    type="dont"
+                    title="Avoid Hardcoded Values"
+                    description="Do not use hex codes like #EF4444 directly in your components."
+                >
+                    <div className="flex items-center gap-2 p-4 border rounded bg-background">
+                        <div className="h-8 w-8 rounded bg-[#EF4444]" />
+                        <span className="text-sm font-medium">Hardcoded Hex</span>
+                    </div>
+                </GuidelineItem>
+            </div>
+        );
     }
 
     // Default fallback
@@ -318,25 +344,107 @@ interface VariantPreviewProps {
 }
 
 const VariantPreview: React.FC<VariantPreviewProps> = ({ variant, componentName, onCopy, copied, copyId }) => {
+    const [isCodeVisible, setIsCodeVisible] = React.useState(false);
+    const [isMeasureMode, setIsMeasureMode] = React.useState(false);
+    const previewRef = React.useRef<HTMLDivElement>(null);
+
     return (
         <div className="rounded-xl border overflow-hidden">
             <div className="p-4 bg-card border-b">
                 <h3 className="font-medium">{variant.name}</h3>
                 <p className="text-sm text-muted-foreground">{variant.description}</p>
             </div>
-            <div className="p-6 bg-muted/30 flex items-center justify-center min-h-[100px]">
-                <LivePreview componentName={componentName} variantName={variant.name} />
+            <div className="relative group">
+                <div className="p-6 bg-muted/30 flex items-center justify-center min-h-[100px] relative">
+                    <div ref={previewRef} className="relative inline-block">
+                        <LivePreview componentName={componentName} variantName={variant.name} />
+                        {isMeasureMode && <MeasureOverlay targetRef={previewRef as React.RefObject<HTMLElement>} />}
+                    </div>
+                </div>
+                <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+                    <button
+                        onClick={() => setIsMeasureMode(!isMeasureMode)}
+                        className={`p-2 rounded-md border shadow-sm transition-colors ${isMeasureMode ? 'bg-primary text-primary-foreground' : 'bg-background hover:bg-muted text-muted-foreground'}`}
+                        title={isMeasureMode ? "Hide measurements" : "Show measurements"}
+                    >
+                        <Ruler className="w-4 h-4" />
+                    </button>
+                    <button
+                        onClick={() => setIsCodeVisible(!isCodeVisible)}
+                        className={`p-2 rounded-md border shadow-sm transition-colors ${isCodeVisible ? 'bg-primary text-primary-foreground' : 'bg-background hover:bg-muted text-muted-foreground'}`}
+                        title={isCodeVisible ? "Hide code" : "Show code"}
+                    >
+                        <Code className="w-4 h-4" />
+                    </button>
+                </div>
             </div>
-            <div className="p-4 bg-zinc-950 relative">
-                <button
-                    onClick={() => onCopy(variant.code, copyId)}
-                    className="absolute top-3 right-3 p-2 rounded-md hover:bg-zinc-800 transition-colors text-zinc-400 hover:text-white"
-                >
-                    {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
-                </button>
-                <pre className="text-sm text-zinc-300 overflow-x-auto">
-                    <code>{variant.code}</code>
-                </pre>
+
+            {isCodeVisible && (
+                <div className="p-4 bg-zinc-950 relative border-t animate-in slide-in-from-top-2 duration-200">
+                    <button
+                        onClick={() => onCopy(variant.code, copyId)}
+                        className="absolute top-3 right-3 p-2 rounded-md hover:bg-zinc-800 transition-colors text-zinc-400 hover:text-white"
+                    >
+                        {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+                    </button>
+                    <pre className="text-sm text-zinc-300 overflow-x-auto font-mono">
+                        <code>{variant.code}</code>
+                    </pre>
+                </div>
+            )}
+        </div>
+    );
+};
+
+// 측정 오버레이 컴포넌트
+const MeasureOverlay: React.FC<{ targetRef: React.RefObject<HTMLElement> }> = ({ targetRef }) => {
+    const [metrics, setMetrics] = React.useState<DOMRect | null>(null);
+    const [styles, setStyles] = React.useState<CSSStyleDeclaration | null>(null);
+
+    React.useEffect(() => {
+        if (!targetRef.current) return;
+        const element = targetRef.current.firstElementChild as HTMLElement;
+        if (!element) return;
+
+        const updateMetrics = () => {
+            setMetrics(element.getBoundingClientRect());
+            setStyles(window.getComputedStyle(element));
+        };
+
+        updateMetrics();
+        window.addEventListener('resize', updateMetrics);
+        return () => window.removeEventListener('resize', updateMetrics);
+    }, [targetRef]);
+
+    if (!metrics || !styles) return null;
+
+    const pt = parseFloat(styles.paddingTop);
+    const pr = parseFloat(styles.paddingRight);
+    const pb = parseFloat(styles.paddingBottom);
+    const pl = parseFloat(styles.paddingLeft);
+    const width = Math.round(metrics.width);
+    const height = Math.round(metrics.height);
+
+    return (
+        <div className="absolute inset-0 pointer-events-none z-50 overflow-hidden">
+            {/* Padding Indicators */}
+            <div className="absolute top-0 left-0 right-0 h-[var(--pt)] bg-pink-500/20 border-b border-pink-500/30" style={{ '--pt': `${pt}px` } as React.CSSProperties} />
+            <div className="absolute top-0 right-0 bottom-0 w-[var(--pr)] bg-pink-500/20 border-l border-pink-500/30" style={{ '--pr': `${pr}px` } as React.CSSProperties} />
+            <div className="absolute bottom-0 left-0 right-0 h-[var(--pb)] bg-pink-500/20 border-t border-pink-500/30" style={{ '--pb': `${pb}px` } as React.CSSProperties} />
+            <div className="absolute top-0 left-0 bottom-0 w-[var(--pl)] bg-pink-500/20 border-r border-pink-500/30" style={{ '--pl': `${pl}px` } as React.CSSProperties} />
+
+            {/* Labels */}
+            {pt > 0 && <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full text-[10px] text-pink-600 font-mono bg-white/80 px-1 rounded shadow-sm border border-pink-100">{Math.round(pt)}</span>}
+            {pr > 0 && <span className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full text-[10px] text-pink-600 font-mono bg-white/80 px-1 rounded shadow-sm border border-pink-100">{Math.round(pr)}</span>}
+            {pb > 0 && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full text-[10px] text-pink-600 font-mono bg-white/80 px-1 rounded shadow-sm border border-pink-100">{Math.round(pb)}</span>}
+            {pl > 0 && <span className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full text-[10px] text-pink-600 font-mono bg-white/80 px-1 rounded shadow-sm border border-pink-100">{Math.round(pl)}</span>}
+
+            {/* Dimensions (Outside) */}
+            <div className="absolute -right-3 top-0 bottom-0 w-px bg-red-400 flex items-center justify-center">
+                <span className="bg-red-50 text-red-600 text-[10px] font-mono px-1 rounded border border-red-200 -rotate-90 whitespace-nowrap">{height}</span>
+            </div>
+            <div className="absolute -top-3 left-0 right-0 h-px bg-red-400 flex items-center justify-center">
+                <span className="bg-red-50 text-red-600 text-[10px] font-mono px-1 rounded border border-red-200 whitespace-nowrap">{width}</span>
             </div>
         </div>
     );
