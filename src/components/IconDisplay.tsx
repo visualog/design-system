@@ -324,7 +324,7 @@ const IconDisplay: React.FC = () => {
 
   const [selectedIcon, setSelectedIcon] = useState<{ name: string; category: 'line' | 'fill' | 'illust'; filename: string; subfolder?: string; color: string } | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [sheetConfig, setSheetConfig] = useState<{ color: string; size: 16 | 20 | 24 }>({ color: '#374151', size: 20 });
+  const [sheetConfig, setSheetConfig] = useState<{ color: string; size: number }>({ color: '#374151', size: 20 });
 
   const handleIconClick = (name: string, category: 'line' | 'fill' | 'illust', filename: string, color: string, subfolder?: string) => {
     setSelectedIcon({ name, category, filename, subfolder, color });
@@ -476,25 +476,27 @@ const IconDisplay: React.FC = () => {
                 <div className="w-full md:w-1/3 lg:w-1/4 flex flex-col bg-secondary/30 rounded-lg border border-border p-4 md:p-6 gap-6">
                   <div>
                     <div className="flex items-end gap-4 justify-center md:justify-start">
-                      {[16, 20, 24].map((size) => (
-                        <div
-                          key={size}
-                          className={`flex flex-col items-center gap-2 cursor-pointer transition-opacity ${sheetConfig.size === size ? 'opacity-100' : 'opacity-50 hover:opacity-100'}`}
-                          onClick={() => setSheetConfig(prev => ({ ...prev, size: size as 16 | 20 | 24 }))}
-                        >
-                          <div className={`flex items-center justify-center border border-black/5 bg-white rounded-md ${sheetConfig.size === size ? 'border-black' : ''}`}
-                            style={{ width: size + 16, height: size + 16 }}>
-                            {SvgPreview && (
-                              <SvgPreview
-                                width={size}
-                                height={size}
-                                style={{ color: sheetConfig.color }}
-                              />
-                            )}
+                      <div className="flex items-end gap-4 justify-center md:justify-start flex-wrap">
+                        {(selectedIcon.category === 'illust' ? [16, 20, 24, 28, 32, 40] : [16, 20, 24]).map((size) => (
+                          <div
+                            key={size}
+                            className={`flex flex-col items-center gap-2 cursor-pointer transition-opacity ${sheetConfig.size === size ? 'opacity-100' : 'opacity-50 hover:opacity-100'}`}
+                            onClick={() => setSheetConfig(prev => ({ ...prev, size: size as number }))}
+                          >
+                            <div className={`flex items-center justify-center border border-black/5 bg-white rounded-md ${sheetConfig.size === size ? 'border-black' : ''}`}
+                              style={{ width: size + 16, height: size + 16 }}>
+                              {SvgPreview && (
+                                <SvgPreview
+                                  width={size}
+                                  height={size}
+                                  style={{ color: sheetConfig.color }}
+                                />
+                              )}
+                            </div>
+                            <span className={`text-xs font-mono ${sheetConfig.size === size ? 'font-bold text-primary' : 'text-muted-foreground'}`}>{size}px</span>
                           </div>
-                          <span className={`text-xs font-mono ${sheetConfig.size === size ? 'font-bold text-primary' : 'text-muted-foreground'}`}>{size}px</span>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   </div>
 

@@ -97,3 +97,6 @@
       - Refined `ColorUsage.tsx`, `GuidelineItem.tsx`, and `TypographyDisplay.tsx` to align with the new standard.
     - **Fixed Icon Click Crash**: Resolved an issue where clicking an icon caused the application to crash due to a data key mismatch (`icons` vs `icon`) in `IconDisplay.tsx`.
     - **Fixed Missing Icon Color Chips**: Corrected `ICON_COLOR_ORDER` keys in `IconDisplay.tsx` to match the new `devToken` format (dot notation) in `semantic_color_mapping.json`, restoring the missing color chips in the icon detail sheet.
+    - **Enhanced Icon Sheet**:
+        - Removed color chips for **Illustration Icons** as they are not customizable.
+        - Extended size options for Illustration Icons to include `[16, 20, 24, 28, 32, 40]`, while maintaining `[16, 20, 24]` for standard icons.
