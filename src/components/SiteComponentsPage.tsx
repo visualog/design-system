@@ -2,27 +2,11 @@ import React from 'react';
 import { ArrowLeft, Box } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Separator } from '@/components/ui/separator';
-
-const componentsList = [
-    'Breadcrumb',
-    'GuidelineItem',
-    'HighlightText',
-    'AnimatedTabs',
-    'Button',
-    'Card',
-    'Clipboard',
-    'DropdownMenu',
-    'Input',
-    'Popover',
-    'Separator',
-    'Sheet',
-    'Switch',
-    'Table',
-    'Tabs',
-    'Tooltip',
-];
+import { getAllComponents } from '@/data/componentRegistry';
 
 const SiteComponentsPage = () => {
+    const components = getAllComponents();
+
     return (
         <div className="flex flex-col gap-8 pb-20">
             <div>
@@ -40,36 +24,40 @@ const SiteComponentsPage = () => {
                     Components
                 </h1>
                 <p className="text-lg text-muted-foreground mt-2">
-                    List of reusable UI components used throughout the Design System site.
+                    Reusable UI components used throughout the Design System site.
                 </p>
             </div>
 
             <Separator />
 
-            <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-4">
-                {componentsList.map((component) => (
-                    <div
-                        key={component}
-                        className="rounded-xl border bg-card text-card-foreground p-6 flex flex-col gap-4 hover:border-primary/50 transition-colors"
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {components.map((component) => (
+                    <Link
+                        key={component.name}
+                        to={`/site-settings/components/${component.name}`}
+                        className="block group"
                     >
-                        <div className="flex items-center justify-between">
-                            <h3 className="font-semibold text-lg">{component}</h3>
+                        <div className="rounded-xl border bg-card text-card-foreground p-6 flex flex-col gap-3 hover:border-primary/50 hover:bg-accent/5 transition-colors h-full">
+                            <div className="flex items-center justify-between">
+                                <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">
+                                    {component.displayName}
+                                </h3>
+                                <span className="inline-flex items-center rounded-md bg-secondary px-2 py-0.5 text-xs font-medium">
+                                    {component.category}
+                                </span>
+                            </div>
+                            <p className="text-sm text-muted-foreground flex-1">
+                                {component.description}
+                            </p>
+                            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground pt-2 border-t">
+                                <span className="font-mono truncate max-w-[120px]">{component.filePath.split('/').pop()}</span>
+                                <span className="text-muted-foreground/50">•</span>
+                                <span className="whitespace-nowrap">{component.props.length} props</span>
+                                <span className="text-muted-foreground/50">•</span>
+                                <span className="whitespace-nowrap">{component.variants.length} variants</span>
+                            </div>
                         </div>
-                        <div className="mt-auto pt-4 flex gap-2">
-                            <span className="inline-flex items-center rounded-md bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground ring-1 ring-inset ring-gray-500/10">
-                                {component}.tsx
-                            </span>
-                        </div>
-                        {/* Placeholder for future actions */}
-                        <div className="grid grid-cols-1 gap-2 mt-2">
-                            <button
-                                className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3"
-                                disabled
-                            >
-                                View Code (Coming Soon)
-                            </button>
-                        </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </div>

@@ -19,6 +19,7 @@ import SiteComponentsPage from './components/SiteComponentsPage';
 import SiteThemePage from './components/SiteThemePage';
 import SiteLayoutPage from './components/SiteLayoutPage';
 import SiteTypographyPage from './components/SiteTypographyPage';
+import ComponentDetailPage from './components/ComponentDetailPage';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -78,6 +79,7 @@ function App() {
               <Route path="/site-settings/theme" element={<MainContent><SiteThemePage /></MainContent>} />
               <Route path="/site-settings/layout" element={<MainContent><SiteLayoutPage /></MainContent>} />
               <Route path="/site-settings/typography" element={<MainContent><SiteTypographyPage /></MainContent>} />
+              <Route path="/site-settings/components/:componentName" element={<MainContent><ComponentDetailPage /></MainContent>} />
               {/* Fallback for unknown routes */}
               <Route path="*" element={<MainContent><div>404 Not Found</div></MainContent>} />
             </Routes>
