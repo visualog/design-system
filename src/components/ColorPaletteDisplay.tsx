@@ -217,7 +217,7 @@ const ColorGrid: React.FC<{
 );
 
 // Helper to capitalize first letter
-const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
 
 // --- New component for the Tokens table ---
 const TokensDisplay: React.FC<{ colors: any; searchTerm: string; isDarkMode: boolean }> = ({ colors, searchTerm, isDarkMode }) => (
@@ -378,9 +378,7 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
   const nonAlphaLevels = sortedLevels.filter((level: any) => !level.toLowerCase().includes('alpha') && !level.includes('%'));
   const grayDisplayLevels = [...nonAlphaLevels, 'alpha (10%)'];
 
-  const chromaticOnlyLevels = sortedLevels.filter((level: any) =>
-    ((!level.toLowerCase().includes('alpha') && !level.includes('%')) || level === 'alpha (10%)')
-  );
+
 
   const handleFamilySelection = (family: string) => {
     if (family === 'All') {

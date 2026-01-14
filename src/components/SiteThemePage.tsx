@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { ArrowLeft, Palette, Check, Monitor, Moon, Sun } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowLeft, Palette, Check, Moon, Sun } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Separator } from '@/components/ui/separator';
 

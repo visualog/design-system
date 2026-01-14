@@ -1,6 +1,6 @@
 import { designSystemData } from '../utils/dataLoader';
 
-const colorResolverCache = new Map<string, string | undefined>();
+
 
 export const resolveColorData = (tokenRef: string | undefined): { hex: string, hexDark?: string } | undefined => {
     if (!tokenRef || tokenRef.startsWith('#')) return tokenRef ? { hex: tokenRef } : undefined;
