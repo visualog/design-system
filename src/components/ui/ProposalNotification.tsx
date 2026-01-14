@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
-import { Lightbulb, PanelLeft, PanelRight, PanelBottom, ExternalLink } from 'lucide-react';
+import { Lightbulb, PanelLeft, PanelRight, PanelBottom, ExternalLink, CirclePlus } from 'lucide-react';
 import {
     Tooltip,
     TooltipContent,
@@ -68,7 +69,16 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
     const [selectedProposal, setSelectedProposal] = useState<Proposal | null>(null);
     const [sheetSide, setSheetSide] = useState<SheetSide>('right');
 
-    const proposalCount = proposals.length;
+    // 상태로 관리되는 제안 목록
+    const [proposalList, setProposalList] = useState<Proposal[]>(proposals);
+
+    // 요소 선택 모드 상태
+    const [isSelectionMode, setIsSelectionMode] = useState(false);
+    const [hoveredElement, setHoveredElement] = useState<HTMLElement | null>(null);
+    const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+    const [newProposalText, setNewProposalText] = useState('');
+
+    const proposalCount = proposalList.length;
 
     // 애니메이션: 확대 → 1초 대기 → 축소
     useEffect(() => {
@@ -86,6 +96,54 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
         };
     }, []);
 
+    // 요소 선택 모드 로직
+    useEffect(() => {
+        if (!isSelectionMode) {
+            setHoveredElement(null);
+            return;
+        }
+
+        const handleMouseMove = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            // 오버레이 UI 및 다이얼로그 무시
+            if (target.closest('[data-overlay="true"]')) return;
+
+            // 보이지 않거나 크기가 없는 요소 무시
+            const rect = target.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) return;
+
+            const style = window.getComputedStyle(target);
+            if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') return;
+
+            // 너무 큰 컨테이너(예: body, root)는 선택 방지 (선택적)
+            if (target === document.body || target.id === 'root') return;
+
+            setHoveredElement(target);
+        };
+
+        const handleClick = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            if (target.closest('[data-overlay="true"]')) return;
+
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation(); // 다른 핸들러 실행 방지
+
+            // 선택 완료 처리
+            setHoveredElement(null);
+            setIsSelectionMode(false);
+            setIsAddDialogOpen(true); // 입력 다이얼로그 열기
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('click', handleClick, { capture: true });
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('click', handleClick, { capture: true });
+        };
+    }, [isSelectionMode]);
+
     const handleProposalClick = (proposal: Proposal) => {
         setSelectedProposal(proposal);
         setIsPopoverOpen(false);
@@ -96,12 +154,96 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
         setSheetSide(side);
     };
 
+    const handleAddProposal = () => {
+        if (!newProposalText.trim()) return;
+
+        const newProposal: Proposal = {
+            id: `proposal-${Date.now()}`,
+            title: newProposalText.split('\n')[0].substring(0, 30) + (newProposalText.length > 30 ? '...' : ''), // 첫 줄을 제목으로
+            content: newProposalText, // 전체 내용을 본문으로
+            targetPage: window.location.pathname
+        };
+
+        setProposalList(prev => [newProposal, ...prev]);
+        setNewProposalText('');
+        setIsAddDialogOpen(false);
+
+        // 새로 추가된 항목 바로 열기 (옵션)
+        setSelectedProposal(newProposal);
+        setIsSheetOpen(true);
+    };
+
     // 반응형: 모바일에서는 바텀시트
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     const effectiveSide = isMobile ? 'bottom' : sheetSide;
 
+
+
     return (
         <>
+            {/* 요소 선택 오버레이 - Portal 사용으로 위치 오차 해결 */}
+            {isSelectionMode && hoveredElement && createPortal(
+                (() => {
+                    const rect = hoveredElement.getBoundingClientRect();
+                    return (
+                        <div
+                            data-overlay="true"
+                            className="fixed pointer-events-none border-2 border-primary z-[9999] bg-primary/10 transition-all duration-75 ease-out"
+                            style={{
+                                top: rect.top,
+                                left: rect.left,
+                                width: rect.width,
+                                height: rect.height,
+                            }}
+                        >
+                            <div className="absolute top-0 left-0 -translate-y-full bg-primary text-primary-foreground text-xs px-2 py-1 rounded-t-sm whitespace-nowrap z-[10000]">
+                                요소 선택 중... 클릭하여 개선 제안 추가
+                            </div>
+                        </div>
+                    );
+                })(),
+                document.body
+            )}
+
+            {/* 개선 제안 입력 다이얼로그 - Portal 사용 */}
+            {isAddDialogOpen && createPortal(
+                <div
+                    data-overlay="true"
+                    className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/50"
+                    onClick={(e) => {
+                        // 배경 클릭 시 닫기
+                        if (e.target === e.currentTarget) setIsAddDialogOpen(false);
+                    }}
+                >
+                    <div className="bg-background p-6 rounded-lg shadow-lg w-[400px] border relative mx-4 animate-in fade-in zoom-in-95 duration-200">
+                        <h3 className="text-lg font-semibold mb-4">개선 제안 추가</h3>
+                        <p className="text-sm text-muted-foreground mb-4">선택한 화면에 대한 개선 아이디어를 기록하세요.</p>
+                        <textarea
+                            className="w-full h-32 p-3 border rounded-md text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary mb-4"
+                            placeholder="예: 이 버튼의 여백을 8px로 줄이는 게 좋겠습니다."
+                            value={newProposalText}
+                            onChange={(e) => setNewProposalText(e.target.value)}
+                            autoFocus
+                        />
+                        <div className="flex justify-end gap-2">
+                            <button
+                                onClick={() => setIsAddDialogOpen(false)}
+                                className="px-4 py-2 text-sm text-muted-foreground hover:bg-muted rounded-md"
+                            >
+                                취소
+                            </button>
+                            <button
+                                onClick={handleAddProposal}
+                                className="px-4 py-2 text-sm bg-primary text-primary-foreground hover:bg-primary/90 rounded-md"
+                            >
+                                추가하기
+                            </button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )}
+
             <div className="relative flex items-center">
                 <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                     <Tooltip>
@@ -151,19 +293,38 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
 
                     <PopoverContent align="end" className="w-64 p-2">
                         <div className="flex flex-col gap-1">
-                            <p className="text-xs font-medium text-muted-foreground px-2 py-1">
-                                개선 제안 목록 ({proposalCount})
-                            </p>
-                            {proposals.map((proposal) => (
+                            <div className="flex items-center justify-between px-2 py-1">
+                                <p className="text-xs font-medium text-muted-foreground">
+                                    개선 제안 목록 ({proposalCount})
+                                </p>
+                                <button
+                                    onClick={() => {
+                                        setIsPopoverOpen(false);
+                                        setIsSelectionMode(true);
+                                    }}
+                                    className="p-1 rounded-full text-muted-foreground hover:bg-muted hover:text-primary transition-colors"
+                                    title="화면에서 선택하여 추가"
+                                >
+                                    <CirclePlus size={14} />
+                                </button>
+                            </div>
+
+                            {proposalList.map((proposal) => (
                                 <button
                                     key={proposal.id}
                                     onClick={() => handleProposalClick(proposal)}
                                     className="flex items-center gap-2 px-2 py-2 text-sm text-left rounded-md hover:bg-accent transition-colors"
                                 >
                                     <Lightbulb size={14} className="text-blue-500 flex-shrink-0" />
-                                    <span>{proposal.title}</span>
+                                    <span className="truncate">{proposal.title}</span>
                                 </button>
                             ))}
+
+                            {proposalList.length === 0 && (
+                                <div className="py-4 text-center text-xs text-muted-foreground">
+                                    등록된 제안이 없습니다.
+                                </div>
+                            )}
                         </div>
                     </PopoverContent>
                 </Popover>
@@ -206,7 +367,7 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                         <div className="mt-4 prose prose-sm max-w-none">
                             <h2 className="text-base font-semibold mb-4">{selectedProposal.title}</h2>
                             <div className="text-sm text-muted-foreground whitespace-pre-wrap">
-                                {/* 마크다운 렌더링 (간단한 형태) */}
+                                {/* 마크다운 렌더링 (간단한 형태) - 신규 코멘트는 Plain Text일 수 있음 */}
                                 {selectedProposal.content.split('\n').map((line, i) => {
                                     if (line.startsWith('## ')) {
                                         return <h3 key={i} className="text-base font-semibold mt-4 mb-2">{line.replace('## ', '')}</h3>;
@@ -223,10 +384,11 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                                     if (line.trim() === '') {
                                         return <br key={i} />;
                                     }
-                                    // 인라인 코드 처리
+                                    // 인라인 코드 처리 및 일반 텍스트
                                     const parts = line.split(/(`[^`]+`)/g);
+                                    // 일반 텍스트도 렌더링하도록 수정
                                     return (
-                                        <p key={i} className="leading-relaxed">
+                                        <p key={i} className="leading-relaxed mb-1">
                                             {parts.map((part, j) => {
                                                 if (part.startsWith('`') && part.endsWith('`')) {
                                                     return (

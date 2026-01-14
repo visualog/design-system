@@ -109,3 +109,7 @@
 - **개발자 경험 기능 (DX Features)**:
     - **코드 토글 (Code Toggle)**: 변형(Variant) 미리보기에서 코드를 기본적으로 숨기고, 호버 시 나타나는 버튼으로 토글하는 기능을 구현했습니다.
     - **측정 모드 (Measurement Mode)**: 컴포넌트의 패딩(Padding)과 크기(Width/Height)를 시각적으로 확인할 수 있는 '측정 모드'를 자(Ruler) 아이콘 버튼으로 구현했습니다. `ComputedStyle`을 활용하여 정확한 픽셀 값을 표시합니다.
+- **시각적 개선 제안 (Visual Proposal Feature)**:
+    - **요소 선택 모드 (Element Selection Mode)**: 마우스 호버로 화면의 요소를 선택하고 하이라이팅하는 기능을 구현했습니다.
+    - **제안 다이얼로그 (Proposal Dialog)**: 선택된 요소에 대해 개선 제안을 작성할 수 있는 모달 다이얼로그를 추가했습니다.
+    - **UX 개선 (UX Improvements)**: `React Portal`을 사용하여 오버레이와 모달의 위치(Stacking Context) 문제를 해결하고, 보이지 않는 요소가 선택되는 문제를 수정했습니다.
