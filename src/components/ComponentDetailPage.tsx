@@ -395,7 +395,7 @@ const ComponentDetailPage = () => {
                     </div>
                     <div className="flex flex-col gap-8">
                         {/* Anatomy Image Area */}
-                        <div className="bg-muted/30 border rounded-xl p-8 flex items-center justify-center min-h-[300px] relative overflow-hidden group">
+                        <div className="bg-muted/30 border rounded-xl p-8 flex items-center justify-center min-h-[300px] relative overflow-hidden">
                             {/* View Controls (Absolute to Parent Container) */}
                             <div className="absolute top-3 right-3 z-50 flex items-center gap-1">
                                 {/* Label Toggle */}
