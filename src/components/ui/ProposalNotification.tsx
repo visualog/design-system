@@ -318,11 +318,15 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <PopoverTrigger asChild>
+                                {/* 통합된 버튼 (아이콘 + 확장 텍스트) */}
                                 <button
                                     className="relative flex items-center p-1.5 rounded-md text-blue-500 hover:text-blue-700 hover:bg-blue-50 transition-colors"
-                                    aria-label="개선 제안 보기"
+                                    aria-label="개선 메모 보기"
                                 >
-                                    <Lightbulb size={16} className="flex-shrink-0" />
+                                    {/* 아이콘 */}
+                                    <MessageSquare size={16} className="flex-shrink-0" fill="currentColor" />
+
+                                    {/* 확장되는 텍스트 */}
                                     <span
                                         className="text-xs font-medium whitespace-nowrap overflow-hidden"
                                         style={{
@@ -336,10 +340,14 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                                     >
                                         {message}
                                     </span>
+
+                                    {/* 알림 뱃지 (버튼 우상단 꼭지점에 중심 배치) */}
                                     {proposalCount > 0 && (
                                         <span
                                             className="absolute top-0 right-0 flex items-center justify-center min-w-[14px] h-[14px] px-0.5 text-[9px] font-bold text-white bg-red-500 rounded-full"
-                                            style={{ transform: 'translate(calc(50% - 4px), calc(-50% + 4px))' }}
+                                            style={{
+                                                transform: 'translate(calc(50% - 4px), calc(-50% + 4px))',
+                                            }}
                                         >
                                             {proposalCount}
                                         </span>
@@ -348,7 +356,7 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                             </PopoverTrigger>
                         </TooltipTrigger>
                         <TooltipContent side="bottom">
-                            <p className="text-xs">개선제안</p>
+                            <p className="text-xs">개선 메모</p>
                         </TooltipContent>
                     </Tooltip>
 
@@ -356,7 +364,7 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                         <div className="flex flex-col gap-1">
                             <div className="flex items-center justify-between px-2 py-1">
                                 <p className="text-xs font-medium text-muted-foreground">
-                                    개선 제안 목록 ({proposalCount})
+                                    개선 메모
                                 </p>
                                 <button
                                     onClick={() => {
@@ -377,7 +385,7 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                                         onClick={() => handleProposalClick(proposal)}
                                         className="flex items-center gap-2 px-2 py-2 text-sm text-left rounded-md w-full hover:bg-accent transition-colors"
                                     >
-                                        <Lightbulb size={14} className="text-blue-500 flex-shrink-0" />
+                                        <MessageSquare size={14} className="text-blue-500 flex-shrink-0" />
                                         <div className="min-w-0 flex-1">
                                             <div className="truncate font-medium">{proposal.title}</div>
                                             <div className="text-xs text-muted-foreground truncate">{proposal.targetPage}</div>
