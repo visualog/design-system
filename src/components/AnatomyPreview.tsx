@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 import MeasureOverlay from '@/components/ui/MeasureOverlay';
 
@@ -56,12 +57,13 @@ const AnatomyLabel = ({
 
 const TabsAnatomy = ({ showLabels = true }: { showLabels?: boolean }) => {
     const [activeTab, setActiveTab] = useState('tab1');
+    const [isAnimating, setIsAnimating] = useState(false);
 
     return (
         <div className="relative w-full max-w-[320px] mx-auto p-4 select-none flex flex-col gap-4">
 
             {/* Tabs List Area */}
-            <div className="relative p-1 bg-muted rounded-lg">
+            <div className="relative inline-flex items-center gap-1 p-1 bg-muted rounded-lg group">
                 {/* 1. Container Label */}
                 {showLabels && (
                     <div className="absolute left-0 top-1/2 -translate-y-1/2">
@@ -69,47 +71,65 @@ const TabsAnatomy = ({ showLabels = true }: { showLabels?: boolean }) => {
                     </div>
                 )}
 
-                <div className="flex items-center gap-1">
-                    {/* Trigger 1 */}
-                    <button
-                        onClick={() => setActiveTab('tab1')}
-                        className={cn(
-                            "relative flex-1 flex items-center justify-center py-2 px-3 rounded-md text-sm font-medium transition-colors outline-none",
-                            activeTab === 'tab1'
-                                ? "bg-background border border-border text-foreground"
-                                : "text-muted-foreground hover:bg-muted/50"
-                        )}
-                    >
-                        <span className="relative">
-                            Tab 1
-                            {/* 3. Text Label */}
-                            {showLabels && (
-                                <div className="absolute -top-1 left-1/2 -translate-x-1/2 pointer-events-none">
-                                    <AnatomyLabel label="Label" direction="top" length={20} />
-                                </div>
+                {/* Trigger 1 */}
+                <button
+                    onClick={() => setActiveTab('tab1')}
+                    className={cn(
+                        "relative flex-1 flex items-center justify-center h-9 px-3 rounded-md text-sm font-medium transition-colors outline-none",
+                        activeTab === 'tab1' ? "text-foreground" : "text-muted-foreground hover:bg-muted/50"
+                    )}
+                >
+                    {activeTab === 'tab1' && (
+                        <motion.div
+                            layoutId="activeTab"
+                            className={cn(
+                                "absolute inset-0 bg-background rounded-md transition-shadow duration-200",
+                                isAnimating ? "shadow-sm" : "group-hover:shadow-sm"
                             )}
-                        </span>
-                        {/* 2. Trigger Label */}
+                            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                            onLayoutAnimationStart={() => setIsAnimating(true)}
+                            onLayoutAnimationComplete={() => setIsAnimating(false)}
+                        />
+                    )}
+                    <span className="relative z-10 w-full text-center">
+                        Tab 1
+                        {/* 3. Text Label */}
                         {showLabels && (
-                            <div className="absolute -bottom-0 left-1/2 -translate-x-1/2 pointer-events-none">
-                                <AnatomyLabel label="Trigger" direction="bottom" length={24} />
+                            <div className="absolute -top-1 left-1/2 -translate-x-1/2 pointer-events-none">
+                                <AnatomyLabel label="Label" direction="top" length={20} />
                             </div>
                         )}
-                    </button>
+                    </span>
+                    {/* 2. Trigger Label */}
+                    {showLabels && (
+                        <div className="absolute -bottom-0 left-1/2 -translate-x-1/2 pointer-events-none">
+                            <AnatomyLabel label="Trigger" direction="bottom" length={24} />
+                        </div>
+                    )}
+                </button>
 
-                    {/* Trigger 2 */}
-                    <button
-                        onClick={() => setActiveTab('tab2')}
-                        className={cn(
-                            "flex-1 flex items-center justify-center py-2 px-3 rounded-md text-sm font-medium transition-colors outline-none",
-                            activeTab === 'tab2'
-                                ? "bg-background border border-border text-foreground"
-                                : "text-muted-foreground hover:bg-muted/50"
-                        )}
-                    >
-                        Tab 2
-                    </button>
-                </div>
+                {/* Trigger 2 */}
+                <button
+                    onClick={() => setActiveTab('tab2')}
+                    className={cn(
+                        "relative flex-1 flex items-center justify-center h-9 px-3 rounded-md text-sm font-medium transition-colors outline-none",
+                        activeTab === 'tab2' ? "text-foreground" : "text-muted-foreground hover:bg-muted/50"
+                    )}
+                >
+                    {activeTab === 'tab2' && (
+                        <motion.div
+                            layoutId="activeTab"
+                            className={cn(
+                                "absolute inset-0 bg-background rounded-md transition-shadow duration-200",
+                                isAnimating ? "shadow-sm" : "group-hover:shadow-sm"
+                            )}
+                            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                            onLayoutAnimationStart={() => setIsAnimating(true)}
+                            onLayoutAnimationComplete={() => setIsAnimating(false)}
+                        />
+                    )}
+                    <span className="relative z-10 w-full text-center">Tab 2</span>
+                </button>
             </div>
 
         </div>
