@@ -54,10 +54,10 @@ const SiteComponentsPage = () => {
                     <AnimatedTabs tabs={tabs} activeTab={selectedCategory} setActiveTab={setSelectedCategory}>
                         <div className="flex flex-col gap-6 mt-6">
                             {/* 검색창 */}
-                            <div className="relative w-full md:w-72 self-end">
+                            <div className="relative w-full md:w-72 self-start">
                                 <input
                                     type="text"
-                                    placeholder="컴포넌트 검색..."
+                                    placeholder={`${selectedCategory === 'All' ? components.length : components.filter(c => c.category === selectedCategory).length}개 컴포넌트 검색...`}
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     className="w-full h-10 px-3 pl-10 rounded-md border bg-background text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -81,7 +81,7 @@ const SiteComponentsPage = () => {
                                             to={`/site-settings/components/${component.name}`}
                                             className="block group"
                                         >
-                                            <div className="rounded-xl border bg-card text-card-foreground p-6 flex flex-col gap-4 hover:border-primary/50 transition-colors h-full relative">
+                                            <div className="rounded-xl border bg-card text-card-foreground p-6 flex flex-col gap-4 hover:bg-muted/50 transition-colors h-full relative">
                                                 <div className="flex flex-col items-start gap-2 mb-1">
                                                     <span className="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary-foreground">
                                                         {component.category}
