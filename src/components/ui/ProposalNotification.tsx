@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Lightbulb, PanelLeft, PanelRight, PanelBottom, ExternalLink, CirclePlus, MessageSquare, Trash2 } from 'lucide-react';
+import { PanelLeft, PanelRight, PanelBottom, ExternalLink, CirclePlus, MessageSquare, Trash2 } from 'lucide-react';
 import {
     Tooltip,
     TooltipContent,
@@ -221,6 +221,8 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
 
                 // 화면 밖이면 숨김 (선택적)
 
+                const isNearRightEdge = rect.right > (typeof window !== 'undefined' ? window.innerWidth - 250 : 1000);
+
                 return createPortal(
                     <div
                         key={proposal.id}
@@ -240,8 +242,11 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                             <div className="bg-yellow-400 text-yellow-900 rounded-full p-1.5 shadow-md border border-yellow-500 hover:scale-110 transition-transform animate-in zoom-in duration-200">
                                 <MessageSquare size={16} fill="currentColor" />
                             </div>
-                            {/* 호버 시 내용 미리보기 */}
-                            <div className="absolute left-full top-0 ml-2 w-48 bg-card border rounded-md shadow-lg p-2 text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 invisible group-hover:visible whitespace-normal break-words">
+                            {/* 호버 시 내용 미리보기 - 화면 위치에 따라 방향 조정 */}
+                            <div
+                                className={`absolute top-0 w-48 bg-card border rounded-md shadow-lg p-2 text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 invisible group-hover:visible whitespace-normal break-words ${isNearRightEdge ? 'right-full mr-2' : 'left-full ml-2'
+                                    }`}
+                            >
                                 <p className="font-semibold mb-1 line-clamp-1">{proposal.title}</p>
                                 <p className="text-muted-foreground line-clamp-2">{proposal.content}</p>
                             </div>
@@ -430,9 +435,7 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                                 </button>
                             </div>
 
-                            <div className="text-xs text-muted-foreground mb-4 font-mono bg-muted/50 p-1 rounded break-all">
-                                {selectedProposal.selector || '전역 제안'}
-                            </div>
+
 
                             <div className="text-sm text-foreground whitespace-pre-wrap leading-relaxed">
                                 {selectedProposal.content}

@@ -120,3 +120,17 @@
 - **버그 수정 (Bug Fixes)**: `ComponentDetailPage`에서 `AnimatedTabs` 미리보기가 렌더링되지 않던 문제를 해당 컴포넌트를 직접 렌더링하는 케이스를 추가하여 해결했습니다.
 - **기능 개선 (Enhancements)**: `MeasureOverlay`를 업데이트하여 Flex/Grid 컨테이너의 내부 간격(Gap)도 시각적으로 표시하도록 개선했습니다.
 - **병합 (Merge)**: `feature/site-ui-management` 브랜치를 `main`으로 병합하여 모든 변경 사항을 배포에 반영했습니다.
+
+## 2026년 1월 15일 목요일
+
+- **UI 스타일링 (UI Styling)**: `SiteComponentsPage`의 검색바 하단 구분선을 제거하여 더 깔끔한 검색 인터페이스를 제공했습니다.
+- **시각적 개선 제안 시스템 2.0 (Visual Proposal System 2.0)**:
+    - **스티커 오버레이 (Sticker Overlay)**: 제안된 요소 위치에 시각적 스티커(아이콘)를 표시하여 문맥을 파악하기 쉽게 개선했습니다.
+    - **영구 저장 (Persistence)**: `useProposals` 훅을 통해 `localStorage`와 연동, 브라우저 종료 후에도 제안 내용이 유지되도록 했습니다.
+    - **지능형 탐색 (Smart Navigation)**: 제안 목록 클릭 시 해당 페이지로 라우팅되고, 대상 요소로 스크롤 및 하이라이트 애니메이션이 실행되도록 구현했습니다.
+    - **정확한 선택자 (Precise Selector)**: `getUniqueSelector` 유틸리티를 구현하여 ID, 속성, DOM 경로를 기반으로 요소를 정확히 다시 찾을 수 있도록 했습니다.
+    - **버그 수정 (Bug Fix)**: `ProposalNotification`에서 발생한 무한 렌더링 루프를 `useMemo`를 사용하여 해결했습니다.
+    - **UI 개선 (UI Polish)**:
+        - **호버 오버플로우 해결**: 스티커가 화면 우측에 위치할 경우 툴팁이 왼쪽으로 표시되도록 스마트 포지셔닝 적용.
+        - **선택자 노출 제거**: 불필요한 CSS 선택자 코드를 UI에서 제거하여 깔끔함 유지.
+        - **포커스 링 개선**: 시트 닫기 버튼의 포커스 링이 키보드 조작 시에만 보이도록(`focus-visible`) 수정.
