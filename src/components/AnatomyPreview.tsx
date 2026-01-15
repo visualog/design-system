@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
+import MeasureOverlay from '@/components/ui/MeasureOverlay';
 
 // Anatomy Label Component with connecting line
 const AnatomyLabel = ({
@@ -53,50 +54,93 @@ const AnatomyLabel = ({
 
 
 
-const TabsAnatomy = () => {
+const TabsAnatomy = ({ showLabels = true }: { showLabels?: boolean }) => {
+    const [activeTab, setActiveTab] = useState('tab1');
+
     return (
         <div className="relative w-full max-w-[320px] mx-auto p-4 select-none flex flex-col gap-4">
 
             {/* Tabs List Area */}
             <div className="relative p-1 bg-muted rounded-lg">
-                {/* 1. Tabs List Label */}
-                <div className="absolute left-0 top-1/2 -translate-y-1/2">
-                    <AnatomyLabel label="Tabs List" direction="left" length={32} />
-                </div>
+                {/* 1. Container Label */}
+                {showLabels && (
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2">
+                        <AnatomyLabel label="Container" direction="left" length={32} />
+                    </div>
+                )}
 
                 <div className="flex items-center gap-1">
-                    {/* Trigger 1 (Active) */}
-                    <div className="relative flex-1 flex items-center justify-center py-2 px-3 bg-background rounded-md shadow-sm border border-border text-sm font-medium text-foreground">
-                        Tab 1
+                    {/* Trigger 1 */}
+                    <button
+                        onClick={() => setActiveTab('tab1')}
+                        className={cn(
+                            "relative flex-1 flex items-center justify-center py-2 px-3 rounded-md text-sm font-medium transition-colors outline-none",
+                            activeTab === 'tab1'
+                                ? "bg-background border border-border text-foreground"
+                                : "text-muted-foreground hover:bg-muted/50"
+                        )}
+                    >
+                        <span className="relative">
+                            Tab 1
+                            {/* 3. Text Label */}
+                            {showLabels && (
+                                <div className="absolute -top-1 left-1/2 -translate-x-1/2 pointer-events-none">
+                                    <AnatomyLabel label="Label" direction="top" length={20} />
+                                </div>
+                            )}
+                        </span>
                         {/* 2. Trigger Label */}
-                        <div className="absolute -bottom-0 left-1/2 -translate-x-1/2">
-                            <AnatomyLabel label="Tabs Trigger" direction="bottom" length={24} />
-                        </div>
-                    </div>
-                    {/* Trigger 2 (Inactive) */}
-                    <div className="flex-1 flex items-center justify-center py-2 px-3 text-sm font-medium text-muted-foreground hover:bg-muted/50 rounded-md transition-colors">
+                        {showLabels && (
+                            <div className="absolute -bottom-0 left-1/2 -translate-x-1/2 pointer-events-none">
+                                <AnatomyLabel label="Trigger" direction="bottom" length={24} />
+                            </div>
+                        )}
+                    </button>
+
+                    {/* Trigger 2 */}
+                    <button
+                        onClick={() => setActiveTab('tab2')}
+                        className={cn(
+                            "flex-1 flex items-center justify-center py-2 px-3 rounded-md text-sm font-medium transition-colors outline-none",
+                            activeTab === 'tab2'
+                                ? "bg-background border border-border text-foreground"
+                                : "text-muted-foreground hover:bg-muted/50"
+                        )}
+                    >
                         Tab 2
-                    </div>
+                    </button>
                 </div>
             </div>
-
 
         </div>
     );
 };
 
-const AnatomyPreview: React.FC<{ componentName: string }> = ({ componentName }) => {
+const AnatomyPreview: React.FC<{ componentName: string; isMeasureMode?: boolean; showLabels?: boolean }> = ({ componentName, isMeasureMode = false, showLabels = true }) => {
+    const containerRef = useRef<HTMLDivElement>(null);
     const name = componentName.toLowerCase();
 
+    let content = null;
     if (name === 'tabs') {
-        return <TabsAnatomy />;
+        content = <TabsAnatomy showLabels={showLabels} />;
+    } else {
+        content = (
+            <div className="flex flex-col items-center justify-center min-h-[300px] text-muted-foreground bg-muted/20 rounded-xl border-dashed border-2">
+                <div className="mb-2">No anatomy diagram available</div>
+                <div className="text-xs opacity-50">dev note: implement anatomy for {componentName}</div>
+            </div>
+        );
     }
 
-    // Default fallback if no specific anatomy is defined
     return (
-        <div className="flex flex-col items-center justify-center min-h-[300px] text-muted-foreground bg-muted/20 rounded-xl border-dashed border-2">
-            <div className="mb-2">No anatomy diagram available</div>
-            <div className="text-xs opacity-50">dev note: implement anatomy for {componentName}</div>
+        <div className="relative w-full h-full flex items-center justify-center">
+            {/* Content Wrapper for Measurement */}
+            <div ref={containerRef} className="w-full">
+                {content}
+            </div>
+
+            {/* Measurement Overlay */}
+            {isMeasureMode && <MeasureOverlay targetRef={containerRef as React.RefObject<HTMLElement>} />}
         </div>
     );
 };

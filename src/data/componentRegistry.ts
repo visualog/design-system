@@ -394,8 +394,9 @@ export function Example() {
         anatomy: `
 ### Anatomy
 
-- **Tabs List**: 탭 트리거들을 담는 컨테이너
-- **Tabs Trigger**: 개별 탭 버튼
+- **Container**: 탭 트리거들을 담는 컨테이너
+- **Trigger**: 개별 탭 버튼
+- **Label**: 탭의 텍스트 라벨
 - **Animated Indicator**: 활성 탭 아래를 따라다니는 애니메이션 바 (Animated Tabs 전용)
         `,
         guide: `
