@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Copy, Check, Code, Ruler } from 'lucide-react';
+import { ArrowLeft, Copy, Check, Ruler } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,8 +15,10 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Clipboard } from '@/components/ui/clipboard';
 import GuidelineItem from '@/components/ui/GuidelineItem';
 import { getComponentMeta } from '@/data/componentRegistry';
-import type { PropDefinition, ComponentVariant } from '@/data/componentRegistry';
-import { AnimatedTabs, AnimatedTabsContent } from '@/components/ui/animated-tabs';
+import type { PropDefinition } from '@/data/componentRegistry';
+import { AnimatedTabs, AnimatedTabsContent } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
+import AnatomyPreview from '@/components/AnatomyPreview';
 
 // 컴포넌트별 라이브 프리뷰 렌더링
 const LivePreview: React.FC<{ componentName: string; variantName: string }> = ({ componentName, variantName }) => {
@@ -146,8 +148,58 @@ const LivePreview: React.FC<{ componentName: string; variantName: string }> = ({
         );
     }
 
-    // Tabs (Radix)
+    // Tabs
     if (name === 'tabs') {
+        const [activeTab, setActiveTab] = React.useState('tab1');
+        const [patternTab, setPatternTab] = React.useState('account');
+
+        if (variantName === 'Settings Pattern') {
+            const tabs = [
+                { name: 'Account', value: 'account' },
+                { name: 'Password', value: 'password' },
+                { name: 'Settings', value: 'settings' },
+            ];
+
+            return (
+                <div className="w-full max-w-[400px] p-6 border rounded-xl bg-background shadow-sm">
+                    <AnimatedTabs tabs={tabs} activeTab={patternTab} setActiveTab={setPatternTab}>
+                        <div className="mt-6 p-4 border rounded-lg bg-muted/10 min-h-[120px]">
+                            <AnimatedTabsContent value="account">
+                                <h4 className="font-medium">Account</h4>
+                                <p className="text-sm text-muted-foreground">Manage your account settings here.</p>
+                            </AnimatedTabsContent>
+                            <AnimatedTabsContent value="password">
+                                <h4 className="font-medium">Password</h4>
+                                <p className="text-sm text-muted-foreground">Change your password securely.</p>
+                            </AnimatedTabsContent>
+                            <AnimatedTabsContent value="settings">
+                                <h4 className="font-medium">Settings</h4>
+                                <p className="text-sm text-muted-foreground">Adjust your preferences.</p>
+                            </AnimatedTabsContent>
+                        </div>
+                    </AnimatedTabs>
+                </div>
+            );
+        }
+
+        if (variantName === 'Animated Tabs (Basic)') {
+            const tabs = [
+                { name: 'Tab 1', value: 'tab1' },
+                { name: 'Tab 2', value: 'tab2' },
+            ];
+            return (
+                <div className="w-full max-w-[400px] p-6 border rounded-xl bg-background shadow-sm">
+                    <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
+                        <div className="p-4 border rounded-md mt-4">
+                            <AnimatedTabsContent value="tab1">Tab 1 Content</AnimatedTabsContent>
+                            <AnimatedTabsContent value="tab2">Tab 2 Content</AnimatedTabsContent>
+                        </div>
+                    </AnimatedTabs>
+                </div>
+            );
+        }
+
+        // Basic Tabs fallback
         return (
             <Tabs defaultValue="tab1" className="w-[300px]">
                 <TabsList>
@@ -213,37 +265,6 @@ const LivePreview: React.FC<{ componentName: string; variantName: string }> = ({
         );
     }
 
-    // Animated Tabs
-    if (name === 'animated-tabs') {
-        const [activeTab, setActiveTab] = React.useState('tab1');
-        const tabs = [
-            { name: 'Account', value: 'tab1' },
-            { name: 'Password', value: 'tab2' },
-            { name: 'Settings', value: 'tab3' },
-        ];
-
-        return (
-            <div className="w-full max-w-[400px] p-6 border rounded-xl bg-background shadow-sm">
-                <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
-                    <div className="mt-6 p-4 border rounded-lg bg-muted/10 min-h-[120px]">
-                        <AnimatedTabsContent value="tab1" className="space-y-2">
-                            <h4 className="font-medium">Account</h4>
-                            <p className="text-sm text-muted-foreground">Manage your account settings here.</p>
-                        </AnimatedTabsContent>
-                        <AnimatedTabsContent value="tab2" className="space-y-2">
-                            <h4 className="font-medium">Password</h4>
-                            <p className="text-sm text-muted-foreground">Change your password securely.</p>
-                        </AnimatedTabsContent>
-                        <AnimatedTabsContent value="tab3" className="space-y-2">
-                            <h4 className="font-medium">Settings</h4>
-                            <p className="text-sm text-muted-foreground">Adjust your preferences.</p>
-                        </AnimatedTabsContent>
-                    </div>
-                </AnimatedTabs>
-            </div>
-        );
-    }
-
     // Default fallback
     return (
         <div className="text-sm text-muted-foreground font-mono bg-background px-3 py-2 rounded border">
@@ -252,18 +273,61 @@ const LivePreview: React.FC<{ componentName: string; variantName: string }> = ({
     );
 };
 
+// Markdown 렌더러 (간단한 구현)
+const MarkdownRenderer: React.FC<{ content: string; className?: string }> = ({ content, className }) => {
+    if (!content) return null;
+
+    // 줄바꿈으로 분리
+    const lines = content.split('\n');
+
+    return (
+        <div className={cn("space-y-2", className)}>
+            {lines.map((line, i) => {
+                const trimmed = line.trim();
+                if (trimmed.startsWith('### ')) {
+                    return <h3 key={i} className="text-xl font-semibold mt-6 mb-2">{trimmed.replace('### ', '')}</h3>;
+                }
+                if (trimmed.startsWith('- ')) {
+                    return (
+                        <div key={i} className="flex gap-2">
+                            <span className="text-primary mt-1.5">•</span>
+                            <span className="text-muted-foreground">{parseBold(trimmed.replace('- ', ''))}</span>
+                        </div>
+                    );
+                }
+                if (trimmed === '') return <div key={i} className="h-2" />;
+
+                return <p key={i} className="text-muted-foreground leading-relaxed">{parseBold(trimmed)}</p>;
+            })}
+        </div>
+    );
+};
+
+// **Bold** 파싱 헬퍼
+const parseBold = (text: string) => {
+    const parts = text.split(/(\*\*.*?\*\*)/);
+    return parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+            return <strong key={index} className="font-semibold text-foreground">{part.slice(2, -2)}</strong>;
+        }
+        return part;
+    });
+};
+
 const ComponentDetailPage = () => {
     const { componentName } = useParams<{ componentName: string }>();
-    const [activeTab, setActiveTab] = React.useState('preview');
+    const [activeVariantIndex, setActiveVariantIndex] = React.useState(0);
     const [copiedCode, setCopiedCode] = React.useState<string | null>(null);
+    const [isMeasureMode, setIsMeasureMode] = React.useState(false);
+    const previewRef = React.useRef<HTMLDivElement>(null);
 
     const meta = componentName ? getComponentMeta(componentName) : undefined;
 
-    const tabs = [
-        { name: '미리보기', value: 'preview' },
-        { name: '코드', value: 'code' },
-        { name: 'Props', value: 'props' },
-    ];
+    // meta가 변경되면 variant 인덱스, 측정모드 초기화
+    React.useEffect(() => {
+        setActiveVariantIndex(0);
+        setIsMeasureMode(false);
+    }, [componentName]);
 
     const copyToClipboard = (code: string, id: string) => {
         navigator.clipboard.writeText(code);
@@ -287,148 +351,184 @@ const ComponentDetailPage = () => {
         );
     }
 
+    const activeVariant = meta.variants[activeVariantIndex] || meta.variants[0];
+
     return (
-        <div className="flex flex-col gap-8 pb-20">
-            {/* Header */}
-            <div>
-                <div className="flex items-center gap-2 mb-4">
+        <div className="flex flex-col pb-20 max-w-5xl mx-auto w-full">
+            {/* 1. Header Section */}
+            <div className="mb-12">
+                <div className="flex items-center gap-2 mb-6">
                     <Link
                         to="/site-settings/components"
                         className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 text-sm font-medium"
                     >
                         <ArrowLeft className="w-4 h-4" />
-                        Back to Components
+                        컴포넌트 목록으로
                     </Link>
                 </div>
-                <h1 className="text-3xl font-bold tracking-tight">{meta.displayName}</h1>
-                <p className="text-lg text-muted-foreground mt-2">{meta.description}</p>
-                <div className="flex items-center gap-2 mt-3">
-                    <span className="inline-flex items-center rounded-md bg-secondary px-2.5 py-0.5 text-xs font-medium">
+                <div className="flex items-start justify-between">
+                    <div>
+                        <h1 className="text-4xl font-extrabold tracking-tight mb-3">{meta.displayName}</h1>
+                        <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">{meta.description}</p>
+                    </div>
+                </div>
+                <div className="flex items-center gap-3 mt-6">
+                    <span className="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-medium uppercase tracking-wide">
                         {meta.category}
                     </span>
-                    <span className="text-xs text-muted-foreground font-mono">
+                    <span className="text-xs text-muted-foreground font-mono bg-muted/50 px-2 py-1 rounded">
                         {meta.filePath}
                     </span>
                 </div>
             </div>
 
-            <Separator />
 
-            {/* Tabs */}
-            <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
-                {/* Preview Tab */}
-                <AnimatedTabsContent value="preview">
-                    <div className="space-y-8">
-                        <section>
-                            <h2 className="sr-only">미리보기 (Preview)</h2>
-                            <h3 className="text-xl font-semibold mb-4">변형 (Variants)</h3>
-                            <div className="grid gap-6">
-                                {meta.variants.map((variant, index) => (
-                                    <VariantPreview
-                                        key={index}
-                                        variant={variant}
-                                        componentName={componentName!}
-                                        onCopy={copyToClipboard}
-                                        copied={copiedCode === `variant-${index}`}
-                                        copyId={`variant-${index}`}
-                                    />
-                                ))}
+
+            {/* 2. Anatomy Section */}
+            {meta.anatomy && (
+                <section className="mb-16 scroll-mt-20" id="anatomy">
+                    <div className="flex items-center gap-2 mb-6">
+                        <h2 className="text-2xl font-bold tracking-tight">구조 (Anatomy)</h2>
+                    </div>
+                    <div className="flex flex-col gap-8">
+                        {/* Anatomy Image Area */}
+                        <div className="bg-muted/30 border rounded-xl p-8 flex items-center justify-center min-h-[300px] relative overflow-hidden">
+                            <AnatomyPreview componentName={componentName || ''} />
+                        </div>
+
+                        {/* Anatomy Legend/Description */}
+                        <div className="bg-card border rounded-xl p-8 w-full">
+                            <MarkdownRenderer content={meta.anatomy} />
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* 3. Properties Section (Interactive Playground) */}
+            <section className="mb-16 scroll-mt-20" id="properties">
+                <div className="flex items-center gap-2 mb-6">
+                    <h2 className="text-2xl font-bold tracking-tight">속성 (Properties)</h2>
+                </div>
+
+                <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-8">
+                    {/* Left: Preview & Code */}
+                    <div className="space-y-6">
+                        {/* Preview Area */}
+                        <div className="rounded-xl border bg-muted/30 overflow-hidden relative group">
+                            <div className="absolute top-3 left-3 z-10 flex gap-2">
+                                <span className="text-xs font-medium text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-1 rounded border">
+                                    미리보기
+                                </span>
                             </div>
-                        </section>
-                    </div>
-                </AnimatedTabsContent>
 
-                {/* Code Tab */}
-                <AnimatedTabsContent value="code">
-                    <div className="space-y-6">
-                        <section>
-                            <h2 className="sr-only">코드 (Code)</h2>
-                            <h3 className="text-xl font-semibold mb-4">사용법 (Usage)</h3>
+                            {/* Measure Mode Toggle */}
+                            <div className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button
+                                    onClick={() => setIsMeasureMode(!isMeasureMode)}
+                                    className={cn(
+                                        "p-2 rounded-md border transition-colors",
+                                        isMeasureMode ? "bg-primary text-primary-foreground" : "bg-background/80 hover:bg-background text-muted-foreground"
+                                    )}
+                                    title={isMeasureMode ? "측정 모드 끄기" : "측정 모드 켜기"}
+                                >
+                                    <Ruler className="w-4 h-4" />
+                                </button>
+                            </div>
+
+                            <div className="p-10 flex items-center justify-center min-h-[320px] relative">
+                                <div ref={previewRef} className="relative inline-block">
+                                    <LivePreview componentName={componentName!} variantName={activeVariant.name} />
+                                    {isMeasureMode && <MeasureOverlay targetRef={previewRef as React.RefObject<HTMLElement>} />}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Code Block */}
+                        <div>
+                            <div className="flex items-center justify-between mb-2 px-1">
+                                <span className="text-sm font-medium text-muted-foreground">코드</span>
+                            </div>
                             <CodeBlock
-                                code={meta.usage}
-                                onCopy={() => copyToClipboard(meta.usage, 'usage')}
-                                copied={copiedCode === 'usage'}
+                                code={activeVariant.code}
+                                onCopy={() => copyToClipboard(activeVariant.code, 'code-view')}
+                                copied={copiedCode === 'code-view'}
                             />
-                        </section>
+                        </div>
                     </div>
-                </AnimatedTabsContent>
 
-                {/* Props Tab */}
-                <AnimatedTabsContent value="props">
-                    <div className="space-y-6">
-                        <section>
-                            <h2 className="sr-only">속성 (Props)</h2>
-                            <h3 className="text-xl font-semibold mb-4">속성 (Props)</h3>
+                    {/* Right: Controls */}
+                    <div className="space-y-8">
+                        {/* Variants Control */}
+                        {meta.variants.length > 0 && (
+                            <div className="space-y-4">
+                                <label className="text-sm font-semibold tracking-wide text-foreground/90 uppercase">변형 (Variants)</label>
+                                <div className="flex flex-col gap-2">
+                                    {meta.variants.map((variant, index) => (
+                                        <button
+                                            key={variant.name}
+                                            onClick={() => setActiveVariantIndex(index)}
+                                            className={cn(
+                                                "group flex items-start gap-3 p-3 rounded-lg border text-left transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary",
+                                                activeVariantIndex === index
+                                                    ? "border-primary bg-primary/5"
+                                                    : "bg-background hover:bg-muted/50 hover:border-muted-foreground/30"
+                                            )}
+                                        >
+                                            <div className={cn(
+                                                "mt-1 w-3 h-3 rounded-full border flex flex-col items-center justify-center transition-colors",
+                                                activeVariantIndex === index ? "border-primary bg-primary" : "border-muted-foreground/30 group-hover:border-primary/50"
+                                            )}>
+                                                {activeVariantIndex === index && <div className="w-1 h-1 rounded-full bg-white" />}
+                                            </div>
+                                            <div className="flex-1">
+                                                <div className={cn("font-medium text-sm transition-colors", activeVariantIndex === index ? "text-primary" : "text-foreground")}>
+                                                    {variant.name}
+                                                </div>
+                                                <div className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                                                    {variant.description}
+                                                </div>
+                                            </div>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Props Table (Compact Version?) or just standard */}
+                        <div className="pt-4 border-t">
+                            <div className="flex items-center justify-between mb-4">
+                                <label className="text-sm font-semibold tracking-wide text-foreground/90 uppercase">속성 (Props)</label>
+                            </div>
+                            <div className="text-xs text-muted-foreground mb-4">
+                                이 컴포넌트가 지원하는 속성 목록입니다.
+                            </div>
                             <PropsTable props={meta.props} />
-                        </section>
-                    </div>
-                </AnimatedTabsContent>
-            </AnimatedTabs>
-        </div>
-    );
-};
-
-// 변형 미리보기 컴포넌트
-interface VariantPreviewProps {
-    variant: ComponentVariant;
-    componentName: string;
-    onCopy: (code: string, id: string) => void;
-    copied: boolean;
-    copyId: string;
-}
-
-const VariantPreview: React.FC<VariantPreviewProps> = ({ variant, componentName, onCopy, copied, copyId }) => {
-    const [isCodeVisible, setIsCodeVisible] = React.useState(false);
-    const [isMeasureMode, setIsMeasureMode] = React.useState(false);
-    const previewRef = React.useRef<HTMLDivElement>(null);
-
-    return (
-        <div className="rounded-xl border overflow-hidden">
-            <div className="p-4 bg-card border-b">
-                <h3 className="font-medium">{variant.name}</h3>
-                <p className="text-sm text-muted-foreground">{variant.description}</p>
-            </div>
-            <div className="relative group">
-                <div className="p-6 bg-muted/30 flex items-center justify-center min-h-[100px] relative">
-                    <div ref={previewRef} className="relative inline-block">
-                        <LivePreview componentName={componentName} variantName={variant.name} />
-                        {isMeasureMode && <MeasureOverlay targetRef={previewRef as React.RefObject<HTMLElement>} />}
+                        </div>
                     </div>
                 </div>
-                <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
-                    <button
-                        onClick={() => setIsMeasureMode(!isMeasureMode)}
-                        className={`p-2 rounded-md border shadow-sm transition-colors ${isMeasureMode ? 'bg-primary text-primary-foreground' : 'bg-background hover:bg-muted text-muted-foreground'}`}
-                        title={isMeasureMode ? "Hide measurements" : "Show measurements"}
-                    >
-                        <Ruler className="w-4 h-4" />
-                    </button>
-                    <button
-                        onClick={() => setIsCodeVisible(!isCodeVisible)}
-                        className={`p-2 rounded-md border shadow-sm transition-colors ${isCodeVisible ? 'bg-primary text-primary-foreground' : 'bg-background hover:bg-muted text-muted-foreground'}`}
-                        title={isCodeVisible ? "Hide code" : "Show code"}
-                    >
-                        <Code className="w-4 h-4" />
-                    </button>
-                </div>
-            </div>
+            </section>
 
-            {isCodeVisible && (
-                <div className="p-4 bg-zinc-950 relative border-t animate-in slide-in-from-top-2 duration-200">
-                    <button
-                        onClick={() => onCopy(variant.code, copyId)}
-                        className="absolute top-3 right-3 p-2 rounded-md hover:bg-zinc-800 transition-colors text-zinc-400 hover:text-white"
-                    >
-                        {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
-                    </button>
-                    <pre className="text-sm text-zinc-300 overflow-x-auto font-mono">
-                        <code>{variant.code}</code>
-                    </pre>
-                </div>
+            {/* 4. Guide Section (Usage) */}
+            {(meta.guide || meta.usage) && (
+                <section className="mb-12 scroll-mt-20" id="guide">
+                    <div className="flex items-center gap-2 mb-6">
+                        <h2 className="text-2xl font-bold tracking-tight">가이드 (Guide)</h2>
+                    </div>
+
+                    <div className="grid gap-6">
+                        <div className="prose dark:prose-invert max-w-none">
+                            {/* 우선 guide 필드 사용하고, 없으면 usage 사용 */}
+                            <MarkdownRenderer content={meta.guide || meta.usage} />
+                        </div>
+                    </div>
+                </section>
             )}
         </div>
     );
 };
+
+// ... existing helper components (CodeBlock, PropsTable, various Preview helpers) ... Note: VariantPreview is removed/unused
+
 
 // 측정 오버레이 컴포넌트
 const MeasureOverlay: React.FC<{ targetRef: React.RefObject<HTMLElement> }> = ({ targetRef }) => {

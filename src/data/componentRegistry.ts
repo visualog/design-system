@@ -23,6 +23,11 @@ export interface ComponentMeta {
     props: PropDefinition[];
     variants: ComponentVariant[];
     usage: string;
+    // New fields for restructured layout
+    anatomy?: string;
+    sizes?: string[]; // e.g. ['sm', 'md', 'lg']
+    states?: string[]; // e.g. ['default', 'hover', 'active', 'disabled']
+    guide?: string; // Markdown content for the Guide section
 }
 
 // 컴포넌트 레지스트리
@@ -55,6 +60,20 @@ export function Example() {
         </Button>
     )
 }`,
+        anatomy: `
+### 구조 (Anatomy)
+
+- **Button Root**: 버튼의 최상위 컨테이너입니다.
+- **Icon**: 레이블 전후에 표시되는 선택적 아이콘입니다.
+- **Label**: 버튼의 주요 텍스트 내용입니다.
+        `,
+        guide: `
+### 사용 가이드 (Usage)
+
+- **명확한 레이블**: 버튼이 수행하는 동작을 명확하게 설명하는 텍스트를 사용하세요 (예: "저장하기", "삭제").
+- **우선순위 구분**: 페이지 내에서 가장 중요한 작업에는 Primary(Default) 버튼을, 덜 중요한 작업에는 Secondary 또는 Ghost 버튼을 사용하여 시각적 계층을 만드세요.
+- **일관성**: 버튼의 위치와 순서를 일관되게 유지하여 사용자가 예측 가능한 경험을 할 수 있도록 하세요.
+        `
     },
 
     card: {
@@ -94,6 +113,21 @@ export function Example() {
         </Card>
     )
 }`,
+        anatomy: `
+### 구조 (Anatomy)
+
+- **Card Root**: 카드 전체를 감싸는 컨테이너입니다.
+- **Header**: 제목과 선택적 설명을 포함하는 영역입니다.
+- **Content**: 카드의 주요 내용을 담는 본문 영역입니다.
+- **Footer**: 작업 버튼이나 요약 정보를 위한 선택적 하단 영역입니다.
+        `,
+        guide: `
+### 사용 가이드 (Usage)
+
+- **그룹화**: 관련된 정보를 하나의 단위로 묶어서 표현할 때 사용하세요.
+- **계층 구조**: 헤더, 본문, 푸터를 사용하여 정보의 계층을 명확히 하세요.
+- **여백**: 카드 내부의 적절한 여백(Padding)을 유지하여 가독성을 높이세요.
+        `
     },
 
     input: {
@@ -299,184 +333,6 @@ export function Example() {
 }`,
     },
 
-    'animated-tabs': {
-        name: 'animated-tabs',
-        displayName: 'Animated Tabs',
-        description: '애니메이션이 적용된 탭 전환 컴포넌트.',
-        category: 'navigation',
-        filePath: 'src/components/ui/animated-tabs.tsx',
-        props: [
-            { name: 'tabs', type: '{ name: string; value: string }[]', required: true, description: '탭 목록' },
-            { name: 'activeTab', type: 'string', required: true, description: '현재 활성 탭' },
-            { name: 'setActiveTab', type: '(value: string) => void', required: true, description: '탭 변경 핸들러' },
-        ],
-        variants: [
-            {
-                name: 'Default', description: '기본 애니메이션 탭', code: `<AnimatedTabs 
-    tabs={[{ name: 'Tab 1', value: 'tab1' }]} 
-    activeTab="tab1" 
-    setActiveTab={setTab}
->
-    <AnimatedTabsContent value="tab1">Content</AnimatedTabsContent>
-</AnimatedTabs>` },
-        ],
-        usage: `import { AnimatedTabs, AnimatedTabsContent } from "@/components/ui/animated-tabs"
-
-export function Example() {
-    const [activeTab, setActiveTab] = useState('tab1');
-    const tabs = [
-        { name: 'Tab 1', value: 'tab1' },
-        { name: 'Tab 2', value: 'tab2' },
-    ];
-    
-    return (
-        <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
-            <AnimatedTabsContent value="tab1">Tab 1 Content</AnimatedTabsContent>
-            <AnimatedTabsContent value="tab2">Tab 2 Content</AnimatedTabsContent>
-        </AnimatedTabs>
-    )
-}`,
-    },
-
-    clipboard: {
-        name: 'clipboard',
-        displayName: 'Clipboard',
-        description: '클립보드 복사 기능을 제공하는 버튼 컴포넌트.',
-        category: 'ui',
-        filePath: 'src/components/ui/clipboard.tsx',
-        props: [
-            { name: 'text', type: 'string', required: true, description: '복사할 텍스트' },
-            { name: 'onCopy', type: '() => void', description: '복사 완료 콜백' },
-        ],
-        variants: [
-            { name: 'Default', description: '기본 클립보드 버튼', code: '<Clipboard text="Hello World" />' },
-        ],
-        usage: `import { Clipboard } from "@/components/ui/clipboard"
-
-export function Example() {
-    return <Clipboard text="Copy this text" />
-}`,
-    },
-
-    'dropdown-menu': {
-        name: 'dropdown-menu',
-        displayName: 'Dropdown Menu',
-        description: '클릭 시 드롭다운 메뉴를 표시하는 컴포넌트.',
-        category: 'navigation',
-        filePath: 'src/components/ui/dropdown-menu.tsx',
-        props: [
-            { name: 'align', type: "'start' | 'center' | 'end'", defaultValue: 'center', description: '정렬 위치' },
-        ],
-        variants: [
-            {
-                name: 'Default', description: '기본 드롭다운 메뉴', code: `<DropdownMenu>
-    <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent>
-        <DropdownMenuItem>Item 1</DropdownMenuItem>
-        <DropdownMenuItem>Item 2</DropdownMenuItem>
-    </DropdownMenuContent>
-</DropdownMenu>` },
-        ],
-        usage: `import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-
-export function Example() {
-    return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="outline">Open Menu</Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
-    )
-}`,
-    },
-
-    switch: {
-        name: 'switch',
-        displayName: 'Switch',
-        description: '토글 스위치 컴포넌트.',
-        category: 'form',
-        filePath: 'src/components/ui/switch.tsx',
-        props: [
-            { name: 'checked', type: 'boolean', description: '체크 상태' },
-            { name: 'onCheckedChange', type: '(checked: boolean) => void', description: '상태 변경 핸들러' },
-            { name: 'disabled', type: 'boolean', defaultValue: 'false', description: '비활성화 상태' },
-        ],
-        variants: [
-            { name: 'Default', description: '기본 스위치', code: '<Switch />' },
-            {
-                name: 'With Label', description: '라벨이 있는 스위치', code: `<div className="flex items-center gap-2">
-    <Switch id="airplane" />
-    <Label htmlFor="airplane">Airplane Mode</Label>
-</div>` },
-        ],
-        usage: `import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
-
-export function Example() {
-    return (
-        <div className="flex items-center space-x-2">
-            <Switch id="airplane-mode" />
-            <Label htmlFor="airplane-mode">Airplane Mode</Label>
-        </div>
-    )
-}`,
-    },
-
-    table: {
-        name: 'table',
-        displayName: 'Table',
-        description: '데이터를 테이블 형태로 표시하는 컴포넌트.',
-        category: 'layout',
-        filePath: 'src/components/ui/table.tsx',
-        props: [
-            { name: 'className', type: 'string', description: '추가 CSS 클래스' },
-        ],
-        variants: [
-            {
-                name: 'Default', description: '기본 테이블', code: `<Table>
-    <TableHeader>
-        <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Status</TableHead>
-        </TableRow>
-    </TableHeader>
-    <TableBody>
-        <TableRow>
-            <TableCell>Item 1</TableCell>
-            <TableCell>Active</TableCell>
-        </TableRow>
-    </TableBody>
-</Table>` },
-        ],
-        usage: `import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-
-export function Example() {
-    return (
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Status</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                <TableRow>
-                    <TableCell>Item 1</TableCell>
-                    <TableCell>Active</TableCell>
-                </TableRow>
-            </TableBody>
-        </Table>
-    )
-}`,
-    },
-
     tabs: {
         name: 'tabs',
         displayName: 'Tabs',
@@ -487,10 +343,11 @@ export function Example() {
             { name: 'defaultValue', type: 'string', description: '기본 활성 탭' },
             { name: 'value', type: 'string', description: '현재 활성 탭 (제어 모드)' },
             { name: 'onValueChange', type: '(value: string) => void', description: '탭 변경 핸들러' },
+            { name: 'tabs', type: '{ name: string; value: string }[]', description: '탭 목록 (Animated Tabs 전용)' },
         ],
         variants: [
             {
-                name: 'Default', description: '기본 탭', code: `<Tabs defaultValue="tab1">
+                name: 'Basic Tabs', description: '기본적인 탭 컴포넌트 (Radix UI 기반)', code: `<Tabs defaultValue="tab1">
     <TabsList>
         <TabsTrigger value="tab1">Tab 1</TabsTrigger>
         <TabsTrigger value="tab2">Tab 2</TabsTrigger>
@@ -498,8 +355,58 @@ export function Example() {
     <TabsContent value="tab1">Content 1</TabsContent>
     <TabsContent value="tab2">Content 2</TabsContent>
 </Tabs>` },
+            {
+                name: 'Animated Tabs (Basic)', description: '애니메이션이 적용된 기본 탭', code: `<AnimatedTabs 
+    tabs={[
+        { name: 'Tab 1', value: 'tab1' }, 
+        { name: 'Tab 2', value: 'tab2' }
+    ]} 
+    activeTab="tab1" 
+    setActiveTab={setTab}
+>
+    <div className="p-4 border rounded-md">
+        <AnimatedTabsContent value="tab1">Tab 1 Content</AnimatedTabsContent>
+        <AnimatedTabsContent value="tab2">Tab 2 Content</AnimatedTabsContent>
+    </div>
+</AnimatedTabs>` },
+            {
+                name: 'Settings Pattern', description: '설정 페이지 등에서 사용되는 고도화된 패턴', code: `<AnimatedTabs 
+    tabs={[
+        { name: 'Account', value: 'account' }, 
+        { name: 'Password', value: 'password' },
+        { name: 'Settings', value: 'settings' }
+    ]} 
+    activeTab="account" 
+    setActiveTab={setTab}
+>
+    <div className="mt-6 p-4 border rounded-lg bg-muted/10 min-h-[120px]">
+        <AnimatedTabsContent value="account">
+            <h4 className="font-medium">Account</h4>
+            <p className="text-sm text-muted-foreground">Manage your account.</p>
+        </AnimatedTabsContent>
+        <AnimatedTabsContent value="password">
+            <h4 className="font-medium">Password</h4>
+            <p className="text-sm text-muted-foreground">Change password.</p>
+        </AnimatedTabsContent>
+    </div>
+</AnimatedTabs>` },
         ],
-        usage: `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+        anatomy: `
+### Anatomy
+
+- **Tabs List**: 탭 트리거들을 담는 컨테이너
+- **Tabs Trigger**: 개별 탭 버튼
+- **Animated Indicator**: 활성 탭 아래를 따라다니는 애니메이션 바 (Animated Tabs 전용)
+        `,
+        guide: `
+### 사용 가이드 (Usage)
+
+- 탭 레이블은 짧고 명확하게 작성하세요.
+- 콘텐츠가 서로 연관되어 있지만 동시에 볼 필요는 없는 경우에 사용합니다.
+- **Animated Tabs**는 사용자에게 시각적인 피드백을 더 강하게 주고 싶을 때 유용합니다.
+        `,
+        usage: `import { Tabs, TabsContent, TabsList, TabsTrigger, AnimatedTabs, AnimatedTabsContent } from "@/components/ui/tabs"
+
 
 export function Example() {
     return (
