@@ -477,22 +477,20 @@ const ComponentDetailPage = () => {
 
                             {/* Hovered Color Info */}
                             {showColorInfo && hoveredColorToken && colorTokenData[hoveredColorToken] && (
-                                <div className="absolute bottom-3 left-3 right-3 z-50 bg-violet-600 rounded-lg px-4 py-3">
-                                    {/* Usage Description */}
-                                    <div className="text-xs text-violet-200 mb-2">{colorTokenData[hoveredColorToken].usage}</div>
-                                    {/* Token, HEX, RGB in horizontal row */}
-                                    <div className="grid grid-cols-3 gap-2 text-white">
-                                        <div className="text-center">
-                                            <div className="text-[10px] text-violet-300 mb-0.5">Token</div>
-                                            <div className="text-xs font-semibold">{hoveredColorToken}</div>
-                                        </div>
-                                        <div className="text-center">
-                                            <div className="text-[10px] text-violet-300 mb-0.5">HEX</div>
-                                            <div className="text-xs font-mono">{colorTokenData[hoveredColorToken].hex}</div>
-                                        </div>
-                                        <div className="text-center">
-                                            <div className="text-[10px] text-violet-300 mb-0.5">RGB</div>
-                                            <div className="text-xs font-mono">{colorTokenData[hoveredColorToken].rgb}</div>
+                                <div className="absolute bottom-3 left-3 right-3 z-50 bg-violet-600/80 backdrop-blur-sm rounded-lg px-3 py-2">
+                                    <div className="flex items-center gap-2">
+                                        {/* Color Swatch */}
+                                        <div
+                                            className="w-8 h-8 rounded-md border border-white/30 shrink-0"
+                                            style={{ backgroundColor: colorTokenData[hoveredColorToken].hex }}
+                                        />
+                                        {/* Usage */}
+                                        <div className="text-xs text-white/90 flex-1">{colorTokenData[hoveredColorToken].usage}</div>
+                                        {/* Token, HEX, RGB inline */}
+                                        <div className="flex items-center gap-3 text-white text-[11px]">
+                                            <span className="font-semibold">{hoveredColorToken}</span>
+                                            <span className="font-mono opacity-80">{colorTokenData[hoveredColorToken].hex}</span>
+                                            <span className="font-mono opacity-60 hidden sm:inline">{colorTokenData[hoveredColorToken].rgb}</span>
                                         </div>
                                     </div>
                                 </div>

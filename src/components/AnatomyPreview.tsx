@@ -151,6 +151,7 @@ export const colorTokenData: Record<string, { hex: string; rgb: string; hsl: str
     'bg-muted': { hex: '#F4F4F5', rgb: 'rgb(244, 244, 245)', hsl: 'hsl(240 5% 96%)', usage: '컨테이너 배경' },
     'bg-background': { hex: '#FFFFFF', rgb: 'rgb(255, 255, 255)', hsl: 'hsl(0 0% 100%)', usage: '활성 트리거 배경' },
     'text-foreground': { hex: '#09090B', rgb: 'rgb(9, 9, 11)', hsl: 'hsl(240 10% 4%)', usage: '기본 텍스트' },
+    'text-muted-foreground': { hex: '#71717A', rgb: 'rgb(113, 113, 122)', hsl: 'hsl(240 4% 46%)', usage: '보조 텍스트 (비활성)' },
 };
 
 
@@ -331,7 +332,24 @@ const TabsAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, 
                             onLayoutAnimationComplete={() => setIsAnimating(false)}
                         />
                     )}
-                    <span className="relative z-10 w-full text-center">Tab 2</span>
+                    <span className="relative z-10 w-full text-center">
+                        Tab 2
+                        {/* Label Color Info for Inactive Tab */}
+                        {showColorInfo && activeTab !== 'tab2' && (
+                            <div className="absolute -top-1 left-1/2 -translate-x-1/2">
+                                <ColorLabel
+                                    tokenName="text-muted-foreground"
+                                    colorValue="hsl(var(--muted-foreground))"
+                                    direction="top"
+                                    length={20}
+                                    isActive={hoveredColor === 'text-muted-foreground'}
+                                    isDimmed={hoveredColor !== null && hoveredColor !== 'text-muted-foreground'}
+                                    onMouseEnter={() => handleColorHoverChange('text-muted-foreground')}
+                                    onMouseLeave={() => handleColorHoverChange(null)}
+                                />
+                            </div>
+                        )}
+                    </span>
                 </button>
             </div>
 
