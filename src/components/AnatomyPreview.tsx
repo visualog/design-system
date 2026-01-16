@@ -41,16 +41,17 @@ const AnatomyLabel = ({
                 ),
                 flexDirection: isVertical ? 'column' : 'row',
                 gap: 0,
-                pointerEvents: 'auto' // Allow pointer events on the wrapper to catch hover
+                pointerEvents: 'auto', // Allow pointer events on the wrapper to catch hover
+                transformOrigin: direction === 'top' ? 'top' : direction === 'bottom' ? 'bottom' : direction === 'left' ? 'left' : 'right'
             }}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             onClick={(e) => e.stopPropagation()}
         >
             {/* The Line */}
-            <div
+            <motion.div
                 className={cn(
-                    "transition-colors duration-300",
+                    "origin-[inherit]",
                     isActive ? "bg-blue-700" : "bg-blue-600/80"
                 )}
                 style={{
@@ -58,6 +59,15 @@ const AnatomyLabel = ({
                     height: isVertical ? length : 1,
                     order: direction === 'top' || direction === 'left' ? 2 : 0
                 }}
+                initial={{
+                    scaleX: isVertical ? 1 : 0,
+                    scaleY: isVertical ? 0 : 1
+                }}
+                animate={{
+                    scaleX: isVertical ? 1 : (isActive ? 1 : 0),
+                    scaleY: isVertical ? (isActive ? 1 : 0) : 1
+                }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
             />
 
             {/* The Label Badge */}
@@ -111,16 +121,17 @@ const ColorLabel = ({
                 ),
                 flexDirection: isVertical ? 'column' : 'row',
                 gap: 0,
-                pointerEvents: 'auto'
+                pointerEvents: 'auto',
+                transformOrigin: direction === 'top' ? 'top' : direction === 'bottom' ? 'bottom' : direction === 'left' ? 'left' : 'right'
             }}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             onClick={(e) => e.stopPropagation()}
         >
             {/* The Line */}
-            <div
+            <motion.div
                 className={cn(
-                    "transition-colors duration-300",
+                    "origin-[inherit]",
                     isActive ? "bg-violet-600" : "bg-violet-500/80"
                 )}
                 style={{
@@ -128,6 +139,15 @@ const ColorLabel = ({
                     height: isVertical ? length : 1,
                     order: direction === 'top' || direction === 'left' ? 2 : 0
                 }}
+                initial={{
+                    scaleX: isVertical ? 1 : 0,
+                    scaleY: isVertical ? 0 : 1
+                }}
+                animate={{
+                    scaleX: isVertical ? 1 : (isActive ? 1 : 0),
+                    scaleY: isVertical ? (isActive ? 1 : 0) : 1
+                }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
             />
 
             {/* The Color Badge */}
@@ -182,7 +202,8 @@ const TabsAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, 
             <div
                 className="relative inline-flex items-center gap-1 p-1 bg-muted rounded-lg group"
                 style={{
-                    outline: hoveredPart === 'Container' ? '2px solid #2563eb' : (hoveredColor === 'bg-muted' ? '2px solid #7c3aed' : 'none')
+                    outline: hoveredPart === 'Container' ? '2px solid #2563eb' : (hoveredColor === 'bg-muted' ? '2px solid #7c3aed' : 'none'),
+                    transition: 'outline 0s 0.2s',
                 }}
             >
                 {/* 1. Container Label */}
@@ -223,7 +244,8 @@ const TabsAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, 
                         activeTab === 'tab1' ? "text-foreground" : "text-muted-foreground hover:bg-muted/50"
                     )}
                     style={{
-                        outline: ((hoveredPart === 'ActiveTrigger' && activeTab === 'tab1') || (hoveredPart === 'InactiveTrigger' && activeTab !== 'tab1')) ? '2px solid #2563eb' : ((hoveredColor === 'bg-background' && activeTab === 'tab1') ? '2px solid #7c3aed' : 'none')
+                        outline: ((hoveredPart === 'ActiveTrigger' && activeTab === 'tab1') || (hoveredPart === 'InactiveTrigger' && activeTab !== 'tab1')) ? '2px solid #2563eb' : ((hoveredColor === 'bg-background' && activeTab === 'tab1') ? '2px solid #7c3aed' : 'none'),
+                        transition: 'outline 0s 0.2s',
                     }}
                 >
                     {activeTab === 'tab1' && (
@@ -241,7 +263,8 @@ const TabsAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, 
                     <span
                         className="relative z-10 w-full text-center rounded"
                         style={{
-                            outline: hoveredPart === 'Label' ? '2px solid #2563eb' : (((hoveredColor === 'text-foreground' && activeTab === 'tab1') || (hoveredColor === 'text-muted-foreground' && activeTab !== 'tab1')) ? '2px solid #7c3aed' : 'none')
+                            outline: hoveredPart === 'Label' ? '2px solid #2563eb' : (((hoveredColor === 'text-foreground' && activeTab === 'tab1') || (hoveredColor === 'text-muted-foreground' && activeTab !== 'tab1')) ? '2px solid #7c3aed' : 'none'),
+                            transition: 'outline 0s 0.2s',
                         }}
                     >
                         탭 1
@@ -249,7 +272,7 @@ const TabsAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, 
                         {activeTab === 'tab1' && (
                             <>
                                 {showLabels && (
-                                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 pointer-events-none" style={{ zIndex: 20 }}>
+                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none" style={{ zIndex: 20 }}>
                                         <div className="pointer-events-auto">
                                             <AnatomyLabel
                                                 label="레이블"
@@ -264,7 +287,7 @@ const TabsAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, 
                                     </div>
                                 )}
                                 {showColorInfo && (
-                                    <div className="absolute -top-1 left-1/2 -translate-x-1/2">
+                                    <div className="absolute top-0 left-1/2 -translate-x-1/2">
                                         <ColorLabel
                                             tokenName="기본 텍스트"
                                             colorValue={colorTokenData['text-foreground'].hsl}
@@ -281,7 +304,7 @@ const TabsAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, 
                         )}
                         {/* Inactive: Text Color */}
                         {activeTab !== 'tab1' && showColorInfo && (
-                            <div className="absolute -top-1 left-1/2 -translate-x-1/2">
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2">
                                 <ColorLabel
                                     tokenName="비활성 텍스트"
                                     colorValue={colorTokenData['text-muted-foreground'].hsl}
@@ -355,7 +378,8 @@ const TabsAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, 
                         activeTab === 'tab2' ? "text-foreground" : "text-muted-foreground hover:bg-muted/50"
                     )}
                     style={{
-                        outline: ((hoveredPart === 'ActiveTrigger' && activeTab === 'tab2') || (hoveredPart === 'InactiveTrigger' && activeTab !== 'tab2')) ? '2px solid #2563eb' : ((hoveredColor === 'bg-background' && activeTab === 'tab2') ? '2px solid #7c3aed' : 'none')
+                        outline: ((hoveredPart === 'ActiveTrigger' && activeTab === 'tab2') || (hoveredPart === 'InactiveTrigger' && activeTab !== 'tab2')) ? '2px solid #2563eb' : ((hoveredColor === 'bg-background' && activeTab === 'tab2') ? '2px solid #7c3aed' : 'none'),
+                        transition: 'outline 0s 0.2s',
                     }}
                 >
                     {activeTab === 'tab2' && (
@@ -373,13 +397,14 @@ const TabsAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, 
                     <span
                         className="relative z-10 w-full text-center rounded"
                         style={{
-                            outline: hoveredPart === 'Label' ? '2px solid #2563eb' : (((hoveredColor === 'text-foreground' && activeTab === 'tab2') || (hoveredColor === 'text-muted-foreground' && activeTab !== 'tab2')) ? '2px solid #7c3aed' : 'none')
+                            outline: hoveredPart === 'Label' ? '2px solid #2563eb' : (((hoveredColor === 'text-foreground' && activeTab === 'tab2') || (hoveredColor === 'text-muted-foreground' && activeTab !== 'tab2')) ? '2px solid #7c3aed' : 'none'),
+                            transition: 'outline 0s 0.2s',
                         }}
                     >
                         탭 2
                         {/* Inactive: Text Color */}
                         {activeTab !== 'tab2' && showColorInfo && (
-                            <div className="absolute -top-1 left-1/2 -translate-x-1/2">
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2">
                                 <ColorLabel
                                     tokenName="비활성 텍스트"
                                     colorValue={colorTokenData['text-muted-foreground'].hsl}
@@ -396,7 +421,7 @@ const TabsAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, 
                         {activeTab === 'tab2' && (
                             <>
                                 {showLabels && (
-                                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 pointer-events-none" style={{ zIndex: 20 }}>
+                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none" style={{ zIndex: 20 }}>
                                         <div className="pointer-events-auto">
                                             <AnatomyLabel
                                                 label="레이블"
@@ -411,7 +436,7 @@ const TabsAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, 
                                     </div>
                                 )}
                                 {showColorInfo && (
-                                    <div className="absolute -top-1 left-1/2 -translate-x-1/2">
+                                    <div className="absolute top-0 left-1/2 -translate-x-1/2">
                                         <ColorLabel
                                             tokenName="기본 텍스트"
                                             colorValue={colorTokenData['text-foreground'].hsl}
@@ -478,9 +503,9 @@ const TabsAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, 
                         </div>
                     )}
                 </button>
-            </div>
+            </div >
 
-        </div>
+        </div >
     );
 };
 
