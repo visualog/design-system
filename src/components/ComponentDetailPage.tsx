@@ -465,11 +465,20 @@ const ComponentDetailPage = () => {
 
                             {/* Hovered Part Description */}
                             {hoveredAnatomyPart && (
-                                <div className="absolute bottom-3 left-3 right-3 z-50 bg-blue-600 rounded-lg px-3 py-2">
-                                    <div className="text-xs font-semibold text-white mb-0.5">{hoveredAnatomyPart}</div>
-                                    <div className="text-xs text-blue-100">
+                                <div className="absolute bottom-3 left-3 right-3 z-50 bg-neutral-900/90 backdrop-blur-sm rounded-lg px-3 py-2 border border-white/10">
+                                    <div className="text-xs font-semibold text-white mb-0.5">
+                                        {{
+                                            'Container': '컨테이너',
+                                            'Label': '레이블',
+                                            'ActiveTrigger': '활성 트리거',
+                                            'InactiveTrigger': '비활성 트리거',
+                                            'Trigger': '트리거'
+                                        }[hoveredAnatomyPart] || hoveredAnatomyPart}
+                                    </div>
+                                    <div className="text-xs text-neutral-300">
                                         {hoveredAnatomyPart === 'Container' && '탭 트리거들을 감싸는 컨테이너 영역입니다.'}
-                                        {hoveredAnatomyPart === 'Trigger' && '클릭하여 탭을 전환하는 버튼 요소입니다.'}
+                                        {hoveredAnatomyPart === 'ActiveTrigger' && '현재 선택된 탭을 나타내는 활성화된 버튼 요소입니다.'}
+                                        {hoveredAnatomyPart === 'InactiveTrigger' && '클릭하여 해당 탭으로 전환할 수 있는 비활성 버튼 요소입니다.'}
                                         {hoveredAnatomyPart === 'Label' && '탭 트리거 내부의 텍스트 레이블입니다.'}
                                     </div>
                                 </div>
@@ -477,20 +486,29 @@ const ComponentDetailPage = () => {
 
                             {/* Hovered Color Info */}
                             {showColorInfo && hoveredColorToken && colorTokenData[hoveredColorToken] && (
-                                <div className="absolute bottom-3 left-3 right-3 z-50 bg-violet-600/80 backdrop-blur-sm rounded-lg px-3 py-2">
-                                    <div className="flex items-center gap-2">
+                                <div className="absolute bottom-3 left-3 right-3 z-50 bg-neutral-900/90 backdrop-blur-sm rounded-lg px-3 py-2 border border-white/10">
+                                    <div className="flex items-center gap-3">
                                         {/* Color Swatch */}
                                         <div
-                                            className="w-8 h-8 rounded-md border border-white/30 shrink-0"
+                                            className="w-9 h-9 rounded-md shrink-0"
                                             style={{ backgroundColor: colorTokenData[hoveredColorToken].hex }}
                                         />
-                                        {/* Usage */}
-                                        <div className="text-xs text-white/90 flex-1">{colorTokenData[hoveredColorToken].usage}</div>
-                                        {/* Token, HEX, RGB inline */}
-                                        <div className="flex items-center gap-3 text-white text-[11px]">
-                                            <span className="font-semibold">{hoveredColorToken}</span>
-                                            <span className="font-mono opacity-80">{colorTokenData[hoveredColorToken].hex}</span>
-                                            <span className="font-mono opacity-60 hidden sm:inline">{colorTokenData[hoveredColorToken].rgb}</span>
+                                        {/* Info Text Column */}
+                                        <div className="flex flex-col min-w-0 text-left">
+                                            {/* Line 1: Usage Description */}
+                                            <div className="text-xs font-medium text-white leading-tight">
+                                                {colorTokenData[hoveredColorToken].usage}
+                                            </div>
+                                            {/* Line 2: Token & Values */}
+                                            <div className="flex items-center gap-2 text-[10px] leading-tight mt-1">
+                                                <span className="font-semibold text-neutral-300">{hoveredColorToken}</span>
+                                                <span className="text-neutral-600">|</span>
+                                                <span className="font-mono font-semibold text-white">{colorTokenData[hoveredColorToken].hex}</span>
+                                                <span className="text-neutral-600 hidden sm:inline">|</span>
+                                                <span className="font-mono font-semibold text-white hidden sm:inline">{colorTokenData[hoveredColorToken].rgb}</span>
+                                                <span className="text-neutral-600 hidden md:inline">|</span>
+                                                <span className="font-mono font-semibold text-white hidden md:inline">{colorTokenData[hoveredColorToken].hsl}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
