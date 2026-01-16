@@ -85,7 +85,7 @@ const MainContent: React.FC<MainContentProps> = ({ children }) => {
       {/* Sticky Header with Breadcrumb */}
       <div
         ref={headerRef}
-        className="sticky top-14 md:top-0 z-50 w-full bg-background/80 backdrop-blur-md px-6 md:px-8 lg:px-12 pt-6 pb-4 relative transition-colors duration-200"
+        className="sticky top-14 md:top-0 z-[60] w-full bg-background/80 backdrop-blur-md px-6 md:px-8 lg:px-12 pt-6 pb-4 relative transition-colors duration-200"
       >
         <div className="max-w-[760px] mx-auto flex items-center justify-between">
           <Breadcrumb />

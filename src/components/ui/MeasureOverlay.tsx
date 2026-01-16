@@ -1,152 +1,198 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
-// 측정 오버레이 컴포넌트
+// 측정 오버레이 컴포넌트 (Interactive Inspector Mode)
 const MeasureOverlay: React.FC<{ targetRef: React.RefObject<HTMLElement> }> = ({ targetRef }) => {
-    const [metrics, setMetrics] = React.useState<DOMRect | null>(null);
-    const [styles, setStyles] = React.useState<CSSStyleDeclaration | null>(null);
-    const [childMetrics, setChildMetrics] = React.useState<DOMRect[]>([]);
+    const [hoveredNode, setHoveredNode] = useState<HTMLElement | null>(null);
+    const [boxModel, setBoxModel] = useState<{
+        width: number;
+        height: number;
+        top: number;
+        left: number;
+        absTop: number;
+        absLeft: number;
+        margin: { top: number; right: number; bottom: number; left: number };
+        padding: { top: number; right: number; bottom: number; left: number };
+        border: { top: number; right: number; bottom: number; left: number };
+    } | null>(null);
 
-    React.useEffect(() => {
-        if (!targetRef.current) return;
-        const element = targetRef.current.firstElementChild as HTMLElement;
-        if (!element) return;
+    useEffect(() => {
+        const container = targetRef.current;
+        if (!container) return;
 
-        const updateMetrics = () => {
-            setMetrics(element.getBoundingClientRect());
-            setStyles(window.getComputedStyle(element));
+        const handleMouseMove = (e: MouseEvent) => {
+            // 오버레이가 pointer-events-none이므로 아래 요소가 감지됨
+            const target = e.target as HTMLElement;
 
-            // 자식 요소들의 메트릭 수집
-            const children = Array.from(element.children);
-            const childRects = children.map(child => child.getBoundingClientRect());
-            setChildMetrics(childRects);
+            // 컨테이너 내부의 요소만 허용
+            if (!container.contains(target)) {
+                setHoveredNode(null);
+                return;
+            }
+
+            // 컨테이너 자체(래퍼)는 측정 대상에서 제외 (사용자 피드백 반영)
+            if (target === container) {
+                setHoveredNode(null);
+                setBoxModel(null);
+                return;
+            }
+
+            // 하이라이트할 요소 설정
+            setHoveredNode(target);
+
+            // 박스 모델 계산
+            const computedStyle = window.getComputedStyle(target);
+            const rect = target.getBoundingClientRect();
+
+            // 컨테이너 기준 상대 좌표 계산 (오버레이 표시용)
+            // 오버레이는 container 내부에 absolute inset-0으로 렌더링됨
+            const containerRect = container.getBoundingClientRect();
+
+            setBoxModel({
+                width: rect.width,
+                height: rect.height,
+                // 오버레이 렌더링용 상대 좌표
+                top: rect.top - containerRect.top,
+                left: rect.left - containerRect.left,
+                // 툴팁 포탈 렌더링용 절대 좌표 (Fixed positioning uses viewport coordinates)
+                absTop: rect.top,
+                absLeft: rect.left,
+                margin: {
+                    top: parseFloat(computedStyle.marginTop),
+                    right: parseFloat(computedStyle.marginRight),
+                    bottom: parseFloat(computedStyle.marginBottom),
+                    left: parseFloat(computedStyle.marginLeft),
+                },
+                padding: {
+                    top: parseFloat(computedStyle.paddingTop),
+                    right: parseFloat(computedStyle.paddingRight),
+                    bottom: parseFloat(computedStyle.paddingBottom),
+                    left: parseFloat(computedStyle.paddingLeft),
+                },
+                border: {
+                    top: parseFloat(computedStyle.borderTopWidth),
+                    right: parseFloat(computedStyle.borderRightWidth),
+                    bottom: parseFloat(computedStyle.borderBottomWidth),
+                    left: parseFloat(computedStyle.borderLeftWidth),
+                },
+            });
         };
 
-        updateMetrics();
-        window.addEventListener('resize', updateMetrics);
-        // MutationObserver를 사용하여 DOM 변경 감지 가능성 추가 (필요시)
+        const handleMouseLeave = () => {
+            setHoveredNode(null);
+            setBoxModel(null);
+        };
 
-        return () => window.removeEventListener('resize', updateMetrics);
+        // 이벤트를 컨테이너에 걸어둠 (캡처링 or 버블링 활용)
+        // MeasureOverlay 자체는 pointer-events-none이어야 함
+        container.addEventListener('mousemove', handleMouseMove);
+        container.addEventListener('mouseleave', handleMouseLeave);
+
+        return () => {
+            container.removeEventListener('mousemove', handleMouseMove);
+            container.removeEventListener('mouseleave', handleMouseLeave);
+        };
     }, [targetRef]);
 
-    if (!metrics || !styles) return null;
+    if (!hoveredNode || !boxModel) return null;
 
-    const pt = parseFloat(styles.paddingTop);
-    const pr = parseFloat(styles.paddingRight);
-    const pb = parseFloat(styles.paddingBottom);
-    const pl = parseFloat(styles.paddingLeft);
-    const width = Math.round(metrics.width);
-    const height = Math.round(metrics.height);
+    const { top, left, absTop, absLeft, width, height, margin, padding, border } = boxModel;
 
-    // Gap 감지 (Flex/Grid)
-    const rowGap = parseFloat(styles.rowGap) || 0;
-    const colGap = parseFloat(styles.columnGap) || 0;
-    const isFlexOrGrid = ['flex', 'inline-flex', 'grid', 'inline-grid'].includes(styles.display);
-    const hasGap = isFlexOrGrid && (rowGap > 0 || colGap > 0);
-
-    // 간격 표시기 렌더링
-    const renderGapIndicators = () => {
-        if (!hasGap || childMetrics.length < 2) return null;
-
-        const indicators: React.ReactNode[] = [];
-
-        // 간단한 인접 요소 간격 감지
-        // 주의: 복잡한 래핑이나 그리드 배치의 경우 완벽하지 않을 수 있음
-        for (let i = 0; i < childMetrics.length; i++) {
-            for (let j = i + 1; j < childMetrics.length; j++) {
-                const rect1 = childMetrics[i];
-                const rect2 = childMetrics[j];
-
-                // 부모 기준 상대 좌표로 변환 필요 (Overlay가 absolute이므로)
-                // 하지만 여기선 overlay가 inset-0이므로 부모와 동일 좌표계라고 가정?
-                // 아니요, metrics는 뷰포트 기준, overlay는 부모 기준.
-                // 따라서 metrics.left/top을 빼줘야 함.
-
-                const r1 = {
-                    left: rect1.left - metrics.left,
-                    top: rect1.top - metrics.top,
-                    right: rect1.right - metrics.left,
-                    bottom: rect1.bottom - metrics.top
-                };
-                const r2 = {
-                    left: rect2.left - metrics.left,
-                    top: rect2.top - metrics.top,
-                    right: rect2.right - metrics.left,
-                    bottom: rect2.bottom - metrics.top
-                };
-
-                // 수평 간격 (Column Gap)
-                // rect1의 오른쪽과 rect2의 왼쪽이 가깝고, 세로로 겹치는 경우
-                const hDist = r2.left - r1.right;
-                const vOverlap = Math.min(r1.bottom, r2.bottom) > Math.max(r1.top, r2.top);
-
-                if (colGap > 0 && Math.abs(hDist - colGap) < 1 && vOverlap) {
-                    indicators.push(
-                        <div key={`cgap-${i}-${j}`} className="absolute bg-blue-500/20 border-x border-blue-500/30 flex items-center justify-center group/gap"
-                            style={{
-                                left: r1.right,
-                                top: Math.max(r1.top, r2.top),
-                                width: hDist,
-                                height: Math.min(r1.bottom, r2.bottom) - Math.max(r1.top, r2.top)
-                            }}
-                        >
-                            <span className="text-[10px] text-blue-600 font-mono bg-white/90 px-1 rounded shadow-sm opacity-0 group-hover/gap:opacity-100 transition-opacity whitespace-nowrap z-10">
-                                {Math.round(hDist)}
-                            </span>
-                        </div>
-                    );
-                }
-
-                // 수직 간격 (Row Gap)
-                // rect1의 바닥과 rect2의 천장이 가깝고, 가로로 겹치는 경우
-                const vDist = r2.top - r1.bottom;
-                const hOverlap = Math.min(r1.right, r2.right) > Math.max(r1.left, r2.left);
-
-                if (rowGap > 0 && Math.abs(vDist - rowGap) < 1 && hOverlap) {
-                    indicators.push(
-                        <div key={`rgap-${i}-${j}`} className="absolute bg-blue-500/20 border-y border-blue-500/30 flex items-center justify-center group/gap"
-                            style={{
-                                left: Math.max(r1.left, r2.left),
-                                top: r1.bottom,
-                                width: Math.min(r1.right, r2.right) - Math.max(r1.left, r2.left),
-                                height: vDist
-                            }}
-                        >
-                            <span className="text-[10px] text-blue-600 font-mono bg-white/90 px-1 rounded shadow-sm opacity-0 group-hover/gap:opacity-100 transition-opacity whitespace-nowrap z-10">
-                                {Math.round(vDist)}
-                            </span>
-                        </div>
-                    );
-                }
-            }
-        }
-        return indicators;
-    };
+    // Helper to render box regions
+    // Margin (Orange), Border (Yellow), Padding (Green), Content (Blue)
+    // Similar to Chrome DevTools
 
     return (
-        <div className="absolute inset-0 pointer-events-none z-50 overflow-hidden">
-            {/* Gap Indicators */}
-            {renderGapIndicators()}
+        <>
+            <div className="absolute inset-0 pointer-events-none z-50 overflow-hidden">
+                {/* 1. Margin Area (Orange) - 요소 바깥쪽 */}
+                {/* Margin Rect */}
+                <div
+                    className="absolute bg-orange-500/30"
+                    style={{
+                        top: top - margin.top,
+                        left: left - margin.left,
+                        width: width + margin.left + margin.right,
+                        height: height + margin.top + margin.bottom,
+                    }}
+                />
 
-            {/* Padding Indicators */}
-            <div className="absolute top-0 left-0 right-0 h-[var(--pt)] bg-pink-500/20 border-b border-pink-500/30" style={{ '--pt': `${pt}px` } as React.CSSProperties} />
-            <div className="absolute top-0 right-0 bottom-0 w-[var(--pr)] bg-pink-500/20 border-l border-pink-500/30" style={{ '--pr': `${pr}px` } as React.CSSProperties} />
-            <div className="absolute bottom-0 left-0 right-0 h-[var(--pb)] bg-pink-500/20 border-t border-pink-500/30" style={{ '--pb': `${pb}px` } as React.CSSProperties} />
-            <div className="absolute top-0 left-0 bottom-0 w-[var(--pl)] bg-pink-500/20 border-r border-pink-500/30" style={{ '--pl': `${pl}px` } as React.CSSProperties} />
+                {/* Border Rect (Yellow) */}
+                <div
+                    className="absolute bg-yellow-500/30"
+                    style={{
+                        top: top,
+                        left: left,
+                        width: width,
+                        height: height,
+                    }}
+                />
 
-            {/* Labels */}
-            {pt > 0 && <span className="absolute top-0 left-1/2 -translate-x-1/2 text-[10px] text-pink-600 font-mono bg-white/80 px-1 rounded shadow-sm border border-pink-100">{Math.round(pt)}</span>}
-            {pr > 0 && <span className="absolute right-0 top-1/2 -translate-y-1/2 text-[10px] text-pink-600 font-mono bg-white/80 px-1 rounded shadow-sm border border-pink-100">{Math.round(pr)}</span>}
-            {pb > 0 && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 text-[10px] text-pink-600 font-mono bg-white/80 px-1 rounded shadow-sm border border-pink-100">{Math.round(pb)}</span>}
-            {pl > 0 && <span className="absolute left-0 top-1/2 -translate-y-1/2 text-[10px] text-pink-600 font-mono bg-white/80 px-1 rounded shadow-sm border border-pink-100">{Math.round(pl)}</span>}
+                {/* Padding Rect (Green) */}
+                <div
+                    className="absolute bg-green-500/30"
+                    style={{
+                        top: top + border.top,
+                        left: left + border.left,
+                        width: width - border.left - border.right,
+                        height: height - border.top - border.bottom,
+                    }}
+                />
 
-            {/* Dimensions (Outside) */}
-            <div className="absolute -right-3 top-0 bottom-0 w-px bg-red-400 flex items-center justify-center">
-                <span className="bg-red-50 text-red-600 text-[10px] font-mono px-1 rounded border border-red-200 -rotate-90 whitespace-nowrap">{height}</span>
+                {/* Content Rect (Blue) */}
+                <div
+                    className="absolute bg-blue-500/30 flex items-center justify-center border border-blue-400/50"
+                    style={{
+                        top: top + border.top + padding.top,
+                        left: left + border.left + padding.left,
+                        width: width - border.left - border.right - padding.left - padding.right,
+                        height: height - border.top - border.bottom - padding.top - padding.bottom,
+                    }}
+                >
+                    {/* Dimensions Label (Center of Content) */}
+                    {(width > 40 && height > 20) && (
+                        <span className="text-[10px] font-mono font-bold text-white drop-shadow-md bg-black/50 px-1 rounded">
+                            {Math.round(width)} x {Math.round(height)}
+                        </span>
+                    )}
+                </div>
+
+                {/* Ruler Lines (Optional, extends to infinity) */}
+                <div className="absolute top-0 bottom-0 w-px border-l border-dashed border-red-400/50" style={{ left: left }} />
+                <div className="absolute top-0 bottom-0 w-px border-l border-dashed border-red-400/50" style={{ left: left + width }} />
+                <div className="absolute left-0 right-0 h-px border-t border-dashed border-red-400/50" style={{ top: top }} />
+                <div className="absolute left-0 right-0 h-px border-t border-dashed border-red-400/50" style={{ top: top + height }} />
+
+                {/* Value Labels for Padding/Margin (Optional, visible if ample space) */}
+                {padding.top > 4 && <span className='absolute text-[8px] text-green-700 font-bold' style={{ top: top + border.top + 2, left: left + width / 2 }}>{padding.top}</span>}
             </div>
-            <div className="absolute -top-3 left-0 right-0 h-px bg-red-400 flex items-center justify-center">
-                <span className="bg-red-50 text-red-600 text-[10px] font-mono px-1 rounded border border-red-200 whitespace-nowrap">{width}</span>
-            </div>
-        </div>
+
+            {/* Tooltip (Portal to Body to avoid clipping) */}
+            {createPortal(
+                <div
+                    className="fixed z-[99999] px-2 py-1 bg-black/80 text-white text-xs rounded shadow-lg pointer-events-none flex flex-col gap-0.5"
+                    style={{
+                        top: (absTop - margin.top - 45 < 0) ? absTop + height + margin.bottom + 10 : absTop - margin.top - 45, // 화면 위로 넘어가면 아래로 표시
+                        left: absLeft,
+                        minWidth: 'max-content'
+                    }}
+                >
+                    <div className="font-bold text-purple-300">
+                        {hoveredNode.tagName.toLowerCase()}
+                        {hoveredNode.id && <span className="text-yellow-300">#{hoveredNode.id}</span>}
+                        {Array.from(hoveredNode.classList).length > 0 &&
+                            <span className="text-blue-300">.{Array.from(hoveredNode.classList)[0]}</span>
+                        }
+                    </div>
+                    <div className="flex gap-2 text-[10px] text-gray-300">
+                        <span>{Math.round(width)} x {Math.round(height)}</span>
+                        {padding.top > 0 && <span className="text-green-400">P: {padding.top}</span>}
+                        {margin.top > 0 && <span className="text-orange-400">M: {margin.top}</span>}
+                    </div>
+                </div>,
+                document.body
+            )}
+        </>
     );
 };
 

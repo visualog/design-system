@@ -395,7 +395,7 @@ const ComponentDetailPage = () => {
             {meta.anatomy && (
                 <section className="mb-16 scroll-mt-20" id="anatomy">
                     <div className="flex items-center gap-2 mb-6">
-                        <h2 className="text-2xl font-bold tracking-tight">구조 (Anatomy)</h2>
+                        <h2 className="text-2xl font-bold tracking-tight">Anatomy</h2>
                     </div>
                     <div className="flex flex-col gap-8">
                         {/* Anatomy Image Area */}
@@ -482,7 +482,7 @@ const ComponentDetailPage = () => {
             {/* 3. Properties Section (Interactive Playground) */}
             <section className="mb-16 scroll-mt-20" id="properties">
                 <div className="flex items-center gap-2 mb-6">
-                    <h2 className="text-2xl font-bold tracking-tight">속성 (Properties)</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">Properties</h2>
                 </div>
 
                 <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-8">
@@ -536,7 +536,7 @@ const ComponentDetailPage = () => {
                         {/* Variants Control */}
                         {meta.variants.length > 0 && (
                             <div className="space-y-4">
-                                <label className="text-sm font-semibold tracking-wide text-foreground/90 uppercase">변형 (Variants)</label>
+                                <label className="text-sm font-semibold tracking-wide text-foreground/90 uppercase">Variants</label>
                                 <div className="flex flex-col gap-2">
                                     {meta.variants.map((variant, index) => (
                                         <button
@@ -572,7 +572,7 @@ const ComponentDetailPage = () => {
                         {/* Props Table (Compact Version?) or just standard */}
                         <div className="pt-4 border-t">
                             <div className="flex items-center justify-between mb-4">
-                                <label className="text-sm font-semibold tracking-wide text-foreground/90 uppercase">속성 (Props)</label>
+                                <label className="text-sm font-semibold tracking-wide text-foreground/90 uppercase">Props</label>
                             </div>
                             <div className="text-xs text-muted-foreground mb-4">
                                 이 컴포넌트가 지원하는 속성 목록입니다.
@@ -587,7 +587,7 @@ const ComponentDetailPage = () => {
             {(meta.guide || meta.usage) && (
                 <section className="mb-12 scroll-mt-20" id="guide">
                     <div className="flex items-center gap-2 mb-6">
-                        <h2 className="text-2xl font-bold tracking-tight">가이드 (Guide)</h2>
+                        <h2 className="text-2xl font-bold tracking-tight">Guide</h2>
                     </div>
 
                     <div className="grid gap-6">

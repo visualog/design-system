@@ -75,7 +75,8 @@ const AnatomyLabel = ({
                 "flex items-center justify-center px-2 py-1 rounded-md text-white text-[10px] font-bold shadow-sm whitespace-nowrap transition-colors duration-300",
                 isActive ? "bg-blue-700" : "bg-blue-600",
                 direction === 'top' || direction === 'left' ? "order-1" : "order-1"
-            )}>
+            )}
+                style={{ whiteSpace: 'nowrap' }}>
                 {label}
             </div>
         </div>
@@ -155,7 +156,8 @@ const ColorLabel = ({
                 "flex items-center gap-1.5 px-2 py-1 rounded-md text-white text-[10px] font-medium shadow-sm whitespace-nowrap transition-colors duration-300",
                 isActive ? "bg-violet-600" : "bg-violet-500",
                 direction === 'top' || direction === 'left' ? "order-1" : "order-1"
-            )}>
+            )}
+                style={{ whiteSpace: 'nowrap' }}>
                 <div
                     className="w-3 h-3 rounded-sm border border-white/30"
                     style={{ backgroundColor: colorValue }}
@@ -196,7 +198,7 @@ const TabsAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, 
     };
 
     return (
-        <div className="relative w-full max-w-[320px] mx-auto p-4 select-none flex flex-col gap-4">
+        <div className="relative flex flex-col gap-4 select-none mx-auto w-72">
 
             {/* Tabs List Area */}
             <div
@@ -526,13 +528,8 @@ const AnatomyPreview: React.FC<{ componentName: string; isMeasureMode?: boolean;
     }
 
     return (
-        <div className="relative w-full h-full flex items-center justify-center">
-            {/* Content Wrapper for Measurement */}
-            <div ref={containerRef} className="w-full">
-                {content}
-            </div>
-
-            {/* Measurement Overlay */}
+        <div ref={containerRef} className="relative inline-flex">
+            {content}
             {isMeasureMode && <MeasureOverlay targetRef={containerRef as React.RefObject<HTMLElement>} />}
         </div>
     );

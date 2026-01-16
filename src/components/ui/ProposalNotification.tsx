@@ -222,6 +222,7 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                 // 화면 밖이면 숨김 (선택적)
 
                 const isNearRightEdge = rect.right > (typeof window !== 'undefined' ? window.innerWidth - 250 : 1000);
+                const isNearTop = rect.top < 120; // 상단 헤더 영역 근처인지 확인
 
                 return createPortal(
                     <div
@@ -244,7 +245,9 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                             </div>
                             {/* 호버 시 내용 미리보기 - 화면 위치에 따라 방향 조정 */}
                             <div
-                                className={`absolute top-0 w-48 bg-card border rounded-md shadow-lg p-2 text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 invisible group-hover:visible whitespace-normal break-words ${isNearRightEdge ? 'right-full mr-2' : 'left-full ml-2'
+                                className={`absolute w-48 bg-card border rounded-md shadow-lg p-2 text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 invisible group-hover:visible whitespace-normal break-words ${isNearTop
+                                        ? (isNearRightEdge ? 'top-full mt-2 right-0' : 'top-full mt-2 left-0')
+                                        : (isNearRightEdge ? 'top-0 right-full mr-2' : 'top-0 left-full ml-2')
                                     }`}
                             >
                                 <p className="font-semibold mb-1 line-clamp-1">{proposal.title}</p>
