@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Copy, Check, Ruler } from 'lucide-react';
+import { ArrowLeft, Copy, Check, Ruler, Info, Palette } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,7 +18,7 @@ import { getComponentMeta } from '@/data/componentRegistry';
 import type { PropDefinition } from '@/data/componentRegistry';
 import { AnimatedTabs, AnimatedTabsContent } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
-import AnatomyPreview from '@/components/AnatomyPreview';
+import AnatomyPreview, { colorTokenData } from '@/components/AnatomyPreview';
 import MeasureOverlay from '@/components/ui/MeasureOverlay';
 
 // 컴포넌트별 라이브 프리뷰 렌더링
@@ -322,6 +322,9 @@ const ComponentDetailPage = () => {
     const [isMeasureMode, setIsMeasureMode] = React.useState(false);
     const [isAnatomyMeasureMode, setIsAnatomyMeasureMode] = React.useState(false);
     const [showAnatomyLabels, setShowAnatomyLabels] = React.useState(true); // Default true for labels
+    const [hoveredAnatomyPart, setHoveredAnatomyPart] = React.useState<string | null>(null);
+    const [showColorInfo, setShowColorInfo] = React.useState(false);
+    const [hoveredColorToken, setHoveredColorToken] = React.useState<string | null>(null);
     const previewRef = React.useRef<HTMLDivElement>(null);
 
     const meta = componentName ? getComponentMeta(componentName) : undefined;
@@ -402,22 +405,45 @@ const ComponentDetailPage = () => {
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    onClick={() => setShowAnatomyLabels(!showAnatomyLabels)}
+                                    onClick={() => {
+                                        setShowAnatomyLabels(!showAnatomyLabels);
+                                        setShowColorInfo(false);
+                                        setIsAnatomyMeasureMode(false);
+                                    }}
                                     className={cn(
                                         "h-8 w-8 transition-colors",
                                         showAnatomyLabels ? "bg-primary/10 text-primary hover:bg-primary/20" : "text-muted-foreground hover:bg-muted"
                                     )}
                                     title={showAnatomyLabels ? "Hide labels" : "Show labels"}
                                 >
-                                    <span className="text-xs font-bold font-mono">Aa</span>
+                                    <Info className="w-4 h-4" />
                                 </Button>
-                                {/* Separator */}
-                                <div className="w-px h-4 bg-border mx-0.5" />
+                                {/* Color Info Toggle */}
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => {
+                                        setShowColorInfo(!showColorInfo);
+                                        setShowAnatomyLabels(false);
+                                        setIsAnatomyMeasureMode(false);
+                                    }}
+                                    className={cn(
+                                        "h-8 w-8 transition-colors",
+                                        showColorInfo ? "bg-primary/10 text-primary hover:bg-primary/20" : "text-muted-foreground hover:bg-muted"
+                                    )}
+                                    title={showColorInfo ? "Hide color info" : "Show color info"}
+                                >
+                                    <Palette className="w-4 h-4" />
+                                </Button>
                                 {/* Measure Toggle */}
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    onClick={() => setIsAnatomyMeasureMode(!isAnatomyMeasureMode)}
+                                    onClick={() => {
+                                        setIsAnatomyMeasureMode(!isAnatomyMeasureMode);
+                                        setShowAnatomyLabels(false);
+                                        setShowColorInfo(false);
+                                    }}
                                     className={cn(
                                         "h-8 w-8 transition-colors",
                                         isAnatomyMeasureMode ? "bg-primary/10 text-primary hover:bg-primary/20" : "text-muted-foreground hover:bg-muted"
@@ -432,7 +458,45 @@ const ComponentDetailPage = () => {
                                 componentName={componentName || ''}
                                 isMeasureMode={isAnatomyMeasureMode}
                                 showLabels={showAnatomyLabels}
+                                showColorInfo={showColorInfo}
+                                onHoverChange={setHoveredAnatomyPart}
+                                onColorHoverChange={setHoveredColorToken}
                             />
+
+                            {/* Hovered Part Description */}
+                            {hoveredAnatomyPart && (
+                                <div className="absolute bottom-3 left-3 right-3 z-50 bg-blue-600 rounded-lg px-3 py-2">
+                                    <div className="text-xs font-semibold text-white mb-0.5">{hoveredAnatomyPart}</div>
+                                    <div className="text-xs text-blue-100">
+                                        {hoveredAnatomyPart === 'Container' && '탭 트리거들을 감싸는 컨테이너 영역입니다.'}
+                                        {hoveredAnatomyPart === 'Trigger' && '클릭하여 탭을 전환하는 버튼 요소입니다.'}
+                                        {hoveredAnatomyPart === 'Label' && '탭 트리거 내부의 텍스트 레이블입니다.'}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Hovered Color Info */}
+                            {showColorInfo && hoveredColorToken && colorTokenData[hoveredColorToken] && (
+                                <div className="absolute bottom-3 left-3 right-3 z-50 bg-violet-600 rounded-lg px-4 py-3">
+                                    {/* Usage Description */}
+                                    <div className="text-xs text-violet-200 mb-2">{colorTokenData[hoveredColorToken].usage}</div>
+                                    {/* Token, HEX, RGB in horizontal row */}
+                                    <div className="grid grid-cols-3 gap-2 text-white">
+                                        <div className="text-center">
+                                            <div className="text-[10px] text-violet-300 mb-0.5">Token</div>
+                                            <div className="text-xs font-semibold">{hoveredColorToken}</div>
+                                        </div>
+                                        <div className="text-center">
+                                            <div className="text-[10px] text-violet-300 mb-0.5">HEX</div>
+                                            <div className="text-xs font-mono">{colorTokenData[hoveredColorToken].hex}</div>
+                                        </div>
+                                        <div className="text-center">
+                                            <div className="text-[10px] text-violet-300 mb-0.5">RGB</div>
+                                            <div className="text-xs font-mono">{colorTokenData[hoveredColorToken].rgb}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
                         {/* Anatomy Legend/Description */}
