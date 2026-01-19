@@ -471,10 +471,7 @@ const ComponentDetailPage = () => {
                             />
                         </div>
 
-                        {/* Anatomy Legend/Description */}
-                        <div className="bg-card border rounded-xl p-8 w-full">
-                            <MarkdownRenderer content={meta.anatomy} />
-                        </div>
+                        {/* Anatomy Legend/Description Removed as per user request */}
                     </div>
                 </section>
             )}

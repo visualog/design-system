@@ -32,6 +32,7 @@ const AnatomyLabel = ({
                 isDimmed ? "opacity-20 blur-[0.5px] grayscale" : "opacity-100",
                 className
             )}
+            data-measure-ignore="true"
             style={{
                 [direction === 'top' ? 'bottom' : direction === 'bottom' ? 'top' : direction === 'left' ? 'right' : 'left']: '100%',
                 // Center on the cross-axis
@@ -114,6 +115,7 @@ const ColorLabel = ({
                 isDimmed ? "opacity-20 blur-[0.5px] grayscale" : "opacity-100",
                 className
             )}
+            data-measure-ignore="true"
             style={{
                 [direction === 'top' ? 'bottom' : direction === 'bottom' ? 'top' : direction === 'left' ? 'right' : 'left']: '100%',
                 ...(isVertical
