@@ -214,7 +214,8 @@ const MeasureOverlay: React.FC<{ targetRef: React.RefObject<HTMLElement> }> = ({
     // Render Function
     if (!targetRef.current && !staticSpecs) return null;
 
-    const P_COLOR = "#ec4899"; // Pink-500
+    const P_COLOR = "#ec4899"; // Pink-500 for dimensions
+    const R_COLOR = "#8b5cf6"; // Violet-500 for radius
 
     return (
         <>
@@ -237,25 +238,36 @@ const MeasureOverlay: React.FC<{ targetRef: React.RefObject<HTMLElement> }> = ({
                         <path d={`M0,-16 L${staticSpecs.width},-16`} stroke={P_COLOR} strokeWidth="1" />
                         <path d={`M0,-20 L0,-12`} stroke={P_COLOR} strokeWidth="1" />
                         <path d={`M${staticSpecs.width},-20 L${staticSpecs.width},-12`} stroke={P_COLOR} strokeWidth="1" />
-                        <text x={staticSpecs.width / 2} y="-20" fill={P_COLOR} fontSize="10" fontWeight="bold" textAnchor="middle">{Math.round(staticSpecs.width)}</text>
+                        <text x={staticSpecs.width / 2} y="-20" fill={P_COLOR} fontSize="10" fontWeight="bold" textAnchor="middle">w{Math.round(staticSpecs.width)}px</text>
 
                         {/* Height */}
                         <path d={`M${staticSpecs.width + 16},0 L${staticSpecs.width + 16},${staticSpecs.height}`} stroke={P_COLOR} strokeWidth="1" />
                         <path d={`M${staticSpecs.width + 12},0 L${staticSpecs.width + 20},0`} stroke={P_COLOR} strokeWidth="1" />
                         <path d={`M${staticSpecs.width + 12},${staticSpecs.height} L${staticSpecs.width + 20},${staticSpecs.height}`} stroke={P_COLOR} strokeWidth="1" />
-                        <text x={staticSpecs.width + 24} y={staticSpecs.height / 2} fill={P_COLOR} fontSize="10" fontWeight="bold" dominantBaseline="middle">{Math.round(staticSpecs.height)}</text>
+                        <text x={staticSpecs.width + 24} y={staticSpecs.height / 2} fill={P_COLOR} fontSize="10" fontWeight="bold" dominantBaseline="middle">h{Math.round(staticSpecs.height)}px</text>
 
-                        {/* Container Radius Label (Top Left) */}
-                        {staticSpecs.borderRadius && (
+                        {/* Container Radius Label (Top Left) - Hide if Pill/Full Rounded (>= height/2) */}
+                        {staticSpecs.borderRadius && parseFloat(staticSpecs.borderRadius) < staticSpecs.height / 2 && (
                             <>
-                                <text x="-4" y="-4" fill={P_COLOR} fontSize="9" fontWeight="bold" textAnchor="end">R{staticSpecs.borderRadius}</text>
-                                {/* Arc Indicator (Top Left) */}
-                                <path
-                                    d={`M0,${parseInt(staticSpecs.borderRadius)} A${parseInt(staticSpecs.borderRadius)},${parseInt(staticSpecs.borderRadius)} 0 0 1 ${parseInt(staticSpecs.borderRadius)},0`}
-                                    fill="none"
-                                    stroke={P_COLOR}
-                                    strokeWidth="2"
+                                {/* Circle Indicator (Top Left) */}
+                                <circle
+                                    cx={parseFloat(staticSpecs.borderRadius)}
+                                    cy={parseFloat(staticSpecs.borderRadius)}
+                                    r={parseFloat(staticSpecs.borderRadius)}
+                                    fill={R_COLOR}
+                                    fillOpacity="0.2"
                                 />
+                                <text
+                                    x={parseFloat(staticSpecs.borderRadius)}
+                                    y={parseFloat(staticSpecs.borderRadius)}
+                                    fill={R_COLOR}
+                                    fontSize="8"
+                                    fontWeight="bold"
+                                    textAnchor="middle"
+                                    dominantBaseline="middle"
+                                >
+                                    r{staticSpecs.borderRadius.replace('px', '')}
+                                </text>
                             </>
                         )}
 
@@ -332,18 +344,29 @@ const MeasureOverlay: React.FC<{ targetRef: React.RefObject<HTMLElement> }> = ({
                         {/* Child Specs (Radius & Size) - User Requested */}
                         {staticSpecs.childrenRects.map((child, i) => (
                             <g key={`child-${i}`}>
-                                {/* Border Radius for Child (Top Right) */}
-                                {child.borderRadius && (
-                                    <>
-                                        <text x={child.relLeft + child.width + 2} y={child.relTop} fill={P_COLOR} fontSize="8" fontWeight="bold" alignmentBaseline="hanging">R{child.borderRadius}</text>
-                                        {/* Arc Indicator (Top Right) */}
-                                        <path
-                                            d={`M${child.relLeft + child.width - parseInt(child.borderRadius)},${child.relTop} A${parseInt(child.borderRadius)},${parseInt(child.borderRadius)} 0 0 1 ${child.relLeft + child.width},${child.relTop + parseInt(child.borderRadius)}`}
-                                            fill="none"
-                                            stroke={P_COLOR}
-                                            strokeWidth="2"
+                                {/* Border Radius for Child (Top Right or Bottom Left) - Hide if Pill/Full Rounded */}
+                                {/* Only show for the first child (Tab 1) to avoid redundancy */}
+                                {i === 0 && child.borderRadius && parseFloat(child.borderRadius) < child.height / 2 && (
+                                    <g>
+                                        <circle
+                                            cx={child.relLeft + parseFloat(child.borderRadius)}
+                                            cy={child.relTop + child.height - parseFloat(child.borderRadius)}
+                                            r={parseFloat(child.borderRadius)}
+                                            fill={R_COLOR}
+                                            fillOpacity="0.2"
                                         />
-                                    </>
+                                        <text
+                                            x={child.relLeft + parseFloat(child.borderRadius)}
+                                            y={child.relTop + child.height - parseFloat(child.borderRadius)}
+                                            fill={R_COLOR}
+                                            fontSize="7"
+                                            fontWeight="bold"
+                                            textAnchor="middle"
+                                            dominantBaseline="middle"
+                                        >
+                                            r{child.borderRadius.replace('px', '')}
+                                        </text>
+                                    </g>
                                 )}
 
                                 {/* Dimension Lines: Only for the first child (as requested) */}
@@ -353,13 +376,13 @@ const MeasureOverlay: React.FC<{ targetRef: React.RefObject<HTMLElement> }> = ({
                                         <path d={`M${child.relLeft},${child.relTop + child.height + 12} L${child.relLeft + child.width},${child.relTop + child.height + 12}`} stroke={P_COLOR} strokeWidth="1" />
                                         <path d={`M${child.relLeft},${child.relTop + child.height + 9} L${child.relLeft},${child.relTop + child.height + 15}`} stroke={P_COLOR} strokeWidth="1" />
                                         <path d={`M${child.relLeft + child.width},${child.relTop + child.height + 9} L${child.relLeft + child.width},${child.relTop + child.height + 15}`} stroke={P_COLOR} strokeWidth="1" />
-                                        <text x={child.relLeft + child.width / 2} y={child.relTop + child.height + 22} fill={P_COLOR} fontSize="9" fontWeight="bold" textAnchor="middle">{Math.round(child.width)}</text>
+                                        <text x={child.relLeft + child.width / 2} y={child.relTop + child.height + 22} fill={P_COLOR} fontSize="9" fontWeight="bold" textAnchor="middle">w{Math.round(child.width)}px</text>
 
                                         {/* Height Line (Left) */}
                                         <path d={`M${child.relLeft - 12},${child.relTop} L${child.relLeft - 12},${child.relTop + child.height}`} stroke={P_COLOR} strokeWidth="1" />
                                         <path d={`M${child.relLeft - 15},${child.relTop} L${child.relLeft - 9},${child.relTop}`} stroke={P_COLOR} strokeWidth="1" />
                                         <path d={`M${child.relLeft - 15},${child.relTop + child.height} L${child.relLeft - 9},${child.relTop + child.height}`} stroke={P_COLOR} strokeWidth="1" />
-                                        <text x={child.relLeft - 18} y={child.relTop + child.height / 2} fill={P_COLOR} fontSize="9" fontWeight="bold" dominantBaseline="middle" textAnchor="end">{Math.round(child.height)}</text>
+                                        <text x={child.relLeft - 18} y={child.relTop + child.height / 2} fill={P_COLOR} fontSize="9" fontWeight="bold" dominantBaseline="middle" textAnchor="end">h{Math.round(child.height)}px</text>
                                     </>
                                 )}
                             </g>
@@ -439,8 +462,8 @@ const MeasureOverlay: React.FC<{ targetRef: React.RefObject<HTMLElement> }> = ({
                                 }
                             </div>
                             <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] text-gray-300">
-                                <span className="text-white font-medium">{Math.round(boxModel.width)} × {Math.round(boxModel.height)}</span>
-                                {boxModel.borderRadius && <span className="text-pink-300">R: {boxModel.borderRadius}</span>}
+                                <span className="text-white font-medium">w{Math.round(boxModel.width)}px × h{Math.round(boxModel.height)}px</span>
+                                {boxModel.borderRadius && parseFloat(boxModel.borderRadius) < boxModel.height / 2 && <span className="text-violet-300">r: {boxModel.borderRadius.replace('px', '')}</span>}
                                 {boxModel.padding.top > 0 && <span className="text-green-400">P: {boxModel.padding.top}</span>}
                                 {boxModel.margin.top > 0 && <span className="text-orange-400">M: {boxModel.margin.top}</span>}
                                 {boxModel.gap && <span className="text-cyan-400 col-span-2">Gap: {boxModel.gap}</span>}

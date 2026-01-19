@@ -84,7 +84,7 @@ const AnimatedTabs = ({ tabs, activeTab, setActiveTab, children }: AnimatedTabsP
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className='w-full flex flex-col gap-4'>
       <div className="relative flex justify-start">
-        <TabsList className='relative'>
+        <TabsList className='bg-background rounded-none border-b border-border p-0'>
           {tabs.map((tab, index) => (
             <TabsTrigger
               key={tab.value}
@@ -92,24 +92,24 @@ const AnimatedTabs = ({ tabs, activeTab, setActiveTab, children }: AnimatedTabsP
               ref={el => {
                 tabRefs.current[index] = el
               }}
-              className='relative z-10 bg-transparent data-[state=active]:bg-transparent data-[state=active]:shadow-none transition-none'
+              className='relative rounded-none border-0 bg-transparent px-4 py-2 text-sm font-medium transition-colors duration-300 data-[state=inactive]:text-muted-foreground data-[state=active]:text-foreground data-[state=active]:shadow-none'
             >
               {tab.name}
             </TabsTrigger>
           ))}
-          <motion.div
-            className='absolute z-0 inset-y-1 bg-background rounded-md shadow-sm'
-            animate={{
-              left: underlineStyle.left,
-              width: underlineStyle.width
-            }}
-            transition={{
-              type: 'spring',
-              stiffness: 400,
-              damping: 40
-            }}
-          />
         </TabsList>
+        <motion.div
+          className='bg-primary absolute bottom-0 z-20 h-0.5'
+          animate={{
+            left: underlineStyle.left,
+            width: underlineStyle.width
+          }}
+          transition={{
+            type: 'spring',
+            stiffness: 400,
+            damping: 40
+          }}
+        />
       </div>
       {children}
     </Tabs>

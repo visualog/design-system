@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Copy, Check, Ruler, Info, Palette } from 'lucide-react';
+import { motion } from 'motion/react';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -401,77 +402,84 @@ const ComponentDetailPage = () => {
                     <div className="flex flex-col gap-8">
                         {/* Anatomy Image Area */}
                         <div className="bg-muted/30 border rounded-xl p-8 flex items-center justify-center min-h-[300px] relative overflow-hidden">
-                            {/* Unified Toolbar (At Container Level) */}
-                            <div className="absolute top-3 right-3 z-50 flex items-center gap-3">
+                            {/* Unified Toolbar - Split into Left and Right */}
+                            <div className="absolute top-3 left-3 z-50">
                                 {/* Component Variants Switcher */}
                                 {getAnatomyVariants(componentName || '').length > 0 && (
-                                    <div className="flex gap-1 p-1 bg-muted/30 rounded-lg border border-border/50">
+                                    <div className="flex gap-0.5 p-[2px] bg-muted rounded-[10px] h-8 items-center relative">
                                         {getAnatomyVariants(componentName || '').map((s) => (
                                             <button
                                                 key={s}
                                                 onClick={() => setAnatomyStyle(s)}
                                                 className={cn(
-                                                    "px-3 py-1 text-xs font-medium rounded-md transition-all",
-                                                    anatomyStyle === s ? "bg-white shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                                    "relative px-3 h-7 text-[11px] font-bold rounded-[8px] transition-colors flex items-center justify-center outline-none",
+                                                    anatomyStyle === s ? "text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                                                 )}
                                             >
-                                                {s.charAt(0).toUpperCase() + s.slice(1)}
+                                                {anatomyStyle === s && (
+                                                    <motion.div
+                                                        layoutId="anatomyStyleActive"
+                                                        className="absolute inset-0 bg-white rounded-[8px] shadow-sm hover:shadow-md transition-shadow"
+                                                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                                                    />
+                                                )}
+                                                <span className="relative z-10">{s.charAt(0).toUpperCase() + s.slice(1)}</span>
                                             </button>
                                         ))}
                                     </div>
                                 )}
+                            </div>
 
+                            <div className="absolute top-3 right-3 z-50 flex items-center gap-1">
                                 {/* View Controls */}
-                                <div className="flex items-center gap-1">
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        onClick={() => {
-                                            setShowAnatomyLabels(!showAnatomyLabels);
-                                            setShowColorInfo(false);
-                                            setIsAnatomyMeasureMode(false);
-                                        }}
-                                        className={cn(
-                                            "h-8 w-8 transition-colors",
-                                            showAnatomyLabels ? "bg-primary/10 text-primary hover:bg-primary/20" : "text-muted-foreground hover:bg-muted"
-                                        )}
-                                        title={showAnatomyLabels ? "Hide labels" : "Show labels"}
-                                    >
-                                        <Info className="w-4 h-4" />
-                                    </Button>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        onClick={() => {
-                                            setShowColorInfo(!showColorInfo);
-                                            setShowAnatomyLabels(false);
-                                            setIsAnatomyMeasureMode(false);
-                                        }}
-                                        className={cn(
-                                            "h-8 w-8 transition-colors",
-                                            showColorInfo ? "bg-primary/10 text-primary hover:bg-primary/20" : "text-muted-foreground hover:bg-muted"
-                                        )}
-                                        title={showColorInfo ? "Hide color info" : "Show color info"}
-                                    >
-                                        <Palette className="w-4 h-4" />
-                                    </Button>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        onClick={() => {
-                                            setIsAnatomyMeasureMode(!isAnatomyMeasureMode);
-                                            setShowAnatomyLabels(false);
-                                            setShowColorInfo(false);
-                                        }}
-                                        className={cn(
-                                            "h-8 w-8 transition-colors",
-                                            isAnatomyMeasureMode ? "bg-primary/10 text-primary hover:bg-primary/20" : "text-muted-foreground hover:bg-muted"
-                                        )}
-                                        title={isAnatomyMeasureMode ? "Turn off measure mode" : "Turn on measure mode"}
-                                    >
-                                        <Ruler className="w-4 h-4" />
-                                    </Button>
-                                </div>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => {
+                                        setShowAnatomyLabels(!showAnatomyLabels);
+                                        setShowColorInfo(false);
+                                        setIsAnatomyMeasureMode(false);
+                                    }}
+                                    className={cn(
+                                        "h-8 w-8 transition-colors",
+                                        showAnatomyLabels ? "bg-primary/10 text-primary hover:bg-primary/20" : "text-muted-foreground hover:bg-muted"
+                                    )}
+                                    title={showAnatomyLabels ? "Hide labels" : "Show labels"}
+                                >
+                                    <Info className="w-4 h-4" />
+                                </Button>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => {
+                                        setShowColorInfo(!showColorInfo);
+                                        setShowAnatomyLabels(false);
+                                        setIsAnatomyMeasureMode(false);
+                                    }}
+                                    className={cn(
+                                        "h-8 w-8 transition-colors",
+                                        showColorInfo ? "bg-primary/10 text-primary hover:bg-primary/20" : "text-muted-foreground hover:bg-muted"
+                                    )}
+                                    title={showColorInfo ? "Hide color info" : "Show color info"}
+                                >
+                                    <Palette className="w-4 h-4" />
+                                </Button>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => {
+                                        setIsAnatomyMeasureMode(!isAnatomyMeasureMode);
+                                        setShowAnatomyLabels(false);
+                                        setShowColorInfo(false);
+                                    }}
+                                    className={cn(
+                                        "h-8 w-8 transition-colors",
+                                        isAnatomyMeasureMode ? "bg-primary/10 text-primary hover:bg-primary/20" : "text-muted-foreground hover:bg-muted"
+                                    )}
+                                    title={isAnatomyMeasureMode ? "Turn off measure mode" : "Turn on measure mode"}
+                                >
+                                    <Ruler className="w-4 h-4" />
+                                </Button>
                             </div>
 
                             <AnatomyPreview
