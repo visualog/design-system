@@ -11,12 +11,12 @@ const SpacingLayoutPage: React.FC = () => {
   const tabs = [
     {
       value: 'overview',
-      label: '토큰 및 레이아웃 (Tokens & Layout)',
+      label: '토큰 및 레이아웃',
       content: <SpacingLayoutDisplay />
     },
     {
       value: 'usage',
-      label: '사용 가이드 (Usage)',
+      label: '사용 가이드',
       content: (
         <div className="mt-6">
           <SpacingUsage />

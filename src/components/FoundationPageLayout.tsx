@@ -13,8 +13,8 @@ export const FoundationPageLayout: React.FC<FoundationPageLayoutProps> = ({
     children
 }) => {
     return (
-        <div className="space-y-6">
-            <div className="space-y-0.5">
+        <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-2">
                 <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
                 <p className="text-muted-foreground">
                     {description}

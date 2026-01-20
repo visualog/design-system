@@ -22,7 +22,7 @@ const ColorsPage: React.FC = () => {
   const tabs = [
     {
       value: 'scale',
-      label: '스케일 (Scale)',
+      label: '스케일',
       content: (
         <div className="mt-6">
           <ColorPaletteDisplay view="grid" />
@@ -31,22 +31,22 @@ const ColorsPage: React.FC = () => {
     },
     {
       value: 'raw',
-      label: '원시 컬러 (Raw)',
+      label: '원시 컬러',
       content: <ColorPaletteDisplay view="table" />
     },
     {
       value: 'theme',
-      label: '테마 컬러 (Theme)',
+      label: '테마 컬러',
       content: <ThemeColorMappingDisplay />
     },
     {
       value: 'semantic',
-      label: '시맨틱 컬러 (Semantic)',
+      label: '시맨틱 컬러',
       content: <SemanticColorMappingDisplay />
     },
     {
       value: 'usage',
-      label: '사용 가이드 (Usage)',
+      label: '사용 가이드',
       content: (
         <div className="mt-6">
           <ColorUsage />

@@ -11,12 +11,12 @@ const IconsPage: React.FC = () => {
   const tabs = [
     {
       value: 'overview',
-      label: '개요 (Overview)',
+      label: '개요',
       content: <IconDisplay />
     },
     {
       value: 'usage',
-      label: '사용 가이드 (Usage)',
+      label: '사용 가이드',
       content: (
         <div className="mt-6">
           <IconsUsage />

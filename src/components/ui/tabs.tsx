@@ -27,7 +27,7 @@ const TabsList = React.forwardRef<
   <TabsPrimitive.List
     ref={ref}
     className={cn(
-      "flex w-full h-9 items-center rounded-lg bg-muted p-1 text-muted-foreground",
+      "flex w-full items-center rounded-lg bg-muted p-1 gap-1 text-muted-foreground",
       className
     )}
     {...props}
@@ -42,7 +42,7 @@ const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow",
+      "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 h-9 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow",
       className
     )}
     {...props}
@@ -68,6 +68,7 @@ TabsContent.displayName = TabsPrimitive.Content.displayName
 const AnimatedTabs = ({ tabs, activeTab, setActiveTab, children }: AnimatedTabsProps) => {
   const tabRefs = React.useRef<(HTMLButtonElement | null)[]>([])
   const [underlineStyle, setUnderlineStyle] = React.useState({ left: 0, width: 0 })
+  const [isAnimating, setIsAnimating] = React.useState(false)
 
   React.useLayoutEffect(() => {
     const activeIndex = tabs.findIndex(tab => tab.value === activeTab)
@@ -83,7 +84,7 @@ const AnimatedTabs = ({ tabs, activeTab, setActiveTab, children }: AnimatedTabsP
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className='w-full flex flex-col gap-4'>
-      <div className="relative flex justify-start">
+      <div className="relative flex justify-start group">
         <TabsList className='relative'>
           {tabs.map((tab, index) => (
             <TabsTrigger
@@ -98,7 +99,10 @@ const AnimatedTabs = ({ tabs, activeTab, setActiveTab, children }: AnimatedTabsP
             </TabsTrigger>
           ))}
           <motion.div
-            className='absolute z-0 inset-y-1 bg-background rounded-md shadow-sm'
+            className={cn(
+              'absolute z-0 inset-y-1 bg-background rounded-md transition-shadow',
+              isAnimating ? 'shadow-sm' : 'shadow-none group-hover:shadow-sm'
+            )}
             animate={{
               left: underlineStyle.left,
               width: underlineStyle.width
@@ -108,6 +112,8 @@ const AnimatedTabs = ({ tabs, activeTab, setActiveTab, children }: AnimatedTabsP
               stiffness: 400,
               damping: 40
             }}
+            onAnimationStart={() => setIsAnimating(true)}
+            onAnimationComplete={() => setIsAnimating(false)}
           />
         </TabsList>
       </div>

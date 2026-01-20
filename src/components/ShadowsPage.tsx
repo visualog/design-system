@@ -11,12 +11,12 @@ const ShadowsPage: React.FC = () => {
   const tabs = [
     {
       value: 'overview',
-      label: '토큰 (Tokens)',
+      label: '토큰',
       content: <ShadowsDisplay />
     },
     {
       value: 'usage',
-      label: '사용 가이드 (Usage)',
+      label: '사용 가이드',
       content: (
         <div className="mt-6">
           <ShadowsUsage />
