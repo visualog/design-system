@@ -11,7 +11,7 @@ const SpacingLayoutPage: React.FC = () => {
   const tabs = [
     {
       value: 'overview',
-      label: '토큰 및 레이아웃',
+      label: '개요',
       content: <SpacingLayoutDisplay />
     },
     {

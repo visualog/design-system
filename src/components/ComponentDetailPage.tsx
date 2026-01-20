@@ -328,7 +328,11 @@ const ComponentDetailPage = () => {
     const [showColorInfo, setShowColorInfo] = React.useState(false);
     const [hoveredColorToken, setHoveredColorToken] = React.useState<string | null>(null);
     const [hoveredColorName, setHoveredColorName] = React.useState<string | undefined>(undefined);
-    const [anatomyStyle, setAnatomyStyle] = React.useState('segmented');
+    const [anatomyStyle, setAnatomyStyle] = React.useState(() => {
+        const variants = getAnatomyVariants(componentName || '');
+        return variants.length > 0 ? variants[0] : 'segmented';
+    });
+    const [isAnatomyTabAnimating, setIsAnatomyTabAnimating] = React.useState(false);
     const previewRef = React.useRef<HTMLDivElement>(null);
 
     const meta = componentName ? getComponentMeta(componentName) : undefined;
@@ -337,6 +341,13 @@ const ComponentDetailPage = () => {
     React.useEffect(() => {
         setActiveVariantIndex(0);
         setIsMeasureMode(false);
+        // Reset anatomy style to first valid variant when component changes
+        const variants = getAnatomyVariants(componentName || '');
+        if (variants.length > 0) {
+            setAnatomyStyle(variants[0]);
+        } else {
+            setAnatomyStyle('segmented');
+        }
     }, [componentName]);
 
     const copyToClipboard = (code: string, id: string) => {
@@ -407,7 +418,7 @@ const ComponentDetailPage = () => {
                             <div className="absolute top-3 left-3 z-50">
                                 {/* Component Variants Switcher */}
                                 {getAnatomyVariants(componentName || '').length > 0 && (
-                                    <div className="flex gap-0.5 p-[2px] bg-muted rounded-[10px] h-8 items-center relative">
+                                    <div className="flex gap-0.5 p-[2px] bg-muted rounded-[10px] h-8 items-center relative group">
                                         {getAnatomyVariants(componentName || '').map((s) => (
                                             <button
                                                 key={s}
@@ -420,8 +431,13 @@ const ComponentDetailPage = () => {
                                                 {anatomyStyle === s && (
                                                     <motion.div
                                                         layoutId="anatomyStyleActive"
-                                                        className="absolute inset-0 bg-white rounded-[8px] shadow-sm hover:shadow-md transition-shadow"
+                                                        className={cn(
+                                                            "absolute inset-0 bg-white rounded-[8px] transition-shadow",
+                                                            isAnatomyTabAnimating ? "shadow-sm" : "shadow-none group-hover:shadow-sm"
+                                                        )}
                                                         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                                                        onLayoutAnimationStart={() => setIsAnatomyTabAnimating(true)}
+                                                        onLayoutAnimationComplete={() => setIsAnatomyTabAnimating(false)}
                                                     />
                                                 )}
                                                 <span className="relative z-10">{s.charAt(0).toUpperCase() + s.slice(1)}</span>

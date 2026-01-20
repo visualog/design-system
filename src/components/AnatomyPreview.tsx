@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react';
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 import MeasureOverlay from '@/components/ui/MeasureOverlay';
+import { Button } from '@/components/ui/button';
+import { Search } from 'lucide-react';
 
 // Anatomy Label Component with connecting line
 const AnatomyLabel = ({
@@ -668,10 +670,180 @@ interface AnatomyPreviewProps {
     onColorHoverChange?: (color: string | null) => void;
 }
 
+// Button Anatomy Component
+const ButtonAnatomy = ({ style = 'default', showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { style?: string; showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
+    const [hoveredPart, setHoveredPart] = useState<string | null>(null);
+    const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+
+    // If Color Info is active, force hide Anatomy Labels to prevent overlap
+    const effectiveShowLabels = showLabels && !showColorInfo;
+
+    const handleHoverChange = (part: string | null) => {
+        setHoveredPart(part);
+        onHoverChange?.(part);
+    };
+
+    const handleColorHoverChange = (color: string | null, name?: string) => {
+        setHoveredColor(color);
+        onColorHoverChange?.(color, name);
+    };
+
+    // Helper to get token keys based on variant
+    const getTokenKeys = (variant: string) => {
+        switch (variant) {
+            case 'secondary':
+                return { bg: 'bg-secondary', text: 'text-secondary-foreground' };
+            case 'outline':
+                return { bg: 'bg-background', text: 'text-accent-foreground', border: 'border-input' };
+            case 'ghost':
+                return { bg: 'bg-transparent', text: 'text-accent-foreground' };
+            case 'link':
+                return { bg: 'bg-transparent', text: 'text-primary' };
+            case 'destructive':
+                return { bg: 'bg-destructive', text: 'text-destructive-foreground' };
+            default: // default/primary
+                return { bg: 'bg-primary', text: 'text-primary-foreground' };
+        }
+    };
+
+    const tokens = getTokenKeys(style);
+
+    return (
+        <div className="relative flex flex-col items-center gap-8 select-none mx-auto w-96 justify-center min-h-[120px]">
+            <div className="relative group inline-flex">
+                {/* Container Label */}
+                {effectiveShowLabels && (
+                    <AnatomyLabel
+                        label="컨테이너"
+                        direction="left"
+                        length={32}
+                        isActive={hoveredPart === 'Container'}
+                        isDimmed={hoveredPart !== null && hoveredPart !== 'Container'}
+                        onMouseEnter={() => handleHoverChange('Container')}
+                        onMouseLeave={() => handleHoverChange(null)}
+                    />
+                )}
+                {/* Container Color Label */}
+                {showColorInfo && (
+                    <ColorLabel
+                        tokenName="컨테이너 배경"
+                        colorValue={style === 'outline' || style === 'ghost' || style === 'link' ? '#ffffff00' : (style === 'secondary' ? '#f4f4f5' : (style === 'destructive' ? '#ef4444' : '#18181b'))} // Approximated hex for demo
+                        direction="left"
+                        length={32}
+                        isActive={hoveredColor === tokens.bg}
+                        isDimmed={hoveredColor !== null && hoveredColor !== tokens.bg}
+                        onMouseEnter={() => handleColorHoverChange(tokens.bg, '컨테이너 배경')}
+                        onMouseLeave={() => handleColorHoverChange(null)}
+                    />
+                )}
+
+                <Button
+                    variant={style as any}
+                    className="relative"
+                    style={{
+                        outline: hoveredPart === 'Container' ? '2px solid #2563eb' : (
+                            (hoveredColor === tokens.bg) ? '2px solid #7c3aed' : 'none'
+                        ),
+                        transition: 'outline 0s 0.2s',
+                    }}
+                    onMouseEnter={() => {
+                        if (effectiveShowLabels) handleHoverChange('Container');
+                        if (showColorInfo) handleColorHoverChange(tokens.bg, '컨테이너 배경');
+                    }}
+                    onMouseLeave={() => {
+                        handleHoverChange(null);
+                        handleColorHoverChange(null);
+                    }}
+                >
+                    {/* Icon Wrapper for Anatomy */}
+                    <span
+                        className="relative"
+                        style={{
+                            outline: hoveredPart === 'Icon' ? '2px solid #2563eb' : (
+                                (hoveredColor === tokens.text) ? '2px solid #7c3aed' : 'none'
+                            ),
+                        }}
+                        onMouseEnter={(e) => {
+                            e.stopPropagation();
+                            if (effectiveShowLabels) handleHoverChange('Icon');
+                            if (showColorInfo) handleColorHoverChange(tokens.text, '아이콘 컬러');
+                        }}
+                        onMouseLeave={(e) => {
+                            e.stopPropagation();
+                            handleHoverChange(null);
+                            handleColorHoverChange(null);
+                        }}
+                    >
+                        <Search className="w-4 h-4" />
+                        {/* Icon Label */}
+                        {effectiveShowLabels && (
+                            <AnatomyLabel
+                                label="아이콘"
+                                direction="bottom"
+                                length={24}
+                                isActive={hoveredPart === 'Icon'}
+                                isDimmed={hoveredPart !== null && hoveredPart !== 'Icon'}
+                                className="left-1/2 -translate-x-1/2"
+                            />
+                        )}
+                    </span>
+
+                    {/* Text Wrapper for Anatomy */}
+                    <span
+                        className="relative"
+                        style={{
+                            outline: hoveredPart === 'Label' ? '2px solid #2563eb' : (
+                                (hoveredColor === tokens.text) ? '2px solid #7c3aed' : 'none'
+                            ),
+                        }}
+                        onMouseEnter={(e) => {
+                            e.stopPropagation();
+                            if (effectiveShowLabels) handleHoverChange('Label');
+                            if (showColorInfo) handleColorHoverChange(tokens.text, '텍스트 컬러');
+                        }}
+                        onMouseLeave={(e) => {
+                            e.stopPropagation();
+                            handleHoverChange(null);
+                            handleColorHoverChange(null);
+                        }}
+                    >
+                        Button
+                        {/* Label Anatomy */}
+                        {effectiveShowLabels && (
+                            <AnatomyLabel
+                                label="레이블"
+                                direction="top"
+                                length={32}
+                                isActive={hoveredPart === 'Label'}
+                                isDimmed={hoveredPart !== null && hoveredPart !== 'Label'}
+                                className="left-1/2 -translate-x-1/2"
+                            />
+                        )}
+                        {/* Text Color Label */}
+                        {showColorInfo && (
+                            <ColorLabel
+                                tokenName="텍스트 컬러"
+                                colorValue={style === 'outline' || style === 'ghost' ? '#18181b' : (style === 'secondary' ? '#18181b' : '#ffffff')}
+                                direction="top"
+                                length={32}
+                                isActive={hoveredColor === tokens.text}
+                                isDimmed={hoveredColor !== null && hoveredColor !== tokens.text}
+                                className="left-1/2 -translate-x-1/2"
+                                isTextColor={true}
+                            />
+                        )}
+                    </span>
+                </Button>
+            </div>
+        </div>
+    );
+};
+
 // Helper function to get variants for a component
 export const getAnatomyVariants = (componentName: string): string[] => {
     const name = componentName.toLowerCase();
     if (name === 'tabs') return ['segmented', 'pill', 'line'];
+    if (name === 'button') return ['default', 'secondary', 'outline', 'ghost', 'link'];
     return [];
 };
 
@@ -690,6 +862,8 @@ const AnatomyPreview: React.FC<AnatomyPreviewProps> = ({
     let content = null;
     if (name === 'tabs') {
         content = <TabsAnatomy style={style as any} showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
+    } else if (name === 'button') {
+        content = <ButtonAnatomy style={style} showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
     } else {
         content = (
             <div className="flex flex-col items-center justify-center min-h-[300px] text-muted-foreground bg-muted/20 rounded-xl border-dashed border-2">

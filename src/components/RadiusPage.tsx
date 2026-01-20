@@ -11,7 +11,7 @@ const RadiusPage: React.FC = () => {
     const tabs = [
         {
             value: 'overview',
-            label: '토큰',
+            label: '개요',
             content: <RadiusDisplay />
         },
         {
