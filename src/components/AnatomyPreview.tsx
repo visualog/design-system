@@ -239,7 +239,7 @@ const TabsAnatomy = ({ style = 'segmented', showLabels = true, showColorInfo = f
     const containerClasses = {
         segmented: "bg-muted p-1 rounded-lg gap-1",
         pill: "bg-transparent p-0 gap-2",
-        line: "bg-transparent p-0 gap-6 border-b border-border w-full justify-start rounded-none"
+        line: "bg-transparent p-0 gap-6 border-b border-border w-full justify-start rounded-none h-9"
     };
 
     const triggerBaseClasses = "relative flex-1 flex items-center justify-center h-9 px-3 text-sm font-medium outline-none transition-colors";
@@ -702,7 +702,7 @@ const AnatomyPreview: React.FC<AnatomyPreviewProps> = ({
     return (
         <div ref={containerRef} className="relative w-full h-full min-h-[300px] flex items-center justify-center">
             {content}
-            {isMeasureMode && <MeasureOverlay targetRef={containerRef as React.RefObject<HTMLElement>} />}
+            {isMeasureMode && <MeasureOverlay targetRef={containerRef as React.RefObject<HTMLElement>} key={style} />}
         </div>
     );
 };

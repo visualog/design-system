@@ -234,11 +234,7 @@ const MeasureOverlay: React.FC<{ targetRef: React.RefObject<HTMLElement> }> = ({
                         }}
                     >
                         {/* External Dimensions (Focused Container) */}
-                        {/* Width */}
-                        <path d={`M0,-16 L${staticSpecs.width},-16`} stroke={P_COLOR} strokeWidth="1" />
-                        <path d={`M0,-20 L0,-12`} stroke={P_COLOR} strokeWidth="1" />
-                        <path d={`M${staticSpecs.width},-20 L${staticSpecs.width},-12`} stroke={P_COLOR} strokeWidth="1" />
-                        <text x={staticSpecs.width / 2} y="-20" fill={P_COLOR} fontSize="10" fontWeight="bold" textAnchor="middle">w{Math.round(staticSpecs.width)}px</text>
+                        {/* External Dimensions (Focused Container) */}
 
                         {/* Height */}
                         <path d={`M${staticSpecs.width + 16},0 L${staticSpecs.width + 16},${staticSpecs.height}`} stroke={P_COLOR} strokeWidth="1" />
@@ -372,12 +368,6 @@ const MeasureOverlay: React.FC<{ targetRef: React.RefObject<HTMLElement> }> = ({
                                 {/* Dimension Lines: Only for the first child (as requested) */}
                                 {i === 0 && (
                                     <>
-                                        {/* Width Line (Below) */}
-                                        <path d={`M${child.relLeft},${child.relTop + child.height + 12} L${child.relLeft + child.width},${child.relTop + child.height + 12}`} stroke={P_COLOR} strokeWidth="1" />
-                                        <path d={`M${child.relLeft},${child.relTop + child.height + 9} L${child.relLeft},${child.relTop + child.height + 15}`} stroke={P_COLOR} strokeWidth="1" />
-                                        <path d={`M${child.relLeft + child.width},${child.relTop + child.height + 9} L${child.relLeft + child.width},${child.relTop + child.height + 15}`} stroke={P_COLOR} strokeWidth="1" />
-                                        <text x={child.relLeft + child.width / 2} y={child.relTop + child.height + 22} fill={P_COLOR} fontSize="9" fontWeight="bold" textAnchor="middle">w{Math.round(child.width)}px</text>
-
                                         {/* Height Line (Left) */}
                                         <path d={`M${child.relLeft - 12},${child.relTop} L${child.relLeft - 12},${child.relTop + child.height}`} stroke={P_COLOR} strokeWidth="1" />
                                         <path d={`M${child.relLeft - 15},${child.relTop} L${child.relLeft - 9},${child.relTop}`} stroke={P_COLOR} strokeWidth="1" />

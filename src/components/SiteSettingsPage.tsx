@@ -1,5 +1,5 @@
 import React from 'react';
-import { Settings, Palette, Layout, Type, Box } from 'lucide-react';
+import { Palette, Layout, Type, Box } from 'lucide-react';
 
 import { Link } from 'react-router-dom';
 
@@ -7,13 +7,14 @@ const SiteSettingsPage = () => {
     return (
         <div className="flex flex-col gap-8 pb-20">
             <div>
-                <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-                    <Settings className="w-8 h-8" />
-                    Site Settings
-                </h1>
-                <p className="text-lg text-muted-foreground mt-2">
-                    Manage environment settings and UI components for the design system site.
-                </p>
+                <div className="flex flex-col gap-2">
+                    <h1 className="flex items-center gap-3 text-3xl font-semibold tracking-tight">
+                        Site Settings
+                    </h1>
+                    <p className="text-muted-foreground">
+                        Manage your documentation site's appearance, navigation, and components.
+                    </p>
+                </div>
             </div>
 
 
@@ -22,7 +23,7 @@ const SiteSettingsPage = () => {
                 {/* Value Component for Theme Settings */}
                 <SettingCard
                     icon={<Palette className="w-6 h-6" />}
-                    title="Theme Management"
+                    title="Theme"
                     description="Configure global colors, fonts, radius, and overall site theme."
                     href="/site-settings/theme"
                 />
@@ -30,7 +31,7 @@ const SiteSettingsPage = () => {
                 {/* Placeholder Component for Layout Settings */}
                 <SettingCard
                     icon={<Layout className="w-6 h-6" />}
-                    title="Layout Config"
+                    title="Layout"
                     description="Adjust sidebar width, navigation structure, and page layouts."
                     href="/site-settings/layout"
                 />
@@ -66,12 +67,12 @@ interface SettingCardProps {
 
 const SettingCard = ({ icon, title, description, status, href }: SettingCardProps) => {
     const CardContent = (
-        <div className={`rounded-xl border bg-card text-card-foreground p-6 flex flex-col gap-4 relative overflow-hidden transition-colors ${href ? 'hover:bg-accent/5' : ''}`}>
+        <div className={`rounded-xl border bg-card text-card-foreground p-6 flex flex-col gap-4 relative overflow-hidden transition-colors ${href ? 'hover:bg-muted/50' : ''}`}>
             <div className="flex items-center gap-4">
-                <div className="p-2 bg-primary/10 rounded-lg text-primary">
+                <div className="p-2 bg-primary rounded-lg text-primary-foreground">
                     {icon}
                 </div>
-                <h3 className="font-semibold text-lg">{title}</h3>
+                <h3 className="font-semibold text-lg tracking-tight group-hover:text-primary transition-colors">{title}</h3>
             </div>
             <p className="text-sm text-muted-foreground">
                 {description}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Box } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { AnimatedTabs } from '@/components/ui/animated-tabs';
@@ -42,13 +42,14 @@ const SiteComponentsPage = () => {
                         Back to Settings
                     </Link>
                 </div>
-                <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-                    <Box className="w-8 h-8" />
-                    Components
-                </h1>
-                <p className="text-lg text-muted-foreground mt-2">
-                    Reusable UI components used throughout the design system site.
-                </p>
+                <div className="flex flex-col gap-2">
+                    <h1 className="flex items-center gap-3 text-3xl font-semibold tracking-tight">
+                        Components
+                    </h1>
+                    <p className="text-muted-foreground">
+                        Manage and configure the components available in your design system.
+                    </p>
+                </div>
 
                 <div className="mt-8">
                     <AnimatedTabs tabs={tabs} activeTab={selectedCategory} setActiveTab={setSelectedCategory}>
@@ -82,31 +83,30 @@ const SiteComponentsPage = () => {
                                             className="block group"
                                         >
                                             <div className="rounded-xl border bg-card text-card-foreground p-6 flex flex-col gap-4 hover:bg-muted/50 transition-colors h-full relative">
-                                                <div className="flex flex-col items-start gap-2 mb-1">
-                                                    <span className="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary-foreground">
+                                                <div className="flex flex-col items-start">
+                                                    <span className="inline-flex items-center rounded-full bg-primary px-2.5 py-0.5 text-xs font-medium text-primary-foreground">
                                                         {component.category}
                                                     </span>
-                                                    <h3 className="font-bold text-xl group-hover:text-primary transition-colors">
+                                                </div>
+                                                <div className="flex flex-col gap-0">
+                                                    <h3 className="font-bold text-lg group-hover:text-primary transition-colors tracking-tight">
                                                         {component.displayName}
                                                     </h3>
+                                                    <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2 min-h-[40px] break-keep">
+                                                        {component.description}
+                                                    </p>
                                                 </div>
-                                                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2 min-h-[40px]">
-                                                    {component.description}
-                                                </p>
 
-                                                <div className="mt-auto pt-4 border-t w-full">
-                                                    <div className="text-sm font-mono text-muted-foreground mb-3 truncate" title={component.filePath.split('/').pop()}>
+                                                <div className="mt-auto w-full flex flex-wrap gap-1">
+                                                    <div className="inline-flex items-center rounded bg-secondary/50 px-2 py-1 text-xs font-medium text-muted-foreground font-mono truncate max-w-full" title={component.filePath.split('/').pop()}>
                                                         {component.filePath.split('/').pop()}
                                                     </div>
-                                                    <div className="flex items-center gap-2">
-                                                        <span className="inline-flex items-center justify-center rounded bg-secondary/50 px-2 py-1 text-xs font-medium text-muted-foreground">
-                                                            {component.props.length} props
-                                                        </span>
-                                                        <span className="text-muted-foreground/40">•</span>
-                                                        <span className="inline-flex items-center justify-center rounded bg-secondary/50 px-2 py-1 text-xs font-medium text-muted-foreground">
-                                                            {component.variants.length} variants
-                                                        </span>
-                                                    </div>
+                                                    <span className="inline-flex items-center justify-center rounded bg-secondary/50 px-2 py-1 text-xs font-medium text-muted-foreground">
+                                                        {component.props.length} props
+                                                    </span>
+                                                    <span className="inline-flex items-center justify-center rounded bg-secondary/50 px-2 py-1 text-xs font-medium text-muted-foreground">
+                                                        {component.variants.length} variants
+                                                    </span>
                                                 </div>
                                             </div>
                                         </Link>

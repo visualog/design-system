@@ -246,8 +246,8 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                             {/* 호버 시 내용 미리보기 - 화면 위치에 따라 방향 조정 */}
                             <div
                                 className={`absolute w-48 bg-card border rounded-md shadow-lg p-2 text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 invisible group-hover:visible whitespace-normal break-words ${isNearTop
-                                        ? (isNearRightEdge ? 'top-full mt-2 right-0' : 'top-full mt-2 left-0')
-                                        : (isNearRightEdge ? 'top-0 right-full mr-2' : 'top-0 left-full ml-2')
+                                    ? (isNearRightEdge ? 'top-full mt-2 right-0' : 'top-full mt-2 left-0')
+                                    : (isNearRightEdge ? 'top-0 right-full mr-2' : 'top-0 left-full ml-2')
                                     }`}
                             >
                                 <p className="font-semibold mb-1 line-clamp-1">{proposal.title}</p>
@@ -328,7 +328,7 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                             <PopoverTrigger asChild>
                                 {/* 통합된 버튼 (아이콘 + 확장 텍스트) */}
                                 <button
-                                    className="relative flex items-center p-1.5 rounded-md text-blue-500 hover:text-blue-700 hover:bg-blue-50 transition-colors"
+                                    className="relative flex items-center p-1.5 rounded-md text-primary hover:text-foreground hover:bg-muted transition-colors"
                                     aria-label="개선 메모 보기"
                                 >
                                     {/* 아이콘 */}
@@ -393,7 +393,7 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                                         onClick={() => handleProposalClick(proposal)}
                                         className="flex items-center gap-2 px-2 py-2 text-sm text-left rounded-md w-full hover:bg-accent transition-colors"
                                     >
-                                        <MessageSquare size={14} className="text-blue-500 flex-shrink-0" />
+                                        <MessageSquare size={14} className="text-primary flex-shrink-0" />
                                         <div className="min-w-0 flex-1">
                                             <div className="truncate font-medium">{proposal.title}</div>
                                             <div className="text-xs text-muted-foreground truncate">{proposal.targetPage}</div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, Layout } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Separator } from '@/components/ui/separator';
 
@@ -39,13 +39,14 @@ const SiteLayoutPage = () => {
                         Back to Settings
                     </Link>
                 </div>
-                <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-                    <Layout className="w-8 h-8" />
-                    Layout Config
-                </h1>
-                <p className="text-lg text-muted-foreground mt-2">
-                    Adjust the site's layout structure and dimensions.
-                </p>
+                <div className="flex flex-col gap-2">
+                    <h1 className="flex items-center gap-3 text-3xl font-semibold tracking-tight">
+                        Layout
+                    </h1>
+                    <p className="text-muted-foreground">
+                        Configure the global layout settings for your documentation site.
+                    </p>
+                </div>
             </div>
 
 
@@ -55,7 +56,7 @@ const SiteLayoutPage = () => {
                 <section className="space-y-6">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h2 className="text-xl font-semibold">Sidebar Width</h2>
+                            <h2 className="text-xl font-semibold tracking-tight">Sidebar Width</h2>
                             <p className="text-muted-foreground">Set the width of the navigation sidebar.</p>
                         </div>
                         <span className="font-mono text-sm bg-muted px-2 py-1 rounded">
@@ -87,7 +88,7 @@ const SiteLayoutPage = () => {
 
                 {/* Future placeholders */}
                 <section className="opacity-50 pointer-events-none">
-                    <h2 className="text-xl font-semibold mb-2">Content Width (Coming Soon)</h2>
+                    <h2 className="mb-2 text-xl font-semibold tracking-tight">Content Width (Coming Soon)</h2>
                     <p className="text-muted-foreground mb-4">Limit the maximum width of the main content area.</p>
                     <div className="h-2 bg-muted rounded w-full"></div>
                 </section>
