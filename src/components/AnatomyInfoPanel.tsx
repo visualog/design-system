@@ -6,12 +6,14 @@ interface AnatomyInfoPanelProps {
     hoveredAnatomyPart: string | null;
     hoveredColorToken: string | null;
     showColorInfo: boolean;
+    customColorName?: string | null; // Custom name from ColorLabel annotation
 }
 
 const AnatomyInfoPanel = ({
     hoveredAnatomyPart,
     hoveredColorToken,
-    showColorInfo
+    showColorInfo,
+    customColorName
 }: AnatomyInfoPanelProps) => {
     return (
         <div className="absolute bottom-3 left-3 right-3 z-50 pointer-events-none">
@@ -29,15 +31,17 @@ const AnatomyInfoPanel = ({
                             {{
                                 'Container': '컨테이너',
                                 'Label': '레이블',
-                                'ActiveTrigger': '활성 트리거',
-                                'InactiveTrigger': '비활성 트리거',
+                                'ActiveTrigger': '인디케이터',
+                                'InactiveTrigger': '비활성 탭',
+                                'HoverTrigger': '호버 탭',
                                 'Trigger': '트리거'
                             }[hoveredAnatomyPart] || hoveredAnatomyPart}
                         </div>
                         <div className="text-xs text-neutral-300">
                             {hoveredAnatomyPart === 'Container' && '탭 트리거들을 감싸는 컨테이너 영역입니다.'}
-                            {hoveredAnatomyPart === 'ActiveTrigger' && '현재 선택된 탭을 나타내는 활성화된 버튼 요소입니다.'}
-                            {hoveredAnatomyPart === 'InactiveTrigger' && '클릭하여 해당 탭으로 전환할 수 있는 비활성 버튼 요소입니다.'}
+                            {hoveredAnatomyPart === 'ActiveTrigger' && '현재 선택된 탭을 나타내는 활성 인디케이터입니다.'}
+                            {hoveredAnatomyPart === 'InactiveTrigger' && '클릭하여 해당 탭으로 전환할 수 있는 비활성 탭입니다.'}
+                            {hoveredAnatomyPart === 'HoverTrigger' && '마우스 오버 시 나타나는 호버 상태의 탭입니다.'}
                             {hoveredAnatomyPart === 'Label' && '탭 트리거 내부의 텍스트 레이블입니다.'}
                         </div>
                     </motion.div>
@@ -62,9 +66,9 @@ const AnatomyInfoPanel = ({
                             />
                             {/* Info Text Column */}
                             <div className="flex flex-col min-w-0 text-left">
-                                {/* Line 1: Usage Description */}
+                                {/* Line 1: Usage Description - Use customColorName if provided */}
                                 <div className="text-xs font-medium text-white leading-tight">
-                                    {colorTokenData[hoveredColorToken].usage}
+                                    {customColorName || colorTokenData[hoveredColorToken].usage}
                                 </div>
                                 {/* Line 2: Token & Values */}
                                 <div className="flex items-center gap-2 text-[10px] leading-tight mt-1">

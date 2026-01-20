@@ -327,6 +327,7 @@ const ComponentDetailPage = () => {
     const [hoveredAnatomyPart, setHoveredAnatomyPart] = React.useState<string | null>(null);
     const [showColorInfo, setShowColorInfo] = React.useState(false);
     const [hoveredColorToken, setHoveredColorToken] = React.useState<string | null>(null);
+    const [hoveredColorName, setHoveredColorName] = React.useState<string | undefined>(undefined);
     const [anatomyStyle, setAnatomyStyle] = React.useState('segmented');
     const previewRef = React.useRef<HTMLDivElement>(null);
 
@@ -489,12 +490,16 @@ const ComponentDetailPage = () => {
                                 showColorInfo={showColorInfo}
                                 style={anatomyStyle}
                                 onHoverChange={setHoveredAnatomyPart}
-                                onColorHoverChange={setHoveredColorToken}
+                                onColorHoverChange={(color: string | null, name?: string) => {
+                                    setHoveredColorToken(color);
+                                    setHoveredColorName(name);
+                                }}
                             />
 
                             <AnatomyInfoPanel
                                 hoveredAnatomyPart={hoveredAnatomyPart}
                                 hoveredColorToken={hoveredColorToken}
+                                customColorName={hoveredColorName}
                                 showColorInfo={showColorInfo}
                             />
                         </div>
