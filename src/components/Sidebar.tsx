@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { ChevronDown, X, Settings } from 'lucide-react';
+import { ChevronDown, X, Settings, Github, Moon, Sun } from 'lucide-react';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -18,6 +18,26 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
       setIsFoundationOpen(true);
     }
   }, [location.pathname]); // Re-evaluate when pathname changes
+
+  // Dark mode state init
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Check initial preference
+    if (document.documentElement.classList.contains('dark')) {
+      setIsDarkMode(true);
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    if (isDarkMode) {
+      document.documentElement.classList.remove('dark');
+      setIsDarkMode(false);
+    } else {
+      document.documentElement.classList.add('dark');
+      setIsDarkMode(true);
+    }
+  };
 
   const [showFooterBorder, setShowFooterBorder] = useState(false);
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
@@ -83,7 +103,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           ref={scrollContainerRef}
           className="p-4 flex-1 overflow-y-auto"
         >
-          <h1 className="text-xl font-bold text-foreground mb-8 px-2">Design System</h1>
+          <div className="mb-8 px-2 flex items-baseline gap-2">
+            <h1 className="text-xl font-bold text-foreground">MDS</h1>
+            <span className="text-xs text-muted-foreground font-medium">Design System</span>
+            <span className="text-[10px] text-muted-foreground/80 font-mono">v0.1.0</span>
+          </div>
           <nav>
             <ul className="space-y-1">
               <li>
@@ -130,22 +154,42 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
                   </ul>
                 )}
               </li>
-              {/* Add other top-level menu items here in the future */}
+              <li>
+                <div className="h-px bg-border my-2 mx-1" />
+              </li>
+              <li>
+                <NavLink
+                  to="/site-settings"
+                  className={({ isActive }) => `w-full flex items-center gap-2 p-2 rounded-md transition-colors duration-200 ${isActive ? 'text-primary bg-accent' : 'text-foreground hover:bg-accent'}`}
+                  onClick={toggleSidebar}
+                  title="Site Settings"
+                >
+                  <Settings className="w-5 h-5" />
+                  <span className="text-base font-semibold">Site Settings</span>
+                </NavLink>
+              </li>
             </ul>
           </nav>
         </div>
 
         {/* Bottom Actions */}
-        <div className={`p-4 border-t flex items-center justify-between gap-2 flex-wrap transition-colors duration-200 ${showFooterBorder ? 'border-border' : 'border-transparent'}`}>
-          <NavLink
-            to="/site-settings"
-            className={({ isActive }) => `flex items-center justify-center p-2 rounded-md hover:bg-accent transition-colors duration-200 ${isActive ? 'text-primary bg-accent' : 'text-foreground'}`}
-            onClick={toggleSidebar}
-            title="Site Settings"
+        <div className={`p-4 border-t flex items-center justify-end gap-2 flex-wrap transition-colors duration-200 ${showFooterBorder ? 'border-border' : 'border-transparent'}`}>
+          <button
+            onClick={toggleDarkMode}
+            className="flex items-center justify-center p-2 rounded-md hover:bg-accent transition-colors duration-200 text-foreground"
+            title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
           >
-            <Settings className="w-5 h-5" />
-          </NavLink>
-          <span className="text-xs text-muted-foreground font-medium px-2">v0.1.0</span>
+            {isDarkMode ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+          </button>
+          <a
+            href="https://github.com/visualog/design-system"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center p-2 rounded-md hover:bg-accent transition-colors duration-200 text-foreground"
+            title="GitHub Repository"
+          >
+            <Github className="w-5 h-5" />
+          </a>
         </div>
       </aside>
     </>

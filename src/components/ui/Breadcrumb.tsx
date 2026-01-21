@@ -27,7 +27,7 @@ const Breadcrumb: React.FC = () => {
   };
 
   return (
-    <nav className="flex items-center text-xs text-gray-500" aria-label="Breadcrumb">
+    <nav className="flex items-center text-xs text-muted-foreground" aria-label="Breadcrumb">
       <ol className="inline-flex items-center space-x-1 md:space-x-2">
         {displayPathnames.map((value, index) => {
           const last = index === displayPathnames.length - 1;
@@ -53,18 +53,18 @@ const Breadcrumb: React.FC = () => {
           return (
             <li key={currentTo}>
               <div className="flex items-center">
-                {index > 0 && <ChevronRight className="w-4 h-4 text-gray-400" />}
+                {index > 0 && <ChevronRight className="w-4 h-4 text-muted-foreground/50" />}
                 {
                   last ? (
-                    <span className={`${index > 0 ? 'ml-1 md:ml-2' : ''} text-xs font-medium text-gray-900`}>
+                    <span className={`${index > 0 ? 'ml-1 md:ml-2' : ''} text-xs font-medium text-foreground`}>
                       {pathMapping[currentPathSegment] || capitalize(currentPathSegment)}
                     </span>
                   ) : isFoundationSegment ? (
-                    <span className={`${index > 0 ? 'ml-1 md:ml-2' : ''} text-xs font-medium text-gray-500`}>
+                    <span className={`${index > 0 ? 'ml-1 md:ml-2' : ''} text-xs font-medium text-muted-foreground`}>
                       {pathMapping[currentPathSegment] || capitalize(currentPathSegment)}
                     </span>
                   ) : (
-                    <NavLink to={currentTo} className={`${index > 0 ? 'ml-1 md:ml-2' : ''} text-xs font-medium text-gray-700 hover:text-blue-600`}>
+                    <NavLink to={currentTo} className={`${index > 0 ? 'ml-1 md:ml-2' : ''} text-xs font-medium text-muted-foreground hover:text-primary transition-colors`}>
                       {pathMapping[currentPathSegment] || capitalize(currentPathSegment)}
                     </NavLink>
                   )

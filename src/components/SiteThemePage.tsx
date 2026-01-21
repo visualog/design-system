@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Check, Moon, Sun } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Check, Moon, Sun } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 const SiteThemePage = () => {
@@ -121,15 +120,7 @@ const SiteThemePage = () => {
     return (
         <div className="flex flex-col gap-8 pb-20">
             <div>
-                <div className="flex items-center gap-2 mb-4">
-                    <Link
-                        to="/site-settings"
-                        className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 text-sm font-medium"
-                    >
-                        <ArrowLeft className="w-4 h-4" />
-                        Back to Settings
-                    </Link>
-                </div>
+
                 <div className="flex flex-col gap-2">
                     <h1 className="flex items-center gap-3 text-3xl font-semibold tracking-tight">
                         Theme

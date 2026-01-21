@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Copy, Check, Ruler, Info, Palette } from 'lucide-react';
+import { Copy, Check, Ruler, Info, Palette } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
@@ -378,15 +378,7 @@ const ComponentDetailPage = () => {
         <div className="flex flex-col pb-20 max-w-5xl mx-auto w-full">
             {/* 1. Header Section */}
             <div className="mb-12">
-                <div className="flex items-center gap-2 mb-6">
-                    <Link
-                        to="/site-settings/components"
-                        className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 text-sm font-medium"
-                    >
-                        <ArrowLeft className="w-4 h-4" />
-                        컴포넌트 목록으로
-                    </Link>
-                </div>
+
                 <div className="flex items-start justify-between">
                     <div>
                         <h1 className="text-4xl font-extrabold tracking-tight mb-3">{meta.displayName}</h1>
