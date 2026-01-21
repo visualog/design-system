@@ -51,27 +51,18 @@ const SiteLayoutPage = () => {
                 </div>
             </div>
 
-
-
             <div className="grid gap-8 max-w-2xl">
                 {/* Sidebar Width Section */}
                 <section className="flex flex-col gap-8">
-                    <div className="flex items-center justify-between">
-                        <div className="flex flex-col gap-2">
-                            <h2 className="text-heading-md tracking-tight">Sidebar Width</h2>
-                            <p className="text-body-sm text-muted-foreground">내비게이션 사이드바의 너비를 설정합니다.</p>
-                        </div>
-                        <div className="flex items-center gap-1.5 px-2 py-1 bg-primary/5 border border-primary/10 rounded-md">
-                            <span className="font-mono text-xs font-bold text-primary">
-                                {sidebarWidth}px
-                            </span>
-                        </div>
+                    <div className="flex flex-col gap-2">
+                        <h2 className="text-heading-md tracking-tight">Sidebar Width</h2>
+                        <p className="text-body-sm text-muted-foreground">내비게이션 사이드바의 너비를 설정합니다.</p>
                     </div>
 
-                    <div className="flex flex-col gap-6">
-                        <div className="relative pt-6">
-                            {/* Breakpoint Dots & Labels */}
-                            <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+                    <div className="flex flex-col gap-10">
+                        <div className="relative px-2">
+                            {/* Breakpoint Dots & Labels (Above Slider) */}
+                            <div className="absolute -top-8 left-0 w-full h-8 pointer-events-none">
                                 {breakpoints.map((bp) => {
                                     const percent = ((bp.value - 200) / (320 - 200)) * 100;
                                     const isActive = sidebarWidth === bp.value;
@@ -81,41 +72,57 @@ const SiteLayoutPage = () => {
                                             className="absolute flex flex-col items-center -translate-x-1/2"
                                             style={{ left: `${percent}%` }}
                                         >
-                                            <span className={`text-[10px] mb-2 font-bold uppercase tracking-tighter transition-colors ${isActive ? 'text-primary' : 'text-muted-foreground/40'}`}>
+                                            <span className={`text-[10px] mb-1.5 font-bold uppercase tracking-tighter transition-colors ${isActive ? 'text-primary' : 'text-muted-foreground/40'}`}>
                                                 {bp.label}
                                             </span>
                                             <button
                                                 onClick={() => handleBreakpointClick(bp.value)}
-                                                className={`w-2 h-2 rounded-full border-2 bg-background pointer-events-auto transition-all hover:scale-150 z-10 ${isActive ? 'border-primary ring-4 ring-primary/10' : 'border-muted-foreground/30 hover:border-primary/50'}`}
+                                                className={`w-2.5 h-2.5 rounded-full border-2 bg-background pointer-events-auto transition-all hover:scale-125 z-10 ${isActive ? 'border-primary ring-4 ring-primary/10 scale-110' : 'border-muted-foreground/30 hover:border-primary/50'}`}
                                             />
                                         </div>
                                     );
                                 })}
                             </div>
 
-                            <div className="flex items-center gap-4 relative">
-                                <span className="text-xs font-bold text-muted-foreground/50 w-8">200</span>
+                            {/* Slider Track */}
+                            <div className="relative h-6 flex items-center">
                                 <input
                                     type="range"
                                     min="200"
                                     max="320"
-                                    step="4"
+                                    step="1"
                                     value={sidebarWidth}
                                     onChange={updateSidebarWidth}
-                                    className="flex-1 h-1.5 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
+                                    className="w-full h-1.5 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
                                 />
-                                <span className="text-xs font-bold text-muted-foreground/50 w-8 text-right">320</span>
+                            </div>
+
+                            {/* Value Indicator (Below Slider) */}
+                            <div className="absolute -bottom-8 left-0 w-full h-8 pointer-events-none">
+                                {(() => {
+                                    const percent = ((sidebarWidth - 200) / (320 - 200)) * 100;
+                                    return (
+                                        <div
+                                            className="absolute flex flex-col items-center -translate-x-1/2"
+                                            style={{ left: `${percent}%` }}
+                                        >
+                                            <div className="flex items-center gap-1.5 px-2 py-0.5 bg-primary text-primary-foreground rounded-md shadow-lg scale-90">
+                                                <span className="font-mono text-[10px] font-bold">
+                                                    {sidebarWidth}px
+                                                </span>
+                                            </div>
+                                        </div>
+                                    );
+                                })()}
                             </div>
                         </div>
 
-                        <div className="mt-1 flex items-start gap-2 p-3 bg-muted/40 rounded-lg border border-border/50">
-                            <div className="mt-0.5">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground/70">
-                                    <circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" />
-                                </svg>
-                            </div>
-                            <p className="text-xs text-muted-foreground leading-relaxed">
-                                기본 너비는 <span className="font-semibold text-foreground">240px</span>입니다. 슬라이딩 트랙 위의 추천 규격(<span className="font-semibold">Dots</span>)을 클릭하여 빠르게 값을 적용할 수 있습니다.
+                        <div className="mt-4 flex items-start gap-2">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground/50 mt-0.5">
+                                <circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" />
+                            </svg>
+                            <p className="text-[11px] text-muted-foreground leading-relaxed">
+                                슬라이딩 트랙 위의 추천 규격(<span className="font-semibold">Dots</span>)을 클릭하거나 드래그하여 최적의 너비를 찾으세요.
                             </p>
                         </div>
                     </div>
