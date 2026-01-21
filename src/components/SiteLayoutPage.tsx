@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Separator } from '@/components/ui/separator';
-import { cn } from '@/lib/utils';
 
 const SiteLayoutPage = () => {
     // Current logical width in pixels (e.g., 240)

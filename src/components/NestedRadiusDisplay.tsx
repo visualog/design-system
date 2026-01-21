@@ -22,13 +22,8 @@ const NestedRadiusDisplay: React.FC = () => {
             value: parseInt(t.value)
         }));
 
-    const currentToken = radiusTokens.find((t: any) => t.value === outerRadius);
-
     // Update padding state when index changes
     const currentPadding = spacingValues[paddingIndex];
-
-    // Sync padding state for calculation (local variable used in render)
-    // Refactor: use currentPadding directly instead of 'padding' state which might be redundant or desynced
 
     const innerRadius = Math.max(0, outerRadius - currentPadding);
 
@@ -48,101 +43,73 @@ const NestedRadiusDisplay: React.FC = () => {
 
             <div className="flex flex-col md:flex-row gap-8">
                 {/* Controls */}
-                <div className="flex flex-col gap-6 w-full md:w-1/3 bg-secondary/30 p-6 rounded-xl border border-border">
-                    <div className="flex flex-col gap-3">
-                        <div className="flex justify-between items-center">
-                            <label htmlFor="outer-radius" className="text-sm font-medium">Outer Radius</label>
-                            <div className="flex items-center gap-1.5 px-2 py-0.5 bg-background border rounded-md shadow-sm">
-                                <span className="text-xs font-mono font-bold text-foreground">
-                                    {outerRadius}px
-                                </span>
-                                {currentToken && (
-                                    <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider border-l pl-1.5 ml-0.5">
-                                        {currentToken.name}
-                                    </span>
-                                )}
-                            </div>
+                <div className="flex flex-col gap-10 w-full md:w-1/3 p-6 rounded-2xl border border-border bg-card shadow-sm">
+                    {/* Outer Radius Selection */}
+                    <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-1">
+                            <label className="text-sm font-bold text-foreground">Outer Radius</label>
+                            <p className="text-[11px] text-muted-foreground">외부 요소의 둥글기를 선택합니다.</p>
                         </div>
-                        <input
-                            id="outer-radius"
-                            type="range"
-                            min="0"
-                            max="32"
-                            step="1"
-                            list="radius-markers"
-                            value={outerRadius}
-                            onChange={(e) => setOuterRadius(Number(e.target.value))}
-                            className="w-full appearance-none bg-transparent focus:outline-none cursor-pointer
-                            [&::-webkit-slider-runnable-track]:w-full [&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:bg-muted [&::-webkit-slider-runnable-track]:rounded-lg
-                            [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary [&::-webkit-slider-thumb]:mt-[-4px] [&::-webkit-slider-thumb]:shadow-sm"
-                        />
-                        <datalist id="radius-markers">
-                            {radiusTokens.map((t: any) => (
-                                <option key={t.name} value={t.value} label={t.name}></option>
-                            ))}
-                        </datalist>
-                        <div className="relative w-full h-6 mt-1">
+                        <div className="grid grid-cols-2 gap-3">
                             {radiusTokens.map((t: any) => {
-                                const ratio = t.value / 32;
+                                const isActive = outerRadius === t.value;
                                 return (
-                                    <div
+                                    <button
                                         key={t.name}
-                                        className="absolute flex flex-col items-center cursor-pointer -translate-x-1/2"
-                                        style={{ left: `calc(${ratio * 100}% + ${(0.5 - ratio) * 16}px)` }}
                                         onClick={() => setOuterRadius(t.value)}
+                                        className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl border-2 transition-all outline-none ${isActive ? 'border-transparent bg-muted text-primary' : 'border-muted hover:bg-muted/50 text-muted-foreground'}`}
                                     >
-                                        <div className="w-0.5 h-1 bg-muted-foreground/50 mb-1"></div>
-                                        <span className={`text-[10px] whitespace-nowrap ${outerRadius === t.value ? 'font-bold text-primary' : 'text-muted-foreground'}`}>{t.name}</span>
-                                    </div>
+                                        <span className={`text-[10px] font-bold uppercase tracking-wider mb-0.5 ${isActive ? 'text-primary' : 'text-muted-foreground/60'}`}>
+                                            {t.name}
+                                        </span>
+                                        <span className="text-sm font-bold font-mono">
+                                            {t.value}px
+                                        </span>
+                                    </button>
                                 );
                             })}
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-3">
-                        <div className="flex justify-between items-center">
-                            <label htmlFor="padding" className="text-sm font-medium">Padding</label>
-                            <div className="px-2 py-0.5 bg-background border rounded-md shadow-sm">
-                                <span className="text-xs font-mono font-bold text-foreground">{currentPadding}px</span>
-                            </div>
+                    {/* Padding Selection */}
+                    <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-1">
+                            <label className="text-sm font-bold text-foreground">Padding (Gap)</label>
+                            <p className="text-[11px] text-muted-foreground">내외부 요소 사이의 간격을 선택합니다.</p>
                         </div>
-                        <input
-                            id="padding"
-                            type="range"
-                            min="0"
-                            max={spacingValues.length - 1}
-                            step="1"
-                            value={paddingIndex}
-                            onChange={(e) => setPaddingIndex(Number(e.target.value))}
-                            className="w-full appearance-none bg-transparent focus:outline-none cursor-pointer
-                            [&::-webkit-slider-runnable-track]:w-full [&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:bg-muted [&::-webkit-slider-runnable-track]:rounded-lg
-                            [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary [&::-webkit-slider-thumb]:mt-[-4px] [&::-webkit-slider-thumb]:shadow-sm"
-                        />
-                        <div className="relative w-full h-6 mt-1">
-                            {spacingValues.map((v: number, i: number) => {
-                                // Show fewer labels for cleaner UI, but clickable areas could be improved or just visual ticks
-                                if (i % 2 !== 0 && i !== spacingValues.length - 1) return null;
-
-                                const ratio = i / (spacingValues.length - 1);
+                        <div className="grid grid-cols-4 gap-2">
+                            {[0, 4, 8, 12, 16, 24, 32, 48].map((v) => {
+                                const isActive = currentPadding === v;
                                 return (
-                                    <div
+                                    <button
                                         key={v}
-                                        className="absolute flex flex-col items-center cursor-pointer -translate-x-1/2"
-                                        style={{ left: `calc(${ratio * 100}% + ${(0.5 - ratio) * 16}px)` }}
-                                        onClick={() => setPaddingIndex(spacingValues.indexOf(v))}
+                                        onClick={() => {
+                                            const idx = spacingValues.indexOf(v);
+                                            if (idx !== -1) setPaddingIndex(idx);
+                                        }}
+                                        className={`flex flex-col items-center justify-center py-2 rounded-lg border-2 transition-all outline-none ${isActive ? 'border-transparent bg-muted text-primary' : 'border-muted hover:bg-muted/50 text-muted-foreground'}`}
                                     >
-                                        <div className="w-0.5 h-1 bg-muted-foreground/50 mb-1"></div>
-                                        <span className={`text-[8px] ${currentPadding === v ? 'font-bold text-primary' : 'text-muted-foreground'}`}>{v}</span>
-                                    </div>
+                                        <span className="text-xs font-bold font-mono">
+                                            {v}
+                                        </span>
+                                    </button>
                                 );
                             })}
                         </div>
                     </div>
 
-                    <div className="mt-4 pt-4 border-t border-border flex flex-col gap-2">
-                        <div className="flex justify-between items-center bg-background p-3 rounded-lg border border-border">
-                            <span className="text-sm font-medium text-primary">Inner Radius</span>
-                            <span className="text-base font-bold font-mono">{innerRadius}px</span>
+                    {/* Result Info */}
+                    <div className="mt-2 pt-6 border-t border-border flex flex-col gap-3">
+                        <div className="flex justify-between items-center bg-primary/5 p-4 rounded-xl border border-primary/10">
+                            <div className="flex flex-col">
+                                <span className="text-[10px] font-bold text-primary uppercase tracking-wider">Inner Radius</span>
+                                <span className="text-base font-bold font-mono text-foreground leading-none mt-1">
+                                    {outerRadius} - {currentPadding} = {innerRadius}px
+                                </span>
+                            </div>
+                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                <div className="w-4 h-4 border-2 border-primary rounded-sm opacity-60" />
+                            </div>
                         </div>
                     </div>
                 </div>
