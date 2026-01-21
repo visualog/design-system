@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
 
 const SiteLayoutPage = () => {
     // Current logical width in pixels (e.g., 240)
     const [sidebarWidth, setSidebarWidth] = useState(240);
+
+    const layouts = [
+        { id: 'compact', value: 200, label: 'Compact', desc: '아이콘 중심의 미니멀한 구성' },
+        { id: 'standard', value: 240, label: 'Standard', desc: '표준 문서 구조에 최적화된 너비' },
+        { id: 'expanded', value: 280, label: 'Expanded', desc: '길 레이블과 깊은 계층 구조용' },
+        { id: 'wide', value: 320, label: 'Wide', desc: '대형 모니터 및 정보 집약적 구성' }
+    ];
 
     useEffect(() => {
         const root = document.documentElement;
@@ -17,29 +25,14 @@ const SiteLayoutPage = () => {
         }
     }, []);
 
-    const updateSidebarWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newWidth = parseInt(e.target.value, 10);
-        setSidebarWidth(newWidth);
-
-        const root = document.documentElement;
-        root.style.setProperty('--sidebar-width', `${newWidth}px`);
-    };
-
-    const breakpoints = [
-        { value: 200, label: 'Compact' },
-        { value: 240, label: 'Standard' },
-        { value: 280, label: 'Expanded' },
-        { value: 320, label: 'Wide' }
-    ];
-
-    const handleBreakpointClick = (value: number) => {
+    const handleLayoutSelect = (value: number) => {
         setSidebarWidth(value);
         const root = document.documentElement;
         root.style.setProperty('--sidebar-width', `${value}px`);
     };
 
     return (
-        <div className="flex flex-col gap-16 pb-24">
+        <div className="flex flex-col gap-16 pb-24 font-pretendard">
             <div>
                 <div className="flex flex-col gap-3">
                     <h1 className="flex items-center gap-3 text-heading-xl tracking-tight">
@@ -56,85 +49,88 @@ const SiteLayoutPage = () => {
                 <section className="flex flex-col gap-8">
                     <div className="flex flex-col gap-2">
                         <h2 className="text-heading-md tracking-tight">Sidebar Width</h2>
-                        <p className="text-body-sm text-muted-foreground">내비게이션 사이드바의 너비를 설정합니다.</p>
+                        <p className="text-body-sm text-muted-foreground">디자인 시스템에서 권장하는 내비게이션 너비를 선택합니다.</p>
                     </div>
 
-                    <div className="flex flex-col gap-10">
-                        <div className="relative px-2">
-                            {/* Breakpoint Dots & Labels (Above Slider) */}
-                            <div className="absolute -top-8 left-0 w-full h-8 pointer-events-none">
-                                {breakpoints.map((bp) => {
-                                    const percent = ((bp.value - 200) / (320 - 200)) * 100;
-                                    const isActive = sidebarWidth === bp.value;
-                                    return (
-                                        <div
-                                            key={bp.value}
-                                            className="absolute flex flex-col items-center -translate-x-1/2"
-                                            style={{ left: `${percent}%` }}
-                                        >
-                                            <span className={`text-[10px] mb-1.5 font-bold uppercase tracking-tighter transition-colors ${isActive ? 'text-primary' : 'text-muted-foreground/40'}`}>
-                                                {bp.label}
+                    <div className="grid grid-cols-2 gap-4">
+                        {layouts.map((layout) => {
+                            const isActive = sidebarWidth === layout.value;
+                            return (
+                                <button
+                                    key={layout.id}
+                                    onClick={() => handleLayoutSelect(layout.value)}
+                                    className={cn(
+                                        "group relative flex flex-col items-start gap-4 p-5 rounded-2xl border text-left transition-all duration-300 outline-none",
+                                        isActive
+                                            ? "border-primary bg-primary/[0.03] shadow-lg shadow-primary/5 ring-1 ring-primary"
+                                            : "bg-background border-border hover:border-primary/40 hover:bg-muted/30"
+                                    )}
+                                >
+                                    <div className="flex items-center justify-between w-full">
+                                        <div className="flex flex-col gap-1">
+                                            <span className={cn(
+                                                "text-label-sm uppercase tracking-wider font-bold",
+                                                isActive ? "text-primary" : "text-muted-foreground"
+                                            )}>
+                                                {layout.label}
                                             </span>
-                                            <button
-                                                onClick={() => handleBreakpointClick(bp.value)}
-                                                className={`w-2.5 h-2.5 rounded-full border-2 bg-background pointer-events-auto transition-all hover:scale-125 z-10 ${isActive ? 'border-primary ring-4 ring-primary/10 scale-110' : 'border-muted-foreground/30 hover:border-primary/50'}`}
-                                            />
-                                        </div>
-                                    );
-                                })}
-                            </div>
-
-                            {/* Slider Track */}
-                            <div className="relative h-6 flex items-center">
-                                <input
-                                    type="range"
-                                    min="200"
-                                    max="320"
-                                    step="1"
-                                    value={sidebarWidth}
-                                    onChange={updateSidebarWidth}
-                                    className="w-full h-1.5 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
-                                />
-                            </div>
-
-                            {/* Value Indicator (Below Slider) */}
-                            <div className="absolute -bottom-8 left-0 w-full h-8 pointer-events-none">
-                                {(() => {
-                                    const percent = ((sidebarWidth - 200) / (320 - 200)) * 100;
-                                    return (
-                                        <div
-                                            className="absolute flex flex-col items-center -translate-x-1/2"
-                                            style={{ left: `${percent}%` }}
-                                        >
-                                            <div className="flex items-center gap-1.5 px-2 py-0.5 bg-primary text-primary-foreground rounded-md shadow-lg scale-90">
-                                                <span className="font-mono text-[10px] font-bold">
-                                                    {sidebarWidth}px
-                                                </span>
+                                            <div className="flex items-baseline gap-1">
+                                                <span className="text-heading-md font-bold text-foreground">{layout.value}</span>
+                                                <span className="text-xs font-medium text-muted-foreground">px</span>
                                             </div>
                                         </div>
-                                    );
-                                })()}
-                            </div>
-                        </div>
 
-                        <div className="mt-4 flex items-start gap-2">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground/50 mt-0.5">
-                                <circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" />
-                            </svg>
-                            <p className="text-[11px] text-muted-foreground leading-relaxed">
-                                슬라이딩 트랙 위의 추천 규격(<span className="font-semibold">Dots</span>)을 클릭하거나 드래그하여 최적의 너비를 찾으세요.
-                            </p>
-                        </div>
+                                        <div className={cn(
+                                            "w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all",
+                                            isActive ? "border-primary bg-primary shadow-sm" : "border-muted-foreground/30"
+                                        )}>
+                                            {isActive && <div className="w-1.5 h-1.5 rounded-full bg-white shadow-sm" />}
+                                        </div>
+                                    </div>
+
+                                    <div className="flex flex-col gap-3 w-full">
+                                        <p className="text-xs text-muted-foreground leading-relaxed">
+                                            {layout.desc}
+                                        </p>
+
+                                        {/* Simplified visual representation */}
+                                        <div className="w-full h-12 bg-muted/40 rounded-lg border border-border/50 overflow-hidden relative p-1.5 flex gap-1.5">
+                                            <div
+                                                className={cn(
+                                                    "h-full rounded-md shadow-sm transition-all duration-500",
+                                                    isActive ? "bg-primary/20 border border-primary/20" : "bg-muted-foreground/10 border border-border/50"
+                                                )}
+                                                style={{ width: `${(layout.value / 320) * 30}%` }}
+                                            />
+                                            <div className="flex-1 h-full rounded-md bg-background/50 border border-border/50" />
+                                        </div>
+                                    </div>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    <div className="flex items-start gap-2 p-4 bg-muted/30 rounded-xl border border-border/50">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground/60 mt-0.5">
+                            <circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" />
+                        </svg>
+                        <p className="text-xs text-muted-foreground leading-relaxed">
+                            선택하신 너비는 실시간으로 사이드바에 적용됩니다. <span className="font-semibold text-foreground">Standard (240px)</span>는 일반적인 프로젝트에서 가장 추천하는 너비 규격입니다.
+                        </p>
                     </div>
                 </section>
 
                 <Separator />
 
                 {/* Future placeholders */}
-                <section className="opacity-50 pointer-events-none">
-                    <h2 className="mb-2 text-xl font-semibold tracking-tight">Content Width (Coming Soon)</h2>
-                    <p className="text-muted-foreground mb-4">Limit the maximum width of the main content area.</p>
-                    <div className="h-2 bg-muted rounded w-full"></div>
+                <section className="opacity-50 pointer-events-none flex flex-col gap-4">
+                    <div className="flex flex-col gap-2">
+                        <h2 className="text-heading-md tracking-tight">Content Width</h2>
+                        <p className="text-body-sm text-muted-foreground">메인 콘텐츠 영역의 최대 너비를 제한합니다.</p>
+                    </div>
+                    <div className="p-8 border border-dashed rounded-2xl flex items-center justify-center bg-muted/20">
+                        <span className="text-sm font-medium text-muted-foreground italic">Coming Soon</span>
+                    </div>
                 </section>
             </div>
         </div>
