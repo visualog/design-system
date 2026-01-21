@@ -58,11 +58,11 @@ const SiteTypographyPage = () => {
             <div>
 
                 <div className="flex flex-col gap-2">
-                    <h1 className="flex items-center gap-3 text-3xl font-semibold tracking-tight">
+                    <h1 className="flex items-center gap-3 text-heading-xl tracking-tight">
                         Typography
                     </h1>
-                    <p className="text-muted-foreground">
-                        Apple-style typography system ensuring optimal readability and hierarchy.
+                    <p className="text-body-sm text-muted-foreground">
+                        최적의 가독성과 계층 구조를 보장하는 Apple 스타일의 타이포그래피 시스템입니다.
                     </p>
                 </div>
             </div>
@@ -70,8 +70,8 @@ const SiteTypographyPage = () => {
             <div className="grid gap-8 max-w-4xl">
                 {/* Font Family Section */}
                 <section className="space-y-4">
-                    <h2 className="text-xl font-semibold tracking-tight">Font Family</h2>
-                    <p className="text-muted-foreground">Default system font stack (San Francisco on Apple devices).</p>
+                    <h2 className="text-heading-md tracking-tight">Font Family</h2>
+                    <p className="text-body-sm text-muted-foreground">기본 시스템 글꼴 스택 (Apple 기기의 San Francisco 등)입니다.</p>
                     <div className="grid gap-3">
                         {fontFamilyOptions.map((option) => (
                             <button
@@ -95,8 +95,8 @@ const SiteTypographyPage = () => {
 
                 {/* Base Font Size Section */}
                 <section className="space-y-4">
-                    <h2>Base Font Size (Root)</h2>
-                    <p className="text-muted-foreground">Adjusting this scales all REM-based typography (1rem = 16px default).</p>
+                    <h2 className="text-heading-md tracking-tight">Base Font Size (Root)</h2>
+                    <p className="text-body-sm text-muted-foreground">이 설정을 조정하면 모든 REM 기반 타이포그래피의 크기가 비례하여 변경됩니다 (기본값 1rem = 16px).</p>
                     <div className="flex flex-wrap gap-3">
                         {fontSizeOptions.map((option) => (
                             <button
@@ -116,9 +116,9 @@ const SiteTypographyPage = () => {
                 {/* Scale Section */}
                 <section className="space-y-6">
                     <div className="space-y-2">
-                        <h2 className="text-xl font-semibold tracking-tight">Type Scale</h2>
-                        <p className="text-muted-foreground">
-                            Based on Apple HIG iOS/macOS text styles.
+                        <h2 className="text-heading-md tracking-tight">Type Scale</h2>
+                        <p className="text-body-sm text-muted-foreground">
+                            Apple HIG iOS/macOS 텍스트 스타일을 기반으로 합니다.
                         </p>
                     </div>
 

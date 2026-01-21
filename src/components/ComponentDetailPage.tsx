@@ -381,8 +381,8 @@ const ComponentDetailPage = () => {
 
                 <div className="flex items-start justify-between">
                     <div>
-                        <h1 className="text-4xl font-extrabold tracking-tight mb-3">{meta.displayName}</h1>
-                        <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">{meta.description}</p>
+                        <h1 className="text-display-lg tracking-tight mb-3">{meta.displayName}</h1>
+                        <p className="text-body-lg text-muted-foreground leading-relaxed max-w-2xl">{meta.description}</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-3 mt-6">
@@ -401,7 +401,7 @@ const ComponentDetailPage = () => {
             {meta.anatomy && (
                 <section className="mb-16 scroll-mt-20" id="anatomy">
                     <div className="flex items-center gap-2 mb-6">
-                        <h2 className="text-2xl font-bold tracking-tight">Anatomy</h2>
+                        <h2 className="text-heading-xl tracking-tight">Anatomy</h2>
                     </div>
                     <div className="flex flex-col gap-8">
                         {/* Anatomy Image Area */}
@@ -453,7 +453,7 @@ const ComponentDetailPage = () => {
                                         "h-8 w-8 transition-colors",
                                         showAnatomyLabels ? "bg-primary/10 text-primary hover:bg-primary/20" : "text-muted-foreground hover:bg-muted"
                                     )}
-                                    title={showAnatomyLabels ? "Hide labels" : "Show labels"}
+                                    title={showAnatomyLabels ? "라벨 숨기기" : "라벨 보기"}
                                 >
                                     <Info className="w-4 h-4" />
                                 </Button>
@@ -469,7 +469,7 @@ const ComponentDetailPage = () => {
                                         "h-8 w-8 transition-colors",
                                         showColorInfo ? "bg-primary/10 text-primary hover:bg-primary/20" : "text-muted-foreground hover:bg-muted"
                                     )}
-                                    title={showColorInfo ? "Hide color info" : "Show color info"}
+                                    title={showColorInfo ? "컬러 정보 숨기기" : "컬러 정보 보기"}
                                 >
                                     <Palette className="w-4 h-4" />
                                 </Button>
@@ -485,7 +485,7 @@ const ComponentDetailPage = () => {
                                         "h-8 w-8 transition-colors",
                                         isAnatomyMeasureMode ? "bg-primary/10 text-primary hover:bg-primary/20" : "text-muted-foreground hover:bg-muted"
                                     )}
-                                    title={isAnatomyMeasureMode ? "Turn off measure mode" : "Turn on measure mode"}
+                                    title={isAnatomyMeasureMode ? "측정 모드 끄기" : "측정 모드 켜기"}
                                 >
                                     <Ruler className="w-4 h-4" />
                                 </Button>
@@ -520,7 +520,7 @@ const ComponentDetailPage = () => {
             {/* 3. Properties Section (Interactive Playground) */}
             <section className="mb-16 scroll-mt-20" id="properties">
                 <div className="flex items-center gap-2 mb-6">
-                    <h2 className="text-2xl font-bold tracking-tight">Properties</h2>
+                    <h2 className="text-heading-xl tracking-tight">Properties</h2>
                 </div>
 
                 <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-8">
@@ -574,7 +574,7 @@ const ComponentDetailPage = () => {
                         {/* Variants Control */}
                         {meta.variants.length > 0 && (
                             <div className="space-y-4">
-                                <label className="text-sm font-semibold tracking-wide text-foreground/90 uppercase">Variants</label>
+                                <label className="text-label-sm tracking-wide text-foreground/90 uppercase font-bold">Variants</label>
                                 <div className="flex flex-col gap-2">
                                     {meta.variants.map((variant, index) => (
                                         <button
@@ -610,7 +610,7 @@ const ComponentDetailPage = () => {
                         {/* Props Table (Compact Version?) or just standard */}
                         <div className="pt-4 border-t">
                             <div className="flex items-center justify-between mb-4">
-                                <label className="text-sm font-semibold tracking-wide text-foreground/90 uppercase">Props</label>
+                                <label className="text-label-sm tracking-wide text-foreground/90 uppercase font-bold">Props</label>
                             </div>
                             <div className="text-xs text-muted-foreground mb-4">
                                 이 컴포넌트가 지원하는 속성 목록입니다.
@@ -625,7 +625,7 @@ const ComponentDetailPage = () => {
             {(meta.guide || meta.usage) && (
                 <section className="mb-12 scroll-mt-20" id="guide">
                     <div className="flex items-center gap-2 mb-6">
-                        <h2 className="text-2xl font-bold tracking-tight">Guide</h2>
+                        <h2 className="text-heading-xl tracking-tight">Guide</h2>
                     </div>
 
                     <div className="grid gap-6">

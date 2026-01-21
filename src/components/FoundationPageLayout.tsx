@@ -15,8 +15,8 @@ export const FoundationPageLayout: React.FC<FoundationPageLayoutProps> = ({
     return (
         <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
-                <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
-                <p className="text-muted-foreground">
+                <h1 className="text-heading-xl tracking-tight">{title}</h1>
+                <p className="text-body-sm text-muted-foreground">
                     {description}
                 </p>
             </div>

@@ -27,7 +27,7 @@ const Breadcrumb: React.FC = () => {
   };
 
   return (
-    <nav className="flex items-center text-xs text-muted-foreground" aria-label="Breadcrumb">
+    <nav className="flex items-center text-label-sm text-muted-foreground" aria-label="Breadcrumb">
       <ol className="inline-flex items-center space-x-1 md:space-x-2">
         {displayPathnames.map((value, index) => {
           const last = index === displayPathnames.length - 1;
@@ -56,15 +56,15 @@ const Breadcrumb: React.FC = () => {
                 {index > 0 && <ChevronRight className="w-4 h-4 text-muted-foreground/50" />}
                 {
                   last ? (
-                    <span className={`${index > 0 ? 'ml-1 md:ml-2' : ''} text-xs font-medium text-foreground`}>
+                    <span className={`${index > 0 ? 'ml-1 md:ml-2' : ''} text-label-sm font-bold text-foreground`}>
                       {pathMapping[currentPathSegment] || capitalize(currentPathSegment)}
                     </span>
                   ) : isFoundationSegment ? (
-                    <span className={`${index > 0 ? 'ml-1 md:ml-2' : ''} text-xs font-medium text-muted-foreground`}>
+                    <span className={`${index > 0 ? 'ml-1 md:ml-2' : ''} text-label-sm font-bold text-muted-foreground`}>
                       {pathMapping[currentPathSegment] || capitalize(currentPathSegment)}
                     </span>
                   ) : (
-                    <NavLink to={currentTo} className={`${index > 0 ? 'ml-1 md:ml-2' : ''} text-xs font-medium text-muted-foreground hover:text-primary transition-colors`}>
+                    <NavLink to={currentTo} className={`${index > 0 ? 'ml-1 md:ml-2' : ''} text-label-sm font-bold text-muted-foreground hover:text-primary transition-colors`}>
                       {pathMapping[currentPathSegment] || capitalize(currentPathSegment)}
                     </NavLink>
                   )

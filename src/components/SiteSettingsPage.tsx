@@ -8,11 +8,11 @@ const SiteSettingsPage = () => {
         <div className="flex flex-col gap-8 pb-20">
             <div>
                 <div className="flex flex-col gap-2">
-                    <h1 className="flex items-center gap-3 text-3xl font-semibold tracking-tight">
+                    <h1 className="flex items-center gap-3 text-heading-xl tracking-tight">
                         Site Settings
                     </h1>
-                    <p className="text-muted-foreground">
-                        Manage your documentation site's appearance, navigation, and components.
+                    <p className="text-body-sm text-muted-foreground">
+                        문서 사이트의 외관, 내비게이션 및 컴포넌트를 관리합니다.
                     </p>
                 </div>
             </div>
@@ -24,7 +24,7 @@ const SiteSettingsPage = () => {
                 <SettingCard
                     icon={<Palette className="w-6 h-6" />}
                     title="Theme"
-                    description="Configure global colors, fonts, radius, and overall site theme."
+                    description="전역 색상, 글꼴, 반경 및 전체 사이트 테마를 설정합니다."
                     href="/site-settings/theme"
                 />
 
@@ -32,7 +32,7 @@ const SiteSettingsPage = () => {
                 <SettingCard
                     icon={<Layout className="w-6 h-6" />}
                     title="Layout"
-                    description="Adjust sidebar width, navigation structure, and page layouts."
+                    description="사이드바 너비, 내비게이션 구조 및 페이지 레이아웃을 조정합니다."
                     href="/site-settings/layout"
                 />
 
@@ -41,7 +41,7 @@ const SiteSettingsPage = () => {
                 <SettingCard
                     icon={<Type className="w-6 h-6" />}
                     title="Typography"
-                    description="Manage font families, base sizes, line heights, and weights."
+                    description="글꼴 패밀리, 기본 크기, 줄 간격 및 두께를 관리합니다."
                     href="/site-settings/typography"
                 />
 
@@ -49,7 +49,7 @@ const SiteSettingsPage = () => {
                 <SettingCard
                     icon={<Box className="w-6 h-6" />}
                     title="Components"
-                    description="Set style presets and detailed specifications for UI components."
+                    description="UI 컴포넌트의 스타일 프리셋과 상세 사양을 설정합니다."
                     href="/site-settings/components"
                 />
             </div>
@@ -72,7 +72,7 @@ const SettingCard = ({ icon, title, description, status, href }: SettingCardProp
                 <div className="p-2 bg-primary rounded-lg text-primary-foreground">
                     {icon}
                 </div>
-                <h3 className="font-semibold text-lg tracking-tight group-hover:text-primary transition-colors">{title}</h3>
+                <h3 className="text-heading-sm tracking-tight group-hover:text-primary transition-colors">{title}</h3>
             </div>
             <p className="text-sm text-muted-foreground">
                 {description}

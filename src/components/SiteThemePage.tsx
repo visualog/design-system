@@ -122,11 +122,11 @@ const SiteThemePage = () => {
             <div>
 
                 <div className="flex flex-col gap-2">
-                    <h1 className="flex items-center gap-3 text-3xl font-semibold tracking-tight">
+                    <h1 className="flex items-center gap-3 text-heading-xl tracking-tight">
                         Theme
                     </h1>
-                    <p className="text-muted-foreground">
-                        Manage your site's visual theme, including colors, radius, and light/dark mode preferences.
+                    <p className="text-body-sm text-muted-foreground">
+                        색상, 반경, 라이트/다크 모드 기본 설정 등 사이트의 시각적 테마를 관리합니다.
                     </p>
                 </div>
             </div>
@@ -137,8 +137,8 @@ const SiteThemePage = () => {
                 {/* Color Section */}
                 <section className="flex flex-col gap-4">
                     <div className="flex flex-col gap-1">
-                        <h2 className="text-xl font-semibold tracking-tight">Primary Color</h2>
-                        <p className="text-muted-foreground">Choose the primary brand color.</p>
+                        <h2 className="text-heading-md tracking-tight">Primary Color</h2>
+                        <p className="text-body-sm text-muted-foreground">메인 브랜드 컬러를 선택하세요.</p>
                     </div>
                     <div className="flex flex-wrap gap-4">
                         {colorPresets.map((preset) => (
@@ -161,8 +161,8 @@ const SiteThemePage = () => {
                 {/* Radius Section */}
                 <section className="flex flex-col gap-4">
                     <div className="flex flex-col gap-1">
-                        <h2 className="text-xl font-semibold tracking-tight">Radius</h2>
-                        <p className="text-muted-foreground">Adjust the corner roundness of UI elements.</p>
+                        <h2 className="text-heading-md tracking-tight">Radius</h2>
+                        <p className="text-body-sm text-muted-foreground">UI 요소의 모서리 둥글기 정도를 조정합니다.</p>
                     </div>
                     <div className="flex flex-wrap gap-4">
                         {radiusOptions.map((option) => (
@@ -193,8 +193,8 @@ const SiteThemePage = () => {
                 {/* Mode Section */}
                 <section className="flex flex-col gap-4">
                     <div className="flex flex-col gap-1">
-                        <h2 className="text-xl font-semibold tracking-tight">Mode</h2>
-                        <p className="text-muted-foreground">Select the site's color mode.</p>
+                        <h2 className="text-heading-md tracking-tight">Mode</h2>
+                        <p className="text-body-sm text-muted-foreground">사이트의 컬러 모드를 선택하세요.</p>
                     </div>
                     <div className="grid grid-cols-3 gap-4 max-w-xl">
                         <button

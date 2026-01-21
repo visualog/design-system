@@ -30,11 +30,11 @@ const SiteLayoutPage = () => {
             <div>
 
                 <div className="flex flex-col gap-2">
-                    <h1 className="flex items-center gap-3 text-3xl font-semibold tracking-tight">
+                    <h1 className="flex items-center gap-3 text-heading-xl tracking-tight">
                         Layout
                     </h1>
-                    <p className="text-muted-foreground">
-                        Configure the global layout settings for your documentation site.
+                    <p className="text-body-sm text-muted-foreground">
+                        문서 사이트의 전역 레이아웃 설정을 구성합니다.
                     </p>
                 </div>
             </div>
@@ -46,8 +46,8 @@ const SiteLayoutPage = () => {
                 <section className="space-y-6">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h2 className="text-xl font-semibold tracking-tight">Sidebar Width</h2>
-                            <p className="text-muted-foreground">Set the width of the navigation sidebar.</p>
+                            <h2 className="text-heading-md tracking-tight">Sidebar Width</h2>
+                            <p className="text-body-sm text-muted-foreground">내비게이션 사이드바의 너비를 설정합니다.</p>
                         </div>
                         <span className="font-mono text-sm bg-muted px-2 py-1 rounded">
                             {sidebarWidth}px
@@ -69,7 +69,7 @@ const SiteLayoutPage = () => {
                             <span className="text-sm font-medium text-muted-foreground w-12 text-right">320px</span>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                            Default width is 240px. Drag the slider to adjust in real-time.
+                            기본 너비는 240px입니다. 슬라이더를 드래그하여 실시간으로 조정하세요.
                         </p>
                     </div>
                 </section>
