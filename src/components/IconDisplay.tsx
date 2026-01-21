@@ -1,6 +1,7 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { SearchBar } from './SearchBar';
 import { RotateCcw } from 'lucide-react';
+import ColorSwatch from '@/components/ui/ColorSwatch';
 import { designSystemData } from '../utils/dataLoader';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -110,10 +111,15 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onColorSelect, purpose, cla
             <Tooltip>
               <TooltipTrigger asChild>
                 <div
-                  className="w-6 h-6 rounded-full cursor-pointer border border-black/10"
-                  style={{ backgroundColor: color.hex }}
+                  className="cursor-pointer"
                   onClick={() => onColorSelect(color.hex)}
-                />
+                >
+                  <ColorSwatch
+                    colorValue={color.hex}
+                    size="md"
+                    className="rounded-full border-black/10"
+                  />
+                </div>
               </TooltipTrigger>
               <TooltipContent>
                 <p>{color.name}</p>
@@ -180,7 +186,11 @@ const IconSection: React.FC<IconSectionProps> = ({ iconList, categoryType, filen
   };
 
   const ColorChipTrigger = ({ color }: { color: string; }) => (
-    <div className="relative w-6 h-6 rounded-full border border-black/10" style={{ backgroundColor: color }} />
+    <ColorSwatch
+      colorValue={color}
+      size="md"
+      className="rounded-full border-black/10 cursor-pointer"
+    />
   );
 
   const filteredIcons = useMemo(() => {

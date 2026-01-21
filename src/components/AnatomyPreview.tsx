@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import MeasureOverlay from '@/components/ui/MeasureOverlay';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
+import ColorSwatch from './ui/ColorSwatch';
 
 // Anatomy Label Component with connecting line
 const AnatomyLabel = ({
@@ -93,6 +94,7 @@ const AnatomyLabel = ({
 const ColorLabel = ({
     tokenName,
     colorValue,
+    fallbackColor, // New prop for hex fallback
     direction = 'top',
     length = 24,
     isActive = false,
@@ -101,10 +103,11 @@ const ColorLabel = ({
     onMouseLeave,
     className,
     offset = 0,
-    isTextColor = false, // New prop for text color indication
+    isTextColor = false,
 }: {
     tokenName: string;
     colorValue: string;
+    fallbackColor?: string;
     direction?: 'top' | 'bottom' | 'left' | 'right';
     length?: number;
     isActive?: boolean;
@@ -116,8 +119,6 @@ const ColorLabel = ({
     isTextColor?: boolean;
 }) => {
     const isVertical = direction === 'top' || direction === 'bottom';
-
-    // Determine centering classes based on direction
     const centeringClasses = isVertical
         ? "left-1/2 -translate-x-1/2"
         : "top-1/2 -translate-y-1/2";
@@ -144,45 +145,30 @@ const ColorLabel = ({
         >
             {/* The Line */}
             <motion.div
-                className={cn(
-                    isActive ? "bg-violet-600" : "bg-violet-500/80"
-                )}
+                className={cn(isActive ? "bg-violet-600" : "bg-violet-500/80")}
                 style={{
                     width: isVertical ? 1 : length,
                     height: isVertical ? length : 1,
                     order: direction === 'top' || direction === 'left' ? 2 : 0,
                     transformOrigin: direction === 'top' ? 'top' : direction === 'bottom' ? 'bottom' : direction === 'left' ? 'left' : 'right'
                 }}
-                initial={{
-                    scaleX: isVertical ? 1 : 0,
-                    scaleY: isVertical ? 0 : 1
-                }}
-                animate={{
-                    scaleX: isVertical ? 1 : (isActive ? 1 : 0),
-                    scaleY: isVertical ? (isActive ? 1 : 0) : 1
-                }}
+                initial={{ scaleX: isVertical ? 1 : 0, scaleY: isVertical ? 0 : 1 }}
+                animate={{ scaleX: isVertical ? 1 : (isActive ? 1 : 0), scaleY: isVertical ? (isActive ? 1 : 0) : 1 }}
                 transition={{ duration: 0.2, ease: "easeOut" }}
             />
 
             {/* The Color Badge */}
-            <div className={cn(
-                "flex items-center gap-1.5 px-2 py-1 rounded-md text-white text-[10px] font-medium shadow-sm whitespace-nowrap transition-colors duration-300",
-                isActive ? "bg-violet-600" : "bg-violet-500",
-                direction === 'top' || direction === 'left' ? "order-1" : "order-2"
-            )}
-                style={{ whiteSpace: 'nowrap' }}>
-                {/* Color Chip - larger for text colors with 'A' icon */}
-                <div
-                    className={cn(
-                        "rounded-sm border border-white/30 flex items-center justify-center",
-                        isTextColor ? "w-4 h-4" : "w-3 h-3"
-                    )}
-                    style={{ backgroundColor: colorValue }}
-                >
-                    {isTextColor && (
-                        <span className="text-white text-[9px] font-bold drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">A</span>
-                    )}
-                </div>
+            <div className="flex items-center gap-1.5 px-2 py-1 rounded-md text-white text-[10px] font-medium whitespace-nowrap transition-colors duration-300"
+                style={{
+                    backgroundColor: isActive ? 'var(--color-violet-600)' : 'var(--color-violet-500)',
+                    whiteSpace: 'nowrap'
+                }}>
+                <ColorSwatch
+                    colorValue={colorValue}
+                    fallbackColor={fallbackColor}
+                    isTextColor={isTextColor}
+                    size={isTextColor ? 'sm' : 'xs'}
+                />
                 <span>{tokenName}</span>
             </div>
         </div>
@@ -190,12 +176,25 @@ const ColorLabel = ({
 };
 
 // Color token data with hex values
-export const colorTokenData: Record<string, { hex: string; rgb: string; hsl: string; usage: string }> = {
-    'bg-muted': { hex: '#F4F4F5', rgb: 'rgb(244, 244, 245)', hsl: 'hsl(240 5% 96%)', usage: '컨테이너 배경' },
-    'bg-background': { hex: '#FFFFFF', rgb: 'rgb(255, 255, 255)', hsl: 'hsl(0 0% 100%)', usage: '활성 트리거 배경' },
-    'text-foreground': { hex: '#09090B', rgb: 'rgb(9, 9, 11)', hsl: 'hsl(240 10% 4%)', usage: '기본 텍스트' },
-    'text-muted-foreground': { hex: '#71717A', rgb: 'rgb(113, 113, 122)', hsl: 'hsl(240 4% 46%)', usage: '보조 텍스트 (비활성)' },
-    'text-background': { hex: '#FFFFFF', rgb: 'rgb(255, 255, 255)', hsl: 'hsl(0 0% 100%)', usage: '활성 트리거 텍스트' },
+export const colorTokenData: Record<string, { hex: string; rgb: string; hsl: string; usage: string; description?: string }> = {
+    'bg-muted': { hex: '#F4F4F5', rgb: 'rgb(244, 244, 245)', hsl: 'var(--color-muted)', usage: '컨테이너 배경', description: '보조적인 배경색으로 사용되어 계층 구조를 구분합니다.' },
+    'bg-background': { hex: '#FFFFFF', rgb: 'rgb(255, 255, 255)', hsl: 'var(--color-background)', usage: '활성 트리거 배경', description: '가장 기본적인 배경색으로, 콘텐츠를 올리는 캔버스 역할을 합니다.' },
+    'bg-primary': { hex: '#18181B', rgb: 'rgb(24, 24, 27)', hsl: 'var(--color-primary)', usage: '주색상 배경', description: '브랜드의 주요 액션이나 강조하고 싶은 부분에 사용됩니다.' },
+    'bg-secondary': { hex: '#F4F4F5', rgb: 'rgb(244, 244, 245)', hsl: 'var(--color-secondary)', usage: '보조 배경', description: '주요 액션보다 덜 중요한, 부차적인 배경 요소에 사용됩니다.' },
+    'bg-destructive': { hex: '#EF4444', rgb: 'rgb(239, 68, 68)', hsl: 'var(--color-destructive)', usage: '파괴적 배경', description: '삭제, 오류 등 위험하거나 주의가 필요한 액션의 배경에 사용됩니다.' },
+    'bg-transparent': { hex: 'transparent', rgb: 'transparent', hsl: 'transparent', usage: '투명 배경', description: '배경색 없이 콘텐츠만 강조하거나 다른 배경 위에 얹혀질 때 사용됩니다.' },
+
+    'text-foreground': { hex: '#09090B', rgb: 'rgb(9, 9, 11)', hsl: 'var(--color-foreground)', usage: '기본 텍스트', description: '가독성이 가장 높은 기본 텍스트 색상입니다.' },
+    'text-muted-foreground': { hex: '#71717A', rgb: 'rgb(113, 113, 122)', hsl: 'var(--color-muted-foreground)', usage: '보조 텍스트', description: '덜 중요한 정보나 비활성화된 상태를 나타낼 때 사용됩니다.' },
+    'text-background': { hex: '#FFFFFF', rgb: 'rgb(255, 255, 255)', hsl: 'var(--color-background)', usage: '반전 텍스트', description: '어두운 배경 위에서 높은 가독성을 제공하는 텍스트 색상입니다.' },
+    'text-primary': { hex: '#18181B', rgb: 'rgb(24, 24, 27)', hsl: 'var(--color-primary)', usage: '주색상 텍스트', description: '브랜드 컬러를 텍스트에 적용하여 강조할 때 사용됩니다.' },
+    'text-primary-foreground': { hex: '#FAFAFA', rgb: 'rgb(250, 250, 250)', hsl: 'var(--color-primary-foreground)', usage: '주색상 위 텍스트', description: '주색상 배경 위에서 읽기 쉽도록 대비를 이룹니다.' },
+    'text-secondary-foreground': { hex: '#18181B', rgb: 'rgb(24, 24, 27)', hsl: 'var(--color-secondary-foreground)', usage: '보조 배경 위 텍스트', description: '보조 배경 위에서 가독성을 확보하는 텍스트 색상입니다.' },
+    'text-accent-foreground': { hex: '#18181B', rgb: 'rgb(24, 24, 27)', hsl: 'var(--color-accent-foreground)', usage: '강조 배경 위 텍스트', description: '호버 등 강조된 배경 위에서 사용되는 텍스트 색상입니다.' },
+    'text-destructive-foreground': { hex: '#FAFAFA', rgb: 'rgb(250, 250, 250)', hsl: 'var(--color-destructive-foreground)', usage: '파괴적 배경 위 텍스트', description: '위험/경고 배경 위에서 높은 가독성을 제공합니다.' },
+
+    'border-input': { hex: '#E4E4E7', rgb: 'rgb(228, 228, 231)', hsl: 'var(--color-input)', usage: '입력창 테두리', description: '인풋 컴포넌트나 카드 등의 경계를 구분하는 테두리 색상입니다.' },
+    'border-border': { hex: '#E4E4E7', rgb: 'rgb(228, 228, 231)', hsl: 'var(--color-border)', usage: '컨테이너 보더', description: '컴포넌트의 경계를 구분하는 기본 보더 색상입니다.' },
 };
 
 const TabsAnatomy = ({ style = 'segmented', showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { style?: 'segmented' | 'pill' | 'line'; showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
@@ -226,6 +225,8 @@ const TabsAnatomy = ({ style = 'segmented', showLabels = true, showColorInfo = f
                 if (currentStyle === 'line') return 'text-foreground';
                 if (currentStyle === 'pill') return 'text-foreground';
                 return 'bg-background';
+            case 'hover-bg':
+                return 'bg-muted';
             default:
                 return key;
         }
@@ -269,14 +270,15 @@ const TabsAnatomy = ({ style = 'segmented', showLabels = true, showColorInfo = f
                 style={{
                     outline: hoveredPart === 'Container' ? '2px solid #2563eb' : (
                         (hoveredColor === 'bg-muted' && style === 'segmented') ||
-                            (hoveredColor === 'bg-muted' && (style === 'pill' || style === 'line')) // '전체 배경' 대응
+                            (hoveredColor === 'bg-muted' && (style === 'pill' || style === 'line')) || // '전체 배경' 대응
+                            (hoveredColor === 'bg-transparent' && (style === 'pill' || style === 'line')) // Pill & Line Style Transparent Background
                             ? '2px solid #7c3aed' : 'none'
                     ),
                     transition: 'outline 0s 0.2s',
                 }}
             >
-                {/* 1. Container Label - Only relevant for Segmented mainly */}
-                {effectiveShowLabels && style === 'segmented' && (
+                {/* 1. Container Label - relevant for Segmented and Pill */}
+                {effectiveShowLabels && (style === 'segmented' || style === 'pill') && (
                     <AnatomyLabel
                         label="컨테이너"
                         direction="left"
@@ -291,29 +293,44 @@ const TabsAnatomy = ({ style = 'segmented', showLabels = true, showColorInfo = f
                 {/* Container Label for Line (Border) */}
                 {effectiveShowLabels && style === 'line' && (
                     <AnatomyLabel
-                        label="보더 (Container)"
-                        direction="bottom"
-                        length={24}
+                        label="컨테이너"
+                        direction="left"
+                        length={32}
                         isActive={hoveredPart === 'Container'}
                         isDimmed={hoveredPart !== null && hoveredPart !== 'Container'}
                         onMouseEnter={() => handleHoverChange('Container')}
                         onMouseLeave={() => handleHoverChange(null)}
                         offset={0}
-                        className="left-0"
                     />
                 )}
 
-                {/* Container Color Label - Only Segmented has bg-muted visible */}
-                {showColorInfo && style === 'segmented' && (
+                {/* Container Color Label - Segmented, Pill, and Line styles */}
+                {showColorInfo && (style === 'segmented' || style === 'pill' || style === 'line') && (
                     <ColorLabel
                         tokenName="컨테이너 배경"
-                        colorValue={colorTokenData['bg-muted'].hsl}
+                        colorValue={(style === 'pill' || style === 'line') ? 'transparent' : colorTokenData['bg-muted'].hsl}
+                        fallbackColor={(style === 'pill' || style === 'line') ? 'transparent' : colorTokenData['bg-muted'].hex}
                         direction="left"
                         length={24}
-                        isActive={hoveredColor === 'bg-muted'}
-                        isDimmed={hoveredColor !== null && hoveredColor !== 'bg-muted'}
-                        onMouseEnter={() => handleColorHoverChange('bg-muted', '컨테이너 배경')}
+                        isActive={hoveredColor === ((style === 'pill' || style === 'line') ? 'bg-transparent' : 'bg-muted')}
+                        isDimmed={hoveredColor !== null && hoveredColor !== ((style === 'pill' || style === 'line') ? 'bg-transparent' : 'bg-muted')}
+                        onMouseEnter={() => handleColorHoverChange((style === 'pill' || style === 'line') ? 'bg-transparent' : 'bg-muted', '컨테이너 배경')}
                         onMouseLeave={() => handleColorHoverChange(null)}
+                    />
+                )}
+                {/* Container Border Color Label - Only Line Style for now */}
+                {showColorInfo && style === 'line' && (
+                    <ColorLabel
+                        tokenName="보더"
+                        colorValue={colorTokenData['border-border'].hsl}
+                        direction="right"
+                        length={32}
+                        isActive={hoveredColor === 'border-border'}
+                        isDimmed={hoveredColor !== null && hoveredColor !== 'border-border'}
+                        onMouseEnter={() => handleColorHoverChange('border-border', '보더')}
+                        onMouseLeave={() => handleColorHoverChange(null)}
+                        offset={0}
+                        className="!top-auto bottom-0 translate-y-1/2"
                     />
                 )}
 
@@ -419,7 +436,7 @@ const TabsAnatomy = ({ style = 'segmented', showLabels = true, showColorInfo = f
                     {/* Active Trigger Label - outside span for button-relative positioning */}
                     {activeTab === 'tab1' && effectiveShowLabels && (
                         <AnatomyLabel
-                            label="인디케이터"
+                            label={style === 'line' ? '활성 탭 보더' : '활성 탭 배경'}
                             direction="bottom"
                             length={24}
                             offset={0}
@@ -432,14 +449,14 @@ const TabsAnatomy = ({ style = 'segmented', showLabels = true, showColorInfo = f
                     {/* Active Indicator Color Label */}
                     {showColorInfo && activeTab === 'tab1' && (
                         <ColorLabel
-                            tokenName="인디케이터 배경"
+                            tokenName={style === 'line' ? '활성 탭 보더' : '활성 탭 배경'}
                             colorValue={style === 'line' ? colorTokenData['text-foreground'].hsl : (style === 'pill' ? colorTokenData['text-foreground'].hsl : colorTokenData['bg-background'].hsl)}
                             direction="bottom"
                             length={24}
                             offset={0}
                             isActive={hoveredColor === 'indicator-background'}
                             isDimmed={hoveredColor !== null && hoveredColor !== 'indicator-background'}
-                            onMouseEnter={() => handleColorHoverChange('indicator-background', '인디케이터 배경')}
+                            onMouseEnter={() => handleColorHoverChange('indicator-background', style === 'line' ? '활성 탭 보더' : '활성 탭 배경')}
                             onMouseLeave={() => handleColorHoverChange(null)}
                         />
                     )}
@@ -529,6 +546,7 @@ const TabsAnatomy = ({ style = 'segmented', showLabels = true, showColorInfo = f
                             <ColorLabel
                                 tokenName="활성 탭 레이블"
                                 colorValue={style === 'pill' ? colorTokenData['text-background'].hsl : colorTokenData['text-foreground'].hsl}
+                                fallbackColor={style === 'pill' ? colorTokenData['text-background'].hex : colorTokenData['text-foreground'].hex}
                                 direction="top"
                                 length={32}
                                 offset={0}
@@ -545,6 +563,7 @@ const TabsAnatomy = ({ style = 'segmented', showLabels = true, showColorInfo = f
                             <ColorLabel
                                 tokenName="비활성 탭 레이블"
                                 colorValue={colorTokenData['text-muted-foreground'].hsl}
+                                fallbackColor={colorTokenData['text-muted-foreground'].hex}
                                 direction="top"
                                 length={32}
                                 offset={0}
@@ -560,7 +579,7 @@ const TabsAnatomy = ({ style = 'segmented', showLabels = true, showColorInfo = f
                     {/* Active Trigger Label - outside span for button-relative positioning */}
                     {activeTab === 'tab2' && effectiveShowLabels && (
                         <AnatomyLabel
-                            label="인디케이터"
+                            label={style === 'line' ? '활성 탭 보더' : '활성 탭 배경'}
                             direction="bottom"
                             length={24}
                             offset={0}
@@ -573,14 +592,15 @@ const TabsAnatomy = ({ style = 'segmented', showLabels = true, showColorInfo = f
                     {/* Active Indicator Color Label for Tab 2 */}
                     {showColorInfo && activeTab === 'tab2' && (
                         <ColorLabel
-                            tokenName="인디케이터 배경"
+                            tokenName={style === 'line' ? '활성 탭 보더' : '활성 탭 배경'}
                             colorValue={style === 'line' ? colorTokenData['text-foreground'].hsl : (style === 'pill' ? colorTokenData['text-foreground'].hsl : colorTokenData['bg-background'].hsl)}
+                            fallbackColor={style === 'line' ? colorTokenData['text-foreground'].hex : (style === 'pill' ? colorTokenData['text-foreground'].hex : colorTokenData['bg-background'].hex)}
                             direction="bottom"
                             length={24}
                             offset={0}
                             isActive={hoveredColor === 'indicator-background'}
                             isDimmed={hoveredColor !== null && hoveredColor !== 'indicator-background'}
-                            onMouseEnter={() => handleColorHoverChange('indicator-background', '인디케이터 배경')}
+                            onMouseEnter={() => handleColorHoverChange('indicator-background', style === 'line' ? '활성 탭 보더' : '활성 탭 배경')}
                             onMouseLeave={() => handleColorHoverChange(null)}
                         />
                     )}
@@ -652,6 +672,20 @@ const TabsAnatomy = ({ style = 'segmented', showLabels = true, showColorInfo = f
                             isDimmed={hoveredPart !== null && hoveredPart !== 'HoverTrigger'}
                             onMouseEnter={() => handleHoverChange('HoverTrigger')}
                             onMouseLeave={() => handleHoverChange(null)}
+                        />
+                    )}
+
+                    {/* Hover Trigger Color Label - Background */}
+                    {showColorInfo && (
+                        <ColorLabel
+                            tokenName="호버 탭 배경"
+                            colorValue={colorTokenData['bg-muted'].hsl}
+                            direction="bottom"
+                            length={24}
+                            isActive={hoveredColor === 'hover-bg'}
+                            isDimmed={hoveredColor !== null && hoveredColor !== 'hover-bg'}
+                            onMouseEnter={() => handleColorHoverChange('hover-bg', '호버 탭 배경')}
+                            onMouseLeave={() => handleColorHoverChange(null)}
                         />
                     )}
                 </button>
@@ -727,7 +761,8 @@ const ButtonAnatomy = ({ style = 'default', showLabels = true, showColorInfo = f
                 {showColorInfo && (
                     <ColorLabel
                         tokenName="컨테이너 배경"
-                        colorValue={style === 'outline' || style === 'ghost' || style === 'link' ? '#ffffff00' : (style === 'secondary' ? '#f4f4f5' : (style === 'destructive' ? '#ef4444' : '#18181b'))} // Approximated hex for demo
+                        colorValue={colorTokenData[tokens.bg]?.hsl || 'transparent'}
+                        fallbackColor={colorTokenData[tokens.bg]?.hex || 'transparent'}
                         direction="left"
                         length={32}
                         isActive={hoveredColor === tokens.bg}
@@ -823,7 +858,8 @@ const ButtonAnatomy = ({ style = 'default', showLabels = true, showColorInfo = f
                         {showColorInfo && (
                             <ColorLabel
                                 tokenName="텍스트 컬러"
-                                colorValue={style === 'outline' || style === 'ghost' ? '#18181b' : (style === 'secondary' ? '#18181b' : '#ffffff')}
+                                colorValue={colorTokenData[tokens.text]?.hsl || '#000000'}
+                                fallbackColor={colorTokenData[tokens.text]?.hex || '#000000'}
                                 direction="top"
                                 length={32}
                                 isActive={hoveredColor === tokens.text}

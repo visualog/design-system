@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { HighlightText } from './ui/HighlightText';
+import ColorSwatch from '@/components/ui/ColorSwatch';
 import { SearchBar } from './SearchBar';
 import { designSystemData } from '../utils/dataLoader';
 
@@ -367,53 +368,13 @@ const ThemeColorMappingDisplay: React.FC = () => {
                         <TableRow key={themeVar} className="group">
                           <TableCell className="px-4 font-mono text-sm font-medium">
                             <div className="flex items-center gap-2">
-                              {color ? (() => {
-                                // Determine if we should treat this as an alpha chip
-                                const hexToUse = isDarkMode ? (color.hexDark || color.hex) : color.hex;
-
-                                if (!hexToUse) return <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center text-[10px] text-gray-400">-</div>;
-
-                                let opacity = 1;
-                                let isActuallyAlpha = false;
-
-                                if (hexToUse.length === 9) {
-                                  isActuallyAlpha = true;
-                                  const alphaHex = hexToUse.substring(7, 9);
-                                  opacity = parseInt(alphaHex, 16) / 255;
-                                } else {
-                                  const opacityMatch = String(color.level).match(/\((\d+)%\)/);
-                                  if (opacityMatch && opacityMatch[1]) {
-                                    isActuallyAlpha = true;
-                                    opacity = parseInt(opacityMatch[1], 10) / 100;
-                                  }
-                                }
-
-                                if (opacity >= 1 && !isActuallyAlpha) isActuallyAlpha = false;
-
-                                let chipStyle: React.CSSProperties = {};
-
-                                if (isActuallyAlpha) {
-                                  const r = parseInt(hexToUse.slice(1, 3), 16);
-                                  const g = parseInt(hexToUse.slice(3, 5), 16);
-                                  const b = parseInt(hexToUse.slice(5, 7), 16);
-                                  const rgbaColor = `rgba(${r}, ${g}, ${b}, ${opacity.toFixed(2)})`;
-
-                                  chipStyle = {
-                                    backgroundImage: `
-                                    linear-gradient(${rgbaColor}, ${rgbaColor}),
-                                    linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%),
-                                    linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%),
-                                    linear-gradient(#fff, #fff)
-                                  `,
-                                    backgroundSize: `100%, 8px 8px, 8px 8px, 100%`,
-                                    backgroundPosition: `0 0, 0 0, 4px 4px, 0 0`
-                                  };
-                                } else {
-                                  chipStyle = { backgroundColor: hexToUse };
-                                }
-
-                                return <div className="w-5 h-5 rounded-full border border-black/10" style={chipStyle}></div>;
-                              })() : (
+                              {color ? (
+                                <ColorSwatch
+                                  colorValue={isDarkMode ? (color.hexDark || color.hex) : color.hex}
+                                  size="md"
+                                  className="rounded-full border-black/10"
+                                />
+                              ) : (
                                 <div className="w-5 h-5 rounded-full bg-gray-200 border border-black/10"></div>
                               )}
                               <span className="text-primary">

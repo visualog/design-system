@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { HighlightText } from './ui/HighlightText';
+import ColorSwatch from '@/components/ui/ColorSwatch';
 import { SearchBar } from './SearchBar';
 import { designSystemData } from '../utils/dataLoader';
 import { Switch } from "./ui/switch"
@@ -28,145 +29,20 @@ import {
 import { Button } from './ui/button';
 import { ChevronDown } from 'lucide-react';
 
-// --- Reusable Color Swatch (already exists) ---
-interface ColorProps {
-  level: string; // Changed from name to level
-  hex: string;
-  hexDark?: string;
-  variable: string;
-  rgb: string;
-  familyName: string;
-}
-
-const ColorSwatch: React.FC<ColorProps & { isDarkMode?: boolean }> = ({ level, hex, hexDark, rgb, familyName, isDarkMode }) => {
-  let finalStyle: React.CSSProperties = {};
-
-  // Define displayHex first
-  let displayHex = isDarkMode ? hexDark : hex;
-
-  // Check if color is valid for current mode
-  if (!displayHex) {
-    return (
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <div className="w-full h-full flex items-center justify-center bg-muted/20 rounded-sm">
-            <span className="material-symbols-rounded text-gray-200 text-xs" style={{ fontVariationSettings: "'wght' 300" }}>
-              -
-            </span>
-          </div>
-        </TooltipTrigger>
-        <TooltipContent>
-          <div className="text-xs">Defined only in {isDarkMode ? 'Light' : 'Dark'} Mode</div>
-        </TooltipContent>
-      </Tooltip>
-    );
-  }
-
-  // Determine if alpha based on family name or level format or hex length
-  const isAlpha =
-    (level && (level.toLowerCase().includes('alpha') || level.includes('%'))) ||
-    familyName.toLowerCase().includes('alpha') ||
-    (displayHex && displayHex.length === 9); // #RRGGBBAA
-
-  if (isAlpha) {
-    // Calculate opacity
-    let opacity = 1;
-
-    // Try to get opacity from Hex first (most accurate)
-    if (displayHex && displayHex.length === 9) {
-      const alphaHex = displayHex.substring(7, 9);
-      opacity = parseInt(alphaHex, 16) / 255;
-    }
-    // Fallback to level parsing (e.g. "10" -> 10% for Alpha families)
-    else if (level.match(/\((\d+)%\)/)) {
-      const match = level.match(/\((\d+)%\)/);
-      if (match && match[1]) opacity = parseInt(match[1], 10) / 100;
-    }
-    else if (/^\d+$/.test(level) && familyName.toLowerCase().includes('alpha')) {
-      // Assume level 10 = 10% etc for Alpha families
-      opacity = parseInt(level, 10) / 100;
-    }
-
-    // Construct RGBA for gradient
-    let r = 0, g = 0, b = 0;
-    // Use hex to rgb conversion if possible, or fallback to provided rgb prop (which might be solid black)
-    // If displayHex is available, use it.
-    if (displayHex && displayHex.length >= 7) {
-      r = parseInt(displayHex.substring(1, 3), 16);
-      g = parseInt(displayHex.substring(3, 5), 16);
-      b = parseInt(displayHex.substring(5, 7), 16);
-    } else {
-      // Fallback to parsing rgb string "rgb(0, 0, 0)"
-      const rgbMatch = rgb.match(/\d+/g);
-      if (rgbMatch && rgbMatch.length >= 3) {
-        r = parseInt(rgbMatch[0], 10);
-        g = parseInt(rgbMatch[1], 10);
-        b = parseInt(rgbMatch[2], 10);
-      }
-    }
-
-    const rgbaColor = `rgba(${r}, ${g}, ${b}, ${opacity.toFixed(2)})`;
-
-    finalStyle = {
-      backgroundImage: `
-            linear-gradient(${rgbaColor}, ${rgbaColor}),
-            linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%),
-            linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%),
-            linear-gradient(#fff, #fff)
-          `,
-      backgroundSize: `100%, 16px 16px, 16px 16px, 100%`,
-      backgroundPosition: `0 0, 0 0, 8px 8px, 0 0`
-    };
-  } else {
-    // Solid color
-    finalStyle = { backgroundColor: displayHex };
-  }
-
-  const displayLevel = String(level).replace(/\s\(.*\)/, '');
-
-  // Clean token name logic
-  // "DeepBlue" -> "Deep Blue"
-  // But we want to preserve original key if possible?
-  // User asked to match Primitives.md which uses "Blue/10".
-  // familyName passed from grid loop is the key (e.g. "BlackAlpha", "Blue").
-  // So we can just use familyName directly.
-
-  const tokenName = `${familyName}/${displayLevel}`;
-
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <div
-          className="w-full h-full relative group rounded-sm"
-          style={finalStyle}
-        >
-        </div>
-      </TooltipTrigger>
-      <TooltipContent>
-        <div className="flex flex-col gap-1 text-center p-1">
-          <span className="font-mono text-xs">{tokenName}</span>
-          <span className="font-bold">{displayHex}</span>
-          {isDarkMode && hexDark && <span className="text-[10px] text-gray-400">(Dark)</span>}
-        </div>
-      </TooltipContent>
-    </Tooltip>
-  );
-};
-
 // --- New Grid-based Display Component ---
 const ColorGrid: React.FC<{
   families: [string, any[]][];
   levels: string[];
   iconlessEmptyLevels?: string[];
   hiddenHeaderLevels?: string[];
-  hideHeaderRow?: boolean; // Added prop
+  hideHeaderRow?: boolean;
   isDarkMode?: boolean;
 }> = ({ families, levels, iconlessEmptyLevels, hiddenHeaderLevels, hideHeaderRow, isDarkMode }) => (
   <div className="flex flex-col gap-2 w-full">
     {/* Header Row */}
     {!hideHeaderRow && (
       <div className="flex items-center gap-1">
-        <div className="w-24 flex-shrink-0" /> {/* Empty cell for color family name column */}
+        <div className="w-24 flex-shrink-0" />
         <div className="flex-1 flex gap-1">
           {levels.map(level => {
             const displayLevel = level === 'alpha (10%)' ? '10%' : level;
@@ -190,15 +66,34 @@ const ColorGrid: React.FC<{
           {levels.map(level => {
             const shade = shades.find(s => {
               let normalizedShadeLevel = String(s.level);
-              const numericPercentageMatch = String(s.level).match(/^(\d+)\s\((\d+)%\)/); // Matches "10 (10%)"
+              const numericPercentageMatch = String(s.level).match(/^(\d+)\s\((\d+)%\)/);
               if (numericPercentageMatch) {
-                normalizedShadeLevel = numericPercentageMatch[1]; // Extracts "10"
+                normalizedShadeLevel = numericPercentageMatch[1];
               }
               return normalizedShadeLevel === level;
             });
             return (
               <div key={`${familyName}-${level}`} className="flex-1 aspect-square min-w-0">
-                {shade ? <ColorSwatch {...shade} familyName={familyName} isDarkMode={isDarkMode} /> : (
+                {shade ? (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="w-full h-full">
+                        <ColorSwatch
+                          colorValue={isDarkMode ? (shade.hexDark || shade.hex) : shade.hex}
+                          size="xs"
+                          className="w-full h-full"
+                        />
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <div className="flex flex-col gap-1 text-center p-1">
+                        <span className="font-mono text-xs">{familyName}/{String(shade.level).replace(/\s\(.*\)/, '')}</span>
+                        <span className="font-bold">{isDarkMode ? (shade.hexDark || shade.hex) : shade.hex}</span>
+                        {isDarkMode && shade.hexDark && <span className="text-[10px] text-gray-400">(Dark)</span>}
+                      </div>
+                    </TooltipContent>
+                  </Tooltip>
+                ) : (
                   iconlessEmptyLevels?.includes(level) ? <div /> : (
                     <div className="w-full h-full flex items-center justify-center bg-muted/20 rounded-sm">
                       <span className="material-symbols-rounded text-gray-200 text-xs" style={{ fontVariationSettings: "'wght' 300" }}>
@@ -215,9 +110,6 @@ const ColorGrid: React.FC<{
     ))}
   </div>
 );
-
-// Helper to capitalize first letter
-
 
 // --- New component for the Tokens table ---
 const TokensDisplay: React.FC<{ colors: any; searchTerm: string; isDarkMode: boolean }> = ({ colors, searchTerm, isDarkMode }) => (
@@ -245,68 +137,7 @@ const TokensDisplay: React.FC<{ colors: any; searchTerm: string; isDarkMode: boo
           })
           .flatMap(([colorFamily, shades]) =>
             (shades as any[]).map((color: any, index: number) => {
-              let finalChipStyle: React.CSSProperties = {};
-
-              let displayHex = isDarkMode ? color.hexDark : color.hex;
-
-              // Handle missing color for current mode
-              if (!displayHex) {
-                return null;
-              }
-
-              const levelString = String(color.level).toLowerCase();
-
-              const isAlpha =
-                colorFamily.toLowerCase().includes('alpha') ||
-                levelString.includes('alpha') ||
-                levelString.includes('%') ||
-                (displayHex && displayHex.length === 9);
-
-              if (isAlpha) {
-                let opacity = 1;
-                if (displayHex && displayHex.length === 9) {
-                  const alphaHex = displayHex.substring(7, 9);
-                  opacity = parseInt(alphaHex, 16) / 255;
-                }
-                else if (levelString.match(/\((\d+)%\)/)) {
-                  const match = levelString.match(/\((\d+)%\)/);
-                  if (match && match[1]) opacity = parseInt(match[1], 10) / 100;
-                }
-                else if (/^\d+$/.test(levelString) && colorFamily.toLowerCase().includes('alpha')) {
-                  opacity = parseInt(levelString, 10) / 100;
-                }
-
-                let r = 0, g = 0, b = 0;
-                if (displayHex && displayHex.length >= 7) {
-                  r = parseInt(displayHex.substring(1, 3), 16);
-                  g = parseInt(displayHex.substring(3, 5), 16);
-                  b = parseInt(displayHex.substring(5, 7), 16);
-                } else {
-                  // Fallback to parsing rgb string
-                  const rgbMatch = color.rgb.match(/\d+/g);
-                  if (rgbMatch && rgbMatch.length >= 3) {
-                    r = parseInt(rgbMatch[0], 10);
-                    g = parseInt(rgbMatch[1], 10);
-                    b = parseInt(rgbMatch[2], 10);
-                  }
-                }
-
-                const rgbaColor = `rgba(${r}, ${g}, ${b}, ${opacity.toFixed(2)})`;
-
-                finalChipStyle = {
-                  backgroundImage: `
-                      linear-gradient(${rgbaColor}, ${rgbaColor}),
-                      linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%),
-                      linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%),
-                      linear-gradient(#fff, #fff)
-                    `,
-                  backgroundSize: `100%, 16px 16px, 16px 16px, 100%`,
-                  backgroundPosition: `0 0, 0 0, 8px 8px, 0 0`
-                };
-              } else {
-                finalChipStyle = { backgroundColor: displayHex };
-              }
-
+              const displayHex = isDarkMode ? (color.hexDark || color.hex) : color.hex;
               const displayLevel = String(color.level).replace(/\s\(.*\)/, '');
               const tokenName = `${colorFamily}/${displayLevel}`;
 
@@ -314,7 +145,11 @@ const TokensDisplay: React.FC<{ colors: any; searchTerm: string; isDarkMode: boo
                 <TableRow key={`${colorFamily}-${index}`} className="bg-white">
                   <TableCell className="px-4 font-mono text-sm whitespace-nowrap">
                     <div className="flex items-center gap-2">
-                      <div className="w-5 h-5 rounded-full border border-black/10" style={finalChipStyle}></div>
+                      <ColorSwatch
+                        colorValue={displayHex}
+                        size="md"
+                        className="rounded-full border-black/10"
+                      />
                       <span><HighlightText text={tokenName} highlight={searchTerm} /></span>
                     </div>
                   </TableCell>
@@ -332,7 +167,6 @@ const TokensDisplay: React.FC<{ colors: any; searchTerm: string; isDarkMode: boo
     </Table>
   </div>
 );
-
 
 // --- Main component, restructured ---
 interface ColorPaletteDisplayProps {
@@ -358,7 +192,6 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
     .sort(([a], [b]) => {
       const idxA = scaleOrder.indexOf(a);
       const idxB = scaleOrder.indexOf(b);
-      // If not found, put at end
       const valA = idxA === -1 ? 999 : idxA;
       const valB = idxB === -1 ? 999 : idxB;
       return valA - valB;
@@ -377,8 +210,6 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
 
   const nonAlphaLevels = sortedLevels.filter((level: any) => !level.toLowerCase().includes('alpha') && !level.includes('%'));
   const grayDisplayLevels = [...nonAlphaLevels, 'alpha (10%)'];
-
-
 
   const handleFamilySelection = (family: string) => {
     if (family === 'All') {
@@ -401,40 +232,19 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
     }
   };
 
-  // Filtering logic for TokensDisplay
   const filteredColors = Object.entries(colors.palette)
     .filter(([family]) => selectedFamilies.includes('All') || selectedFamilies.includes(family))
     .reduce((acc, [family, shades]) => {
       const filteredShades = (shades as any[]).filter((color: any) => {
         const displayLevel = String(color.level).replace(/\s\(.*\)/, '');
-        let finalDisplayLevel = displayLevel;
-        // Only add _10 suffix for Black alpha tokens
-        if (finalDisplayLevel === 'alpha' && family.toLowerCase().includes('black')) {
-          finalDisplayLevel = 'alpha_10';
-        }
-
-        // Clean token logic for filtering
         const tokenName = `${family}/${displayLevel}`;
-
         let displayHex = color.hex;
-        const levelString = String(color.level).toLowerCase();
-        const isAlpha = family.toLowerCase().includes('alpha') || levelString.includes('alpha') || levelString.includes('%');
-        if (isAlpha) {
-          const opacityMatch = String(color.level).match(/\((\d+)%\)/);
-          if (opacityMatch && opacityMatch[1]) {
-            const opacityValue = parseInt(opacityMatch[1], 10);
-            const alphaHex = Math.round(opacityValue * 2.55).toString(16).padStart(2, '0').toUpperCase();
-            displayHex = `${color.hex}${alphaHex}`;
-          }
-        }
 
         const searchTermLower = searchTerm.toLowerCase();
         const orGroups = searchTermLower.split(',').map(g => g.trim()).filter(g => g.length > 0);
 
-        // If no terms, match all
         if (orGroups.length === 0) return true;
 
-        // Match if ANY OR-group is satisfied
         return orGroups.some(group => {
           const andTerms = group.split('+').map(t => t.trim()).filter(t => t.length > 0);
           if (andTerms.length === 0) return true;
@@ -455,7 +265,6 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
   const tokenCount = Object.values(filteredColors).flat().filter((color: any) => {
     return isDarkMode ? !!color.hexDark : !!color.hex;
   }).length;
-  // const placeholderText = `Search ${tokenCount} tokens...`; // Unused
 
   const getDropdownTriggerText = () => {
     if (selectedFamilies.includes('All') || selectedFamilies.length === 0) {
@@ -469,10 +278,8 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
 
   return (
     <div className="flex flex-col gap-12">
-      {/* Visual Grids - Show if view is 'all' or 'grid' */}
       {view !== 'table' && (
         <div className="mt-4 flex flex-col gap-6">
-          {/* Master Header Row with Toggle */}
           <div className="flex items-center gap-1">
             <div className="w-24 flex-shrink-0 flex items-center justify-start pl-1">
               <div className="flex items-center gap-2">
@@ -488,7 +295,7 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
               </div>
             </div>
             <div className="flex-1 flex gap-1">
-              {grayDisplayLevels.map(level => { // Use grayDisplayLevels as the superset (White...10%)
+              {grayDisplayLevels.map(level => {
                 const displayLevel = level === 'alpha (10%)' ? '10%' : level;
                 return (
                   <div key={level} className="flex-1 flex items-center justify-center text-[10px] md:text-xs font-medium text-gray-400 min-w-0">
@@ -499,19 +306,17 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
             </div>
           </div>
 
-          {/* --- Chromatic Section --- */}
           <section className="flex flex-col gap-4">
             <ColorGrid
               families={chromaticFamilies}
-              levels={grayDisplayLevels} // Use common superset
-              iconlessEmptyLevels={[]} // Hide empty slots only for white
-              hiddenHeaderLevels={[]} // Not used since hideHeaderRow is true
-              hideHeaderRow={true} // Use master header
+              levels={grayDisplayLevels}
+              iconlessEmptyLevels={[]}
+              hiddenHeaderLevels={[]}
+              hideHeaderRow={true}
               isDarkMode={isDarkMode}
             />
           </section>
 
-          {/* --- Gray Section --- */}
           <section className="flex flex-col gap-4">
             <ColorGrid
               families={grayFamilies}
@@ -523,7 +328,6 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
             />
           </section>
 
-          {/* --- Alpha Section --- */}
           <section className="flex flex-col gap-4">
             <ColorGrid
               families={alphaFamilies}
@@ -537,7 +341,6 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
         </div>
       )}
 
-      {/* Tokens Table - Show if view is 'all' or 'table' */}
       {view !== 'grid' && (
         <section className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
@@ -589,9 +392,8 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
           </div>
           <TokensDisplay colors={filteredColors} searchTerm={searchTerm} isDarkMode={isDarkMode} />
         </section>
-      )
-      }
-    </div >
+      )}
+    </div>
   );
 };
 

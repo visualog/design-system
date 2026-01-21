@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { HighlightText } from './ui/HighlightText';
+import ColorSwatch from '@/components/ui/ColorSwatch';
 import { SearchBar } from './SearchBar';
 import { designSystemData } from '../utils/dataLoader';
 import { Clipboard } from './ui/clipboard';
@@ -178,19 +179,7 @@ const SemanticColorMappingDisplay: React.FC = () => {
         return sum + groupTokens.length;
       }, 0);
 
-  const ColorSwatch: React.FC<{ color: string }> = ({ color }) => (
-    <div className="w-5 h-5 rounded-full border border-border relative overflow-hidden bg-white">
-      <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage: 'linear-gradient(45deg, #000 25%, transparent 25%), linear-gradient(-45deg, #000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000 75%), linear-gradient(-45deg, transparent 75%, #000 75%)',
-          backgroundSize: '8px 8px',
-          backgroundPosition: '0 0, 0 4px, 4px -4px, -4px 0px'
-        }}
-      />
-      <div className="absolute inset-0" style={{ backgroundColor: color }}></div>
-    </div>
-  );
+  // --- Internal ColorSwatch removed ---
 
   return (
     <div className="flex flex-col gap-4">
@@ -357,7 +346,11 @@ const SemanticColorMappingDisplay: React.FC = () => {
                         <TableCell className="font-mono text-sm font-medium">
                           <div className="flex flex-col gap-1 py-1">
                             <div className="flex items-center gap-2">
-                              <ColorSwatch color={displayColor} />
+                              <ColorSwatch
+                                colorValue={displayColor}
+                                size="md"
+                                className="rounded-full border-black/10"
+                              />
                               <span className="text-foreground font-semibold whitespace-nowrap">
                                 <HighlightText text={designToken || '-'} highlight={searchTerm} />
                               </span>
