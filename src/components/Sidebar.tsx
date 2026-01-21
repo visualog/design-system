@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { ChevronDown, X, Settings, Github, Moon, Sun } from 'lucide-react';
+import { version } from '../../package.json';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -106,7 +107,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           <div className="mb-8 px-2 flex items-baseline gap-2">
             <h1 className="text-xl font-bold text-foreground">MDS</h1>
             <span className="text-xs text-muted-foreground font-medium">Design System</span>
-            <span className="text-[10px] text-muted-foreground/80 font-mono">v0.1.0</span>
+            <span className="text-[10px] text-muted-foreground/80 font-mono">v{version}</span>
           </div>
           <nav>
             <ul className="space-y-1">
