@@ -118,10 +118,9 @@ const SiteThemePage = () => {
     ];
 
     return (
-        <div className="flex flex-col gap-8 pb-20">
+        <div className="flex flex-col gap-16 pb-24">
             <div>
-
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-3">
                     <h1 className="flex items-center gap-3 text-heading-xl tracking-tight">
                         Theme
                     </h1>
@@ -135,8 +134,8 @@ const SiteThemePage = () => {
 
             <div className="grid gap-8">
                 {/* Color Section */}
-                <section className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-1">
+                <section className="flex flex-col gap-8">
+                    <div className="flex flex-col gap-2">
                         <h2 className="text-heading-md tracking-tight">Primary Color</h2>
                         <p className="text-body-sm text-muted-foreground">메인 브랜드 컬러를 선택하세요.</p>
                     </div>
@@ -159,8 +158,8 @@ const SiteThemePage = () => {
                 <Separator className="bg-zinc-200 dark:bg-zinc-800" />
 
                 {/* Radius Section */}
-                <section className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-1">
+                <section className="flex flex-col gap-8">
+                    <div className="flex flex-col gap-2">
                         <h2 className="text-heading-md tracking-tight">Radius</h2>
                         <p className="text-body-sm text-muted-foreground">UI 요소의 모서리 둥글기 정도를 조정합니다.</p>
                     </div>
@@ -191,8 +190,8 @@ const SiteThemePage = () => {
                 <Separator className="bg-zinc-200 dark:bg-zinc-800" />
 
                 {/* Mode Section */}
-                <section className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-1">
+                <section className="flex flex-col gap-8">
+                    <div className="flex flex-col gap-2">
                         <h2 className="text-heading-md tracking-tight">Mode</h2>
                         <p className="text-body-sm text-muted-foreground">사이트의 컬러 모드를 선택하세요.</p>
                     </div>

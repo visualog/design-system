@@ -36,9 +36,14 @@ const NestedRadiusDisplay: React.FC = () => {
         <section className="flex flex-col gap-6 font-pretendard">
             <div className="flex flex-col gap-2">
                 <h2 className="text-xl font-bold">중첩 라디우스</h2>
-                <p className="text-sm text-muted-foreground">
-                    두 개의 라운드 박스가 중첩될 때, 내부 박스의 라디우스는 외부 라디우스에서 사이여백(Padding)을 뺀 값으로 설정해야 시각적으로 자연스럽습니다.
-                </p>
+                <div className="flex items-start gap-3 p-4 bg-primary/5 rounded-xl border border-primary/10">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary mt-0.5">
+                        <circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" />
+                    </svg>
+                    <p className="text-body-sm text-foreground/80 leading-relaxed">
+                        두 개의 라운드 박스가 중첩될 때, 내부 박스의 라디우스는 <span className="font-bold text-primary">외부 라디우스에서 사이여백(Padding)을 뺀 값</span>으로 설정해야 시각적으로 자연스럽습니다.
+                    </p>
+                </div>
             </div>
 
             <div className="flex flex-col md:flex-row gap-8">
@@ -47,10 +52,16 @@ const NestedRadiusDisplay: React.FC = () => {
                     <div className="flex flex-col gap-3">
                         <div className="flex justify-between items-center">
                             <label htmlFor="outer-radius" className="text-sm font-medium">Outer Radius</label>
-                            <span className="text-sm font-mono">
-                                {outerRadius}px
-                                {currentToken && <span className="ml-2 text-xs text-muted-foreground font-bold">({currentToken.name})</span>}
-                            </span>
+                            <div className="flex items-center gap-1.5 px-2 py-0.5 bg-background border rounded-md shadow-sm">
+                                <span className="text-xs font-mono font-bold text-foreground">
+                                    {outerRadius}px
+                                </span>
+                                {currentToken && (
+                                    <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider border-l pl-1.5 ml-0.5">
+                                        {currentToken.name}
+                                    </span>
+                                )}
+                            </div>
                         </div>
                         <input
                             id="outer-radius"
@@ -91,7 +102,9 @@ const NestedRadiusDisplay: React.FC = () => {
                     <div className="flex flex-col gap-3">
                         <div className="flex justify-between items-center">
                             <label htmlFor="padding" className="text-sm font-medium">Padding</label>
-                            <span className="text-sm font-mono">{currentPadding}px</span>
+                            <div className="px-2 py-0.5 bg-background border rounded-md shadow-sm">
+                                <span className="text-xs font-mono font-bold text-foreground">{currentPadding}px</span>
+                            </div>
                         </div>
                         <input
                             id="padding"

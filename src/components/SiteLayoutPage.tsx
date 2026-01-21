@@ -26,10 +26,9 @@ const SiteLayoutPage = () => {
     };
 
     return (
-        <div className="flex flex-col gap-8 pb-20">
+        <div className="flex flex-col gap-16 pb-24">
             <div>
-
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-3">
                     <h1 className="flex items-center gap-3 text-heading-xl tracking-tight">
                         Layout
                     </h1>
@@ -43,18 +42,20 @@ const SiteLayoutPage = () => {
 
             <div className="grid gap-8 max-w-2xl">
                 {/* Sidebar Width Section */}
-                <section className="space-y-6">
+                <section className="flex flex-col gap-8">
                     <div className="flex items-center justify-between">
-                        <div>
+                        <div className="flex flex-col gap-2">
                             <h2 className="text-heading-md tracking-tight">Sidebar Width</h2>
                             <p className="text-body-sm text-muted-foreground">내비게이션 사이드바의 너비를 설정합니다.</p>
                         </div>
-                        <span className="font-mono text-sm bg-muted px-2 py-1 rounded">
-                            {sidebarWidth}px
-                        </span>
+                        <div className="flex items-center gap-1.5 px-2 py-1 bg-primary/5 border border-primary/10 rounded-md">
+                            <span className="font-mono text-xs font-bold text-primary">
+                                {sidebarWidth}px
+                            </span>
+                        </div>
                     </div>
 
-                    <div className="space-y-4">
+                    <div className="flex flex-col gap-4">
                         <div className="flex items-center gap-4">
                             <span className="text-sm font-medium text-muted-foreground w-12">200px</span>
                             <input
@@ -68,9 +69,16 @@ const SiteLayoutPage = () => {
                             />
                             <span className="text-sm font-medium text-muted-foreground w-12 text-right">320px</span>
                         </div>
-                        <p className="text-sm text-muted-foreground">
-                            기본 너비는 240px입니다. 슬라이더를 드래그하여 실시간으로 조정하세요.
-                        </p>
+                        <div className="mt-1 flex items-start gap-2 p-3 bg-muted/40 rounded-lg border border-border/50">
+                            <div className="mt-0.5">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground/70">
+                                    <circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" />
+                                </svg>
+                            </div>
+                            <p className="text-xs text-muted-foreground leading-relaxed">
+                                기본 너비는 <span className="font-semibold text-foreground">240px</span>입니다. 슬라이더를 드래그하여 실시간으로 내비게이션 영역의 크기를 조정하세요.
+                            </p>
+                        </div>
                     </div>
                 </section>
 

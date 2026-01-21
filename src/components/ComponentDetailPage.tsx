@@ -375,13 +375,12 @@ const ComponentDetailPage = () => {
     const activeVariant = meta.variants[activeVariantIndex] || meta.variants[0];
 
     return (
-        <div className="flex flex-col pb-20 max-w-5xl mx-auto w-full">
+        <div className="flex flex-col gap-16 pb-24 max-w-5xl mx-auto w-full">
             {/* 1. Header Section */}
-            <div className="mb-12">
-
+            <div>
                 <div className="flex items-start justify-between">
-                    <div>
-                        <h1 className="text-display-lg tracking-tight mb-3">{meta.displayName}</h1>
+                    <div className="flex flex-col gap-3">
+                        <h1 className="text-display-lg tracking-tight">{meta.displayName}</h1>
                         <p className="text-body-lg text-muted-foreground leading-relaxed max-w-2xl">{meta.description}</p>
                     </div>
                 </div>
@@ -399,8 +398,8 @@ const ComponentDetailPage = () => {
 
             {/* 2. Anatomy Section */}
             {meta.anatomy && (
-                <section className="mb-16 scroll-mt-20" id="anatomy">
-                    <div className="flex items-center gap-2 mb-6">
+                <section className="scroll-mt-20 flex flex-col gap-8" id="anatomy">
+                    <div className="flex flex-col gap-2">
                         <h2 className="text-heading-xl tracking-tight">Anatomy</h2>
                     </div>
                     <div className="flex flex-col gap-8">
@@ -518,14 +517,14 @@ const ComponentDetailPage = () => {
             )}
 
             {/* 3. Properties Section (Interactive Playground) */}
-            <section className="mb-16 scroll-mt-20" id="properties">
-                <div className="flex items-center gap-2 mb-6">
+            <section className="scroll-mt-20 flex flex-col gap-8" id="properties">
+                <div className="flex flex-col gap-2">
                     <h2 className="text-heading-xl tracking-tight">Properties</h2>
                 </div>
 
                 <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-8">
                     {/* Left: Preview & Code */}
-                    <div className="space-y-6">
+                    <div className="flex flex-col gap-6">
                         {/* Preview Area */}
                         <div className="rounded-xl border bg-muted/30 overflow-hidden relative group">
                             <div className="absolute top-3 left-3 z-10 flex gap-2">
@@ -557,8 +556,8 @@ const ComponentDetailPage = () => {
                         </div>
 
                         {/* Code Block */}
-                        <div>
-                            <div className="flex items-center justify-between mb-2 px-1">
+                        <div className="flex flex-col gap-2">
+                            <div className="flex items-center justify-between px-1">
                                 <span className="text-sm font-medium text-muted-foreground">코드</span>
                             </div>
                             <CodeBlock
@@ -570,10 +569,10 @@ const ComponentDetailPage = () => {
                     </div>
 
                     {/* Right: Controls */}
-                    <div className="space-y-8">
+                    <div className="flex flex-col gap-8">
                         {/* Variants Control */}
                         {meta.variants.length > 0 && (
-                            <div className="space-y-4">
+                            <div className="flex flex-col gap-4">
                                 <label className="text-label-sm tracking-wide text-foreground/90 uppercase font-bold">Variants</label>
                                 <div className="flex flex-col gap-2">
                                     {meta.variants.map((variant, index) => (
@@ -608,11 +607,11 @@ const ComponentDetailPage = () => {
                         )}
 
                         {/* Props Table (Compact Version?) or just standard */}
-                        <div className="pt-4 border-t">
-                            <div className="flex items-center justify-between mb-4">
+                        <div className="pt-4 border-t flex flex-col gap-4">
+                            <div className="flex items-center justify-between">
                                 <label className="text-label-sm tracking-wide text-foreground/90 uppercase font-bold">Props</label>
                             </div>
-                            <div className="text-xs text-muted-foreground mb-4">
+                            <div className="text-xs text-muted-foreground">
                                 이 컴포넌트가 지원하는 속성 목록입니다.
                             </div>
                             <PropsTable props={meta.props} />
@@ -623,8 +622,8 @@ const ComponentDetailPage = () => {
 
             {/* 4. Guide Section (Usage) */}
             {(meta.guide || meta.usage) && (
-                <section className="mb-12 scroll-mt-20" id="guide">
-                    <div className="flex items-center gap-2 mb-6">
+                <section className="scroll-mt-20 flex flex-col gap-8" id="guide">
+                    <div className="flex flex-col gap-2">
                         <h2 className="text-heading-xl tracking-tight">Guide</h2>
                     </div>
 

@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 
 const SiteSettingsPage = () => {
     return (
-        <div className="flex flex-col gap-8 pb-20">
+        <div className="flex flex-col gap-16 pb-24">
             <div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-3">
                     <h1 className="flex items-center gap-3 text-heading-xl tracking-tight">
                         Site Settings
                     </h1>

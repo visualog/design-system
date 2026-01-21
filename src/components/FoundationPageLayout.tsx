@@ -13,15 +13,16 @@ export const FoundationPageLayout: React.FC<FoundationPageLayoutProps> = ({
     children
 }) => {
     return (
-        <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-16 pb-24">
+            <div className="flex flex-col gap-3">
                 <h1 className="text-heading-xl tracking-tight">{title}</h1>
                 <p className="text-body-sm text-muted-foreground">
                     {description}
                 </p>
             </div>
-            {children}
-            <div className="h-12" /> {/* Bottom spacer */}
+            <div className="flex flex-col gap-8">
+                {children}
+            </div>
         </div>
     );
 };
