@@ -52,24 +52,16 @@ const SiteLayoutPage = () => {
                         <p className="text-body-sm text-muted-foreground">디자인 시스템 권장 너비를 선택합니다.</p>
                     </div>
 
-                    <div className="p-1 bg-muted/30 rounded-xl border border-border/50 flex gap-1">
+                    <div className="flex flex-wrap gap-4">
                         {layouts.map((layout) => {
                             const isActive = sidebarWidth === layout.value;
                             return (
                                 <button
                                     key={layout.id}
                                     onClick={() => handleLayoutSelect(layout.value)}
-                                    className={cn(
-                                        "flex-1 flex flex-col items-center justify-center py-2.5 px-3 rounded-lg transition-all duration-200 outline-none",
-                                        isActive
-                                            ? "bg-background text-primary shadow-sm ring-1 ring-border"
-                                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                                    )}
+                                    className={`flex-1 min-w-[120px] flex flex-col items-center justify-center p-4 rounded-lg border-2 text-sm font-medium transition-all outline-none ${isActive ? 'border-transparent bg-muted text-primary' : 'border-muted hover:bg-muted/50 text-muted-foreground'}`}
                                 >
-                                    <span className={cn(
-                                        "text-[11px] font-bold uppercase tracking-wider mb-0.5",
-                                        isActive ? "text-primary" : "text-muted-foreground/60"
-                                    )}>
+                                    <span className={`text-[10px] uppercase tracking-wider font-bold mb-1 ${isActive ? 'text-primary' : 'text-muted-foreground/60'}`}>
                                         {layout.label}
                                     </span>
                                     <span className="text-sm font-bold font-mono">
