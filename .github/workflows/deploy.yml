@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - feature/site-ui-management
+      - feature/spacing-refinement
 
 permissions:
   contents: read
