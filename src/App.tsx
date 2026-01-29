@@ -23,11 +23,22 @@ import SiteLayoutPage from './components/SiteLayoutPage';
 import SiteTypographyPage from './components/SiteTypographyPage';
 import ComponentDetailPage from './components/ComponentDetailPage';
 
+import { GridOverlay } from './components/ui/GridOverlay';
+
+import { AuthProvider } from './contexts/AuthContext';
+import LoginPage from './components/LoginPage';
+import ProtectedRoute from './components/ProtectedRoute';
+
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showGrid, setShowGrid] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const toggleGrid = () => {
+    setShowGrid(!showGrid);
   };
 
   // Close sidebar automatically when screen width is large enough (desktop)
@@ -44,53 +55,69 @@ function App() {
   }, []);
 
   return (
-    <TooltipProvider>
-      <BrowserRouter basename={import.meta.env.BASE_URL}>
-        <div className="flex min-h-screen bg-background">
-          {/* Sidebar */}
-          <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+    <AuthProvider>
+      <TooltipProvider>
+        <BrowserRouter basename={import.meta.env.BASE_URL}>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
 
-          {/* Main content area */}
-          <div
-            className="flex-1 flex flex-col transition-all duration-300"
-            style={{
-              paddingLeft: window.innerWidth >= 768 ? 'var(--sidebar-width)' : '0'
-            }}
-          >
-            {/* Mobile Header */}
-            <header className="md:hidden flex items-center h-14 px-4 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-[60]">
-              <Button variant="ghost" size="icon" onClick={toggleSidebar} className="-ml-2 mr-2">
-                <Menu className="w-5 h-5" />
-                <span className="sr-only">Toggle Menu</span>
-              </Button>
-              <h1 className="font-semibold text-lg">Design System</h1>
-            </header>
+            <Route element={<ProtectedRoute />}>
+              <Route
+                path="/*"
+                element={
+                  <div className="flex min-h-screen bg-background">
+                    {/* Sidebar */}
+                    <Sidebar
+                      isOpen={isSidebarOpen}
+                      toggleSidebar={toggleSidebar}
+                      showGrid={showGrid}
+                      toggleGrid={toggleGrid}
+                    />
 
-            <Routes>
-              <Route path="/" element={<MainContent><ColorsPage /></MainContent>} /> {/* Default to Colors */}
-              <Route path="/colors" element={<MainContent><ColorsPage /></MainContent>} />
-              <Route path="/colors-new" element={<MainContent><ColorsNewPage /></MainContent>} />
-              <Route path="/typography" element={<MainContent><TypographyPage /></MainContent>} />
-              <Route path="/spacing" element={<MainContent><SpacingPage /></MainContent>} />
-              <Route path="/layout" element={<MainContent><LayoutPage /></MainContent>} />
-              <Route path="/radius" element={<MainContent><RadiusPage /></MainContent>} />
-              <Route path="/motion" element={<MainContent><MotionPage /></MainContent>} />
-              <Route path="/icons" element={<MainContent><IconsPage /></MainContent>} />
-              <Route path="/icons" element={<MainContent><IconsPage /></MainContent>} />
-              <Route path="/shadows" element={<MainContent><ShadowsPage /></MainContent>} />
-              <Route path="/site-settings" element={<MainContent><SiteSettingsPage /></MainContent>} />
-              <Route path="/site-settings/components" element={<MainContent><SiteComponentsPage /></MainContent>} />
-              <Route path="/site-settings/theme" element={<MainContent><SiteThemePage /></MainContent>} />
-              <Route path="/site-settings/layout" element={<MainContent><SiteLayoutPage /></MainContent>} />
-              <Route path="/site-settings/typography" element={<MainContent><SiteTypographyPage /></MainContent>} />
-              <Route path="/site-settings/components/:componentName" element={<MainContent><ComponentDetailPage /></MainContent>} />
-              {/* Fallback for unknown routes */}
-              <Route path="*" element={<MainContent><div>404 Not Found</div></MainContent>} />
-            </Routes>
-          </div>
-        </div>
-      </BrowserRouter>
-    </TooltipProvider>
+                    {/* Main content area */}
+                    <div
+                      className="flex-1 flex flex-col transition-all duration-300 relative ml-0 md:ml-[240px]"
+                    >
+                      {showGrid && <GridOverlay />}
+
+                      {/* Mobile Header */}
+                      <header className="md:hidden flex items-center h-14 px-4 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-[60]">
+                        <Button variant="ghost" size="icon" onClick={toggleSidebar} className="-ml-2 mr-2">
+                          <Menu className="w-5 h-5" />
+                          <span className="sr-only">Toggle Menu</span>
+                        </Button>
+                        <h1 className="font-semibold text-lg">Design System</h1>
+                      </header>
+
+                      <Routes>
+                        <Route path="/" element={<MainContent><ColorsPage /></MainContent>} /> {/* Default to Colors */}
+                        <Route path="/colors" element={<MainContent><ColorsPage /></MainContent>} />
+                        <Route path="/colors-new" element={<MainContent><ColorsNewPage /></MainContent>} />
+                        <Route path="/typography" element={<MainContent><TypographyPage /></MainContent>} />
+                        <Route path="/spacing" element={<MainContent><SpacingPage /></MainContent>} />
+                        <Route path="/layout" element={<MainContent><LayoutPage /></MainContent>} />
+                        <Route path="/radius" element={<MainContent><RadiusPage /></MainContent>} />
+                        <Route path="/motion" element={<MainContent><MotionPage /></MainContent>} />
+                        <Route path="/icons" element={<MainContent><IconsPage /></MainContent>} />
+                        <Route path="/shadows" element={<MainContent><ShadowsPage /></MainContent>} />
+                        <Route path="/site-settings" element={<MainContent><SiteSettingsPage /></MainContent>} />
+                        <Route path="/site-settings/components" element={<MainContent><SiteComponentsPage /></MainContent>} />
+                        <Route path="/site-settings/theme" element={<MainContent><SiteThemePage /></MainContent>} />
+                        <Route path="/site-settings/layout" element={<MainContent><SiteLayoutPage /></MainContent>} />
+                        <Route path="/site-settings/typography" element={<MainContent><SiteTypographyPage /></MainContent>} />
+                        <Route path="/site-settings/components/:componentName" element={<MainContent><ComponentDetailPage /></MainContent>} />
+                        {/* Fallback for unknown routes */}
+                        <Route path="*" element={<MainContent><div>404 Not Found</div></MainContent>} />
+                      </Routes>
+                    </div>
+                  </div>
+                }
+              />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   );
 }
 

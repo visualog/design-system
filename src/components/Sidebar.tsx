@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { ChevronDown, X, Github, Moon, Sun } from 'lucide-react';
+import { ChevronDown, X, Github, Moon, Sun, Grid, LogOut } from 'lucide-react';
 import { version } from '../../package.json';
+import { useAuth } from '../contexts/AuthContext';
 
 interface SidebarProps {
   isOpen: boolean;
   toggleSidebar: () => void;
+  showGrid: boolean;
+  toggleGrid: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, toggleGrid }) => {
+  const { logout } = useAuth();
   const location = useLocation();
   const foundationPaths = ["/colors", "/typography", "/spacing", "/radius", "/icons", "/shadows"];
   const settingsPaths = ["/site-settings"];
@@ -218,6 +222,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           >
             {isDarkMode ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
           </button>
+          <button
+            onClick={toggleGrid}
+            className={`flex items-center justify-center p-2 rounded-md hover:bg-accent transition-colors duration-200 ${showGrid ? 'text-primary bg-accent' : 'text-foreground'}`}
+            title={showGrid ? "Hide Grid Overlay" : "Show Grid Overlay"}
+          >
+            <Grid className="w-5 h-5" />
+          </button>
           <a
             href="https://github.com/visualog/design-system"
             target="_blank"
@@ -227,6 +238,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           >
             <Github className="w-5 h-5" />
           </a>
+          <button
+            onClick={logout}
+            className="flex items-center justify-center p-2 rounded-md hover:bg-accent hover:text-destructive transition-colors duration-200 text-foreground"
+            title="Logout"
+          >
+            <LogOut className="w-5 h-5" />
+          </button>
         </div>
       </aside>
     </>
