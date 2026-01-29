@@ -168,6 +168,43 @@ const TypographyDisplay: React.FC = () => {
         </Table>
       </div>
 
+      {/* Type Tester */}
+      <section className="mt-8 border rounded-xl p-6 bg-card">
+        <h2 className="text-xl font-bold mb-4">Type Tester</h2>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-muted-foreground">Preview Text</label>
+            <input
+              type="text"
+              placeholder="Type something here..."
+              className="w-full bg-background border border-input rounded-md px-4 py-2 text-base focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+              defaultValue="The quick brown fox jumps over the lazy dog."
+              onChange={(e) => {
+                const previewElements = document.querySelectorAll('.type-preview');
+                previewElements.forEach((el) => {
+                  (el as HTMLElement).innerText = e.target.value || 'The quick brown fox jumps over the lazy dog.';
+                });
+              }}
+            />
+          </div>
+
+          <div className="space-y-6 mt-4">
+            <div className="space-y-1">
+              <p className="text-xs text-muted-foreground font-mono">Display Large (64px)</p>
+              <p className="text-display-lg font-bold text-foreground type-preview break-all">The quick brown fox jumps over the lazy dog.</p>
+            </div>
+            <div className="space-y-1">
+              <p className="text-xs text-muted-foreground font-mono">Heading XL (36px)</p>
+              <p className="text-heading-xl font-bold text-foreground type-preview break-all">The quick brown fox jumps over the lazy dog.</p>
+            </div>
+            <div className="space-y-1">
+              <p className="text-xs text-muted-foreground font-mono">Body Medium (15px)</p>
+              <p className="text-body-md text-foreground type-preview">The quick brown fox jumps over the lazy dog.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {selectedStyle && (
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
           <SheetContent side="bottom" className="sm:max-w-full z-[100]" onOpenAutoFocus={(e) => e.preventDefault()}>

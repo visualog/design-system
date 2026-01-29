@@ -113,7 +113,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           className="p-4 flex-1 overflow-y-auto"
         >
           <div className="mb-8 px-2 flex items-baseline gap-2">
-            <h1 className="text-heading-sm font-bold text-foreground">MDS</h1>
+            <h1 className="text-heading-sm font-bold text-foreground">MIS</h1>
             <span className="text-label-sm text-muted-foreground">Design System</span>
             <span className="text-micro text-muted-foreground/80 font-mono">v{version}</span>
           </div>
@@ -141,10 +141,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
                       </NavLink>
                     </li>
                     <li>
+                      <NavLink
+                        to="/colors-new"
+                        className={({ isActive }) => isActive ? activeClassName : inactiveClassName}
+                        onClick={toggleSidebar}
+                      >
+                        Colors New
+                      </NavLink>
+                    </li>
+                    <li>
                       <NavLink to="/typography" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Typography</NavLink>
                     </li>
                     <li>
-                      <NavLink to="/spacing" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Spacing & Layout</NavLink>
+                      <NavLink to="/spacing" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Spacing</NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="/layout" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Layout</NavLink>
                     </li>
                     <li>
                       <NavLink to="/radius" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Radius</NavLink>

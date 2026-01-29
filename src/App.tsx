@@ -8,8 +8,10 @@ import { Button } from '@/components/ui/button';
 
 // Import individual page components
 import ColorsPage from './components/ColorsPage';
+import ColorsNewPage from './components/ColorsNewPage';
 import TypographyPage from './components/TypographyPage';
-import SpacingLayoutPage from './components/SpacingLayoutPage';
+import SpacingPage from './components/SpacingPage';
+import LayoutPage from './components/LayoutPage';
 import RadiusPage from './components/RadiusPage';
 import MotionPage from './components/MotionPage';
 import IconsPage from './components/IconsPage';
@@ -43,7 +45,7 @@ function App() {
 
   return (
     <TooltipProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <div className="flex min-h-screen bg-background">
           {/* Sidebar */}
           <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
@@ -67,8 +69,10 @@ function App() {
             <Routes>
               <Route path="/" element={<MainContent><ColorsPage /></MainContent>} /> {/* Default to Colors */}
               <Route path="/colors" element={<MainContent><ColorsPage /></MainContent>} />
+              <Route path="/colors-new" element={<MainContent><ColorsNewPage /></MainContent>} />
               <Route path="/typography" element={<MainContent><TypographyPage /></MainContent>} />
-              <Route path="/spacing" element={<MainContent><SpacingLayoutPage /></MainContent>} />
+              <Route path="/spacing" element={<MainContent><SpacingPage /></MainContent>} />
+              <Route path="/layout" element={<MainContent><LayoutPage /></MainContent>} />
               <Route path="/radius" element={<MainContent><RadiusPage /></MainContent>} />
               <Route path="/motion" element={<MainContent><MotionPage /></MainContent>} />
               <Route path="/icons" element={<MainContent><IconsPage /></MainContent>} />

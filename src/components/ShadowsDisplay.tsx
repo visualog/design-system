@@ -125,6 +125,38 @@ const ShadowsDisplay: React.FC = () => {
         </div>
       </section>
 
+      {/* Interactive Playground */}
+      <section className="flex flex-col gap-6">
+        <h2 className="text-xl font-bold">Interactive Playground</h2>
+        <div className="bg-secondary/10 border border-border rounded-xl p-10 flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden">
+          <div className="absolute inset-0 bg-grid-slate-200/50 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] dark:bg-grid-slate-800/20" />
+
+          <div id="shadow-card" className="bg-card w-48 h-48 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 z-10 shadow-sm border border-border">
+            <span className="text-lg font-bold text-primary mb-1">Card</span>
+            <span className="text-xs text-muted-foreground" id="shadow-label">shadow-sm</span>
+          </div>
+
+          <div className="mt-10 z-10 flex gap-2 bg-background/80 backdrop-blur p-2 rounded-lg border border-border shadow-sm">
+            {['shadow-none', 'shadow-sm', 'shadow-md', 'shadow-lg', 'shadow-xl', 'shadow-2xl'].map((shadow) => (
+              <button
+                key={shadow}
+                onClick={() => {
+                  const card = document.getElementById('shadow-card');
+                  const label = document.getElementById('shadow-label');
+                  if (card && label) {
+                    card.className = `bg-card w-48 h-48 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 z-10 border border-border ${shadow}`;
+                    label.innerText = shadow;
+                  }
+                }}
+                className="px-3 py-1.5 text-xs font-medium rounded-md hover:bg-muted transition-colors focus:bg-primary/10 focus:text-primary"
+              >
+                {shadow.replace('shadow-', '')}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Token Table */}
       <section className="flex flex-col gap-4">
         <h2 className="text-xl font-bold">토큰</h2>

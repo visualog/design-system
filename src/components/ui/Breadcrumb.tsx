@@ -6,11 +6,9 @@ const Breadcrumb: React.FC = () => {
   const location = useLocation();
   const rawPathnames = location.pathname.split('/').filter((x) => x);
 
-  const foundationPaths = ["colors", "typography", "spacing", "radius", "icons", "shadows"];
+  const foundationPaths = ["colors", "typography", "spacing", "layout", "radius", "icons", "shadows"];
 
-  const pathMapping: Record<string, string> = {
-    spacing: 'Spacing & Layout',
-  };
+  const pathMapping: Record<string, string> = {};
 
   let displayPathnames = [...rawPathnames];
 
