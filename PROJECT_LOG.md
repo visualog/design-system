@@ -200,3 +200,7 @@
         - **반응형 컬럼 (Responsive Columns)**: 각 중단점(Mobile/Tablet/Desktop)에 맞춰 컬럼 수가 4/8/12개로 자동 조절되도록 개선했습니다.
         - **인스펙터 스타일 (Inspector Styling)**: 크롬 개발자 도구와 유사한 색상 체계(Margin: Orange, Column: Blue, Gutter: Violet)를 적용하여 시각적 직관성을 높였습니다.
         - **마진 라벨 (Margin Labels)**: 반응형 마진 값(24px/32px/48px)을 표시하는 라벨을 추가하여 정확한 여백 확인이 가능하도록 했습니다.
+    - **그리드 오버레이 완성 (Grid Overlay Complete)**:
+        - **거터 라벨 (Gutter Labels)**: 컬럼 사이의 간격(Gap)을 픽셀 단위(12/16/20px)로 표시하는 기능을 추가했습니다. 레이아웃 밀림 방지를 위해 Absolute Positioning을 적용했습니다.
+        - **콘텐츠 너비 표시 (Content Width Display)**: 실시간으로 메인 콘텐츠 영역의 너비를 상단에 표시하여 반응형 동작 검증이 용이하도록 개선했습니다.
+        - **Sticky UX 개선**: 마진 라벨, 거터 라벨, 콘텐츠 너비 정보가 스크롤 시에도 항상 화면에 고정되도록 Sticky 배치를 최적화했습니다.
