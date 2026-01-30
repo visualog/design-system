@@ -188,3 +188,15 @@
     - `PrinciplesSection` (컬러 개요)의 그리드 간격을 `gap-6`에서 반응형 간격(`gap-3 md:gap-4 lg:gap-5`)으로 수정하여 전체 페이지 그리드 시스템과 통일했습니다.
 - **스타일 일관성**:
     - 모든 목록형 테이블(`SemanticGroupingDisplay`, `TypographyNewDisplay` 등)에서 중복된 카드 래퍼 스타일(`border`, `shadow-sm`, `bg-card`)을 제거하고 'Clean List Pattern'을 적용했습니다.
+
+- **개발자 경험(DX) 및 접근성 강화**:
+    - `componentRegistry.ts`에 컴포넌트별 상세 접근성 정보(WAI-ARIA 역할, 속성, 키보드 인터랙션)를 추가했습니다.
+    - `ComponentDetailPage`에 **'Accessibility'** 섹션을 신설하고 `AccessibilitySection` 컴포넌트를 통해 관련 정보를 테이블 형식으로 시각화했습니다.
+    - 컴포넌트 속성(Properties) 섹션에 **'인터랙션 상태(States)'** 및 **'지원 크기(Sizes)'** 배지를 추가하여 기술 스펙을 한눈에 파악할 수 있도록 개선했습니다.
+- **컬러 시스템 문맥 정보 보강**:
+    - `ColorPairingDisplay` 컴포넌트를 구현하여 배경과 포그라운드(텍스트/아이콘) 컬러의 올바른 조합 가이드를 추가했습니다.
+    - WCAG AA 표준 준수 여부를 명시하여 디자이너와 개발자가 접근성 있는 컬러를 선택할 수 있도록 돕습니다.
+- **디자인 원칙 및 개요(Overview) 페이지 신설**:
+    - `IntroductionPage`를 생성하여 디자인 시스템의 핵심 원칙(명료함, 효율성, 일관성, 포용성)과 시스템 목표를 정의했습니다.
+    - 사이트의 루트(` / `) 및 `/overview` 경로로 설정하고 사이드바 최상단에 배치하여 시스템의 철학을 먼저 전달하도록 개선했습니다.
+

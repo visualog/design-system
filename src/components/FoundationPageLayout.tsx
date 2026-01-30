@@ -7,13 +7,15 @@ interface FoundationPageLayoutProps {
     description: string;
     children: React.ReactNode;
     actions?: React.ReactNode;
+    showExperimental?: boolean;
 }
 
 export const FoundationPageLayout: React.FC<FoundationPageLayoutProps> = ({
     title,
     description,
     children,
-    actions
+    actions,
+    showExperimental = false
 }) => {
     return (
         <div className="flex flex-col gap-16 pb-24">
@@ -21,7 +23,7 @@ export const FoundationPageLayout: React.FC<FoundationPageLayoutProps> = ({
                 <div className="flex items-center justify-between gap-4 flex-wrap">
                     <div className="flex items-center gap-4">
                         <h1 className="text-heading-xl tracking-tight">{title}</h1>
-                        <ExperimentalToggle />
+                        {showExperimental && <ExperimentalToggle />}
                     </div>
                     {actions && <div className="flex-shrink-0">{actions}</div>}
                 </div>

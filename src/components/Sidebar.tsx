@@ -141,8 +141,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
                   <ul className="pt-2 pl-4 space-y-1">
                     <li>
                       <NavLink
-                        to="/colors"
+                        to="/overview"
                         className={({ isActive }) => (isActive || location.pathname === '/') ? activeClassName : inactiveClassName}
+                        onClick={toggleSidebar}
+                      >
+                        Overview
+                      </NavLink>
+                    </li>
+
+                    <li>
+                      <NavLink
+                        to="/colors"
+                        className={({ isActive }) => isActive ? activeClassName : inactiveClassName}
                         onClick={toggleSidebar}
                       >
                         Colors

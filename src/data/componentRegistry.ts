@@ -14,6 +14,17 @@ export interface ComponentVariant {
     code: string;
 }
 
+export interface KeyboardInteraction {
+    key: string;
+    description: string;
+}
+
+export interface AccessibilityMeta {
+    role?: string;
+    attributes?: { name: string; description: string }[];
+    keyboard?: KeyboardInteraction[];
+}
+
 export interface ComponentMeta {
     name: string;
     displayName: string;
@@ -27,6 +38,7 @@ export interface ComponentMeta {
     anatomy?: string;
     sizes?: string[]; // e.g. ['sm', 'md', 'lg']
     states?: string[]; // e.g. ['default', 'hover', 'active', 'disabled']
+    accessibility?: AccessibilityMeta;
     guide?: string; // Markdown content for the Guide section
 }
 
@@ -67,6 +79,19 @@ export function Example() {
 - **Icon**: 레이블 전후에 표시되는 선택적 아이콘입니다.
 - **Label**: 버튼의 주요 텍스트 내용입니다.
         `,
+        sizes: ['sm', 'md', 'lg'],
+        states: ['Default', 'Hover', 'Active', 'Focus', 'Disabled', 'Loading'],
+        accessibility: {
+            role: 'button',
+            attributes: [
+                { name: 'aria-disabled', description: '버튼이 비활성화된 경우 true로 설정됩니다.' },
+                { name: 'aria-label', description: '아이콘만 있는 버튼의 경우 시각 장애인을 위한 텍스트 레이블을 제공합니다.' }
+            ],
+            keyboard: [
+                { key: 'Enter', description: '버튼을 활성화합니다.' },
+                { key: 'Space', description: '버튼을 활성화합니다.' }
+            ]
+        },
         guide: `
 ### 사용 가이드 (Usage)
 
@@ -161,6 +186,17 @@ export function Example() {
         </div>
     )
 }`,
+        states: ['Default', 'Hover', 'Focus', 'Disabled', 'Error'],
+        accessibility: {
+            role: 'textbox',
+            attributes: [
+                { name: 'aria-invalid', description: '입력 값이 유효하지 않을 때 true로 설정됩니다.' },
+                { name: 'aria-required', description: '필수 입력 필드인 경우 true로 설정됩니다.' }
+            ],
+            keyboard: [
+                { key: 'Tab', description: '입력 필드로 포커스를 이동합니다.' }
+            ]
+        }
     },
 
     tooltip: {
@@ -399,6 +435,18 @@ export function Example() {
 - **Label**: 탭의 텍스트 라벨
 - **Animated Indicator**: 활성 탭 아래를 따라다니는 애니메이션 바 (Animated Tabs 전용)
         `,
+        accessibility: {
+            role: 'tablist',
+            attributes: [
+                { name: 'aria-selected', description: '현재 활성화된 탭 트리거에 true가 설정됩니다.' },
+                { name: 'aria-controls', description: '탭 트리거가 제어하는 대응 탭 콘텐츠의 ID를 참조합니다.' }
+            ],
+            keyboard: [
+                { key: 'Tab', description: '탭 목록으로 포커스를 이동하거나 다음 요소로 이동합니다.' },
+                { key: 'ArrowLeft / ArrowRight', description: '탭 트리거 사이를 이동합니다.' },
+                { key: 'Home / End', description: '첫 번째 또는 마지막 탭으로 이동합니다.' }
+            ]
+        },
         guide: `
 ### 사용 가이드 (Usage)
 

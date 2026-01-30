@@ -22,7 +22,7 @@ import { cn } from '@/lib/utils';
 import AnatomyPreview, { getAnatomyVariants } from '@/components/AnatomyPreview';
 import AnatomyInfoPanel from '@/components/AnatomyInfoPanel';
 import MeasureOverlay from '@/components/ui/MeasureOverlay';
-import { ExperimentalToggle } from './ui/ExperimentalToggle';
+import { AccessibilitySection } from './ui/AccessibilitySection';
 
 // 컴포넌트별 라이브 프리뷰 렌더링
 const LivePreview: React.FC<{ componentName: string; variantName: string }> = ({ componentName, variantName }) => {
@@ -381,9 +381,8 @@ const ComponentDetailPage = () => {
             <div>
                 <div className="flex items-start justify-between">
                     <div className="flex flex-col gap-3">
-                        <h1 className="flex items-center gap-4 text-display-lg tracking-tight">
+                        <h1 className="text-display-lg tracking-tight">
                             {meta.displayName}
-                            <ExperimentalToggle />
                         </h1>
                         <p className="text-body-lg text-muted-foreground leading-relaxed max-w-2xl">{meta.description}</p>
                     </div>
@@ -526,105 +525,147 @@ const ComponentDetailPage = () => {
                     <h2 className="text-heading-xl tracking-tight">Properties</h2>
                 </div>
 
-                <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-8">
-                    {/* Left: Preview & Code */}
-                    <div className="flex flex-col gap-6">
-                        {/* Preview Area */}
-                        <div className="rounded-xl border bg-muted/30 overflow-hidden relative group">
-                            <div className="absolute top-3 left-3 z-10 flex gap-2">
-                                <span className="text-xs font-medium text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-1 rounded border">
-                                    미리보기
-                                </span>
-                            </div>
-
-                            {/* Measure Mode Toggle */}
-                            <div className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button
-                                    onClick={() => setIsMeasureMode(!isMeasureMode)}
-                                    className={cn(
-                                        "p-2 rounded-md border transition-colors",
-                                        isMeasureMode ? "bg-primary text-primary-foreground" : "bg-background/80 hover:bg-background text-muted-foreground"
-                                    )}
-                                    title={isMeasureMode ? "측정 모드 끄기" : "측정 모드 켜기"}
-                                >
-                                    <Ruler className="w-4 h-4" />
-                                </button>
-                            </div>
-
-                            <div className="p-10 flex items-center justify-center min-h-[320px] relative">
-                                <div ref={previewRef} className="relative inline-block">
-                                    <LivePreview componentName={componentName!} variantName={activeVariant.name} />
-                                    {isMeasureMode && <MeasureOverlay targetRef={previewRef as React.RefObject<HTMLElement>} />}
+                <div className="flex flex-col gap-10">
+                    {/* States & Sizes (New) */}
+                    {(meta.states || meta.sizes) && (
+                        <div className="grid md:grid-cols-2 gap-8">
+                            {meta.states && (
+                                <div className="flex flex-col gap-4 p-6 rounded-2xl bg-muted/30 border">
+                                    <h3 className="text-lg font-bold">인터랙션 상태 (States)</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {meta.states.map((state) => (
+                                            <span key={state} className="px-3 py-1.5 rounded-lg bg-background border text-sm font-medium shadow-sm hover:scale-105 transition-transform cursor-default">
+                                                {state}
+                                            </span>
+                                        ))}
+                                    </div>
                                 </div>
+                            )}
+                            {meta.sizes && (
+                                <div className="flex flex-col gap-4 p-6 rounded-2xl bg-muted/30 border">
+                                    <h3 className="text-lg font-bold">지원 크기 (Sizes)</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {meta.sizes.map((size) => (
+                                            <span key={size} className="px-3 py-1.5 rounded-lg bg-background border text-sm font-medium shadow-sm hover:scale-105 transition-transform cursor-default">
+                                                {size.toUpperCase()}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-8">
+                        {/* Left: Preview & Code */}
+                        <div className="flex flex-col gap-6">
+                            {/* Preview Area */}
+                            <div className="rounded-xl border bg-muted/30 overflow-hidden relative group">
+                                <div className="absolute top-3 left-3 z-10 flex gap-2">
+                                    <span className="text-xs font-medium text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-1 rounded border">
+                                        미리보기
+                                    </span>
+                                </div>
+
+                                {/* Measure Mode Toggle */}
+                                <div className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button
+                                        onClick={() => setIsMeasureMode(!isMeasureMode)}
+                                        className={cn(
+                                            "p-2 rounded-md border transition-colors",
+                                            isMeasureMode ? "bg-primary text-primary-foreground" : "bg-background/80 hover:bg-background text-muted-foreground"
+                                        )}
+                                        title={isMeasureMode ? "측정 모드 끄기" : "측정 모드 켜기"}
+                                    >
+                                        <Ruler className="w-4 h-4" />
+                                    </button>
+                                </div>
+
+                                <div className="p-10 flex items-center justify-center min-h-[320px] relative">
+                                    <div ref={previewRef} className="relative inline-block">
+                                        <LivePreview componentName={componentName!} variantName={activeVariant.name} />
+                                        {isMeasureMode && <MeasureOverlay targetRef={previewRef as React.RefObject<HTMLElement>} />}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Code Block */}
+                            <div className="flex flex-col gap-2">
+                                <div className="flex items-center justify-between px-1">
+                                    <span className="text-sm font-medium text-muted-foreground">코드</span>
+                                </div>
+                                <CodeBlock
+                                    code={activeVariant.code}
+                                    onCopy={() => copyToClipboard(activeVariant.code, 'code-view')}
+                                    copied={copiedCode === 'code-view'}
+                                />
                             </div>
                         </div>
 
-                        {/* Code Block */}
-                        <div className="flex flex-col gap-2">
-                            <div className="flex items-center justify-between px-1">
-                                <span className="text-sm font-medium text-muted-foreground">코드</span>
-                            </div>
-                            <CodeBlock
-                                code={activeVariant.code}
-                                onCopy={() => copyToClipboard(activeVariant.code, 'code-view')}
-                                copied={copiedCode === 'code-view'}
-                            />
-                        </div>
-                    </div>
-
-                    {/* Right: Controls */}
-                    <div className="flex flex-col gap-8">
-                        {/* Variants Control */}
-                        {meta.variants.length > 0 && (
-                            <div className="flex flex-col gap-4">
-                                <label className="text-label-sm tracking-wide text-foreground/90 uppercase font-bold">Variants</label>
-                                <div className="flex flex-col gap-2">
-                                    {meta.variants.map((variant, index) => (
-                                        <button
-                                            key={variant.name}
-                                            onClick={() => setActiveVariantIndex(index)}
-                                            className={cn(
-                                                "group flex items-start gap-3 p-3 rounded-lg border text-left transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary",
-                                                activeVariantIndex === index
-                                                    ? "border-primary bg-primary/5"
-                                                    : "bg-background hover:bg-muted/50 hover:border-muted-foreground/30"
-                                            )}
-                                        >
-                                            <div className={cn(
-                                                "mt-1 w-3 h-3 rounded-full border flex flex-col items-center justify-center transition-colors",
-                                                activeVariantIndex === index ? "border-primary bg-primary" : "border-muted-foreground/30 group-hover:border-primary/50"
-                                            )}>
-                                                {activeVariantIndex === index && <div className="w-1 h-1 rounded-full bg-white" />}
-                                            </div>
-                                            <div className="flex-1">
-                                                <div className={cn("font-medium text-sm transition-colors", activeVariantIndex === index ? "text-primary" : "text-foreground")}>
-                                                    {variant.name}
+                        {/* Right: Controls */}
+                        <div className="flex flex-col gap-8">
+                            {/* Variants Control */}
+                            {meta.variants.length > 0 && (
+                                <div className="flex flex-col gap-4">
+                                    <label className="text-label-sm tracking-wide text-foreground/90 uppercase font-bold">Variants</label>
+                                    <div className="flex flex-col gap-2">
+                                        {meta.variants.map((variant, index) => (
+                                            <button
+                                                key={variant.name}
+                                                onClick={() => setActiveVariantIndex(index)}
+                                                className={cn(
+                                                    "group flex items-start gap-3 p-3 rounded-lg border text-left transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary",
+                                                    activeVariantIndex === index
+                                                        ? "border-primary bg-primary/5"
+                                                        : "bg-background hover:bg-muted/50 hover:border-muted-foreground/30"
+                                                )}
+                                            >
+                                                <div className={cn(
+                                                    "mt-1 w-3 h-3 rounded-full border flex flex-col items-center justify-center transition-colors",
+                                                    activeVariantIndex === index ? "border-primary bg-primary" : "border-muted-foreground/30 group-hover:border-primary/50"
+                                                )}>
+                                                    {activeVariantIndex === index && <div className="w-1 h-1 rounded-full bg-white" />}
                                                 </div>
-                                                <div className="text-xs text-muted-foreground mt-0.5 leading-snug">
-                                                    {variant.description}
+                                                <div className="flex-1">
+                                                    <div className={cn("font-medium text-sm transition-colors", activeVariantIndex === index ? "text-primary" : "text-foreground")}>
+                                                        {variant.name}
+                                                    </div>
+                                                    <div className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                                                        {variant.description}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </button>
-                                    ))}
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
 
-                        {/* Props Table (Compact Version?) or just standard */}
-                        <div className="pt-4 border-t flex flex-col gap-4">
-                            <div className="flex items-center justify-between">
-                                <label className="text-label-sm tracking-wide text-foreground/90 uppercase font-bold">Props</label>
+                            {/* Props Table (Compact Version?) or just standard */}
+                            <div className="pt-4 border-t flex flex-col gap-4">
+                                <div className="flex items-center justify-between">
+                                    <label className="text-label-sm tracking-wide text-foreground/90 uppercase font-bold">Props</label>
+                                </div>
+                                <div className="text-xs text-muted-foreground">
+                                    이 컴포넌트가 지원하는 속성 목록입니다.
+                                </div>
+                                <PropsTable props={meta.props} />
                             </div>
-                            <div className="text-xs text-muted-foreground">
-                                이 컴포넌트가 지원하는 속성 목록입니다.
-                            </div>
-                            <PropsTable props={meta.props} />
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* 4. Guide Section (Usage) */}
+            {/* 4. Accessibility Section (New) */}
+            {meta.accessibility && (
+                <section className="scroll-mt-20 flex flex-col gap-8" id="accessibility">
+                    <div className="flex flex-col gap-2">
+                        <h2 className="text-heading-xl tracking-tight">Accessibility</h2>
+                    </div>
+                    <AccessibilitySection data={meta.accessibility} />
+                </section>
+            )}
+
+            {/* 5. Guide Section (Usage) */}
             {(meta.guide || meta.usage) && (
                 <section className="scroll-mt-20 flex flex-col gap-8" id="guide">
                     <div className="flex flex-col gap-2">

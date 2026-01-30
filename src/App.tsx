@@ -8,6 +8,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
 
 // Import individual page components
+import IntroductionPage from './components/IntroductionPage';
 import ColorsPage from './components/ColorsPage';
 import TypographyPage from './components/TypographyPage';
 import SpacingPage from './components/SpacingPage';
@@ -57,9 +58,9 @@ function App() {
 
   return (
     <AuthProvider>
-      <ExperimentalProvider>
-        <TooltipProvider>
-          <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <TooltipProvider>
+        <BrowserRouter basename={import.meta.env.BASE_URL}>
+          <ExperimentalProvider>
             <Routes>
               <Route path="/login" element={<LoginPage />} />
 
@@ -92,7 +93,8 @@ function App() {
                         </header>
 
                         <Routes>
-                          <Route path="/" element={<MainContent maxWidth="wide"><ColorsPage /></MainContent>} /> {/* Default to Colors */}
+                          <Route path="/" element={<MainContent maxWidth="wide"><IntroductionPage /></MainContent>} />
+                          <Route path="/overview" element={<MainContent maxWidth="wide"><IntroductionPage /></MainContent>} />
                           <Route path="/colors" element={<MainContent maxWidth="wide"><ColorsPage /></MainContent>} />
                           <Route path="/typography" element={<MainContent maxWidth="wide"><TypographyPage /></MainContent>} />
                           <Route path="/spacing" element={<MainContent maxWidth="wide"><SpacingPage /></MainContent>} />
@@ -117,9 +119,9 @@ function App() {
               </Route>
             </Routes>
             <Toaster position="bottom-right" theme="system" />
-          </BrowserRouter>
-        </TooltipProvider>
-      </ExperimentalProvider>
+          </ExperimentalProvider>
+        </BrowserRouter>
+      </TooltipProvider>
     </AuthProvider>
   );
 }
