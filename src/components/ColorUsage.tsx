@@ -102,7 +102,7 @@ const ColorUsage: React.FC = () => {
                     >
                         <div className="flex flex-col gap-4 w-full h-full min-h-[140px] bg-blue-50 items-center justify-center p-6 border border-blue-100">
                             <div className="text-blue-600 font-bold text-center leading-relaxed">
-                                모든 곳에<br />브랜드 컬러 사용
+                                모든 곳에 브랜드 컬러 사용
                             </div>
                         </div>
                     </DoDont>

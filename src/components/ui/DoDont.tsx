@@ -17,7 +17,7 @@ export const DoDont: React.FC<DoDontProps> = ({ type, title, description, childr
         <div className={cn("flex flex-col h-full rounded-xl overflow-hidden border", className)}>
             {/* Visual Area */}
             <div className={cn(
-                "relative p-6 flex items-center justify-center min-h-[160px]",
+                "relative h-[220px] shrink-0 p-6 flex items-center justify-center",
                 isDo ? "bg-green-50/50 dark:bg-green-950/20" : "bg-red-50/50 dark:bg-red-950/20"
             )}>
                 {/* Status Indicator */}

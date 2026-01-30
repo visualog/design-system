@@ -41,9 +41,7 @@ const TypographyUsage: React.FC = () => {
                     >
                         <div className="w-full p-6 text-left flex items-center">
                             <p className="text-sm leading-relaxed">
-                                텍스트가 왼쪽으로 정렬되어 있을 때 사용자는 줄을 바꿀 때마다<br />
-                                시선을 자연스럽게 왼쪽 끝으로 이동시킬 수 있어<br />
-                                독서 피로도가 줄어듭니다.
+                                텍스트가 왼쪽으로 정렬되어 있을 때 사용자는 줄을 바꿀 때마다 시선을 자연스럽게 왼쪽 끝으로 이동시킬 수 있어 독서 피로도가 줄어듭니다.
                             </p>
                         </div>
                     </DoDont>
@@ -54,9 +52,7 @@ const TypographyUsage: React.FC = () => {
                     >
                         <div className="w-full p-6 text-center flex items-center justify-center">
                             <p className="text-sm leading-relaxed">
-                                텍스트를 가운데 정렬하면<br />
-                                줄이 바뀔 때마다 시작점을 다시 찾아야 해서<br />
-                                긴 글을 읽을 때 매우 불편합니다.
+                                텍스트를 가운데 정렬하면 줄이 바뀔 때마다 시작점을 다시 찾아야 해서 긴 글을 읽을 때 매우 불편합니다.
                             </p>
                         </div>
                     </DoDont>
