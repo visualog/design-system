@@ -178,29 +178,13 @@
     - **동적 그림자 로직**: 아나토미 뷰의 탭 스위처에 Hover 또는 Sliding 애니메이션 시에만 그림자가 나타나도록 개선된 로직을 적용하여, 정적 상태의 불필요한 입체감을 제거했습니다.
 - **UI 폴리싱 (UI Polish)**:
     - **아나토미 옵션 정리**: 버튼 아나토미에서 구조적 변형이 아닌 의미적 구분인 'Destructive' 옵션을 뷰에서 제외했습니다.
-## 2026년 1월 28일 수요일
 
-- **레이아웃 페이지 분리 (Layout Page Separation)**:
-    - 기존 'Spacing & Layout' 페이지를 'Spacing'과 'Layout'으로 분리하여 각각 독립적인 파운데이션 페이지로 구성했습니다.
-    - **Spacing Page**: 인터랙티브 비주얼라이저와 Spacing 토큰 테이블을 포함합니다.
-    - **Layout Page**: 디바이스 해상도, 중단점(Breakpoints), 모바일/데스크톱 그리드 시스템 정보를 포함합니다.
-    - **라우팅 및 사이드바**: `/spacing` 및 `/layout` 경로를 분리하고 사이드바 메뉴를 업데이트했습니다.
-    - **브레드크럼 수정**: 페이지 분리에 맞춰 브레드크럼 매핑 로직을 업데이트했습니다.
+## 2026년 1월 30일 금요일 (Spacing & Layout 정제)
 
-- **그리드 오버레이 (Grid Overlay)**:
-    - 사이드바 하단에 **그리드 토글(Grid Toggle)** 버튼을 추가했습니다.
-    - 메인 콘텐츠 영역(사이드바를 제외한 우측 영역)에 정확히 12단 컬럼 그리드를 표시하는 기능을 구현했습니다.
-    - 반응형 레이아웃에 맞춰 그리드 오버레이가 사이드바 영역을 침범하지 않도록 `margin-left`를 사용하여 정확히 위치시켰습니다.
-- **로그인 시스템 (Login System)**:
-    - **인증 컨텍스트**: `AuthContext`를 통한 간단한 클라이언트 측 인증 상태 관리(localStorage)를 구현했습니다.
-    - **로그인 페이지**: 디자인 시스템 스타일을 반영한 전용 로그인 페이지(`/login`)를 제작했습니다 (기본 암호: `admin`).
-    - **접근 제어**: `ProtectedRoute` 컴포넌트를 통해 비로그인 사용자의 콘텐츠 접근을 차단하고 로그인 페이지로 리다이렉트하도록 처리했습니다.
-    - **로그아웃**: 사이드바 하단에 로그아웃 버튼을 추가하여 세션을 종료할 수 있도록 했습니다.
-    - **그리드 고도화 (Grid Enhancements)**:
-        - **반응형 컬럼 (Responsive Columns)**: 각 중단점(Mobile/Tablet/Desktop)에 맞춰 컬럼 수가 4/8/12개로 자동 조절되도록 개선했습니다.
-        - **인스펙터 스타일 (Inspector Styling)**: 크롬 개발자 도구와 유사한 색상 체계(Margin: Orange, Column: Blue, Gutter: Violet)를 적용하여 시각적 직관성을 높였습니다.
-        - **마진 라벨 (Margin Labels)**: 반응형 마진 값(24px/32px/48px)을 표시하는 라벨을 추가하여 정확한 여백 확인이 가능하도록 했습니다.
-    - **그리드 오버레이 완성 (Grid Overlay Complete)**:
-        - **거터 라벨 (Gutter Labels)**: 컬럼 사이의 간격(Gap)을 픽셀 단위(12/16/20px)로 표시하는 기능을 추가했습니다. 레이아웃 밀림 방지를 위해 Absolute Positioning을 적용했습니다.
-        - **콘텐츠 너비 표시 (Content Width Display)**: 실시간으로 메인 콘텐츠 영역의 너비를 상단에 표시하여 반응형 동작 검증이 용이하도록 개선했습니다.
-        - **Sticky UX 개선**: 마진 라벨, 거터 라벨, 콘텐츠 너비 정보가 스크롤 시에도 항상 화면에 고정되도록 Sticky 배치를 최적화했습니다.
+- **Usage Guide 표준화**:
+    - `TypographyUsage`, `SpacingUsage`, `IconsUsage`, `ShadowsUsage`, `ColorUsage` 모든 가이드 섹션에 표준화된 `DoDont` 및 `DoDontContainer` 컴포넌트를 적용했습니다.
+    - 모든 `DoDont` 카드 이미지 영역 높이를 `220px`로 고정하여 시각적 정렬을 맞췄습니다.
+    - Usage 카드 내 불필요한 강제 줄바꿈(`<br>`)을 제거하여 텍스트 가독성을 개선했습니다.
+    - `PrinciplesSection` (컬러 개요)의 그리드 간격을 `gap-6`에서 반응형 간격(`gap-3 md:gap-4 lg:gap-5`)으로 수정하여 전체 페이지 그리드 시스템과 통일했습니다.
+- **스타일 일관성**:
+    - 모든 목록형 테이블(`SemanticGroupingDisplay`, `TypographyNewDisplay` 등)에서 중복된 카드 래퍼 스타일(`border`, `shadow-sm`, `bg-card`)을 제거하고 'Clean List Pattern'을 적용했습니다.
