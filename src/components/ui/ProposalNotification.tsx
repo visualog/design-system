@@ -19,6 +19,7 @@ import {
     SheetTitle,
 } from "@/components/ui/sheet";
 import { useProposals, type Proposal } from '@/hooks/useProposals';
+import { useAuth } from '@/contexts/AuthContext';
 import { getUniqueSelector } from '@/lib/domUtils';
 
 type SheetSide = 'right' | 'left' | 'bottom';
@@ -32,7 +33,8 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
 }) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { proposals, addProposal, removeProposal } = useProposals();
+    const { user } = useAuth();
+    const { proposals, addProposal, removeProposal, loading } = useProposals();
 
     const [isExpanded, setIsExpanded] = useState(false);
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -149,11 +151,11 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
         if (!newProposalText.trim()) return;
 
         addProposal({
-            id: `proposal-${Date.now()}`,
             title: newProposalText.split('\n')[0].substring(0, 30) + (newProposalText.length > 30 ? '...' : ''),
             content: newProposalText,
             targetPage: window.location.pathname,
-            selector: capturedSelector
+            selector: capturedSelector,
+            authorEmail: user?.email || 'Anonymous'
         });
 
         setNewProposalText('');
@@ -402,11 +404,15 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                                 ))}
                             </div>
 
-                            {proposals.length === 0 && (
+                            {loading ? (
+                                <div className="py-4 text-center text-xs text-muted-foreground">
+                                    로딩 중...
+                                </div>
+                            ) : proposals.length === 0 ? (
                                 <div className="py-4 text-center text-xs text-muted-foreground">
                                     등록된 제안이 없습니다.
                                 </div>
-                            )}
+                            ) : null}
                         </div>
                     </PopoverContent>
                 </Popover>
@@ -428,7 +434,14 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                     {selectedProposal && (
                         <div className="mt-4 prose prose-sm max-w-none">
                             <div className="flex items-start justify-between">
-                                <h2 className="text-base font-semibold mb-2">{selectedProposal.title}</h2>
+                                <div className="flex flex-col gap-1">
+                                    <h2 className="text-base font-semibold">{selectedProposal.title}</h2>
+                                    {selectedProposal.authorEmail && (
+                                        <p className="text-[10px] text-muted-foreground uppercase font-mono tracking-wider">
+                                            By {selectedProposal.authorEmail}
+                                        </p>
+                                    )}
+                                </div>
                                 <button
                                     onClick={() => handleDelete(selectedProposal.id)}
                                     className="text-muted-foreground hover:text-red-500 p-1"

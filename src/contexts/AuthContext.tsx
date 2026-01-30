@@ -1,47 +1,121 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import {
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    GoogleAuthProvider,
+    sendPasswordResetEmail as firebaseSendPasswordResetEmail,
+    signOut,
+} from 'firebase/auth';
+import type { User } from 'firebase/auth';
+import { auth } from '../lib/firebase';
 
 interface AuthContextType {
+    user: User | null;
     isAuthenticated: boolean;
-    login: (password: string) => boolean;
-    logout: () => void;
+    login: (email: string, password: string) => Promise<void>;
+    loginWithGoogle: () => Promise<void>;
+    sendPasswordResetEmail: (email: string) => Promise<void>;
+    logout: () => Promise<void>;
+    loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const storedAuth = localStorage.getItem('is_authenticated');
-        if (storedAuth === 'true') {
-            setIsAuthenticated(true);
+        if (!auth) {
+            setLoading(false);
+            return;
         }
-        setLoading(false);
+
+        // Subscribe to Firebase auth state changes
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setUser(user);
+            setLoading(false);
+        });
+
+        return () => unsubscribe();
     }, []);
 
-    const login = (password: string) => {
-        // Simple hardcoded password for demo purposes
-        if (password === 'admin') {
-            localStorage.setItem('is_authenticated', 'true');
-            setIsAuthenticated(true);
-            return true;
+    const login = async (email: string, password: string) => {
+        if (!auth) throw new Error("Firebase Auth is not configured.");
+
+        // Auto-append domain if missing
+        const fullEmail = email.includes('@') ? email : `${email}@fasoo.com`;
+
+        // Domain restriction for @fasoo.com
+        if (!fullEmail.toLowerCase().endsWith('@fasoo.com')) {
+            throw new Error("@fasoo.com 계정만 로그인 가능합니다.");
         }
-        return false;
+
+        try {
+            await signInWithEmailAndPassword(auth, fullEmail.toLowerCase(), password);
+        } catch (error) {
+            console.error('Login error:', error);
+            throw error;
+        }
     };
 
-    const logout = () => {
-        localStorage.removeItem('is_authenticated');
-        setIsAuthenticated(false);
+    const loginWithGoogle = async () => {
+        if (!auth) throw new Error("Firebase Auth is not configured.");
+        const provider = new GoogleAuthProvider();
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+
+            // Domain restriction for Google login
+            if (user.email && !user.email.toLowerCase().endsWith('@fasoo.com')) {
+                await signOut(auth); // Sign out unauthorized user
+                throw new Error("@fasoo.com 계정만 로그인 가능합니다.");
+            }
+        } catch (error) {
+            console.error('Google login error:', error);
+            throw error;
+        }
     };
 
-    if (loading) {
-        return null; // Or a loading spinner
-    }
+    const sendPasswordResetEmail = async (email: string) => {
+        if (!auth) throw new Error("Firebase Auth is not configured.");
+
+        // Auto-append domain if missing
+        const fullEmail = email.includes('@') ? email : `${email}@fasoo.com`;
+
+        if (!fullEmail.toLowerCase().endsWith('@fasoo.com')) {
+            throw new Error("@fasoo.com 계정만 처리 가능합니다.");
+        }
+
+        try {
+            await firebaseSendPasswordResetEmail(auth, fullEmail.toLowerCase());
+        } catch (error) {
+            console.error('Password reset error:', error);
+            throw error;
+        }
+    };
+
+    const logout = async () => {
+        if (!auth) return;
+        try {
+            await signOut(auth);
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-            {children}
+        <AuthContext.Provider value={{
+            user,
+            isAuthenticated: !!user,
+            login,
+            loginWithGoogle,
+            sendPasswordResetEmail,
+            logout,
+            loading
+        }}>
+            {!loading && children}
         </AuthContext.Provider>
     );
 };
