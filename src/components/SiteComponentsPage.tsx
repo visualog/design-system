@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { AnimatedTabs } from '@/components/ui/animated-tabs';
 import { getAllComponents } from '@/data/componentRegistry';
+import { ExperimentalToggle } from './ui/ExperimentalToggle';
 
 const SiteComponentsPage = () => {
     const components = getAllComponents();
@@ -34,8 +35,9 @@ const SiteComponentsPage = () => {
             <div>
 
                 <div className="flex flex-col gap-3">
-                    <h1 className="flex items-center gap-3 text-heading-xl tracking-tight">
+                    <h1 className="flex items-center gap-4 text-heading-xl tracking-tight">
                         Components
+                        <ExperimentalToggle />
                     </h1>
                     <p className="text-body-sm text-muted-foreground">
                         디자인 시스템에서 제공하는 컴포넌트를 관리하고 설정합니다.

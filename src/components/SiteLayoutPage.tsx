@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Separator } from '@/components/ui/separator';
+import { ExperimentalToggle } from './ui/ExperimentalToggle';
 
 const SiteLayoutPage = () => {
     // Current logical width in pixels (e.g., 240)
@@ -34,8 +35,9 @@ const SiteLayoutPage = () => {
         <div className="flex flex-col gap-16 pb-24 font-pretendard">
             <div>
                 <div className="flex flex-col gap-3">
-                    <h1 className="flex items-center gap-3 text-heading-xl tracking-tight">
+                    <h1 className="flex items-center gap-4 text-heading-xl tracking-tight">
                         Layout
+                        <ExperimentalToggle />
                     </h1>
                     <p className="text-body-sm text-muted-foreground">
                         문서 사이트의 전역 레이아웃 설정을 구성합니다.

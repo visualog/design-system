@@ -368,7 +368,7 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                         </TooltipContent>
                     </Tooltip>
 
-                    <PopoverContent align="end" className="w-64 p-2">
+                    <PopoverContent align="end" className="w-64 p-2 z-[100]">
                         <div className="flex flex-col gap-1">
                             <div className="flex items-center justify-between px-2 py-1">
                                 <p className="text-xs font-medium text-muted-foreground">

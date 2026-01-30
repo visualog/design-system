@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Check } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { ExperimentalToggle } from './ui/ExperimentalToggle';
 
 const SiteTypographyPage = () => {
     const [fontFamily, setFontFamily] = useState('System (Apple)');
@@ -57,8 +58,9 @@ const SiteTypographyPage = () => {
         <div className="flex flex-col gap-16 pb-24">
             <div>
                 <div className="flex flex-col gap-3">
-                    <h1 className="flex items-center gap-3 text-heading-xl tracking-tight">
+                    <h1 className="flex items-center gap-4 text-heading-xl tracking-tight">
                         Typography
+                        <ExperimentalToggle />
                     </h1>
                     <p className="text-body-sm text-muted-foreground">
                         최적의 가독성과 계층 구조를 보장하는 Apple 스타일의 타이포그래피 시스템입니다.

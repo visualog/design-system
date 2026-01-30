@@ -22,6 +22,7 @@ import { cn } from '@/lib/utils';
 import AnatomyPreview, { getAnatomyVariants } from '@/components/AnatomyPreview';
 import AnatomyInfoPanel from '@/components/AnatomyInfoPanel';
 import MeasureOverlay from '@/components/ui/MeasureOverlay';
+import { ExperimentalToggle } from './ui/ExperimentalToggle';
 
 // 컴포넌트별 라이브 프리뷰 렌더링
 const LivePreview: React.FC<{ componentName: string; variantName: string }> = ({ componentName, variantName }) => {
@@ -380,7 +381,10 @@ const ComponentDetailPage = () => {
             <div>
                 <div className="flex items-start justify-between">
                     <div className="flex flex-col gap-3">
-                        <h1 className="text-display-lg tracking-tight">{meta.displayName}</h1>
+                        <h1 className="flex items-center gap-4 text-display-lg tracking-tight">
+                            {meta.displayName}
+                            <ExperimentalToggle />
+                        </h1>
                         <p className="text-body-lg text-muted-foreground leading-relaxed max-w-2xl">{meta.description}</p>
                     </div>
                 </div>
