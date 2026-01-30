@@ -4,6 +4,7 @@ import ColorPaletteDisplay from './ColorPaletteDisplay';
 import ThemeColorMappingDisplay from './ThemeColorMappingDisplay';
 import SemanticGroupingDisplay from './SemanticGroupingDisplay';
 import ColorUsage from './ColorUsage';
+import ColorPairingDisplay from './ColorPairingDisplay';
 import { FoundationPageLayout, FoundationPageTabs } from './FoundationPageLayout';
 import { PrinciplesSection, type PrincipleItem } from './ui/PrinciplesSection';
 import { Eye, Type, Palette } from 'lucide-react';
@@ -89,6 +90,8 @@ const ColorsNewPage: React.FC = () => {
                             </DoDontContainer>
 
                             <ColorUsage />
+
+                            <ColorPairingDisplay />
                         </div>
                     </section>
                 </div>
@@ -115,6 +118,7 @@ const ColorsNewPage: React.FC = () => {
         <FoundationPageLayout
             title="Colors (New)"
             description="개선된 컬러 시스템 문서입니다. 접근성과 일관성을 고려하여 설계된 전체 컬러 팔레트와 테마/시맨틱 컬러를 한눈에 확인할 수 있습니다."
+            showExperimental={true}
         >
             <FoundationPageTabs
                 items={tabs}

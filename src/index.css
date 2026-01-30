@@ -368,4 +368,29 @@
     line-height: 1.4;
     font-weight: 400;
   }
+
+  /* Experimental Design Overrides */
+  html.experimental-design body {
+    font-size: 0.9375rem;
+    /* 15px (Expo Style) */
+  }
+
+  html.experimental-design h3 {
+    font-size: 1.125rem;
+    /* 18px (Compact) */
+    font-weight: 700;
+  }
+
+  html.experimental-design p a {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: all 0.2s;
+  }
+
+  html.experimental-design p a:hover {
+    background-color: hsla(240, 4.8%, 95.9%, 0.8);
+    /* muted/80 */
+    color: hsl(var(--primary));
+    border-radius: 2px;
+  }
 }

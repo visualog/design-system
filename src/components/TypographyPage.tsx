@@ -57,6 +57,7 @@ const TypographyPage: React.FC = () => {
           </TabsList>
         </Tabs>
       }
+      showExperimental={true}
     >
       <FoundationPageTabs
         key={viewMode}

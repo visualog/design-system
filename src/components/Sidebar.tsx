@@ -49,6 +49,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
     }
   };
 
+  // ... (skip down to return)
+
+  // Ensure no duplicate code blocks here
+
   const [showFooterBorder, setShowFooterBorder] = useState(false);
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
@@ -137,8 +141,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
                   <ul className="pt-2 pl-4 space-y-1">
                     <li>
                       <NavLink
-                        to="/colors"
+                        to="/overview"
                         className={({ isActive }) => (isActive || location.pathname === '/') ? activeClassName : inactiveClassName}
+                        onClick={toggleSidebar}
+                      >
+                        Overview
+                      </NavLink>
+                    </li>
+
+                    <li>
+                      <NavLink
+                        to="/colors"
+                        className={({ isActive }) => isActive ? activeClassName : inactiveClassName}
                         onClick={toggleSidebar}
                       >
                         Colors
@@ -206,7 +220,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
         </div>
 
         {/* Bottom Actions */}
-        <div className={`p-4 border-t flex items-center justify-start gap-2 flex-wrap transition-colors duration-200 ${showFooterBorder ? 'border-border' : 'border-transparent'}`}>
+        <div className={`p-3 border-t flex items-center justify-between gap-1 transition-colors duration-200 ${showFooterBorder ? 'border-border' : 'border-transparent'}`}>
           <button
             onClick={toggleDarkMode}
             className="flex items-center justify-center p-2 rounded-md hover:bg-accent transition-colors duration-200 text-foreground"
@@ -221,6 +235,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
           >
             <Grid className="w-5 h-5" />
           </button>
+
           <a
             href="https://github.com/visualog/design-system"
             target="_blank"
@@ -238,7 +253,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
             <LogOut className="w-5 h-5" />
           </button>
         </div>
-      </aside>
+      </aside >
     </>
   );
 };

@@ -1,24 +1,30 @@
 import React, { useState } from 'react';
 import { AnimatedTabs, AnimatedTabsContent } from "@/components/ui/tabs";
+import { ExperimentalToggle } from './ui/ExperimentalToggle';
 
 interface FoundationPageLayoutProps {
     title: string;
     description: string;
     children: React.ReactNode;
     actions?: React.ReactNode;
+    showExperimental?: boolean;
 }
 
 export const FoundationPageLayout: React.FC<FoundationPageLayoutProps> = ({
     title,
     description,
     children,
-    actions
+    actions,
+    showExperimental = false
 }) => {
     return (
         <div className="flex flex-col gap-16 pb-24">
             <div className="flex flex-col gap-3">
-                <div className="flex items-center justify-between gap-4">
-                    <h1 className="text-heading-xl tracking-tight">{title}</h1>
+                <div className="flex items-center justify-between gap-4 flex-wrap">
+                    <div className="flex items-center gap-4">
+                        <h1 className="text-heading-xl tracking-tight">{title}</h1>
+                        {showExperimental && <ExperimentalToggle />}
+                    </div>
                     {actions && <div className="flex-shrink-0">{actions}</div>}
                 </div>
                 <p className="text-body-sm text-muted-foreground max-w-3xl">

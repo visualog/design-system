@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Check, Moon, Sun } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { ExperimentalToggle } from './ui/ExperimentalToggle';
 
 const SiteThemePage = () => {
     const [radius, setRadius] = useState('0.625rem');
@@ -121,8 +122,9 @@ const SiteThemePage = () => {
         <div className="flex flex-col gap-16 pb-24">
             <div>
                 <div className="flex flex-col gap-3">
-                    <h1 className="flex items-center gap-3 text-heading-xl tracking-tight">
+                    <h1 className="flex items-center gap-4 text-heading-xl tracking-tight">
                         Theme
+                        <ExperimentalToggle />
                     </h1>
                     <p className="text-body-sm text-muted-foreground">
                         색상, 반경, 라이트/다크 모드 기본 설정 등 사이트의 시각적 테마를 관리합니다.
