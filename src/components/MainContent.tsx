@@ -4,15 +4,27 @@ import ProposalNotification from './ui/ProposalNotification';
 
 interface MainContentProps {
   children: React.ReactNode;
+  maxWidth?: 'default' | 'wide' | 'full';
 }
 
-const MainContent: React.FC<MainContentProps> = ({ children }) => {
+const MainContent: React.FC<MainContentProps> = ({ children, maxWidth = 'default' }) => {
   const progressBarRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const targetProgress = useRef(0);
   const currentProgress = useRef(0);
   const rafId = useRef<number | null>(null);
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const getMaxWidthClass = () => {
+    switch (maxWidth) {
+      case 'wide':
+        return 'max-w-[1200px]';
+      case 'full':
+        return 'max-w-full';
+      default:
+        return 'max-w-[760px]';
+    }
+  };
 
   useEffect(() => {
     // Animation loop for smooth interpolation (Lerp)
@@ -87,7 +99,7 @@ const MainContent: React.FC<MainContentProps> = ({ children }) => {
         ref={headerRef}
         className="sticky top-14 md:top-0 z-[60] w-full bg-background/80 backdrop-blur-md px-6 md:px-8 lg:px-12 pt-6 pb-4 relative transition-colors duration-200"
       >
-        <div className="max-w-[760px] mx-auto flex items-center justify-between">
+        <div className={`${getMaxWidthClass()} mx-auto flex items-center justify-between`}>
           <Breadcrumb />
           <ProposalNotification />
         </div>
@@ -102,7 +114,7 @@ const MainContent: React.FC<MainContentProps> = ({ children }) => {
 
       {/* Main Scrollable Content */}
       <div className="px-6 pb-6 md:px-8 md:pb-8 lg:px-12 lg:pb-12 pt-4">
-        <article className="max-w-[760px] mx-auto flex flex-col gap-4">
+        <article className={`${getMaxWidthClass()} mx-auto flex flex-col gap-4`}>
           {children}
         </article>
       </div>

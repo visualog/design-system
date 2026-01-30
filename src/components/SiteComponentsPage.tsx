@@ -30,7 +30,7 @@ const SiteComponentsPage = () => {
     }));
 
     return (
-        <div className="flex flex-col gap-16 pb-24">
+        <div className="flex flex-col gap-16 pb-24 w-full max-w-[1200px] mx-auto">
             <div>
 
                 <div className="flex flex-col gap-3">
@@ -66,7 +66,7 @@ const SiteComponentsPage = () => {
 
                             {/* 결과 목록 */}
                             {filteredComponents.length > 0 ? (
-                                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                                <div className="grid gap-3 md:gap-4 lg:gap-5 md:grid-cols-2 lg:grid-cols-3">
                                     {filteredComponents.map((component) => (
                                         <Link
                                             key={component.name}

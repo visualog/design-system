@@ -90,22 +90,22 @@ function App() {
                       </header>
 
                       <Routes>
-                        <Route path="/" element={<MainContent><ColorsPage /></MainContent>} /> {/* Default to Colors */}
-                        <Route path="/colors" element={<MainContent><ColorsPage /></MainContent>} />
-                        <Route path="/colors-new" element={<MainContent><ColorsNewPage /></MainContent>} />
-                        <Route path="/typography" element={<MainContent><TypographyPage /></MainContent>} />
-                        <Route path="/spacing" element={<MainContent><SpacingPage /></MainContent>} />
-                        <Route path="/layout" element={<MainContent><LayoutPage /></MainContent>} />
-                        <Route path="/radius" element={<MainContent><RadiusPage /></MainContent>} />
-                        <Route path="/motion" element={<MainContent><MotionPage /></MainContent>} />
-                        <Route path="/icons" element={<MainContent><IconsPage /></MainContent>} />
-                        <Route path="/shadows" element={<MainContent><ShadowsPage /></MainContent>} />
+                        <Route path="/" element={<MainContent maxWidth="wide"><ColorsPage /></MainContent>} /> {/* Default to Colors */}
+                        <Route path="/colors" element={<MainContent maxWidth="wide"><ColorsPage /></MainContent>} />
+                        <Route path="/colors-new" element={<MainContent maxWidth="wide"><ColorsNewPage /></MainContent>} />
+                        <Route path="/typography" element={<MainContent maxWidth="wide"><TypographyPage /></MainContent>} />
+                        <Route path="/spacing" element={<MainContent maxWidth="wide"><SpacingPage /></MainContent>} />
+                        <Route path="/layout" element={<MainContent maxWidth="wide"><LayoutPage /></MainContent>} />
+                        <Route path="/radius" element={<MainContent maxWidth="wide"><RadiusPage /></MainContent>} />
+                        <Route path="/motion" element={<MainContent maxWidth="wide"><MotionPage /></MainContent>} />
+                        <Route path="/icons" element={<MainContent maxWidth="wide"><IconsPage /></MainContent>} />
+                        <Route path="/shadows" element={<MainContent maxWidth="wide"><ShadowsPage /></MainContent>} />
                         <Route path="/site-settings" element={<MainContent><SiteSettingsPage /></MainContent>} />
-                        <Route path="/site-settings/components" element={<MainContent><SiteComponentsPage /></MainContent>} />
-                        <Route path="/site-settings/theme" element={<MainContent><SiteThemePage /></MainContent>} />
-                        <Route path="/site-settings/layout" element={<MainContent><SiteLayoutPage /></MainContent>} />
-                        <Route path="/site-settings/typography" element={<MainContent><SiteTypographyPage /></MainContent>} />
-                        <Route path="/site-settings/components/:componentName" element={<MainContent><ComponentDetailPage /></MainContent>} />
+                        <Route path="/site-settings/components" element={<MainContent maxWidth="wide"><SiteComponentsPage /></MainContent>} />
+                        <Route path="/site-settings/theme" element={<MainContent maxWidth="wide"><SiteThemePage /></MainContent>} />
+                        <Route path="/site-settings/layout" element={<MainContent maxWidth="wide"><SiteLayoutPage /></MainContent>} />
+                        <Route path="/site-settings/typography" element={<MainContent maxWidth="wide"><SiteTypographyPage /></MainContent>} />
+                        <Route path="/site-settings/components/:componentName" element={<MainContent maxWidth="wide"><ComponentDetailPage /></MainContent>} />
                         {/* Fallback for unknown routes */}
                         <Route path="*" element={<MainContent><div>404 Not Found</div></MainContent>} />
                       </Routes>
