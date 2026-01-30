@@ -56,7 +56,7 @@ export const GridOverlay: React.FC = () => {
                 */}
                 <div
                     ref={containerRef}
-                    className="w-full max-w-[1200px] h-full mx-auto grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-3 md:gap-4 lg:gap-5 bg-violet-500/25 relative"
+                    className="w-full max-w-[1104px] h-full mx-auto grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-3 md:gap-4 lg:gap-5 bg-violet-500/25 relative"
                 >
                     {/* Width Label - Sticky at top */}
                     <div className="absolute top-0 left-0 right-0 flex justify-center h-full pointer-events-none">

@@ -5,18 +5,23 @@ interface FoundationPageLayoutProps {
     title: string;
     description: string;
     children: React.ReactNode;
+    actions?: React.ReactNode;
 }
 
 export const FoundationPageLayout: React.FC<FoundationPageLayoutProps> = ({
     title,
     description,
-    children
+    children,
+    actions
 }) => {
     return (
         <div className="flex flex-col gap-16 pb-24">
             <div className="flex flex-col gap-3">
-                <h1 className="text-heading-xl tracking-tight">{title}</h1>
-                <p className="text-body-sm text-muted-foreground">
+                <div className="flex items-center justify-between gap-4">
+                    <h1 className="text-heading-xl tracking-tight">{title}</h1>
+                    {actions && <div className="flex-shrink-0">{actions}</div>}
+                </div>
+                <p className="text-body-sm text-muted-foreground max-w-3xl">
                     {description}
                 </p>
             </div>

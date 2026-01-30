@@ -221,10 +221,10 @@ const SemanticColorMappingDisplay: React.FC = () => {
                 <p className="text-sm text-muted-foreground">{contextGroup.description}</p>
               </div>
 
-              <div className="overflow-hidden border rounded-lg">
+              <div className="overflow-hidden">
                 <Table>
                   <TableHeader>
-                    <TableRow className="bg-muted/50">
+                    <TableRow>
                       <TableHead className="w-[50%] px-4 py-3 h-auto font-semibold">토큰명</TableHead>
                       <TableHead className="w-[25%] px-4 py-3 h-auto font-semibold">매핑</TableHead>
                       <TableHead className="w-[25%] px-4 py-3 h-auto font-semibold">값</TableHead>

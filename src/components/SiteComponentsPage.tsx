@@ -30,7 +30,7 @@ const SiteComponentsPage = () => {
     }));
 
     return (
-        <div className="flex flex-col gap-16 pb-24 w-full max-w-[1200px] mx-auto">
+        <div className="flex flex-col gap-16 pb-24 w-full max-w-[1104px] mx-auto">
             <div>
 
                 <div className="flex flex-col gap-3">

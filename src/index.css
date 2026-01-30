@@ -326,6 +326,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
   h1 {

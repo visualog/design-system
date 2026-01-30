@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 
 // Import individual page components
 import ColorsPage from './components/ColorsPage';
-import ColorsNewPage from './components/ColorsNewPage';
 import TypographyPage from './components/TypographyPage';
 import SpacingPage from './components/SpacingPage';
 import LayoutPage from './components/LayoutPage';
@@ -92,7 +91,6 @@ function App() {
                       <Routes>
                         <Route path="/" element={<MainContent maxWidth="wide"><ColorsPage /></MainContent>} /> {/* Default to Colors */}
                         <Route path="/colors" element={<MainContent maxWidth="wide"><ColorsPage /></MainContent>} />
-                        <Route path="/colors-new" element={<MainContent maxWidth="wide"><ColorsNewPage /></MainContent>} />
                         <Route path="/typography" element={<MainContent maxWidth="wide"><TypographyPage /></MainContent>} />
                         <Route path="/spacing" element={<MainContent maxWidth="wide"><SpacingPage /></MainContent>} />
                         <Route path="/layout" element={<MainContent maxWidth="wide"><LayoutPage /></MainContent>} />

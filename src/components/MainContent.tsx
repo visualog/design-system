@@ -18,7 +18,7 @@ const MainContent: React.FC<MainContentProps> = ({ children, maxWidth = 'default
   const getMaxWidthClass = () => {
     switch (maxWidth) {
       case 'wide':
-        return 'max-w-[1200px]';
+        return 'max-w-[1104px]';
       case 'full':
         return 'max-w-full';
       default:
