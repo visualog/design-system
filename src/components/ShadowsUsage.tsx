@@ -1,13 +1,13 @@
 import React from 'react';
-import GuidelineItem from './ui/GuidelineItem';
+import { DoDont, DoDontContainer } from './ui/DoDont';
 
 const ShadowsUsage: React.FC = () => {
     return (
         <div className="flex flex-col gap-12">
             <section className="flex flex-col gap-6">
                 <h3 className="text-lg font-bold">엘리베이션 (Elevation)</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
-                    <GuidelineItem
+                <DoDontContainer>
+                    <DoDont
                         type="do"
                         title="깊이감 표현"
                         description="그림자는 요소의 높이(z-index)를 시각적으로 표현합니다. 더 높은 요소일수록 그림자가 더 넓고 흐리게 퍼집니다."
@@ -24,8 +24,8 @@ const ShadowsUsage: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                    </GuidelineItem>
-                    <GuidelineItem
+                    </DoDont>
+                    <DoDont
                         type="dont"
                         title="평면적인 겹치기 금지"
                         description="겹쳐진 요소들 사이에 그림자가 없으면 전후 관계를 파악하기 어렵습니다."
@@ -40,13 +40,13 @@ const ShadowsUsage: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                    </GuidelineItem>
-                </div>
+                    </DoDont>
+                </DoDontContainer>
             </section>
 
             <section className="flex flex-col gap-6">
                 <h3 className="text-lg font-bold">사용 사례 (Use Cases)</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 lg:gap-5">
                     <div className="bg-card border rounded-lg p-6 flex flex-col gap-4 items-center">
                         <span className="font-bold text-sm">Low Elevation</span>
                         <div className="w-full h-12 bg-white border rounded shadow-sm flex items-center justify-center text-xs text-muted-foreground">

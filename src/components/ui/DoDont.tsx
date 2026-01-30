@@ -53,7 +53,7 @@ export const DoDont: React.FC<DoDontProps> = ({ type, title, description, childr
 
 export const DoDontContainer: React.FC<{ children: React.ReactNode, className?: string }> = ({ children, className }) => {
     return (
-        <div className={cn("grid grid-cols-1 md:grid-cols-2 gap-6", className)}>
+        <div className={cn("grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 lg:gap-5", className)}>
             {children}
         </div>
     );
