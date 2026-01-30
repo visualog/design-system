@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Toaster } from 'sonner';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import MainContent from './components/MainContent';
@@ -113,6 +114,7 @@ function App() {
               />
             </Route>
           </Routes>
+          <Toaster position="bottom-right" theme="system" />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>

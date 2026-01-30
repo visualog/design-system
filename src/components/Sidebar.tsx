@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { ChevronDown, X, Github, Moon, Sun, Grid, LogOut } from 'lucide-react';
+import { ChevronDown, X, Github, Moon, Sun, Grid, LogOut, FlaskConical } from 'lucide-react';
 import { version } from '../../package.json';
 import { useAuth } from '../contexts/AuthContext';
+import { showExperimentalToast } from '../utils/experimentalToast';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -39,6 +40,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
     }
   }, []);
 
+  // Experimental mode state init
+  const [isExperimental, setIsExperimental] = useState(false);
+
+  useEffect(() => {
+    // Check initial preference from localStorage or html class
+    const stored = localStorage.getItem('experimental-design');
+    if (stored === 'true' || document.documentElement.classList.contains('experimental-design')) {
+      document.documentElement.classList.add('experimental-design');
+      setIsExperimental(true);
+    }
+  }, []);
+
   const toggleDarkMode = () => {
     if (isDarkMode) {
       document.documentElement.classList.remove('dark');
@@ -48,6 +61,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
       setIsDarkMode(true);
     }
   };
+
+  const toggleExperimental = () => {
+    const newVal = !isExperimental;
+    if (newVal) {
+      document.documentElement.classList.add('experimental-design');
+      showExperimentalToast(location.pathname);
+    } else {
+      document.documentElement.classList.remove('experimental-design');
+    }
+    localStorage.setItem('experimental-design', newVal ? 'true' : 'false');
+    setIsExperimental(newVal);
+  };
+
+  // ... (skip down to return)
+
+  // Ensure no duplicate code blocks here
 
   const [showFooterBorder, setShowFooterBorder] = useState(false);
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
@@ -206,7 +235,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
         </div>
 
         {/* Bottom Actions */}
-        <div className={`p-4 border-t flex items-center justify-start gap-2 flex-wrap transition-colors duration-200 ${showFooterBorder ? 'border-border' : 'border-transparent'}`}>
+        <div className={`p-3 border-t flex items-center justify-between gap-1 transition-colors duration-200 ${showFooterBorder ? 'border-border' : 'border-transparent'}`}>
           <button
             onClick={toggleDarkMode}
             className="flex items-center justify-center p-2 rounded-md hover:bg-accent transition-colors duration-200 text-foreground"
@@ -221,6 +250,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
           >
             <Grid className="w-5 h-5" />
           </button>
+
+          <button
+            onClick={toggleExperimental}
+            className={`flex items-center justify-center p-2 rounded-md hover:bg-accent transition-colors duration-200 ${isExperimental ? 'text-primary bg-accent' : 'text-foreground'}`}
+            title="Toggle Experimental Design (Beta)"
+          >
+            <FlaskConical className="w-5 h-5" />
+          </button>
+
           <a
             href="https://github.com/visualog/design-system"
             target="_blank"
