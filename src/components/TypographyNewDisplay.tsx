@@ -3,7 +3,6 @@ import { toast } from "sonner";
 import { HighlightText } from './ui/HighlightText';
 import { SearchBar } from './SearchBar';
 import { designSystemData } from '../utils/dataLoader';
-import { SmartFilterDropdown } from "./ui/SmartFilterDropdown";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Type, Info, Copy, Globe, MessageSquare } from "lucide-react";
 
@@ -39,7 +38,6 @@ const TypographyNewDisplay: React.FC = () => {
     const { typography } = designSystemData;
     const [searchQuery, setSearchQuery] = useState('');
     const [previewText, setPreviewText] = useState('The quick brown fox jumps over the lazy dog');
-    const [selectedCategories, setSelectedCategories] = useState<string[]>(['All']);
 
     const availableCategories = Object.keys(typography).filter(key => key !== 'font_family');
 
@@ -53,7 +51,6 @@ const TypographyNewDisplay: React.FC = () => {
 
     const filteredData = useMemo(() => {
         return availableCategories
-            .filter(cat => selectedCategories.includes('All') || selectedCategories.includes(cat))
             .reduce((acc: any, category) => {
                 const styles = (typography as any)[category] || [];
                 const filtered = styles.filter((s: any) =>
@@ -62,80 +59,74 @@ const TypographyNewDisplay: React.FC = () => {
                 if (filtered.length > 0) acc[category] = filtered;
                 return acc;
             }, {});
-    }, [typography, searchQuery, selectedCategories, availableCategories]);
+    }, [typography, searchQuery, availableCategories]);
 
     return (
-        <div className="flex flex-col gap-12 font-pretendard">
+        <div className="flex flex-col gap-16 max-w-7xl mx-auto py-12 font-pretendard">
             {/* HER0 - Geist Style */}
-            <header className="flex flex-col gap-6 border-b pb-12">
-                <div className="flex items-center gap-2.5 text-primary">
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                        <Globe className="w-5 h-5" />
+            <header className="flex flex-col gap-8 border-b pb-12">
+                <div className="flex flex-col gap-6">
+                    <div className="flex items-center gap-2.5 text-primary">
+                        <div className="p-2 bg-primary/10 rounded-lg">
+                            <Globe className="w-5 h-5" />
+                        </div>
+                        <span className="text-xs font-bold tracking-widest uppercase">Typography Foundation</span>
                     </div>
-                    <span className="text-xs font-bold tracking-widest uppercase">Typography Foundation</span>
-                </div>
-                <div className="flex flex-col gap-3">
-                    <h1 className="text-5xl font-extrabold tracking-tighter text-foreground">Pretendard</h1>
-                    <p className="text-lg text-muted-foreground max-w-3xl leading-relaxed">
-                        A modern multi-platform variable font system optimized for deep readability and visual balance.
-                        Designed to maintain clarity across all digital environments.
-                    </p>
+                    <div className="flex flex-col gap-3">
+                        <h1 className="text-5xl font-extrabold tracking-tighter text-foreground">Pretendard</h1>
+                        <p className="text-lg text-muted-foreground max-w-3xl leading-relaxed">
+                            A modern multi-platform variable font system optimized for deep readability and visual balance.
+                        </p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-6">
+                        <div className="flex items-center gap-2 text-sm bg-muted/50 px-3 py-1.5 rounded-full border border-border/50">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                            <span className="text-muted-foreground">Variable Font</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <MessageSquare className="w-4 h-4" />
+                            <span>Pretendard JP/CN Support</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-6 mt-4">
-                    <div className="flex items-center gap-2 text-sm bg-muted/50 px-3 py-1.5 rounded-full border border-border/50">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        <span className="text-muted-foreground">Variable Font</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+                    {/* Live Preview Tester */}
+                    <div className="flex flex-col gap-3">
+                        <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] ml-1">Live Type Tester</label>
+                        <div className="relative group">
+                            <input
+                                type="text"
+                                value={previewText}
+                                onChange={(e) => setPreviewText(e.target.value)}
+                                className="w-full bg-background border border-border/60 hover:border-border rounded-xl px-5 py-4 text-sm focus:ring-4 focus:ring-primary/5 transition-all outline-none pr-12 shadow-sm"
+                                placeholder="Type to preview styles..."
+                            />
+                            <Type className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/30 group-focus-within:text-primary transition-colors" />
+                        </div>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <MessageSquare className="w-4 h-4" />
-                        <span>Pretendard JP/CN Support</span>
-                    </div>
-                </div>
 
-                {/* Live Preview Tester */}
-                <div className="mt-8 flex flex-col gap-3 max-w-xl">
-                    <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] ml-1">Live Type Tester</label>
-                    <div className="relative group">
-                        <input
-                            type="text"
-                            value={previewText}
-                            onChange={(e) => setPreviewText(e.target.value)}
-                            className="w-full bg-background border border-border/60 hover:border-border rounded-xl px-5 py-4 text-sm focus:ring-4 focus:ring-primary/5 transition-all outline-none pr-12 shadow-sm"
-                            placeholder="Type to see all styles..."
-                        />
-                        <Type className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/30 group-focus-within:text-primary transition-colors" />
-                    </div>
-                </div>
-            </header>
-
-            {/* TOOLBAR - Sticky Filter Panel */}
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between sticky top-0 z-40 bg-background/90 backdrop-blur-xl py-5 border-b border-border/40">
-                <div className="flex gap-3 items-center w-full md:w-auto">
-                    <SmartFilterDropdown
-                        triggerText={selectedCategories.includes('All') ? '전체 카테고리' : `${selectedCategories.length}개 선택됨`}
-                        items={availableCategories.map(c => ({ value: c, label: c }))}
-                        selectedValues={selectedCategories}
-                        onSelectionChange={setSelectedCategories}
-                        width="w-52"
-                    />
-                    <div className="flex-1 w-full max-w-sm">
+                    {/* Search Field */}
+                    <div className="flex flex-col gap-3">
+                        <div className="flex items-center justify-between ml-1">
+                            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Quick Search</label>
+                            <span className="text-[10px] text-muted-foreground/60 flex items-center gap-1">
+                                <Info className="w-3 h-3" /> 행 클릭시 토큰 복사
+                            </span>
+                        </div>
                         <SearchBar
-                            placeholder="스타일 검색 (예: heading, regular)..."
+                            placeholder="스타일 이름 검색..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             width="100%"
                         />
                     </div>
                 </div>
-                <div className="flex items-center gap-2.5 text-[11px] font-medium text-muted-foreground/80 bg-secondary/30 px-4 py-2 rounded-full border border-border/10">
-                    <Info className="w-3.5 h-3.5" />
-                    행을 클릭하면 토큰 이름이 복사됩니다.
-                </div>
-            </div>
+            </header>
 
             {/* CONTENT SECTIONS */}
-            <main className="flex flex-col gap-24 py-8">
+            <main className="flex flex-col gap-24 py-4">
                 {Object.entries(filteredData).map(([category, styles]: [string, any]) => (
                     <section key={category} className="flex flex-col gap-8 scroll-mt-32">
                         <div className="flex items-end justify-between border-b border-border/60 pb-4">
