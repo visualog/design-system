@@ -43,8 +43,8 @@ const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarg
                     vy: (Math.random() - 0.5) * FLOAT_SPEED,
                     targetX: null,
                     targetY: null,
-                    size: Math.random() * 2 + 2, // 2-4px
-                    baseSize: Math.random() * 2 + 2,
+                    size: Math.random() * 1 + 1, // radius 1-2px (diameter 2-4px)
+                    baseSize: Math.random() * 1 + 1,
                     orbitAngle: Math.random() * Math.PI * 2,
                     orbitRadius: Math.random() * 5 + 2, // Small jitter orbit
                     orbitSpeed: (Math.random() - 0.5) * 0.05
