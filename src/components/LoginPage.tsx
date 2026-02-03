@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+점ㅇimport React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Lock, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
@@ -105,13 +105,6 @@ const LoginPage: React.FC = () => {
                                 <div className="space-y-1.5 flex flex-col">
                                     <div className="flex items-center justify-between px-1">
                                         <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">비밀번호</label>
-                                        <button
-                                            type="button"
-                                            onClick={handleResetPassword}
-                                            className="text-[10px] text-primary hover:underline font-medium"
-                                        >
-                                            비밀번호 재설정
-                                        </button>
                                     </div>
                                     <input
                                         type="password"
@@ -155,6 +148,16 @@ const LoginPage: React.FC = () => {
                                     </>
                                 )}
                             </button>
+
+                            <div className="flex justify-center">
+                                <button
+                                    type="button"
+                                    onClick={handleResetPassword}
+                                    className="text-[11px] text-muted-foreground hover:text-primary transition-colors font-medium"
+                                >
+                                    비밀번호 재설정
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>

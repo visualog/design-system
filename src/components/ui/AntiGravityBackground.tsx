@@ -21,10 +21,10 @@ interface Particle {
     orbitSpeed: number;
 }
 
-const PARTICLE_COUNT = 450; // Increased by ~30%
-const SPRING_STRENGTH = 0.005; // Much softer spring for slower morph
-const FRICTION = 0.92; // Higher friction for smoother, floaty feel
-const FLOAT_SPEED = 0.03; // Very slow ambient float
+const PARTICLE_COUNT = 675; // Increased by 50% from 450
+const SPRING_STRENGTH = 0.001; // Extremely soft spring for plankton-like morph
+const FRICTION = 0.98; // Very high friction (water resistance feel)
+const FLOAT_SPEED = 0.01; // Almost stationary ambient float
 
 const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarget, className }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
