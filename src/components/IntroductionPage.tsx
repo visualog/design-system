@@ -53,7 +53,7 @@ const IntroductionPage: React.FC = () => {
                             디자인 시스템은 디자이너와 개발자 모두에게 강력한 도구가 되어야 합니다.
                         </p>
                     </div>
-                    <div className="grid md:grid-cols-2 gap-8 md:gap-16">
+                    <div className="grid md:grid-cols-2 gap-3 md:gap-4 lg:gap-5">
                         <div className="flex flex-col gap-5 px-2">
                             <div className="flex items-center gap-3 text-primary">
                                 <div className="p-2.5 rounded-lg bg-primary/10">
