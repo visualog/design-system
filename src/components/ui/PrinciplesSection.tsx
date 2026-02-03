@@ -20,7 +20,7 @@ export const PrinciplesSection: React.FC<PrinciplesSectionProps> = ({ items, cla
                     <div className="p-2.5 w-fit rounded-lg bg-primary/10 text-primary">
                         <item.icon size={20} strokeWidth={2.5} />
                     </div>
-                    <h3 className="text-base font-bold text-foreground mt-2">{item.title}</h3>
+                    <h3 className="text-base font-bold text-foreground">{item.title}</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed break-keep">
                         {item.description}
                     </p>
