@@ -221,10 +221,10 @@ const TypographyNewDisplay: React.FC = () => {
                             <span className="text-sm font-medium">전체</span>
 
                             {/* Hover Action Text */}
-                            {hoverState?.id === 'All' && (
+                            {hoverState?.id === 'All' && !selectedCategories.includes('All') && (
                                 <span className="ml-auto text-xs text-muted-foreground/70 animate-in fade-in duration-200">
                                     {hoverState.zone === 'checkbox'
-                                        ? (selectedCategories.includes('All') ? '선택 해제' : '선택')
+                                        ? '선택'
                                         : '전체 선택'}
                                 </span>
                             )}
