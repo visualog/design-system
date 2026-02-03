@@ -405,35 +405,26 @@ const IconDisplay: React.FC = () => {
           </div>
         </AnimatedTabsContent >
         <AnimatedTabsContent value="illustration">
-          <div>
+          <div className="flex flex-col gap-8">
             <h2 className="sr-only">일러스트 아이콘 (Illustration Icons)</h2>
-            <div className="flex flex-col gap-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <SmartFilterDropdown
-                    triggerText={
-                      illustCategory.includes('All') || illustCategory.length === 0
-                        ? '전체'
-                        : illustCategory.length === 1
-                          ? illustCategoryNames[illustCategory[0]] || illustCategory[0]
-                          : `${illustCategory.length}개 선택됨`
-                    }
-                    items={Object.entries(illustCategoryNames).map(([key, label]) => ({ value: key, label }))}
-                    selectedValues={illustCategory}
-                    onSelectionChange={setIllustCategory}
-                  />
-                  <SearchBar
-                    placeholder={`${illustIconCount}개 아이콘 검색...`}
-                    value={illustSearchQuery}
-                    onChange={(e) => setIllustSearchQuery(e.target.value)}
-                  />
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-label-sm text-muted-foreground mr-2">
-                    Total <span className="text-foreground font-medium">{illustIconCount}</span>
-                  </span>
-                </div>
-              </div>
+            <div className="flex items-center gap-2 w-full">
+              <SmartFilterDropdown
+                triggerText={
+                  illustCategory.includes('All') || illustCategory.length === 0
+                    ? '전체'
+                    : illustCategory.length === 1
+                      ? illustCategoryNames[illustCategory[0]] || illustCategory[0]
+                      : `${illustCategory.length}개 선택됨`
+                }
+                items={Object.entries(illustCategoryNames).map(([key, label]) => ({ value: key, label }))}
+                selectedValues={illustCategory}
+                onSelectionChange={setIllustCategory}
+              />
+              <SearchBar
+                placeholder={`${illustIconCount}개 아이콘 검색...`}
+                value={illustSearchQuery}
+                onChange={(e) => setIllustSearchQuery(e.target.value)}
+              />
             </div>
 
             <div className="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-2">
