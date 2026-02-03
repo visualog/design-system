@@ -56,7 +56,7 @@ const IntroductionPage: React.FC = () => {
                     <div className="grid md:grid-cols-2 gap-3 md:gap-4 lg:gap-5">
                         <div className="flex flex-col gap-4 px-2">
                             <div className="flex items-center gap-3 text-primary">
-                                <div className="p-2.5 rounded-lg bg-primary/10">
+                                <div className="text-primary">
                                     <Palette size={20} strokeWidth={2.5} />
                                 </div>
                                 <h3 className="text-base font-bold text-foreground">For Designers</h3>
@@ -78,7 +78,7 @@ const IntroductionPage: React.FC = () => {
                         </div>
                         <div className="flex flex-col gap-4 px-2">
                             <div className="flex items-center gap-3 text-primary">
-                                <div className="p-2.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-foreground">
+                                <div className="text-primary">
                                     <Terminal size={20} strokeWidth={2.5} />
                                 </div>
                                 <h3 className="text-base font-bold text-foreground">For Developers</h3>
