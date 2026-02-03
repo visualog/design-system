@@ -37,10 +37,10 @@ export const DoDont: React.FC<DoDontProps> = ({ type, title, description, childr
             {/* Text Content */}
             <div className="flex flex-col gap-2 p-5 bg-card flex-1">
                 <h4 className={cn(
-                    "font-bold text-sm uppercase tracking-wider",
+                    "font-bold text-sm tracking-wider",
                     isDo ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
                 )}>
-                    {isDo ? "Do" : "Don't"}
+                    {isDo ? "권장" : "주의"}
                 </h4>
                 <h5 className="font-semibold text-foreground">{title}</h5>
                 <p className="text-sm text-muted-foreground leading-relaxed">
