@@ -51,7 +51,7 @@ const IntroductionPage: React.FC = () => {
                         <h2 className="text-heading-xl tracking-tight">System Goals</h2>
                     </div>
                     <div className="grid md:grid-cols-2 gap-3 md:gap-4 lg:gap-5">
-                        <div className="p-8 rounded-3xl bg-primary/5 border border-primary/10 flex flex-col gap-4">
+                        <div className="p-8 rounded-xl bg-primary/5 border border-primary/10 flex flex-col gap-4">
                             <h3 className="text-xl font-bold text-primary">디자이너를 위하여</h3>
                             <ul className="flex flex-col gap-3 text-muted-foreground list-disc pl-5">
                                 <li>반복적인 UI 설계 시간을 줄이고 사용자 경험 개선에 집중합니다.</li>
@@ -59,7 +59,7 @@ const IntroductionPage: React.FC = () => {
                                 <li>표준 토큰을 사용하여 개발자와 더 정확하게 소통합니다.</li>
                             </ul>
                         </div>
-                        <div className="p-8 rounded-3xl bg-zinc-900/5 dark:bg-zinc-800/10 border flex flex-col gap-4">
+                        <div className="p-8 rounded-xl bg-zinc-900/5 dark:bg-zinc-800/10 border flex flex-col gap-4">
                             <h3 className="text-xl font-bold">개발자를 위하여</h3>
                             <ul className="flex flex-col gap-3 text-muted-foreground list-disc pl-5">
                                 <li>문서화된 API와 Props를 통해 구현의 고민을 줄입니다.</li>
