@@ -82,8 +82,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
     return () => resizeObserver.disconnect();
   }, []);
 
-  const activeClassName = "flex items-center text-body-sm font-medium text-primary bg-accent p-2 rounded-md";
-  const inactiveClassName = "flex items-center text-body-sm text-foreground hover:bg-accent p-2 rounded-md transition-colors duration-200";
+  const activeClassName = "flex items-center text-body-sm font-medium text-primary bg-accent px-2 h-10 rounded-md";
+  const inactiveClassName = "flex items-center text-body-sm text-foreground hover:bg-accent px-2 h-10 rounded-md transition-colors duration-200";
 
   const toggleFoundationMenu = () => {
     setIsFoundationOpen(!isFoundationOpen);
@@ -130,7 +130,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
               <li className="flex flex-col gap-1">
                 <button
                   onClick={toggleFoundationMenu}
-                  className="w-full flex items-center justify-between text-label-md text-foreground p-2 rounded-md hover:bg-accent"
+                  className="w-full flex items-center justify-between text-label-md text-foreground px-2 h-10 rounded-md hover:bg-accent"
                 >
                   <span>Foundation</span>
                   <ChevronDown
@@ -191,7 +191,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
               <li className="flex flex-col gap-1">
                 <button
                   onClick={toggleSettingsMenu}
-                  className="w-full flex items-center justify-between text-label-md text-foreground p-2 rounded-md hover:bg-accent"
+                  className="w-full flex items-center justify-between text-label-md text-foreground px-2 h-10 rounded-md hover:bg-accent"
                 >
                   <span>Site Settings</span>
                   <ChevronDown
