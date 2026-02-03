@@ -86,21 +86,23 @@ const LoginPage: React.FC = () => {
                         <form onSubmit={handleLogin} className="flex flex-col gap-4">
                             <div className="space-y-4">
                                 <div className="space-y-1.5">
-                                    <div className="flex items-center justify-between px-1">
-                                        <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">이메일</label>
-                                        <span className="text-[10px] text-muted-foreground/60 font-medium">@fasoo.com</span>
+                                    <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider ml-1">이메일</label>
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            name="userId"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            onFocus={() => setFocusTarget('user')}
+                                            onBlur={() => setFocusTarget('none')}
+                                            className="w-full pl-4 pr-28 py-3 bg-background border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
+                                            placeholder="사번 또는 아이디"
+                                            required
+                                        />
+                                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-muted-foreground/60 font-medium pointer-events-none">
+                                            @fasoo.com
+                                        </span>
                                     </div>
-                                    <input
-                                        type="text"
-                                        name="userId"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        onFocus={() => setFocusTarget('user')}
-                                        onBlur={() => setFocusTarget('none')}
-                                        className="w-full px-4 py-3 bg-background border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
-                                        placeholder="사번 또는 아이디"
-                                        required
-                                    />
                                 </div>
                                 <div className="space-y-1.5 flex flex-col">
                                     <div className="flex items-center justify-between px-1">
