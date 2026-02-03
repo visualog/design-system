@@ -16,7 +16,7 @@ export const PrinciplesSection: React.FC<PrinciplesSectionProps> = ({ items, cla
     return (
         <section className={`grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 lg:gap-5 ${className || ''}`}>
             {items.map((item, index) => (
-                <div key={index} className="flex flex-col gap-3 p-6 bg-card text-card-foreground border rounded-xl hover:bg-muted/50 transition-colors h-full">
+                <div key={index} className="flex flex-col gap-2 p-6 bg-card text-card-foreground border rounded-xl hover:bg-muted/50 transition-colors h-full">
                     <div className="p-2.5 w-fit rounded-lg bg-primary/10 text-primary">
                         <item.icon size={20} strokeWidth={2.5} />
                     </div>
