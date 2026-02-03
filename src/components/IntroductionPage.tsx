@@ -54,7 +54,7 @@ const IntroductionPage: React.FC = () => {
                         </p>
                     </div>
                     <div className="grid md:grid-cols-2 gap-3 md:gap-4 lg:gap-5">
-                        <div className="flex flex-col gap-4 px-2">
+                        <div className="flex flex-col gap-4 px-6">
                             <div className="flex items-center gap-3 text-primary">
                                 <div className="text-primary">
                                     <Palette size={20} strokeWidth={2.5} />
@@ -62,21 +62,18 @@ const IntroductionPage: React.FC = () => {
                                 <h3 className="text-base font-bold text-foreground">For Designers</h3>
                             </div>
                             <ul className="flex flex-col gap-3 text-muted-foreground text-sm">
-                                <li className="flex gap-2 items-start">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-primary/40 mt-2 shrink-0" />
+                                <li>
                                     반복적인 UI 설계 시간을 줄이고 사용자 경험 개선에 집중합니다.
                                 </li>
-                                <li className="flex gap-2 items-start">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-primary/40 mt-2 shrink-0" />
+                                <li>
                                     풍부한 컴포넌트 라이브러리와 가이드를 통해 설계의 일관성을 유지합니다.
                                 </li>
-                                <li className="flex gap-2 items-start">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-primary/40 mt-2 shrink-0" />
+                                <li>
                                     표준 토큰을 사용하여 개발자와 더 정확하게 소통합니다.
                                 </li>
                             </ul>
                         </div>
-                        <div className="flex flex-col gap-4 px-2">
+                        <div className="flex flex-col gap-4 px-6">
                             <div className="flex items-center gap-3 text-primary">
                                 <div className="text-primary">
                                     <Terminal size={20} strokeWidth={2.5} />
@@ -84,16 +81,13 @@ const IntroductionPage: React.FC = () => {
                                 <h3 className="text-base font-bold text-foreground">For Developers</h3>
                             </div>
                             <ul className="flex flex-col gap-3 text-muted-foreground text-sm">
-                                <li className="flex gap-2 items-start">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700 mt-2 shrink-0" />
+                                <li>
                                     문서화된 API와 Props를 통해 구현의 고민을 줄입니다.
                                 </li>
-                                <li className="flex gap-2 items-start">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700 mt-2 shrink-0" />
+                                <li>
                                     다양한 상태와 접근성 대응이 완료된 컴포넌트를 즉시 사용합니다.
                                 </li>
-                                <li className="flex gap-2 items-start">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700 mt-2 shrink-0" />
+                                <li>
                                     테마 시스템을 통해 스타일 변경에 유연하게 대응합니다.
                                 </li>
                             </ul>
