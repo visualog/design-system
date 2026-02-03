@@ -76,20 +76,20 @@ const LoginPage: React.FC = () => {
                         <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-2 text-primary">
                             <Lock className="w-6 h-6" />
                         </div>
-                        <h1 className="text-2xl font-bold tracking-tight">Access Required</h1>
-                        <p className="text-sm text-muted-foreground">
-                            로그인하여 <span className="font-medium text-foreground">MIS Design System</span>에<br />접속하세요.
+                        <h1 className="text-2xl font-bold tracking-tight">Welcome to MDS</h1>
+                        <p className="text-xs text-muted-foreground mt-1">
+                            MIS Design System에 접속하세요.
                         </p>
-                        <div className="mt-2 text-[10px] font-bold text-primary bg-primary/5 px-2 py-1 rounded inline-block uppercase tracking-widest">
-                            @fasoo.com ONLY
-                        </div>
                     </div>
 
                     <div className="flex flex-col gap-4">
                         <form onSubmit={handleLogin} className="flex flex-col gap-4">
                             <div className="space-y-4">
                                 <div className="space-y-1.5">
-                                    <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider ml-1">이메일</label>
+                                    <div className="flex items-center justify-between px-1">
+                                        <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">이메일</label>
+                                        <span className="text-[10px] text-muted-foreground/60 font-medium">@fasoo.com</span>
+                                    </div>
                                     <input
                                         type="text"
                                         name="userId"
