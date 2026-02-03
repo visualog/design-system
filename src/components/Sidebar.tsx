@@ -127,7 +127,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
           </div>
           <nav>
             <ul className="flex flex-col gap-1">
-              <li>
+              <li className="flex flex-col gap-1">
                 <button
                   onClick={toggleFoundationMenu}
                   className="w-full flex items-center justify-between text-label-md text-foreground p-2 rounded-md hover:bg-accent"
@@ -138,7 +138,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
                   />
                 </button>
                 {isFoundationOpen && (
-                  <ul className="pt-2 pl-4 flex flex-col gap-1">
+                  <ul className="pl-4 flex flex-col gap-1">
                     <li>
                       <NavLink
                         to="/overview"
@@ -188,7 +188,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
               <li>
                 <div className="h-px bg-border my-2 mx-1" />
               </li>
-              <li>
+              <li className="flex flex-col gap-1">
                 <button
                   onClick={toggleSettingsMenu}
                   className="w-full flex items-center justify-between text-label-md text-foreground p-2 rounded-md hover:bg-accent"
@@ -199,7 +199,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
                   />
                 </button>
                 {isSettingsOpen && (
-                  <ul className="pt-2 pl-4 flex flex-col gap-1">
+                  <ul className="pl-4 flex flex-col gap-1">
                     <li>
                       <NavLink to="/site-settings/theme" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Theme</NavLink>
                     </li>
