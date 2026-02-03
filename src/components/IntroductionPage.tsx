@@ -33,7 +33,7 @@ const IntroductionPage: React.FC = () => {
             title="Overview"
             description="디자인 시스템의 철학, 목표, 그리고 핵심 원칙에 대해 알아봅니다. 우리는 일관된 시각 언어를 통해 더 나은 제품을 더 빠르게 만듭니다."
         >
-            <div className="flex flex-col gap-16">
+            <div className="flex flex-col gap-12">
                 {/* Core Principles */}
                 <section className="flex flex-col gap-8">
                     <div className="flex flex-col gap-2">
