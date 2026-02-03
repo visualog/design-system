@@ -65,54 +65,32 @@ const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarg
         // Body (Rounded Semi-circle) - 65%
         const bodyCount = count - headCount;
 
-        // Head
+        // Head (Filled Circle)
         for (let i = 0; i < headCount; i++) {
-            const angle = (i / headCount) * Math.PI * 2;
-            const r = scale * 0.35;
-            // Center head slightly higher
+            const angle = Math.random() * Math.PI * 2;
+            const r = scale * 0.35 * Math.sqrt(Math.random()); // Filled circle
             targets.push({
                 x: cx + Math.cos(angle) * r,
                 y: cy - scale * 0.35 + Math.sin(angle) * r
             });
         }
 
-        // Body
+        // Body (Filled Semi-ellipse/Arch)
         for (let i = 0; i < bodyCount; i++) {
-            // Filled Semi-ellipse/Arch
-            // t from PI (left) to 2PI (right) -> bottom arc? No, top arc for shoulders
-            // Actually standard user icon is:
-            //      O
-            //    (   )
-            // To make it filled, we can use concentric arcs or random points inside.
-            // But let's stick to outline-ish for clarity or multiple layers?
-            // "Dots form the shape" -> usually outline or filled. 
-            // Reference image is solid grey. Let's make it filled.
+            // Random point inside semi-ellipse
+            // theta from PI to 2PI (top arch)
+            const angle = Math.PI + Math.random() * Math.PI;
+            const r = Math.sqrt(Math.random()); // 0 to 1
 
-            // Random point in semi-ellipse
-            // x = r * cos(theta), y = r * sin(theta)
-            // theta from PI to 2PI
+            // Outer radius scale
+            const outerR = scale * 0.7;
 
-            // Let's do layers for density
-            // const layer = Math.floor(i % 5); // 0 to 4
-            // const rScale = 0.6 + (layer * 0.1); // 0.6 to 1.0 radius
-
-            // Distribute points in the semi-circle area
-            // Use rejection sampling or just random angle + random radius
-            // const angle = Math.PI + Math.random() * Math.PI;
-            // const r = Math.sqrt(Math.random()) * (scale * 0.8);
-
-            // Flatten bottom??
-            // User icon body is usually a portion of a circle cropped at bottom or full semi-circle.
-            // Reference image 1: Head floating above a solid semi-circle base.
-
-            // Let's use simple parametric for the surface + some fill
-            // Arc
-            const arcR = scale * 0.7;
-            const arcAngle = Math.PI + (i / bodyCount) * Math.PI;
+            // Apply radius
+            const dist = r * outerR;
 
             targets.push({
-                x: cx + Math.cos(arcAngle) * arcR,
-                y: cy + scale * 0.4 + Math.sin(arcAngle) * (scale * 0.6) // flattened height
+                x: cx + Math.cos(angle) * dist,
+                y: cy + scale * 0.4 + Math.sin(angle) * (dist * 0.6) // flattened height
             });
         }
         return targets;
@@ -143,36 +121,39 @@ const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarg
 
         const keyCx = cx + scale * 0.5;
         const keyCy = cy + scale * 0.4;
-        const keyScale = scale * 0.4;
 
-        // Key Head
+        // Key Head (Filled Circle)
         for (let i = 0; i < keyHeadCount; i++) {
-            const angle = (i / keyHeadCount) * Math.PI * 2;
+            const angle = Math.random() * Math.PI * 2;
+            const r = (scale * 0.25) * Math.sqrt(Math.random()); // Filled
             targets.push({
-                x: keyCx + Math.cos(angle) * (keyScale * 0.5),
-                y: keyCy + Math.sin(angle) * (keyScale * 0.5)
+                x: keyCx + Math.cos(angle) * r,
+                y: keyCy + Math.sin(angle) * r
             });
         }
 
-        // Key Shaft
+        // Key Shaft (Filled Thick Line/Rectangle)
+        const shaftWidth = scale * 0.15; // Thick shaft
+        const shaftLength = scale * 0.4;
+
         for (let i = 0; i < keyShaftCount; i++) {
-            const p = i / keyShaftCount;
-            // Diagonal shaft? Or straight? 
-            // Reference image 2: Key is angled like 45 degrees
-            // Let's make it vertical or diagonal. Simple key often vertical or 45deg.
-            // Let's go with vertical for simplicity or 45deg if standard.
-            // Image 2 icon: Key is upright.
+            // Random point inside rectangle
+            // Vertical shaft 
+            const w = (Math.random() - 0.5) * shaftWidth;
+            const l = Math.random() * shaftLength;
 
-            const sx = keyCx;
-            const sy = keyCy + (keyScale * 0.5) + p * keyScale; // Downwards
+            let tx = keyCx + w;
+            let ty = keyCy + (scale * 0.2) + l; // Start below head
 
-            // Add teeth
-            let tx = sx;
-            if (p > 0.6 && p < 0.9) {
-                if (i % 2 === 0) tx += keyScale * 0.2;
+            // Add teeth area (filled block)
+            if (l > shaftLength * 0.6 && l < shaftLength * 0.9) {
+                // Extend right for teeth
+                if (Math.random() > 0.5) {
+                    tx += shaftWidth * 0.6;
+                }
             }
 
-            targets.push({ x: tx, y: sy });
+            targets.push({ x: tx, y: ty });
         }
 
         return targets;
