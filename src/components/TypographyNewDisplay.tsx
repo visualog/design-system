@@ -1,7 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { toast } from "sonner";
-import { HighlightText } from './ui/HighlightText';
-import { SearchBar } from './SearchBar';
 import { designSystemData } from '../utils/dataLoader';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Type, Info, Copy, Globe, MessageSquare } from "lucide-react";
@@ -36,7 +34,6 @@ const getUsage = (styleName: string) => {
 
 const TypographyNewDisplay: React.FC = () => {
     const { typography } = designSystemData;
-    const [searchQuery, setSearchQuery] = useState('');
     const [previewText, setPreviewText] = useState('The quick brown fox jumps over the lazy dog');
 
     const availableCategories = Object.keys(typography).filter(key => key !== 'font_family');
@@ -49,17 +46,14 @@ const TypographyNewDisplay: React.FC = () => {
         });
     };
 
-    const filteredData = useMemo(() => {
+    const displayData = useMemo(() => {
         return availableCategories
             .reduce((acc: any, category) => {
                 const styles = (typography as any)[category] || [];
-                const filtered = styles.filter((s: any) =>
-                    s.style_name.toLowerCase().includes(searchQuery.toLowerCase())
-                );
-                if (filtered.length > 0) acc[category] = filtered;
+                if (styles.length > 0) acc[category] = styles;
                 return acc;
             }, {});
-    }, [typography, searchQuery, availableCategories]);
+    }, [typography, availableCategories]);
 
     return (
         <div className="flex flex-col gap-16 max-w-7xl mx-auto py-12 font-pretendard">
@@ -91,9 +85,9 @@ const TypographyNewDisplay: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+                <div className="flex flex-col sm:flex-row items-end justify-between gap-8">
                     {/* Live Preview Tester */}
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-3 w-full max-w-xl">
                         <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] ml-1">Live Type Tester</label>
                         <div className="relative group">
                             <input
@@ -107,27 +101,16 @@ const TypographyNewDisplay: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Search Field */}
-                    <div className="flex flex-col gap-3">
-                        <div className="flex items-center justify-between ml-1">
-                            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Quick Search</label>
-                            <span className="text-[10px] text-muted-foreground/60 flex items-center gap-1">
-                                <Info className="w-3 h-3" /> 행 클릭시 토큰 복사
-                            </span>
-                        </div>
-                        <SearchBar
-                            placeholder="스타일 이름 검색..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            width="100%"
-                        />
+                    <div className="flex items-center gap-2 text-[10px] font-medium text-muted-foreground/50 bg-secondary/20 px-4 py-2 rounded-full border border-border/10 mb-1">
+                        <Info className="w-3 h-3" />
+                        행을 클릭하면 토큰 이름이 복사됩니다.
                     </div>
                 </div>
             </header>
 
             {/* CONTENT SECTIONS */}
             <main className="flex flex-col gap-24 py-4">
-                {Object.entries(filteredData).map(([category, styles]: [string, any]) => (
+                {Object.entries(displayData).map(([category, styles]: [string, any]) => (
                     <section key={category} className="flex flex-col gap-8 scroll-mt-32">
                         <div className="flex items-end justify-between border-b border-border/60 pb-4">
                             <div className="flex flex-col gap-1">
@@ -187,7 +170,7 @@ const TypographyNewDisplay: React.FC = () => {
                                                 <TableCell className="align-top py-10">
                                                     <div className="flex flex-col gap-2">
                                                         <div className="inline-flex items-center gap-2 text-sm font-mono font-bold text-foreground group-hover:text-primary transition-colors">
-                                                            <HighlightText text={style.style_name} highlight={searchQuery} />
+                                                            {style.style_name}
                                                             <Copy className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                                                         </div>
                                                         <span className="text-[10px] text-muted-foreground/40 font-mono uppercase tracking-[0.2em]">Token Identifier</span>
