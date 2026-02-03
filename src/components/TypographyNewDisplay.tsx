@@ -1,266 +1,268 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
+import { toast } from "sonner";
 import { HighlightText } from './ui/HighlightText';
 import { SearchBar } from './SearchBar';
 import { designSystemData } from '../utils/dataLoader';
-import { Clipboard } from './ui/clipboard';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { SmartFilterDropdown } from "./ui/SmartFilterDropdown";
-import { Button } from "./ui/button";
-import { ChevronDown, Type, Check } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Type, Info, Copy, Globe, MessageSquare } from "lucide-react";
+import { cn } from "@/lib/utils";
 
+/**
+ * Geist-inspired Typography Page
+ * Mirrored from https://vercel.com/geist/typography
+ */
 
-// New component for the Type Tester Panel
-const TypeTesterPanel: React.FC<{ selectedStyle: any }> = ({ selectedStyle }) => {
-    const defaultText = "The quick brown fox jumps over the lazy dog.";
-    const [text, setText] = useState(defaultText);
-
-    const getFontWeight = (weight: string) => {
-        if (weight.includes('Bold')) return 700;
-        if (weight.includes('Medium')) return 500;
-        if (weight.includes('Regular')) return 400;
-        return 400;
+// Helper to get font weight from JSON string (e.g., "Bold/700")
+const getWeight = (weightStr: string) => {
+    const parts = weightStr.split('/');
+    return {
+        label: parts[0].trim(),
+        value: parseInt(parts[1]) || 400
     };
+};
 
-    if (!selectedStyle) {
-        return (
-            <div className="sticky top-24 border rounded-xl p-8 bg-muted/30 flex flex-col items-center justify-center text-center h-[400px]">
-                <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-                    <Type className="w-8 h-8 text-muted-foreground" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">Select a Token</h3>
-                <p className="text-sm text-muted-foreground max-w-[200px]">
-                    Click on any row in the table to view details and test the typography.
-                </p>
-            </div>
-        );
-    }
-
-    return (
-        <div className="sticky top-24 flex flex-col gap-6">
-            {/* Selected Token Info Card */}
-            <div className="border rounded-xl p-6 bg-card shadow-sm">
-                <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-2">
-                        <span className="font-mono text-lg font-semibold">{selectedStyle.style_name}</span>
-                        <Clipboard value={selectedStyle.style_name} />
-                    </div>
-                    <span className="text-xs font-mono text-muted-foreground bg-muted px-2 py-1 rounded">
-                        {selectedStyle.category}
-                    </span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-y-4 gap-x-8 text-sm">
-                    <div>
-                        <span className="text-muted-foreground block mb-1 text-xs">Size</span>
-                        <span className="font-medium font-mono">{selectedStyle.size}px</span>
-                    </div>
-                    <div>
-                        <span className="text-muted-foreground block mb-1 text-xs">Line Height</span>
-                        <span className="font-medium font-mono">{selectedStyle.line_height}px</span>
-                    </div>
-                    <div>
-                        <span className="text-muted-foreground block mb-1 text-xs">Weight</span>
-                        <span className="font-medium font-mono">{selectedStyle.weight}</span>
-                    </div>
-                    <div>
-                        <span className="text-muted-foreground block mb-1 text-xs">Letter Spacing</span>
-                        <span className="font-medium font-mono tracking-tighter">-0.015em</span>
-                    </div>
-                </div>
-            </div>
-
-            {/* Live Tester */}
-            <div className="border rounded-xl p-6 bg-card shadow-sm flex flex-col gap-4">
-                <h3 className="text-sm font-semibold flex items-center gap-2">
-                    <Type className="w-4 h-4" /> Live Preview
-                </h3>
-
-                <textarea
-                    className="w-full bg-muted/30 border border-input rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none h-24"
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                    placeholder="Type to test..."
-                />
-
-                <div className="p-6 bg-slate-50 dark:bg-zinc-900 rounded-lg border border-dashed flex items-center justify-center min-h-[160px] overflow-hidden">
-                    <p
-                        className="text-center break-words max-w-full"
-                        style={{
-                            fontSize: `${selectedStyle.size}px`,
-                            lineHeight: `${selectedStyle.line_height}px`,
-                            fontWeight: getFontWeight(selectedStyle.weight),
-                        }}
-                    >
-                        {text || defaultText}
-                    </p>
-                </div>
-            </div>
-        </div>
-    );
+// Usage tooltips/descriptions (Inferred based on Geist style)
+const getUsage = (styleName: string) => {
+    const name = styleName.toLowerCase();
+    if (name.includes('h1')) return { en: 'Primary page headers', ko: '메인 페이지 대제목 및 최상위 헤더용' };
+    if (name.includes('h2')) return { en: 'Secondary section titles', ko: '섹션 구분용 제목 및 주요 소제목용' };
+    if (name.includes('h3')) return { en: 'Tertiary group headers', ko: '그룹 내 강조 및 중소형 타이틀용' };
+    if (name.includes('subtitle')) return { en: 'Emphasized content or sub-headers', ko: '본문 내 강조 텍스트 또는 보조 소제목용' };
+    if (name.includes('body_1')) return { en: 'Primary content paragraphs', ko: '기본 가독성을 위한 메인 본문 텍스트용' };
+    if (name.includes('body_2')) return { en: 'Secondary descriptive text', ko: '상세 정보나 긴 호흡의 보조 본문용' };
+    if (name.includes('body_3')) return { ko: '사이드바나 리스트 내 부가 설명용', en: 'Dense UI elements' };
+    if (name.includes('caption')) return { en: 'Labels and metadata', ko: '캡션, 레이블 및 부가 설명용 데이터용' };
+    return { en: 'Standard interface typography', ko: '일반적인 인터페이스 요소의 텍스트용' };
 };
 
 const TypographyNewDisplay: React.FC = () => {
     const { typography } = designSystemData;
-    const [selectedStyle, setSelectedStyle] = useState<any>(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [previewText, setPreviewText] = useState('The quick brown fox jumps over the lazy dog');
     const [selectedCategories, setSelectedCategories] = useState<string[]>(['All']);
-
-    // Set initial selected style to the first one available
-    useEffect(() => {
-        if (!selectedStyle && filteredTypography.length > 0) {
-            // Optional: default to first item? 
-            // Better to leave empty to encourage interaction or set explicitly.
-        }
-    }, []);
-
-    const handleCategorySelection = (category: string) => {
-        if (category === 'All') {
-            setSelectedCategories(['All']);
-            return;
-        }
-
-        let newSelection = selectedCategories.filter(c => c !== 'All');
-
-        if (newSelection.includes(category)) {
-            newSelection = newSelection.filter(c => c !== category);
-        } else {
-            newSelection.push(category);
-        }
-
-        if (newSelection.length === 0) {
-            setSelectedCategories(['All']);
-        } else {
-            setSelectedCategories(newSelection);
-        }
-    };
-
-    const getDropdownTriggerText = () => {
-        if (selectedCategories.includes('All') || selectedCategories.length === 0) {
-            return '전체';
-        }
-        if (selectedCategories.length === 1) {
-            return selectedCategories[0];
-        }
-        return `${selectedCategories.length}개 선택됨`;
-    };
 
     const availableCategories = Object.keys(typography).filter(key => key !== 'font_family');
 
-    const filteredTypography = Object.entries(typography)
-        .filter(([key]) => key !== 'font_family')
-        .flatMap(([category, styles]: [string, any]) =>
-            styles.map((style: any) => ({ ...style, category }))
-        )
-        .filter((style) => {
-            const matchesCategory = selectedCategories.includes('All') || selectedCategories.includes(style.category);
-
-            const termString = searchQuery.toLowerCase();
-            const orGroups = termString.split(',').map(g => g.trim()).filter(g => g.length > 0);
-
-            const matchesSearch = orGroups.length === 0 || orGroups.some(group => {
-                const andTerms = group.split('+').map(t => t.trim()).filter(t => t.length > 0);
-                if (andTerms.length === 0) return true;
-
-                return andTerms.every(term =>
-                    style.style_name.toLowerCase().includes(term)
-                );
-            });
-            return matchesCategory && matchesSearch;
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard.writeText(text);
+        toast.info(`Copied to clipboard`, {
+            description: `Token: ${text}`,
+            duration: 2000,
         });
+    };
 
-
+    const filteredData = useMemo(() => {
+        return availableCategories
+            .filter(cat => selectedCategories.includes('All') || selectedCategories.includes(cat))
+            .reduce((acc: any, category) => {
+                const styles = (typography as any)[category] || [];
+                const filtered = styles.filter((s: any) =>
+                    s.style_name.toLowerCase().includes(searchQuery.toLowerCase())
+                );
+                if (filtered.length > 0) acc[category] = filtered;
+                return acc;
+            }, {});
+    }, [typography, searchQuery, selectedCategories, availableCategories]);
 
     return (
-        <div className="font-pretendard flex flex-col gap-8">
-            {/* Filter Bar */}
-            <div className="flex gap-2 items-center w-full">
-                <SmartFilterDropdown
-                    triggerText={getDropdownTriggerText().replace(/_/g, ' ')}
-                    items={availableCategories.map(c => ({ value: c, label: c.replace(/_/g, ' ') }))}
-                    selectedValues={selectedCategories}
-                    onSelectionChange={setSelectedCategories}
-                />
+        <div className="flex flex-col gap-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 font-pretendard">
+            {/* HER0 - Geist Style */}
+            <header className="flex flex-col gap-6 border-b pb-12">
+                <div className="flex items-center gap-2.5 text-primary">
+                    <div className="p-2 bg-primary/10 rounded-lg">
+                        <Globe className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs font-bold tracking-widest uppercase">Typography Foundation</span>
+                </div>
+                <div className="flex flex-col gap-3">
+                    <h1 className="text-5xl font-extrabold tracking-tighter text-foreground">Pretendard</h1>
+                    <p className="text-lg text-muted-foreground max-w-3xl leading-relaxed">
+                        A modern multi-platform variable font system optimized for deep readability and visual balance.
+                        Designed to maintain clarity across all digital environments.
+                    </p>
+                </div>
 
-                <SearchBar
-                    placeholder="Search tokens (e.g. heading, bold)..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    width="100%"
-                />
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-                {/* Left Column: Token List (7 cols) */}
-                <div className="lg:col-span-7 flex flex-col gap-4">
-                    <div className="overflow-hidden">
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead className="w-[40%] pl-6">Token Name</TableHead>
-                                    <TableHead className="w-[20%]">Size</TableHead>
-                                    <TableHead className="w-[20%]">Weight</TableHead>
-                                    <TableHead className="w-[20%] text-right pr-6">Line Height</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {filteredTypography.map((style: any, index: number) => (
-                                    <TableRow
-                                        key={`${style.category}-${index}`}
-                                        onClick={() => setSelectedStyle(style)}
-                                        className={`cursor-pointer transition-colors ${selectedStyle?.style_name === style.style_name ? 'bg-primary/5' : 'hover:bg-muted/50'}`}
-                                    >
-                                        <TableCell className="font-mono text-sm font-medium pl-6">
-                                            <div className="flex items-center gap-2">
-                                                <span className={`${selectedStyle?.style_name === style.style_name ? 'text-primary font-bold' : 'text-foreground'}`}>
-                                                    <HighlightText text={style.style_name} highlight={searchQuery} />
-                                                </span>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell className="text-muted-foreground font-mono text-xs">{style.size}px</TableCell>
-                                        <TableCell className="text-muted-foreground font-mono text-xs capitalize">{style.weight.replace('Pretendard ', '')}</TableCell>
-                                        <TableCell className="text-muted-foreground font-mono text-xs text-right pr-6">{style.line_height}px</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                        {filteredTypography.length === 0 && (
-                            <div className="p-12 text-center text-muted-foreground">
-                                No typography tokens found.
-                            </div>
-                        )}
+                <div className="flex flex-wrap items-center gap-6 mt-4">
+                    <div className="flex items-center gap-2 text-sm bg-muted/50 px-3 py-1.5 rounded-full border border-border/50">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="text-muted-foreground">Variable Font</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <MessageSquare className="w-4 h-4" />
+                        <span>Pretendard JP/CN Support</span>
                     </div>
                 </div>
 
-                {/* Right Column: Tester (5 cols) */}
-                <div className="lg:col-span-5 relative hidden lg:block h-full">
-                    <TypeTesterPanel selectedStyle={selectedStyle} />
+                {/* Live Preview Tester */}
+                <div className="mt-8 flex flex-col gap-3 max-w-xl">
+                    <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] ml-1">Live Type Tester</label>
+                    <div className="relative group">
+                        <input
+                            type="text"
+                            value={previewText}
+                            onChange={(e) => setPreviewText(e.target.value)}
+                            className="w-full bg-background border border-border/60 hover:border-border rounded-xl px-5 py-4 text-sm focus:ring-4 focus:ring-primary/5 transition-all outline-none pr-12 shadow-sm"
+                            placeholder="Type to see all styles..."
+                        />
+                        <Type className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/30 group-focus-within:text-primary transition-colors" />
+                    </div>
                 </div>
+            </header>
 
-                {/* Mobile Sheet fallback for Tester */}
-                <div className="lg:hidden">
-                    {selectedStyle && (
-                        <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t z-50">
-                            <p className="font-bold mb-2">{selectedStyle.style_name}</p>
-                            <Button className="w-full" onClick={() => setSelectedStyle(null)}>Close Preview</Button>
-                        </div>
-                    )}
+            {/* TOOLBAR - Sticky Filter Panel */}
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between sticky top-0 z-40 bg-background/90 backdrop-blur-xl py-5 border-b border-border/40 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+                <div className="flex gap-3 items-center w-full md:w-auto">
+                    <SmartFilterDropdown
+                        triggerText={selectedCategories.includes('All') ? '전체 카테고리' : `${selectedCategories.length}개 선택됨`}
+                        items={availableCategories.map(c => ({ value: c, label: c }))}
+                        selectedValues={selectedCategories}
+                        onSelectionChange={setSelectedCategories}
+                        width="w-52"
+                    />
+                    <div className="flex-1 w-full max-w-sm">
+                        <SearchBar
+                            placeholder="스타일 검색 (예: heading, regular)..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            width="100%"
+                        />
+                    </div>
+                </div>
+                <div className="flex items-center gap-2.5 text-[11px] font-medium text-muted-foreground/80 bg-secondary/30 px-4 py-2 rounded-full border border-border/10">
+                    <Info className="w-3.5 h-3.5" />
+                    행을 클릭하면 토큰 이름이 복사됩니다.
                 </div>
             </div>
+
+            {/* CONTENT SECTIONS */}
+            <main className="flex flex-col gap-24 py-8">
+                {Object.entries(filteredData).map(([category, styles]: [string, any]) => (
+                    <section key={category} className="flex flex-col gap-8 scroll-mt-32">
+                        <div className="flex items-end justify-between border-b border-border/60 pb-4">
+                            <div className="flex flex-col gap-1">
+                                <h2 className="text-3xl font-bold tracking-tight">{category}</h2>
+                                <p className="text-sm text-muted-foreground capitalize">{category.toLowerCase()} level hierarchy and content structure.</p>
+                            </div>
+                            <span className="text-xs font-mono text-muted-foreground/60 mb-1">{styles.length} Styles</span>
+                        </div>
+
+                        <div className="overflow-x-auto rounded-xl">
+                            <Table>
+                                <TableHeader className="bg-transparent hover:bg-transparent">
+                                    <TableRow className="border-none hover:bg-transparent">
+                                        <TableHead className="w-[50%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 pl-0">Aa Example</TableHead>
+                                        <TableHead className="w-[20%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50">Token Name</TableHead>
+                                        <TableHead className="w-[30%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 text-right pr-0">Specs & Usage</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {styles.map((style: any) => {
+                                        const weight = getWeight(style.weight);
+                                        const usage = getUsage(style.style_name);
+
+                                        return (
+                                            <TableRow
+                                                key={style.style_name}
+                                                onClick={() => copyToClipboard(style.style_name)}
+                                                className="group cursor-pointer hover:bg-secondary/20 transition-all duration-200 border-b border-border/30 last:border-none"
+                                            >
+                                                {/* Visual Preview Cell */}
+                                                <TableCell className="py-10 pl-0 align-top">
+                                                    <div className="flex flex-col gap-4">
+                                                        <div
+                                                            className="flex flex-col leading-tight"
+                                                            style={{
+                                                                fontSize: `${style.size}px`,
+                                                                lineHeight: `${style.line_height}px`,
+                                                                fontWeight: weight.value,
+                                                                fontFamily: 'Pretendard, var(--font-sans)',
+                                                                textDecoration: style.style_name.includes('underline') ? 'underline' : 'none'
+                                                            }}
+                                                        >
+                                                            <div className="flex items-baseline gap-4">
+                                                                <span className="text-muted-foreground/20 font-light select-none group-hover:text-primary/30 transition-colors">Aa</span>
+                                                                <div className="truncate max-w-[400px]">
+                                                                    {previewText}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all transform translate-y-1 group-hover:translate-y-0 duration-300 ml-10">
+                                                            <span className="text-[9px] font-black uppercase tracking-tighter bg-primary text-primary-foreground px-1.5 py-0.5 rounded-sm">Current Sample View</span>
+                                                        </div>
+                                                    </div>
+                                                </TableCell>
+
+                                                {/* Token Name Cell */}
+                                                <TableCell className="align-top py-10">
+                                                    <div className="flex flex-col gap-2">
+                                                        <div className="inline-flex items-center gap-2 text-sm font-mono font-bold text-foreground group-hover:text-primary transition-colors">
+                                                            <HighlightText text={style.style_name} highlight={searchQuery} />
+                                                            <Copy className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                                        </div>
+                                                        <span className="text-[10px] text-muted-foreground/40 font-mono uppercase tracking-[0.2em]">Token Identifier</span>
+                                                    </div>
+                                                </TableCell>
+
+                                                {/* Specifications Cell */}
+                                                <TableCell className="align-top py-10 text-right pr-0">
+                                                    <div className="flex flex-col items-end gap-3 max-w-[240px] ml-auto">
+                                                        <div className="flex flex-col items-end gap-1">
+                                                            <span className="text-xs font-semibold text-foreground/80">{usage.en}</span>
+                                                            <span className="text-[11px] text-muted-foreground leading-tight">{usage.ko}</span>
+                                                        </div>
+                                                        <div className="flex items-center justify-end gap-2 font-mono text-[9px] font-bold">
+                                                            <span className="bg-secondary/50 text-secondary-foreground px-2 py-1 rounded border border-border/20">{style.size}px</span>
+                                                            <span className="bg-secondary/50 text-secondary-foreground px-2 py-1 rounded border border-border/20">{style.line_height}lh</span>
+                                                            <span className="bg-secondary/50 text-secondary-foreground px-2 py-1 rounded border border-border/20">{weight.label}</span>
+                                                        </div>
+                                                    </div>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </div>
+                    </section>
+                ))}
+            </main>
+
+            {/* FOOTER PRINCIPLES */}
+            <footer className="mt-12 bg-secondary/10 rounded-3xl p-10 sm:p-16 border border-border/60 overflow-hidden relative group">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-colors duration-1000" />
+                <div className="relative z-10 flex flex-col gap-12">
+                    <div className="flex flex-col gap-3">
+                        <Tag label="Principles" />
+                        <h2 className="text-4xl font-black tracking-tighter">Typography Core Philosophy</h2>
+                        <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
+                            Every font style is crafted to ensure a cohesive and structured experience, bridging the gap between aesthetics and function.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        {[
+                            { title: 'Readability First', desc: 'Prioritize contrast and whitespace to reduce cognitive load during reading.' },
+                            { title: 'Visual Hierarchy', desc: 'Use consistent weights and scales to guide users through the information flow.' },
+                            { title: 'Accessibility', desc: 'Guarantee legibility for all users by adhering to strict vertical rhythm and sizing.' }
+                        ].map(p => (
+                            <div key={p.title} className="flex flex-col gap-4">
+                                <div className="w-10 h-1 stroke-primary bg-primary rounded-full transition-all group-hover:w-20" />
+                                <h3 className="text-xl font-bold">{p.title}</h3>
+                                <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </footer>
         </div>
     );
 };
+
+const Tag = ({ label }: { label: string }) => (
+    <div className="inline-flex h-6 items-center px-3 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest border border-primary/20 w-fit">
+        {label}
+    </div>
+);
 
 export default TypographyNewDisplay;
