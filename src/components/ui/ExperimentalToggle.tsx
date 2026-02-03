@@ -7,8 +7,24 @@ import {
     TooltipTrigger,
 } from "./tooltip";
 
+import { useLocation } from 'react-router-dom';
+
 export const ExperimentalToggle: React.FC = () => {
     const { isExperimental, toggleExperimental } = useExperimental();
+    const location = useLocation();
+
+    // 페이지별 실험 기능 개수 정의
+    const experimentCounts: Record<string, number> = {
+        '/colors': 3,
+        '/typography': 2,
+        '/site-settings/components': 1
+    };
+
+    // 현재 경로에 대한 카운트 가져오기 (기본값 1: 글로벌 테마)
+    const currentPath = location.pathname;
+    // 정확한 매칭 또는 상위 경로 매칭 확인
+    const matchedKey = Object.keys(experimentCounts).find(key => currentPath.startsWith(key));
+    const activeCount = matchedKey ? experimentCounts[matchedKey] : 1;
 
     return (
         <Tooltip>
@@ -26,7 +42,9 @@ export const ExperimentalToggle: React.FC = () => {
                     <FlaskConical className={`w-4 h-4 transition-transform duration-500 ${isExperimental ? 'rotate-[360deg] scale-110' : 'group-hover:rotate-12'}`} />
                     <span className="text-label-sm font-medium">Experimental</span>
                     {isExperimental && (
-                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-violet-500 rounded-full animate-pulse" />
+                        <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] flex items-center justify-center bg-violet-500 text-white text-[10px] font-bold rounded-full animate-in fade-in zoom-in duration-300 px-1 border-2 border-background">
+                            {activeCount}
+                        </span>
                     )}
                 </button>
             </TooltipTrigger>
