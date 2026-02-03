@@ -361,7 +361,7 @@ const IconDisplay: React.FC = () => {
 
   return (
     <div>
-      <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
+      <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} className="flex flex-col gap-8">
         <AnimatedTabsContent value="line">
           <div>
             <h2 className="sr-only">라인 아이콘 (Line Icons)</h2>

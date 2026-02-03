@@ -29,7 +29,7 @@ export const AnimatedTabs: React.FC<AnimatedTabsProps> = ({
     return (
         <AnimatedTabsContext.Provider value={{ activeTab }}>
             <div className={cn("w-full", className)}>
-                <div className="flex flex-wrap items-center gap-2 mb-6">
+                <div className="flex flex-wrap items-center gap-2">
                     {tabs.map((tab) => (
                         <button
                             key={tab.value}
