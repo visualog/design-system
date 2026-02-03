@@ -42,7 +42,7 @@ export const ExperimentalToggle: React.FC = () => {
                     <FlaskConical className={`w-4 h-4 transition-transform duration-500 ${isExperimental ? 'rotate-[360deg] scale-110' : 'group-hover:rotate-12'}`} />
                     <span className="text-label-sm font-medium">Experimental</span>
                     {isExperimental && (
-                        <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] flex items-center justify-center bg-violet-500 text-white text-[10px] font-bold rounded-full animate-in fade-in zoom-in duration-300 px-1 border-2 border-background">
+                        <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] flex items-center justify-center bg-violet-500 text-white text-[10px] font-bold rounded-full animate-in fade-in zoom-in duration-300 px-1 leading-none shadow-sm">
                             {activeCount}
                         </span>
                     )}
