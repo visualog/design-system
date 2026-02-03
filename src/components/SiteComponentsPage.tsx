@@ -91,14 +91,14 @@ const SiteComponentsPage = () => {
                                                 </div>
 
                                                 <div className="mt-auto w-full flex flex-wrap gap-1">
-                                                    <div className="inline-flex items-center rounded bg-secondary/50 px-2 py-1 text-xs font-medium text-muted-foreground font-mono truncate max-w-full" title={component.filePath.split('/').pop()}>
+                                                    <div className="inline-flex items-center rounded bg-blue-50 dark:bg-blue-950/30 px-2 py-1 text-xs font-medium text-blue-700 dark:text-blue-400 font-mono truncate max-w-full" title={component.filePath.split('/').pop()}>
                                                         {component.filePath.split('/').pop()}
                                                     </div>
-                                                    <span className="inline-flex items-center justify-center rounded bg-secondary/50 px-2 py-1 text-xs font-medium text-muted-foreground">
+                                                    <span className="inline-flex items-center justify-center rounded bg-purple-50 dark:bg-purple-950/30 px-2 py-1 text-xs font-medium text-purple-700 dark:text-purple-400">
                                                         {component.props.length} props
                                                     </span>
-                                                    <span className="inline-flex items-center justify-center rounded bg-secondary/50 px-2 py-1 text-xs font-medium text-muted-foreground">
-                                                        {component.variants.length} variants
+                                                    <span className="inline-flex items-center justify-center rounded bg-orange-50 dark:bg-orange-950/30 px-2 py-1 text-xs font-medium text-orange-700 dark:text-orange-400">
+                                                        {component.variants?.length || 0} variants
                                                     </span>
                                                 </div>
                                             </div>
