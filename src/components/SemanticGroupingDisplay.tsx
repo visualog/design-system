@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { SmartFilterDropdown } from "./ui/SmartFilterDropdown";
 import { Button } from './ui/button';
 import { ChevronDown } from 'lucide-react';
 import {
@@ -144,49 +145,23 @@ const SemanticColorMappingDisplay: React.FC = () => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="w-40 justify-between shadow-none group">
-              <span>{getDropdownTriggerText()}</span>
-              <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-40 max-h-64 overflow-y-auto">
-            <DropdownMenuItem onSelect={() => handleCategorySelection('All')}>전체 속성</DropdownMenuItem>
-            {contextGroups.map((group) => (
-              <DropdownMenuCheckboxItem
-                key={group.id}
-                checked={selectedCategories.includes(group.id)}
-                onCheckedChange={() => handleCategorySelection(group.id)}
-              >
-                {group.label}
-              </DropdownMenuCheckboxItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <SmartFilterDropdown
+          triggerText={getDropdownTriggerText()}
+          items={contextGroups.map(g => ({ value: g.id, label: g.label }))}
+          selectedValues={selectedCategories}
+          onSelectionChange={setSelectedCategories}
+          width="w-40"
+        />
 
         {/* Secondary Dropdown for Avatar Groups */}
         {selectedCategories.length === 1 && selectedCategories[0] === 'avatar' && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-40 justify-between shadow-none group">
-                <span>{getAvatarDropdownText()}</span>
-                <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-40 max-h-64 overflow-y-auto">
-              <DropdownMenuItem onSelect={() => setSelectedAvatarGroup('All')}>전체 색상</DropdownMenuItem>
-              {uniqueAvatarGroups.map(group => (
-                <DropdownMenuCheckboxItem
-                  key={group}
-                  checked={selectedAvatarGroup === group}
-                  onCheckedChange={() => setSelectedAvatarGroup(selectedAvatarGroup === group ? 'All' : group)}
-                >
-                  {group}
-                </DropdownMenuCheckboxItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <SmartFilterDropdown
+            triggerText={getAvatarDropdownText()}
+            items={uniqueAvatarGroups.map(g => ({ value: g, label: g }))}
+            selectedValues={[selectedAvatarGroup]}
+            onSelectionChange={(vals) => setSelectedAvatarGroup(vals.includes('All') || vals.length === 0 ? 'All' : vals[vals.length - 1])}
+            width="w-40"
+          />
         )}
 
         <SearchBar

@@ -121,7 +121,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
           className="p-4 flex-1 overflow-y-auto"
         >
           <div className="mb-8 px-2 flex items-baseline gap-2">
-            <h1 className="text-heading-sm font-black text-foreground">MDS</h1>
+            <h1 className="text-heading-sm !font-black text-foreground">MDS</h1>
             <span className="text-micro text-muted-foreground/80 font-mono">v{version}</span>
           </div>
           <nav>

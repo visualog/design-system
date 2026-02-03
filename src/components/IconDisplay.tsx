@@ -1,5 +1,5 @@
 import React, { useState, useRef, useMemo } from 'react';
-import { SearchBar } from './SearchBar';
+import { SearchBar } from "./SearchBar";
 import { RotateCcw } from 'lucide-react';
 import ColorSwatch from '@/components/ui/ColorSwatch';
 import { designSystemData } from '../utils/dataLoader';
@@ -23,14 +23,15 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SmartFilterDropdown } from "./ui/SmartFilterDropdown";
 
 // --- Helper function to get SVG components ---
 const allSvgModules = import.meta.glob<{ default: React.FC<React.SVGProps<SVGSVGElement>> }>('/src/assets/icons/**/*.svg', { eager: true });
 
 const getSvgComponentFromFilename = (filename: string, category: 'line' | 'fill' | 'illust', illustSubfolder?: string): React.FC<React.SVGProps<SVGSVGElement>> | null => {
   let modulePathPrefix;
-  if (category === 'line') modulePathPrefix = `/src/assets/icons/line/`;
-  else if (category === 'fill') modulePathPrefix = `/src/assets/icons/fill/`;
+  if (category === 'line') modulePathPrefix = '/src/assets/icons/line/';
+  else if (category === 'fill') modulePathPrefix = '/src/assets/icons/fill/';
   else if (category === 'illust') {
     if (!illustSubfolder) return null;
     modulePathPrefix = `/src/assets/icons/illust/${illustSubfolder}/`;
@@ -268,7 +269,7 @@ const IconDisplay: React.FC = () => {
   const [lineSearchQuery, setLineSearchQuery] = useState('');
   const [filledSearchQuery, setFilledSearchQuery] = useState('');
   const [illustSearchQuery, setIllustSearchQuery] = useState('');
-  const [illustCategory, setIllustCategory] = useState('All');
+  const [illustCategory, setIllustCategory] = useState<string[]>(['All']);
   const { icons } = designSystemData;
   const [activeTab, setActiveTab] = useState('line');
   const tabs = [
@@ -322,7 +323,7 @@ const IconDisplay: React.FC = () => {
   const filteredIllustrations = useMemo(() => {
     return allIllustrationIcons.filter(icon => {
       const matchesSearch = icon.filename.toLowerCase().includes(illustSearchQuery.toLowerCase());
-      const matchesCategory = illustCategory === 'All' || icon.category === illustCategory;
+      const matchesCategory = illustCategory.includes('All') || illustCategory.includes(icon.category);
       return matchesSearch && matchesCategory;
     });
   }, [allIllustrationIcons, illustSearchQuery, illustCategory]);
@@ -409,64 +410,61 @@ const IconDisplay: React.FC = () => {
             <div className="flex flex-col gap-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="w-48 justify-between shadow-none group">
-                        <span>{illustCategory === 'All' ? '전체' : illustCategoryNames[illustCategory] || illustCategory}</span>
-                        <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem onSelect={() => setIllustCategory('All')}>전체</DropdownMenuItem>
-                      {Object.entries(illustCategoryNames).map(([categoryKey, displayName]) => (
-                        <DropdownMenuCheckboxItem
-                          key={categoryKey}
-                          checked={illustCategory === categoryKey}
-                          onCheckedChange={() => setIllustCategory(categoryKey)}
-                        >
-                          {displayName}
-                        </DropdownMenuCheckboxItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <SmartFilterDropdown
+                    triggerText={
+                      illustCategory.includes('All') || illustCategory.length === 0
+                        ? '전체'
+                        : illustCategory.length === 1
+                          ? illustCategoryNames[illustCategory[0]] || illustCategory[0]
+                          : `${illustCategory.length}개 선택됨`
+                    }
+                    items={Object.entries(illustCategoryNames).map(([key, label]) => ({ value: key, label }))}
+                    selectedValues={illustCategory}
+                    onSelectionChange={setIllustCategory}
+                  />
                   <SearchBar
                     placeholder={`${illustIconCount}개 아이콘 검색...`}
                     value={illustSearchQuery}
                     onChange={(e) => setIllustSearchQuery(e.target.value)}
                   />
                 </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-label-sm text-muted-foreground mr-2">
+                    Total <span className="text-foreground font-medium">{illustIconCount}</span>
+                  </span>
+                </div>
               </div>
+            </div>
 
-              <div className="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-2">
-                {filteredIllustrations.length > 0 ? (
-                  filteredIllustrations.map((icon, index) => {
-                    const SvgComponent = getSvgComponentFromFilename(icon.filename, 'illust', icon.subfolder);
-                    const defaultIllustColor = '#374151';
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-2">
+              {filteredIllustrations.length > 0 ? (
+                filteredIllustrations.map((icon, index) => {
+                  const SvgComponent = getSvgComponentFromFilename(icon.filename, 'illust', icon.subfolder);
+                  const defaultIllustColor = '#374151';
 
-                    return (
-                      <TooltipProvider key={index} delayDuration={100}>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Card
-                              className="shadow-none w-full aspect-square flex items-center justify-center cursor-pointer hover:bg-secondary/50 transition-all duration-200 hover:-translate-y-1"
-                              onClick={() => handleIconClick(icon.filename, 'illust', icon.filename, defaultIllustColor, icon.subfolder)}
-                            >
-                              <CardContent className="p-0">
-                                {SvgComponent ? <SvgComponent className="w-8 h-8 text-foreground" /> : <span className="text-xs">N/A</span>}
-                              </CardContent>
-                            </Card>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>{icon.filename}</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    );
-                  })
-                ) : (
-                  <p className="text-gray-500">No illustration icons found for this query.</p>
-                )}
-              </div>
+                  return (
+                    <TooltipProvider key={index} delayDuration={100}>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Card
+                            className="shadow-none w-full aspect-square flex items-center justify-center cursor-pointer hover:bg-secondary/50 transition-all duration-200 hover:-translate-y-1"
+                            onClick={() => handleIconClick(icon.filename, 'illust', icon.filename, defaultIllustColor, icon.subfolder)}
+                          >
+                            <CardContent className="p-0">
+                              {SvgComponent ? <SvgComponent className="w-8 h-8 text-foreground" /> : <span className="text-xs">N/A</span>}
+                            </CardContent>
+                          </Card>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{icon.filename}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  );
+                })
+              ) : (
+                <p className="text-gray-500">No illustration icons found for this query.</p>
+              )}
             </div>
           </div>
         </AnimatedTabsContent>
