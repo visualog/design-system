@@ -35,7 +35,7 @@ export const DoDont: React.FC<DoDontProps> = ({ type, title, description, childr
             </div>
 
             {/* Text Content */}
-            <div className="flex flex-col gap-1 p-5 pt-6 bg-card flex-1">
+            <div className="flex flex-col gap-1 px-6 pb-6 pt-8 bg-card flex-1">
                 <h4 className={cn(
                     "font-bold text-sm tracking-wider",
                     isDo ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
