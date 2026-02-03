@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { toast } from "sonner";
 import { designSystemData } from '../utils/dataLoader';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Type, Info, Copy, Globe, MessageSquare } from "lucide-react";
+import { Type, Copy, MessageSquare } from "lucide-react";
 
 /**
  * Geist-inspired Typography Page
@@ -68,14 +68,9 @@ const TypographyNewDisplay: React.FC = () => {
     return (
         <div className="flex flex-col gap-16 max-w-7xl mx-auto py-12 font-pretendard">
             {/* HER0 - Geist Style */}
-            <header className="flex flex-col gap-8 border-b pb-12">
+            <header className="flex flex-col gap-8 pb-12">
                 <div className="flex flex-col gap-6">
-                    <div className="flex items-center gap-2.5 text-primary">
-                        <div className="p-2 bg-primary/10 rounded-lg">
-                            <Globe className="w-5 h-5" />
-                        </div>
-                        <span className="text-xs font-bold tracking-widest uppercase">Typography Foundation</span>
-                    </div>
+
                     <div className="flex flex-col gap-3">
                         <h1 className="text-5xl font-extrabold tracking-tighter text-foreground">Pretendard</h1>
                         <p className="text-lg text-muted-foreground max-w-3xl leading-relaxed">
@@ -97,24 +92,21 @@ const TypographyNewDisplay: React.FC = () => {
 
                 <div className="flex flex-col sm:flex-row items-end justify-between gap-8">
                     {/* Live Preview Tester */}
-                    <div className="flex flex-col gap-3 w-full max-w-xl">
-                        <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] ml-1">Live Type Tester</label>
+                    <div className="flex flex-col gap-3 w-full">
+
                         <div className="relative group">
                             <input
                                 type="text"
                                 value={previewText}
                                 onChange={(e) => setPreviewText(e.target.value)}
-                                className="w-full bg-background border border-border/60 hover:border-border rounded-xl px-5 py-4 text-sm focus:ring-4 focus:ring-primary/5 transition-all outline-none pr-12 shadow-sm"
+                                className="w-full bg-background border border-border/60 hover:border-border rounded-xl px-5 py-4 text-sm focus:ring-4 focus:ring-primary/5 transition-all outline-none pr-12"
                                 placeholder="Type to preview styles..."
                             />
                             <Type className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/30 group-focus-within:text-primary transition-colors" />
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-2 text-[10px] font-medium text-muted-foreground/50 bg-secondary/20 px-4 py-2 rounded-full border border-border/10 mb-1">
-                        <Info className="w-3 h-3" />
-                        행을 클릭하면 토큰 이름이 복사됩니다.
-                    </div>
+
                 </div>
             </header>
 
@@ -122,19 +114,18 @@ const TypographyNewDisplay: React.FC = () => {
             <main className="flex flex-col gap-24 py-4">
                 {Object.entries(displayData).map(([category, styles]: [string, any]) => (
                     <section key={category} className="flex flex-col gap-8 scroll-mt-32">
-                        <div className="flex items-end justify-between border-b border-border/60 pb-4">
+                        <div className="flex items-end justify-between">
                             <div className="flex flex-col gap-1">
                                 <h2 className="text-3xl font-bold tracking-tight">{category}</h2>
                                 <p className="text-sm text-muted-foreground">{getCategoryDescription(category)}</p>
                             </div>
-                            <span className="text-xs font-mono text-muted-foreground/60 mb-1">{styles.length} Styles</span>
                         </div>
 
                         <div className="overflow-x-auto rounded-xl">
                             <Table>
                                 <TableHeader className="bg-transparent hover:bg-transparent">
                                     <TableRow className="border-none hover:bg-transparent">
-                                        <TableHead className="w-[50%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 pl-0">Aa Example</TableHead>
+                                        <TableHead className="w-[50%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 pl-0">Example</TableHead>
                                         <TableHead className="w-[20%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50">Token Name</TableHead>
                                         <TableHead className="w-[30%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 text-right pr-0">Specs & Usage</TableHead>
                                     </TableRow>
@@ -164,13 +155,12 @@ const TypographyNewDisplay: React.FC = () => {
                                                             }}
                                                         >
                                                             <div className="flex items-baseline gap-4">
-                                                                <span className="text-muted-foreground/20 font-light select-none group-hover:text-primary/30 transition-colors">Aa</span>
                                                                 <div className="truncate max-w-[400px]">
                                                                     {previewText}
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all transform translate-y-1 group-hover:translate-y-0 duration-300 ml-10">
+                                                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all transform translate-y-1 group-hover:translate-y-0 duration-300">
                                                             <span className="text-[9px] font-black uppercase tracking-tighter bg-primary text-primary-foreground px-1.5 py-0.5 rounded-sm">Current Sample View</span>
                                                         </div>
                                                     </div>
@@ -183,7 +173,6 @@ const TypographyNewDisplay: React.FC = () => {
                                                             {style.style_name}
                                                             <Copy className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                                                         </div>
-                                                        <span className="text-[10px] text-muted-foreground/40 font-mono uppercase tracking-[0.2em]">Token Identifier</span>
                                                     </div>
                                                 </TableCell>
 
@@ -191,7 +180,6 @@ const TypographyNewDisplay: React.FC = () => {
                                                 <TableCell className="align-top py-10 text-right pr-0">
                                                     <div className="flex flex-col items-end gap-3 max-w-[240px] ml-auto">
                                                         <div className="flex flex-col items-end gap-1">
-                                                            <span className="text-xs font-semibold text-foreground/80">{usage.en}</span>
                                                             <span className="text-[11px] text-muted-foreground leading-tight">{usage.ko}</span>
                                                         </div>
                                                         <div className="flex items-center justify-end gap-2 font-mono text-[9px] font-bold">

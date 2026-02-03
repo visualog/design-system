@@ -164,7 +164,6 @@ const ColorsPage: React.FC = () => {
           </TabsList>
         </Tabs>
       }
-      showExperimental={true}
     >
       <FoundationPageTabs
         key={viewMode}
