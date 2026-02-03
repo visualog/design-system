@@ -16,7 +16,7 @@ export const DoDont: React.FC<DoDontProps> = ({ type, title, description, childr
     return (
         <div className={cn(
             "flex flex-col h-full rounded-xl overflow-hidden border",
-            isDo ? "border-green-200 dark:border-green-800" : "border-red-200 dark:border-red-800",
+            isDo ? "border-green-500/20 dark:border-green-500/30" : "border-red-500/20 dark:border-red-500/30",
             className
         )}>
             {/* Visual Area */}
