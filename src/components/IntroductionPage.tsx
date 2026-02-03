@@ -1,7 +1,7 @@
 import React from 'react';
 import { FoundationPageLayout } from './FoundationPageLayout';
 import { PrinciplesSection, type PrincipleItem } from './ui/PrinciplesSection';
-import { Sparkles, Zap, Layout, Accessibility } from 'lucide-react';
+import { Sparkles, Zap, Layout, Accessibility, Palette, Terminal } from 'lucide-react';
 import { DoDont, DoDontContainer } from './ui/DoDont';
 
 const IntroductionPage: React.FC = () => {
@@ -49,22 +49,53 @@ const IntroductionPage: React.FC = () => {
                 <section className="flex flex-col gap-8">
                     <div className="flex flex-col gap-2">
                         <h2 className="text-heading-xl tracking-tight">System Goals</h2>
+                        <p className="text-muted-foreground max-w-2xl">
+                            디자인 시스템은 디자이너와 개발자 모두에게 강력한 도구가 되어야 합니다.
+                        </p>
                     </div>
-                    <div className="grid md:grid-cols-2 gap-3 md:gap-4 lg:gap-5">
-                        <div className="p-8 rounded-xl bg-primary/5 border border-primary/10 flex flex-col gap-4">
-                            <h3 className="text-xl font-bold text-primary">디자이너를 위하여</h3>
-                            <ul className="flex flex-col gap-3 text-muted-foreground list-disc pl-5">
-                                <li>반복적인 UI 설계 시간을 줄이고 사용자 경험 개선에 집중합니다.</li>
-                                <li>풍부한 컴포넌트 라이브러리와 가이드를 통해 설계의 일관성을 유지합니다.</li>
-                                <li>표준 토큰을 사용하여 개발자와 더 정확하게 소통합니다.</li>
+                    <div className="grid md:grid-cols-2 gap-8 md:gap-16 mt-2">
+                        <div className="flex flex-col gap-5 px-2">
+                            <div className="flex items-center gap-3 text-primary">
+                                <div className="p-2.5 rounded-lg bg-primary/10">
+                                    <Palette size={24} strokeWidth={2} />
+                                </div>
+                                <h3 className="text-xl font-bold text-foreground">For Designers</h3>
+                            </div>
+                            <ul className="flex flex-col gap-3 text-muted-foreground">
+                                <li className="flex gap-2 items-start">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-primary/40 mt-2 shrink-0" />
+                                    반복적인 UI 설계 시간을 줄이고 사용자 경험 개선에 집중합니다.
+                                </li>
+                                <li className="flex gap-2 items-start">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-primary/40 mt-2 shrink-0" />
+                                    풍부한 컴포넌트 라이브러리와 가이드를 통해 설계의 일관성을 유지합니다.
+                                </li>
+                                <li className="flex gap-2 items-start">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-primary/40 mt-2 shrink-0" />
+                                    표준 토큰을 사용하여 개발자와 더 정확하게 소통합니다.
+                                </li>
                             </ul>
                         </div>
-                        <div className="p-8 rounded-xl bg-zinc-900/5 dark:bg-zinc-800/10 border flex flex-col gap-4">
-                            <h3 className="text-xl font-bold">개발자를 위하여</h3>
-                            <ul className="flex flex-col gap-3 text-muted-foreground list-disc pl-5">
-                                <li>문서화된 API와 Props를 통해 구현의 고민을 줄입니다.</li>
-                                <li>다양한 상태와 접근성 대응이 완료된 컴포넌트를 즉시 사용합니다.</li>
-                                <li>테마 시스템을 통해 스타일 변경에 유연하게 대응합니다.</li>
+                        <div className="flex flex-col gap-5 px-2">
+                            <div className="flex items-center gap-3 text-primary">
+                                <div className="p-2.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-foreground">
+                                    <Terminal size={24} strokeWidth={2} />
+                                </div>
+                                <h3 className="text-xl font-bold text-foreground">For Developers</h3>
+                            </div>
+                            <ul className="flex flex-col gap-3 text-muted-foreground">
+                                <li className="flex gap-2 items-start">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700 mt-2 shrink-0" />
+                                    문서화된 API와 Props를 통해 구현의 고민을 줄입니다.
+                                </li>
+                                <li className="flex gap-2 items-start">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700 mt-2 shrink-0" />
+                                    다양한 상태와 접근성 대응이 완료된 컴포넌트를 즉시 사용합니다.
+                                </li>
+                                <li className="flex gap-2 items-start">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700 mt-2 shrink-0" />
+                                    테마 시스템을 통해 스타일 변경에 유연하게 대응합니다.
+                                </li>
                             </ul>
                         </div>
                     </div>
