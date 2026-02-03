@@ -21,10 +21,10 @@ interface Particle {
     orbitSpeed: number;
 }
 
-const PARTICLE_COUNT = 350;
-const SPRING_STRENGTH = 0.08;
-const FRICTION = 0.85;
-const FLOAT_SPEED = 0.1; // Slower speed
+const PARTICLE_COUNT = 450; // Increased by ~30%
+const SPRING_STRENGTH = 0.005; // Much softer spring for slower morph
+const FRICTION = 0.92; // Higher friction for smoother, floaty feel
+const FLOAT_SPEED = 0.03; // Very slow ambient float
 
 const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarget, className }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -57,7 +57,11 @@ const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarg
     const generateUserIconTargets = (width: number, height: number, count: number) => {
         const cx = width / 2;
         const cy = height / 2;
-        const scale = Math.min(width, height) * 0.25; // Icon size relative to screen
+        // Make it huge - bigger than login box (> 400px usually)
+        // Login box is max-w-sm (24rem = 384px)
+        // Let's use 60% of screen min dimension, or at least 500px logic if possible, 
+        // but relative is safer for mobile.
+        const scale = Math.min(width, height) * 0.55;
         const targets: { x: number; y: number }[] = [];
 
         // Distribute points: 40% head, 60% body
@@ -67,7 +71,7 @@ const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarg
         // Head (Circle)
         for (let i = 0; i < headCount; i++) {
             const angle = (i / headCount) * Math.PI * 2;
-            const r = scale * 0.4;
+            const r = scale * 0.35;
             targets.push({
                 x: cx + Math.cos(angle) * r,
                 y: cy - scale * 0.3 + Math.sin(angle) * r
@@ -82,8 +86,8 @@ const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarg
             const t = (i / (bodyCount - 1)) * Math.PI;
             // Ellipse: x wider
             targets.push({
-                x: cx + Math.cos(t) * (scale * 0.9), // wide
-                y: cy + scale * 0.3 + Math.sin(t) * (scale * 0.7) // height
+                x: cx + Math.cos(t) * (scale * 0.8), // wide
+                y: cy + scale * 0.3 + Math.sin(t) * (scale * 0.6) // height
             });
         }
         return targets;
@@ -92,7 +96,7 @@ const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarg
     const generateKeyIconTargets = (width: number, height: number, count: number) => {
         const cx = width / 2;
         const cy = height / 2;
-        const scale = Math.min(width, height) * 0.25;
+        const scale = Math.min(width, height) * 0.55; // Same huge scale
         const targets: { x: number; y: number }[] = [];
 
         // Key Head (Circle) - 60% points
