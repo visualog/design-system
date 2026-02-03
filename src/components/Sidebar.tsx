@@ -126,7 +126,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
             <span className="text-micro text-muted-foreground/80 font-mono">v{version}</span>
           </div>
           <nav>
-            <ul className="space-y-1">
+            <ul className="flex flex-col gap-1">
               <li>
                 <button
                   onClick={toggleFoundationMenu}
@@ -138,7 +138,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
                   />
                 </button>
                 {isFoundationOpen && (
-                  <ul className="pt-2 pl-4 space-y-1">
+                  <ul className="pt-2 pl-4 flex flex-col gap-1">
                     <li>
                       <NavLink
                         to="/overview"
@@ -199,7 +199,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
                   />
                 </button>
                 {isSettingsOpen && (
-                  <ul className="pt-2 pl-4 space-y-1">
+                  <ul className="pt-2 pl-4 flex flex-col gap-1">
                     <li>
                       <NavLink to="/site-settings/theme" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Theme</NavLink>
                     </li>
