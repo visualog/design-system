@@ -31,7 +31,7 @@ export const FoundationPageLayout: React.FC<FoundationPageLayoutProps> = ({
                     {description}
                 </p>
             </div>
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-12">
                 {children}
             </div>
         </div>
