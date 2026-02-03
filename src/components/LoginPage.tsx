@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Lock, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
 import { version } from '../../package.json';
+import AntiGravityBackground from './ui/AntiGravityBackground';
 
 const LoginPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -53,6 +54,10 @@ const LoginPage: React.FC = () => {
         }
     };
 
+    const [focusTarget, setFocusTarget] = useState<'none' | 'user' | 'key'>('none');
+
+    // ... (existing handlers)
+
     return (
         <div className="min-h-screen w-full flex flex-col items-center justify-center bg-background p-4 relative overflow-hidden">
             {/* Background decorations */}
@@ -61,6 +66,9 @@ const LoginPage: React.FC = () => {
                 <div className="absolute -top-[30%] -left-[10%] w-[70%] h-[70%] rounded-full bg-blue-500/5 blur-3xl animate-pulse" />
                 <div className="absolute -bottom-[30%] -right-[10%] w-[70%] h-[70%] rounded-full bg-indigo-500/5 blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
             </div>
+
+            {/* Interactive Particle Background */}
+            <AntiGravityBackground focusTarget={focusTarget} />
 
             <div className="w-full max-w-sm z-10 animate-in fade-in zoom-in-95 duration-500">
                 <div className="bg-card border border-border shadow-xl rounded-2xl p-8 backdrop-blur-sm bg-card/80">
@@ -84,8 +92,11 @@ const LoginPage: React.FC = () => {
                                     <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider ml-1">이메일</label>
                                     <input
                                         type="text"
+                                        name="userId"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
+                                        onFocus={() => setFocusTarget('user')}
+                                        onBlur={() => setFocusTarget('none')}
                                         className="w-full px-4 py-3 bg-background border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
                                         placeholder="사번 또는 아이디"
                                         required
@@ -104,8 +115,11 @@ const LoginPage: React.FC = () => {
                                     </div>
                                     <input
                                         type="password"
+                                        name="userPassword"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
+                                        onFocus={() => setFocusTarget('key')}
+                                        onBlur={() => setFocusTarget('none')}
                                         className={`w-full px-4 py-3 bg-background border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200
                                             ${error ? 'border-destructive focus:border-destructive' : 'border-input focus:border-primary'}
                                         `}
