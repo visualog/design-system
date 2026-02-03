@@ -185,12 +185,6 @@ const TypographyNewDisplay: React.FC = () => {
         <div className="font-pretendard flex flex-col gap-8">
             {/* Filter Bar */}
             <div className="flex gap-4 items-center w-full">
-                <SearchBar
-                    placeholder="Search tokens (e.g. heading, bold)..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    width="100%"
-                />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="w-48 justify-between shadow-none shrink-0 group">
@@ -212,6 +206,13 @@ const TypographyNewDisplay: React.FC = () => {
                         ))}
                     </DropdownMenuContent>
                 </DropdownMenu>
+
+                <SearchBar
+                    placeholder="Search tokens (e.g. heading, bold)..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    width="100%"
+                />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
