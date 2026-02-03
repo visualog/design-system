@@ -193,9 +193,9 @@ const TypographyNewDisplay: React.FC = () => {
                 />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="w-48 justify-between shadow-none shrink-0">
+                        <Button variant="outline" className="w-48 justify-between shadow-none shrink-0 group">
                             <span className="capitalize">{getDropdownTriggerText().replace(/_/g, ' ')}</span>
-                            <ChevronDown className="h-4 w-4" />
+                            <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="max-h-64 overflow-y-auto">

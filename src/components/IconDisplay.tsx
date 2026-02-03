@@ -411,9 +411,9 @@ const IconDisplay: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="w-48 justify-between shadow-none">
+                      <Button variant="outline" className="w-48 justify-between shadow-none group">
                         <span>{illustCategory === 'All' ? '전체' : illustCategoryNames[illustCategory] || illustCategory}</span>
-                        <ChevronDown className="h-4 w-4" />
+                        <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>

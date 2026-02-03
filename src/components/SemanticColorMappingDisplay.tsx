@@ -186,9 +186,9 @@ const SemanticColorMappingDisplay: React.FC = () => {
       <div className="flex items-center gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="w-40 justify-between shadow-none">
+            <Button variant="outline" className="w-40 justify-between shadow-none group">
               <span>{getDropdownTriggerText()}</span>
-              <ChevronDown className="h-4 w-4" />
+              <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-40 max-h-64 overflow-y-auto">
@@ -209,9 +209,9 @@ const SemanticColorMappingDisplay: React.FC = () => {
         {selectedCategories.length === 1 && selectedCategories[0] === 'avatar' && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-40 justify-between shadow-none">
+              <Button variant="outline" className="w-40 justify-between shadow-none group">
                 <span>{getAvatarDropdownText()}</span>
-                <ChevronDown className="h-4 w-4" />
+                <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-40 max-h-64 overflow-y-auto">
