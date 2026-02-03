@@ -50,7 +50,7 @@ const IntroductionPage: React.FC = () => {
                     <div className="flex flex-col gap-2">
                         <h2 className="text-heading-xl tracking-tight">System Goals</h2>
                     </div>
-                    <div className="grid md:grid-cols-2 gap-8">
+                    <div className="grid md:grid-cols-2 gap-3 md:gap-4 lg:gap-5">
                         <div className="p-8 rounded-3xl bg-primary/5 border border-primary/10 flex flex-col gap-4">
                             <h3 className="text-xl font-bold text-primary">디자이너를 위하여</h3>
                             <ul className="flex flex-col gap-3 text-muted-foreground list-disc pl-5">
