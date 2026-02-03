@@ -21,7 +21,7 @@ interface Particle {
     orbitSpeed: number;
 }
 
-const PARTICLE_COUNT = 250;
+const PARTICLE_COUNT = 350;
 const SPRING_STRENGTH = 0.08; // 0.12 might be too stiff for smooth morph, lowered slightly
 const FRICTION = 0.85; // 0.18 friction means velocity *= (1-0.18)? Or F_friction? Usually vel *= friction. 0.85 is good damping.
 const FLOAT_SPEED = 0.2;
@@ -29,7 +29,7 @@ const FLOAT_SPEED = 0.2;
 const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarget, className }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const particlesRef = useRef<Particle[]>([]);
-    const animationFrameRef = useRef<number>();
+    const animationFrameRef = useRef<number | null>(null);
     const timeRef = useRef<number>(0);
 
     // Initialize particles
@@ -43,8 +43,8 @@ const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarg
                     vy: (Math.random() - 0.5) * FLOAT_SPEED,
                     targetX: null,
                     targetY: null,
-                    size: Math.random() * 1 + 1, // radius 1-2px (diameter 2-4px)
-                    baseSize: Math.random() * 1 + 1,
+                    size: Math.random() * 1 + 0.5, // radius 0.5-1.5px (diameter 1-3px)
+                    baseSize: Math.random() * 1 + 0.5,
                     orbitAngle: Math.random() * Math.PI * 2,
                     orbitRadius: Math.random() * 5 + 2, // Small jitter orbit
                     orbitSpeed: (Math.random() - 0.5) * 0.05
