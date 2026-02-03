@@ -180,6 +180,8 @@ const TypographyNewDisplay: React.FC = () => {
             return matchesCategory && matchesSearch;
         });
 
+    const [hoverState, setHoverState] = useState<{ id: string, zone: 'checkbox' | 'label' } | null>(null);
+
     return (
         <div className="font-pretendard flex flex-col gap-8">
             {/* Filter Bar */}
@@ -191,55 +193,95 @@ const TypographyNewDisplay: React.FC = () => {
                             <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="p-2 w-56 max-h-80 overflow-y-auto" align="start">
+                    <DropdownMenuContent className="p-2 w-64 max-h-80 overflow-y-auto" align="start">
+                        {/* 'All' Item */}
                         <DropdownMenuItem
-                            className="flex items-center gap-2 px-2 py-1.5 rounded-sm hover:bg-accent cursor-pointer group focus:bg-accent focus:text-accent-foreground"
+                            className="flex items-center gap-2 px-2 py-1.5 rounded-sm hover:bg-accent cursor-pointer group focus:bg-accent focus:text-accent-foreground relative"
                             onSelect={(e) => {
                                 e.preventDefault();
-                                handleCategorySelection('All');
+                                // Interaction handled by onClick handlers below
                             }}
+                            onMouseEnter={() => setHoverState({ id: 'All', zone: 'label' })}
+                            onMouseLeave={() => setHoverState(null)}
+                            onClick={() => handleCategorySelection('All')}
                         >
-                            <div className={`w-4 h-4 rounded-[4px] border flex items-center justify-center transition-colors ${selectedCategories.includes('All') ? 'bg-primary border-primary' : 'bg-background border-muted-foreground/30'}`}>
+                            <div
+                                className={`w-4 h-4 rounded-[4px] border flex items-center justify-center transition-colors ${selectedCategories.includes('All') ? 'bg-primary border-primary' : 'bg-background border-muted-foreground/30'}`}
+                                onMouseEnter={(e) => {
+                                    e.stopPropagation();
+                                    setHoverState({ id: 'All', zone: 'checkbox' });
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.stopPropagation();
+                                    setHoverState({ id: 'All', zone: 'label' });
+                                }}
+                            >
                                 {selectedCategories.includes('All') && <Check className="w-3 h-3 text-primary-foreground" />}
                             </div>
                             <span className="text-sm font-medium">전체</span>
-                            <div
-                                className="ml-auto opacity-0 group-hover:opacity-100 bg-muted px-1.5 py-0.5 rounded text-[10px] uppercase font-bold text-muted-foreground hover:text-foreground hover:bg-background border border-transparent hover:border-border transition-all"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleCategorySelection('All');
-                                }}
-                            >
-                                Reset
-                            </div>
+
+                            {/* Hover Action Text */}
+                            {hoverState?.id === 'All' && (
+                                <span className="ml-auto text-xs text-muted-foreground/70 animate-in fade-in duration-200">
+                                    {hoverState.zone === 'checkbox'
+                                        ? (selectedCategories.includes('All') ? '선택 해제' : '선택')
+                                        : '전체 선택'}
+                                </span>
+                            )}
                         </DropdownMenuItem>
 
                         <div className="h-px bg-border/50 my-1" />
 
                         {availableCategories.map(category => {
                             const isSelected = selectedCategories.includes(category);
+                            const isHovered = hoverState?.id === category;
+
                             return (
                                 <DropdownMenuItem
                                     key={category}
-                                    className="flex items-center gap-2 px-2 py-1.5 rounded-sm hover:bg-accent cursor-pointer group focus:bg-accent focus:text-accent-foreground"
-                                    onSelect={(e) => {
-                                        e.preventDefault();
-                                        handleCategorySelection(category);
+                                    className="flex items-center gap-2 px-2 py-1.5 rounded-sm hover:bg-accent cursor-pointer group focus:bg-accent focus:text-accent-foreground relative"
+                                    onSelect={(e) => e.preventDefault()}
+                                    onMouseEnter={() => setHoverState({ id: category, zone: 'label' })}
+                                    onMouseLeave={() => setHoverState(null)}
+                                    onClick={() => {
+                                        // Label Click Logic
+                                        if (isSelected) {
+                                            handleCategorySelection('All'); // "Select All" (Reset) behavior for checked items
+                                        } else {
+                                            setSelectedCategories([category]); // "Select Only" behavior for unchecked items
+                                        }
                                     }}
                                 >
-                                    <div className={`w-4 h-4 rounded-[4px] border flex items-center justify-center transition-colors ${isSelected ? 'bg-primary border-primary' : 'bg-background border-muted-foreground/30'}`}>
-                                        {isSelected && <Check className="w-3 h-3 text-primary-foreground" />}
-                                    </div>
-                                    <span className="text-sm capitalize">{category.replace(/_/g, ' ')}</span>
+                                    {/* Checkbox Zone */}
                                     <div
-                                        className="ml-auto opacity-0 group-hover:opacity-100 bg-muted px-1.5 py-0.5 rounded text-[10px] uppercase font-bold text-muted-foreground hover:text-foreground hover:bg-background border border-transparent hover:border-border transition-all"
+                                        className={`w-4 h-4 rounded-[4px] border flex items-center justify-center transition-colors ${isSelected ? 'bg-primary border-primary' : 'bg-background border-muted-foreground/30'}`}
+                                        onMouseEnter={(e) => {
+                                            e.stopPropagation();
+                                            setHoverState({ id: category, zone: 'checkbox' });
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.stopPropagation();
+                                            setHoverState({ id: category, zone: 'label' });
+                                        }}
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            setSelectedCategories([category]);
+                                            handleCategorySelection(category); // Standard Toggle
                                         }}
                                     >
-                                        Only
+                                        {isSelected && <Check className="w-3 h-3 text-primary-foreground" />}
                                     </div>
+
+                                    <span className="text-sm capitalize">{category.replace(/_/g, ' ')}</span>
+
+                                    {/* Right Action Text */}
+                                    {isHovered && (
+                                        <span className="ml-auto text-xs text-muted-foreground/70 animate-in fade-in duration-200 select-none">
+                                            {hoverState.zone === 'checkbox'
+                                                ? (isSelected ? '선택 해제' : '선택')
+                                                : (isSelected ? '전체 선택' : '이 항목만 선택')
+                                            }
+                                        </span>
+                                    )}
                                 </DropdownMenuItem>
                             );
                         })}
