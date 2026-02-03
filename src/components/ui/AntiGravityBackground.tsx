@@ -21,10 +21,10 @@ interface Particle {
     orbitSpeed: number;
 }
 
-const PARTICLE_COUNT = 150;
+const PARTICLE_COUNT = 250;
 const SPRING_STRENGTH = 0.08; // 0.12 might be too stiff for smooth morph, lowered slightly
 const FRICTION = 0.85; // 0.18 friction means velocity *= (1-0.18)? Or F_friction? Usually vel *= friction. 0.85 is good damping.
-const FLOAT_SPEED = 0.5;
+const FLOAT_SPEED = 0.2;
 
 const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarget, className }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
