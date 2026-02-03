@@ -13,13 +13,12 @@ import {
 } from "@/components/ui/table";
 import {
     DropdownMenu,
-    DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "./ui/button";
-import { ChevronDown, Type } from "lucide-react";
+import { ChevronDown, Type, Check } from "lucide-react";
 
 
 // New component for the Type Tester Panel
@@ -192,18 +191,58 @@ const TypographyNewDisplay: React.FC = () => {
                             <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="max-h-64 overflow-y-auto">
-                        <DropdownMenuItem onSelect={() => handleCategorySelection('All')}>전체</DropdownMenuItem>
-                        {availableCategories.map(category => (
-                            <DropdownMenuCheckboxItem
-                                key={category}
-                                checked={selectedCategories.includes(category)}
-                                onCheckedChange={() => handleCategorySelection(category)}
-                                className="capitalize"
+                    <DropdownMenuContent className="p-2 w-56 max-h-80 overflow-y-auto" align="start">
+                        <DropdownMenuItem
+                            className="flex items-center gap-2 px-2 py-1.5 rounded-sm hover:bg-accent cursor-pointer group focus:bg-accent focus:text-accent-foreground"
+                            onSelect={(e) => {
+                                e.preventDefault();
+                                handleCategorySelection('All');
+                            }}
+                        >
+                            <div className={`w-4 h-4 rounded-[4px] border flex items-center justify-center transition-colors ${selectedCategories.includes('All') ? 'bg-primary border-primary' : 'bg-background border-muted-foreground/30'}`}>
+                                {selectedCategories.includes('All') && <Check className="w-3 h-3 text-primary-foreground" />}
+                            </div>
+                            <span className="text-sm font-medium">전체</span>
+                            <div
+                                className="ml-auto opacity-0 group-hover:opacity-100 bg-muted px-1.5 py-0.5 rounded text-[10px] uppercase font-bold text-muted-foreground hover:text-foreground hover:bg-background border border-transparent hover:border-border transition-all"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleCategorySelection('All');
+                                }}
                             >
-                                {category.replace(/_/g, ' ')}
-                            </DropdownMenuCheckboxItem>
-                        ))}
+                                Reset
+                            </div>
+                        </DropdownMenuItem>
+
+                        <div className="h-px bg-border/50 my-1" />
+
+                        {availableCategories.map(category => {
+                            const isSelected = selectedCategories.includes(category);
+                            return (
+                                <DropdownMenuItem
+                                    key={category}
+                                    className="flex items-center gap-2 px-2 py-1.5 rounded-sm hover:bg-accent cursor-pointer group focus:bg-accent focus:text-accent-foreground"
+                                    onSelect={(e) => {
+                                        e.preventDefault();
+                                        handleCategorySelection(category);
+                                    }}
+                                >
+                                    <div className={`w-4 h-4 rounded-[4px] border flex items-center justify-center transition-colors ${isSelected ? 'bg-primary border-primary' : 'bg-background border-muted-foreground/30'}`}>
+                                        {isSelected && <Check className="w-3 h-3 text-primary-foreground" />}
+                                    </div>
+                                    <span className="text-sm capitalize">{category.replace(/_/g, ' ')}</span>
+                                    <div
+                                        className="ml-auto opacity-0 group-hover:opacity-100 bg-muted px-1.5 py-0.5 rounded text-[10px] uppercase font-bold text-muted-foreground hover:text-foreground hover:bg-background border border-transparent hover:border-border transition-all"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setSelectedCategories([category]);
+                                        }}
+                                    >
+                                        Only
+                                    </div>
+                                </DropdownMenuItem>
+                            );
+                        })}
                     </DropdownMenuContent>
                 </DropdownMenu>
 
