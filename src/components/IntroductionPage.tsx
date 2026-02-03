@@ -37,7 +37,7 @@ const IntroductionPage: React.FC = () => {
                 {/* Core Principles */}
                 <section className="flex flex-col gap-8">
                     <div className="flex flex-col gap-2">
-                        <h2 className="text-heading-lg tracking-tight">Design Principles</h2>
+                        <h2 className="text-heading-md tracking-tight">Design Principles</h2>
                         <p className="text-muted-foreground max-w-2xl">
                             우리의 모든 의사결정은 아래의 네 가지 핵심 원칙을 기반으로 이루어집니다.
                         </p>
@@ -48,7 +48,7 @@ const IntroductionPage: React.FC = () => {
                 {/* System Goals */}
                 <section className="flex flex-col gap-8">
                     <div className="flex flex-col gap-2">
-                        <h2 className="text-heading-lg tracking-tight">System Goals</h2>
+                        <h2 className="text-heading-md tracking-tight">System Goals</h2>
                         <p className="text-muted-foreground max-w-2xl">
                             디자인 시스템은 디자이너와 개발자 모두에게 강력한 도구가 되어야 합니다.
                         </p>
@@ -104,7 +104,7 @@ const IntroductionPage: React.FC = () => {
                 {/* Getting Started Brief */}
                 <section className="flex flex-col gap-8 mb-10">
                     <div className="flex flex-col gap-2">
-                        <h2 className="text-heading-lg tracking-tight">Best Practices</h2>
+                        <h2 className="text-heading-md tracking-tight">Best Practices</h2>
                     </div>
                     <DoDontContainer>
                         <DoDont
