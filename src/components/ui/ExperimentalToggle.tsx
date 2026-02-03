@@ -18,15 +18,15 @@ export const ExperimentalToggle: React.FC = () => {
                     className={`
             group relative flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-300
             ${isExperimental
-                            ? 'bg-primary/10 border-primary text-primary shadow-[0_0_15px_rgba(var(--primary-rgb),0.15)]'
-                            : 'bg-background border-border text-muted-foreground hover:border-primary/50 hover:text-foreground'
+                            ? 'bg-violet-50 border-violet-200 text-violet-600 shadow-[0_0_10px_rgba(124,58,237,0.15)] dark:bg-violet-950/30 dark:border-violet-800 dark:text-violet-300'
+                            : 'bg-background border-border/60 text-muted-foreground hover:border-violet-300 hover:text-foreground dark:border-border/40'
                         }
           `}
                 >
                     <FlaskConical className={`w-4 h-4 transition-transform duration-500 ${isExperimental ? 'rotate-[360deg] scale-110' : 'group-hover:rotate-12'}`} />
                     <span className="text-label-sm font-medium">Experimental</span>
                     {isExperimental && (
-                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full animate-pulse" />
+                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-violet-500 rounded-full animate-pulse" />
                     )}
                 </button>
             </TooltipTrigger>
