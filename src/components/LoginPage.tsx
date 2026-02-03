@@ -71,7 +71,7 @@ const LoginPage: React.FC = () => {
             <AntiGravityBackground focusTarget={focusTarget} />
 
             <div className="w-full max-w-sm z-10 animate-in fade-in zoom-in-95 duration-500">
-                <div className="bg-card border border-border shadow-xl rounded-2xl p-8 backdrop-blur-sm bg-card/80">
+                <div className="bg-card border border-border shadow-[0_0_40px_-5px_rgba(0,0,0,0.1)] rounded-2xl p-8 backdrop-blur-sm bg-card/80">
                     <div className="flex flex-col items-center gap-2 mb-8 text-center">
                         <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-2 text-primary">
                             <Lock className="w-6 h-6" />
