@@ -61,7 +61,7 @@ const IntroductionPage: React.FC = () => {
                                 </div>
                                 <h3 className="text-xl font-bold text-foreground">For Designers</h3>
                             </div>
-                            <ul className="flex flex-col gap-3 text-muted-foreground">
+                            <ul className="flex flex-col gap-3 text-muted-foreground text-sm">
                                 <li className="flex gap-2 items-start">
                                     <span className="w-1.5 h-1.5 rounded-full bg-primary/40 mt-2 shrink-0" />
                                     반복적인 UI 설계 시간을 줄이고 사용자 경험 개선에 집중합니다.
@@ -83,7 +83,7 @@ const IntroductionPage: React.FC = () => {
                                 </div>
                                 <h3 className="text-xl font-bold text-foreground">For Developers</h3>
                             </div>
-                            <ul className="flex flex-col gap-3 text-muted-foreground">
+                            <ul className="flex flex-col gap-3 text-muted-foreground text-sm">
                                 <li className="flex gap-2 items-start">
                                     <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700 mt-2 shrink-0" />
                                     문서화된 API와 Props를 통해 구현의 고민을 줄입니다.
