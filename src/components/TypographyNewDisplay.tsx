@@ -6,7 +6,6 @@ import { designSystemData } from '../utils/dataLoader';
 import { SmartFilterDropdown } from "./ui/SmartFilterDropdown";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Type, Info, Copy, Globe, MessageSquare } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 /**
  * Geist-inspired Typography Page
@@ -66,7 +65,7 @@ const TypographyNewDisplay: React.FC = () => {
     }, [typography, searchQuery, selectedCategories, availableCategories]);
 
     return (
-        <div className="flex flex-col gap-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 font-pretendard">
+        <div className="flex flex-col gap-12 font-pretendard">
             {/* HER0 - Geist Style */}
             <header className="flex flex-col gap-6 border-b pb-12">
                 <div className="flex items-center gap-2.5 text-primary">
@@ -111,7 +110,7 @@ const TypographyNewDisplay: React.FC = () => {
             </header>
 
             {/* TOOLBAR - Sticky Filter Panel */}
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between sticky top-0 z-40 bg-background/90 backdrop-blur-xl py-5 border-b border-border/40 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between sticky top-0 z-40 bg-background/90 backdrop-blur-xl py-5 border-b border-border/40">
                 <div className="flex gap-3 items-center w-full md:w-auto">
                     <SmartFilterDropdown
                         triggerText={selectedCategories.includes('All') ? '전체 카테고리' : `${selectedCategories.length}개 선택됨`}
