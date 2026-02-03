@@ -54,7 +54,7 @@ const IntroductionPage: React.FC = () => {
                         </p>
                     </div>
                     <div className="grid md:grid-cols-2 gap-3 md:gap-4 lg:gap-5">
-                        <div className="flex flex-col gap-5 px-2">
+                        <div className="flex flex-col gap-4 px-2">
                             <div className="flex items-center gap-3 text-primary">
                                 <div className="p-2.5 rounded-lg bg-primary/10">
                                     <Palette size={20} strokeWidth={2.5} />
@@ -76,7 +76,7 @@ const IntroductionPage: React.FC = () => {
                                 </li>
                             </ul>
                         </div>
-                        <div className="flex flex-col gap-5 px-2">
+                        <div className="flex flex-col gap-4 px-2">
                             <div className="flex items-center gap-3 text-primary">
                                 <div className="p-2.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-foreground">
                                     <Terminal size={20} strokeWidth={2.5} />
