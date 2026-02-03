@@ -17,12 +17,12 @@ export const DoDont: React.FC<DoDontProps> = ({ type, title, description, childr
         <div className={cn("flex flex-col h-full rounded-xl overflow-hidden border", className)}>
             {/* Visual Area */}
             <div className={cn(
-                "relative h-[220px] shrink-0 p-6 flex items-center justify-center",
+                "relative shrink-0 py-12 px-6 flex items-center justify-center",
                 isDo ? "bg-green-50/50 dark:bg-green-950/20" : "bg-red-50/50 dark:bg-red-950/20"
             )}>
                 {/* Status Indicator */}
                 <div className={cn(
-                    "absolute top-4 left-4 h-8 w-8 rounded-full flex items-center justify-center shadow-sm",
+                    "absolute bottom-0 left-6 translate-y-1/2 h-8 w-8 rounded-full flex items-center justify-center shadow-sm z-10",
                     isDo ? "bg-green-500 text-white" : "bg-red-500 text-white"
                 )}>
                     {isDo ? <Check size={18} strokeWidth={3} /> : <X size={18} strokeWidth={3} />}
@@ -35,7 +35,7 @@ export const DoDont: React.FC<DoDontProps> = ({ type, title, description, childr
             </div>
 
             {/* Text Content */}
-            <div className="flex flex-col gap-1 p-5 bg-card flex-1">
+            <div className="flex flex-col gap-1 p-5 pt-6 bg-card flex-1">
                 <h4 className={cn(
                     "font-bold text-sm tracking-wider",
                     isDo ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
