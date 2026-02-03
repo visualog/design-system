@@ -22,9 +22,9 @@ interface Particle {
 }
 
 const PARTICLE_COUNT = 350;
-const SPRING_STRENGTH = 0.08; // 0.12 might be too stiff for smooth morph, lowered slightly
-const FRICTION = 0.85; // 0.18 friction means velocity *= (1-0.18)? Or F_friction? Usually vel *= friction. 0.85 is good damping.
-const FLOAT_SPEED = 0.2;
+const SPRING_STRENGTH = 0.08;
+const FRICTION = 0.85;
+const FLOAT_SPEED = 0.1; // Slower speed
 
 const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarget, className }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -43,8 +43,8 @@ const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarg
                     vy: (Math.random() - 0.5) * FLOAT_SPEED,
                     targetX: null,
                     targetY: null,
-                    size: Math.random() * 1 + 0.5, // radius 0.5-1.5px (diameter 1-3px)
-                    baseSize: Math.random() * 1 + 0.5,
+                    size: Math.random() * 0.3 + 0.5, // radius ~0.5-0.8px (diameter ~1-1.6px)
+                    baseSize: Math.random() * 0.3 + 0.5,
                     orbitAngle: Math.random() * Math.PI * 2,
                     orbitRadius: Math.random() * 5 + 2, // Small jitter orbit
                     orbitSpeed: (Math.random() - 0.5) * 0.05
@@ -243,16 +243,39 @@ const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarg
 
             // Draw
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            // Color based on theme is hard in canvas without passing prop, assuming dark/grey dots on light bg
-            // User requested: "black or dark grey", "alpha 0.5-0.8"
-            ctx.fillStyle = `rgba(0, 0, 0, ${0.1 + Math.random() * 0.3})`; // Subtle idle
 
+            const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+
+            // Color logic
+            const alpha = 0.1 + Math.random() * 0.3;
+            let color = `rgba(0, 0, 0, ${alpha})`;
             if (focusTarget !== 'none') {
-                ctx.fillStyle = `rgba(0, 0, 0, 0.6)`; // Darker when forming shape
+                color = `rgba(0, 0, 0, 0.6)`;
             }
 
-            ctx.fill();
+            if (speed > 0.1) {
+                // Elongate based on speed
+                // Length 2px to 4px
+                const length = Math.min(4, Math.max(2, speed * 20));
+
+                // Draw line centered or trailing? Trailing looks more natural for motion blur.
+                // Move to "head" (p.x, p.y)
+                // Line to "tail"
+                const tailX = p.x - (p.vx / speed) * length;
+                const tailY = p.y - (p.vy / speed) * length;
+
+                ctx.lineWidth = p.size * 2; // Diameter
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = color;
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(tailX, tailY);
+                ctx.stroke();
+            } else {
+                // Stationary or very slow
+                ctx.fillStyle = color;
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
         });
 
         animationFrameRef.current = requestAnimationFrame(draw);
