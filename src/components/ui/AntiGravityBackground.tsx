@@ -21,10 +21,10 @@ interface Particle {
     orbitSpeed: number;
 }
 
-const PARTICLE_COUNT = 675; // Increased by 50% from 450
-const SPRING_STRENGTH = 0.001; // Extremely soft spring for plankton-like morph
-const FRICTION = 0.98; // Very high friction (water resistance feel)
-const FLOAT_SPEED = 0.01; // Almost stationary ambient float
+const PARTICLE_COUNT = 1000; // Increased by ~50%
+const SPRING_STRENGTH = 0.001;
+const FRICTION = 0.96;
+const FLOAT_SPEED = 0.005; // Extremely slow, barely moving
 
 const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarget, className }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -57,37 +57,62 @@ const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarg
     const generateUserIconTargets = (width: number, height: number, count: number) => {
         const cx = width / 2;
         const cy = height / 2;
-        // Make it huge - bigger than login box (> 400px usually)
-        // Login box is max-w-sm (24rem = 384px)
-        // Let's use 60% of screen min dimension, or at least 500px logic if possible, 
-        // but relative is safer for mobile.
-        const scale = Math.min(width, height) * 0.55;
+        const scale = Math.min(width, height) * 0.5; // Large scale
         const targets: { x: number; y: number }[] = [];
 
-        // Distribute points: 40% head, 60% body
-        const headCount = Math.floor(count * 0.4);
+        // Head (Circle) - 35%
+        const headCount = Math.floor(count * 0.35);
+        // Body (Rounded Semi-circle) - 65%
         const bodyCount = count - headCount;
 
-        // Head (Circle)
+        // Head
         for (let i = 0; i < headCount; i++) {
             const angle = (i / headCount) * Math.PI * 2;
             const r = scale * 0.35;
+            // Center head slightly higher
             targets.push({
                 x: cx + Math.cos(angle) * r,
-                y: cy - scale * 0.3 + Math.sin(angle) * r
+                y: cy - scale * 0.35 + Math.sin(angle) * r
             });
         }
 
-        // Body (Arc/Ellipse)
+        // Body
         for (let i = 0; i < bodyCount; i++) {
-            // Let's create a curve from angle 0 to PI (bottom semi-circle) but flattened
-            // Let's simple use parametric equation for semi-ellipse
-            // x = cos(t), y = sin(t). We want bottom semi-circle -> t from 0 to PI.
-            const t = (i / (bodyCount - 1)) * Math.PI;
-            // Ellipse: x wider
+            // Filled Semi-ellipse/Arch
+            // t from PI (left) to 2PI (right) -> bottom arc? No, top arc for shoulders
+            // Actually standard user icon is:
+            //      O
+            //    (   )
+            // To make it filled, we can use concentric arcs or random points inside.
+            // But let's stick to outline-ish for clarity or multiple layers?
+            // "Dots form the shape" -> usually outline or filled. 
+            // Reference image is solid grey. Let's make it filled.
+
+            // Random point in semi-ellipse
+            // x = r * cos(theta), y = r * sin(theta)
+            // theta from PI to 2PI
+
+            // Let's do layers for density
+            // const layer = Math.floor(i % 5); // 0 to 4
+            // const rScale = 0.6 + (layer * 0.1); // 0.6 to 1.0 radius
+
+            // Distribute points in the semi-circle area
+            // Use rejection sampling or just random angle + random radius
+            // const angle = Math.PI + Math.random() * Math.PI;
+            // const r = Math.sqrt(Math.random()) * (scale * 0.8);
+
+            // Flatten bottom??
+            // User icon body is usually a portion of a circle cropped at bottom or full semi-circle.
+            // Reference image 1: Head floating above a solid semi-circle base.
+
+            // Let's use simple parametric for the surface + some fill
+            // Arc
+            const arcR = scale * 0.7;
+            const arcAngle = Math.PI + (i / bodyCount) * Math.PI;
+
             targets.push({
-                x: cx + Math.cos(t) * (scale * 0.8), // wide
-                y: cy + scale * 0.3 + Math.sin(t) * (scale * 0.6) // height
+                x: cx + Math.cos(arcAngle) * arcR,
+                y: cy + scale * 0.4 + Math.sin(arcAngle) * (scale * 0.6) // flattened height
             });
         }
         return targets;
@@ -96,49 +121,58 @@ const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarg
     const generateKeyIconTargets = (width: number, height: number, count: number) => {
         const cx = width / 2;
         const cy = height / 2;
-        const scale = Math.min(width, height) * 0.55; // Same huge scale
+        const scale = Math.min(width, height) * 0.5;
         const targets: { x: number; y: number }[] = [];
 
-        // Key Head (Circle) - 60% points
-        const headCount = Math.floor(count * 0.6);
-        const shaftCount = count - headCount;
+        // Composition: User Icon (Left/Center) + Key (Right Bottom)
+        // Split points: 70% User, 30% Key
+        const userCount = Math.floor(count * 0.7);
+        const keyCount = count - userCount;
 
-        // Head
-        for (let i = 0; i < headCount; i++) {
-            const angle = (i / headCount) * Math.PI * 2;
-            const r = scale * 0.5;
-            // Shift head left slightly
+        // Generate User points (shifted left)
+        const userTargets = generateUserIconTargets(width, height, userCount);
+        userTargets.forEach(t => {
+            t.x -= scale * 0.3; // Shift left
+            targets.push(t);
+        });
+
+        // Generate Key points (At bottom right)
+        // Key shape: Head (circle) + Shaft
+        const keyHeadCount = Math.floor(keyCount * 0.4);
+        const keyShaftCount = keyCount - keyHeadCount;
+
+        const keyCx = cx + scale * 0.5;
+        const keyCy = cy + scale * 0.4;
+        const keyScale = scale * 0.4;
+
+        // Key Head
+        for (let i = 0; i < keyHeadCount; i++) {
+            const angle = (i / keyHeadCount) * Math.PI * 2;
             targets.push({
-                x: cx - scale * 0.4 + Math.cos(angle) * r,
-                y: cy + Math.sin(angle) * r
+                x: keyCx + Math.cos(angle) * (keyScale * 0.5),
+                y: keyCy + Math.sin(angle) * (keyScale * 0.5)
             });
         }
 
-        // Shaft (Rectangle + Teeth)
-        // Shaft goes from head edge to right
-        const shaftStartX = cx - scale * 0.4 + scale * 0.5; // right edge of head
-        const shaftEndX = cx + scale * 0.8;
-        const shaftY = cy;
-        const shaftWidth = shaftEndX - shaftStartX;
+        // Key Shaft
+        for (let i = 0; i < keyShaftCount; i++) {
+            const p = i / keyShaftCount;
+            // Diagonal shaft? Or straight? 
+            // Reference image 2: Key is angled like 45 degrees
+            // Let's make it vertical or diagonal. Simple key often vertical or 45deg.
+            // Let's go with vertical for simplicity or 45deg if standard.
+            // Image 2 icon: Key is upright.
 
-        for (let i = 0; i < shaftCount; i++) {
-            const progress = i / shaftCount;
-            // Randomly scatter along the line or make outline?
-            // Forming simple line/bar
-            const x = shaftStartX + progress * shaftWidth;
-            // Add thickness jitter
-            const yOffset = (Math.random() - 0.5) * scale * 0.3; // thick line
+            const sx = keyCx;
+            const sy = keyCy + (keyScale * 0.5) + p * keyScale; // Downwards
 
-            // Add teeth at the end
-            let y = shaftY + yOffset;
-            if (progress > 0.7) {
-                // Teeth area
-                if (Math.sin(progress * 20) > 0) {
-                    y += scale * 0.25; // tooth down
-                }
+            // Add teeth
+            let tx = sx;
+            if (p > 0.6 && p < 0.9) {
+                if (i % 2 === 0) tx += keyScale * 0.2;
             }
 
-            targets.push({ x, y });
+            targets.push({ x: tx, y: sy });
         }
 
         return targets;
@@ -224,15 +258,17 @@ const AntiGravityBackground: React.FC<AntiGravityBackgroundProps> = ({ focusTarg
                 p.vy *= FRICTION;
             } else {
                 // Floating Mode
-                // Add subtle random wandering
-                p.vx += (Math.random() - 0.5) * 0.05;
-                p.vy += (Math.random() - 0.5) * 0.05;
+                // Floating Mode
+                // wander noise
+                p.vx += (Math.random() - 0.5) * 0.002;
+                p.vy += (Math.random() - 0.5) * 0.002;
 
-                // Max speed limit
+                // Keep within low speed limits
+                const maxSpeed = FLOAT_SPEED;
                 const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-                if (speed > 2) {
-                    p.vx = (p.vx / speed) * 2;
-                    p.vy = (p.vy / speed) * 2;
+                if (speed > maxSpeed) {
+                    p.vx = (p.vx / speed) * maxSpeed;
+                    p.vy = (p.vy / speed) * maxSpeed;
                 }
 
                 // Bound check (wrap around)
