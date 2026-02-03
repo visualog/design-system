@@ -32,6 +32,16 @@ const getUsage = (styleName: string) => {
     return { en: 'Standard interface typography', ko: '일반적인 인터페이스 요소의 텍스트용' };
 };
 
+const getCategoryDescription = (category: string) => {
+    switch (category) {
+        case 'Heading': return '서비스의 타이틀 및 핵심 정보를 강조하는 헤어라인입니다.';
+        case 'Subtitle': return '콘텐츠 본문 내의 소제목 혹은 강조가 필요한 단락에 사용됩니다.';
+        case 'Body': return '가독성을 최우선으로 고려한 기본 본문 텍스트 시스템입니다.';
+        case 'Caption': return '부가 설명, 레이블 및 메타데이터 표현을 위한 부수적인 서체입니다.';
+        default: return `${category} 레벨의 위계 및 콘텐츠 구조를 정의합니다.`;
+    }
+};
+
 const TypographyNewDisplay: React.FC = () => {
     const { typography } = designSystemData;
     const [previewText, setPreviewText] = useState('The quick brown fox jumps over the lazy dog');
@@ -69,7 +79,7 @@ const TypographyNewDisplay: React.FC = () => {
                     <div className="flex flex-col gap-3">
                         <h1 className="text-5xl font-extrabold tracking-tighter text-foreground">Pretendard</h1>
                         <p className="text-lg text-muted-foreground max-w-3xl leading-relaxed">
-                            A modern multi-platform variable font system optimized for deep readability and visual balance.
+                            가독성과 시각적 균형을 최우선으로 설계된 현대적인 다중 플랫폼 가변 글꼴 시스템입니다.
                         </p>
                     </div>
 
@@ -115,7 +125,7 @@ const TypographyNewDisplay: React.FC = () => {
                         <div className="flex items-end justify-between border-b border-border/60 pb-4">
                             <div className="flex flex-col gap-1">
                                 <h2 className="text-3xl font-bold tracking-tight">{category}</h2>
-                                <p className="text-sm text-muted-foreground capitalize">{category.toLowerCase()} level hierarchy and content structure.</p>
+                                <p className="text-sm text-muted-foreground">{getCategoryDescription(category)}</p>
                             </div>
                             <span className="text-xs font-mono text-muted-foreground/60 mb-1">{styles.length} Styles</span>
                         </div>
@@ -209,15 +219,15 @@ const TypographyNewDisplay: React.FC = () => {
                         <Tag label="Principles" />
                         <h2 className="text-4xl font-black tracking-tighter">Typography Core Philosophy</h2>
                         <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
-                            Every font style is crafted to ensure a cohesive and structured experience, bridging the gap between aesthetics and function.
+                            모든 서체 스타일은 미학적인 아름다움과 기능적인 완성도를 연결하며, 체계적이고 일관된 사용자 경험을 제공합니다.
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                         {[
-                            { title: 'Readability First', desc: 'Prioritize contrast and whitespace to reduce cognitive load during reading.' },
-                            { title: 'Visual Hierarchy', desc: 'Use consistent weights and scales to guide users through the information flow.' },
-                            { title: 'Accessibility', desc: 'Guarantee legibility for all users by adhering to strict vertical rhythm and sizing.' }
+                            { title: 'Readability First', desc: '정보 전달의 명확성을 위해 최적의 여백과 대비를 제공하여 사용자의 피로도를 낮춥니다.' },
+                            { title: 'Visual Hierarchy', desc: '일관된 서체 두께와 크기 체계를 활용하여 사용자의 시선을 효과적으로 유도합니다.' },
+                            { title: 'Accessibility', desc: '모든 사용자가 정보를 쉽고 정확하게 인지할 수 있도록 엄격한 타이포그래피 규칙을 준수합니다.' }
                         ].map(p => (
                             <div key={p.title} className="flex flex-col gap-4">
                                 <div className="w-10 h-1 stroke-primary bg-primary rounded-full transition-all group-hover:w-20" />
