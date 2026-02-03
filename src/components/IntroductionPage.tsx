@@ -59,7 +59,7 @@ const IntroductionPage: React.FC = () => {
                                 <div className="p-2.5 rounded-lg bg-primary/10">
                                     <Palette size={20} strokeWidth={2.5} />
                                 </div>
-                                <h3 className="text-xl font-bold text-foreground">For Designers</h3>
+                                <h3 className="text-base font-bold text-foreground">For Designers</h3>
                             </div>
                             <ul className="flex flex-col gap-3 text-muted-foreground text-sm">
                                 <li className="flex gap-2 items-start">
@@ -81,7 +81,7 @@ const IntroductionPage: React.FC = () => {
                                 <div className="p-2.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-foreground">
                                     <Terminal size={20} strokeWidth={2.5} />
                                 </div>
-                                <h3 className="text-xl font-bold text-foreground">For Developers</h3>
+                                <h3 className="text-base font-bold text-foreground">For Developers</h3>
                             </div>
                             <ul className="flex flex-col gap-3 text-muted-foreground text-sm">
                                 <li className="flex gap-2 items-start">
