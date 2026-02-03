@@ -18,7 +18,7 @@ export const FoundationPageLayout: React.FC<FoundationPageLayoutProps> = ({
     showExperimental = false
 }) => {
     return (
-        <div className="flex flex-col gap-16 pb-24">
+        <div className="flex flex-col gap-12 pb-24">
             <div className="flex flex-col gap-1">
                 <div className="flex items-center justify-between gap-4 flex-wrap">
                     <div className="flex items-center gap-4">
