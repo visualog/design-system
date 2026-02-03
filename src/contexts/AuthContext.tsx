@@ -33,10 +33,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
 
         // Subscribe to Firebase auth state changes
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setUser(user);
-            setLoading(false);
-        });
+        const unsubscribe = onAuthStateChanged(
+            auth,
+            (user) => {
+                setUser(user);
+                setLoading(false);
+            },
+            (error) => {
+                console.error("Auth init error:", error);
+                setLoading(false);
+            }
+        );
 
         return () => unsubscribe();
     }, []);
