@@ -35,7 +35,7 @@ const IntroductionPage: React.FC = () => {
         >
             <div className="flex flex-col gap-12">
                 {/* Core Principles */}
-                <section className="flex flex-col gap-8">
+                <section className="flex flex-col gap-6">
                     <div className="flex flex-col gap-2">
                         <h2 className="text-heading-md tracking-tight">Design Principles</h2>
                         <p className="text-muted-foreground max-w-2xl">
@@ -46,7 +46,7 @@ const IntroductionPage: React.FC = () => {
                 </section>
 
                 {/* System Goals */}
-                <section className="flex flex-col gap-8">
+                <section className="flex flex-col gap-6">
                     <div className="flex flex-col gap-2">
                         <h2 className="text-heading-md tracking-tight">System Goals</h2>
                         <p className="text-muted-foreground max-w-2xl">
@@ -102,7 +102,7 @@ const IntroductionPage: React.FC = () => {
                 </section>
 
                 {/* Getting Started Brief */}
-                <section className="flex flex-col gap-8 mb-10">
+                <section className="flex flex-col gap-6 mb-10">
                     <div className="flex flex-col gap-2">
                         <h2 className="text-heading-md tracking-tight">Best Practices</h2>
                     </div>
