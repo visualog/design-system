@@ -110,9 +110,9 @@ const TypographyDisplay: React.FC = () => {
       <div className="flex gap-4 items-center">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="w-48 justify-between shadow-none">
+            <Button variant="outline" className="w-48 justify-between shadow-none group">
               <span className="capitalize">{getDropdownTriggerText().replace(/_/g, ' ')}</span>
-              <ChevronDown className="h-4 w-4" />
+              <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="max-h-64 overflow-y-auto">

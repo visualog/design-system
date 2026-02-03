@@ -49,6 +49,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
     }
   };
 
+  // ... (skip down to return)
+
+  // Ensure no duplicate code blocks here
+
   const [showFooterBorder, setShowFooterBorder] = useState(false);
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
@@ -78,8 +82,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
     return () => resizeObserver.disconnect();
   }, []);
 
-  const activeClassName = "flex items-center text-body-sm font-medium text-primary bg-accent p-2 rounded-md";
-  const inactiveClassName = "flex items-center text-body-sm text-foreground hover:bg-accent p-2 rounded-md transition-colors duration-200";
+  const activeClassName = "flex items-center text-body-sm font-medium text-primary bg-accent px-2 h-10 rounded-lg";
+  const inactiveClassName = "flex items-center text-body-sm text-foreground hover:bg-accent px-2 h-10 rounded-lg transition-colors duration-200";
 
   const toggleFoundationMenu = () => {
     setIsFoundationOpen(!isFoundationOpen);
@@ -117,16 +121,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
           className="p-4 flex-1 overflow-y-auto"
         >
           <div className="mb-8 px-2 flex items-baseline gap-2">
-            <h1 className="text-heading-sm font-bold text-foreground">MIS</h1>
-            <span className="text-label-sm text-muted-foreground">Design System</span>
+            <h1 className="text-heading-sm !font-black text-foreground">MDS</h1>
             <span className="text-micro text-muted-foreground/80 font-mono">v{version}</span>
           </div>
           <nav>
-            <ul className="space-y-1">
-              <li>
+            <ul className="flex flex-col gap-1">
+              <li className="flex flex-col gap-1">
                 <button
                   onClick={toggleFoundationMenu}
-                  className="w-full flex items-center justify-between text-label-md text-foreground p-2 rounded-md hover:bg-accent"
+                  className="w-full flex items-center justify-between text-label-md text-foreground px-2 h-10 rounded-lg hover:bg-accent"
                 >
                   <span>Foundation</span>
                   <ChevronDown
@@ -134,11 +137,21 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
                   />
                 </button>
                 {isFoundationOpen && (
-                  <ul className="pt-2 pl-4 space-y-1">
+                  <ul className="pl-4 flex flex-col gap-1">
+                    <li>
+                      <NavLink
+                        to="/overview"
+                        className={({ isActive }) => (isActive || location.pathname === '/') ? activeClassName : inactiveClassName}
+                        onClick={toggleSidebar}
+                      >
+                        Overview
+                      </NavLink>
+                    </li>
+
                     <li>
                       <NavLink
                         to="/colors"
-                        className={({ isActive }) => (isActive || location.pathname === '/') ? activeClassName : inactiveClassName}
+                        className={({ isActive }) => isActive ? activeClassName : inactiveClassName}
                         onClick={toggleSidebar}
                       >
                         Colors
@@ -174,10 +187,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
               <li>
                 <div className="h-px bg-border my-2 mx-1" />
               </li>
-              <li>
+              <li className="flex flex-col gap-1">
                 <button
                   onClick={toggleSettingsMenu}
-                  className="w-full flex items-center justify-between text-label-md text-foreground p-2 rounded-md hover:bg-accent"
+                  className="w-full flex items-center justify-between text-label-md text-foreground px-2 h-10 rounded-lg hover:bg-accent"
                 >
                   <span>Site Settings</span>
                   <ChevronDown
@@ -185,7 +198,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
                   />
                 </button>
                 {isSettingsOpen && (
-                  <ul className="pt-2 pl-4 space-y-1">
+                  <ul className="pl-4 flex flex-col gap-1">
                     <li>
                       <NavLink to="/site-settings/theme" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Theme</NavLink>
                     </li>
@@ -206,7 +219,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
         </div>
 
         {/* Bottom Actions */}
-        <div className={`p-4 border-t flex items-center justify-start gap-2 flex-wrap transition-colors duration-200 ${showFooterBorder ? 'border-border' : 'border-transparent'}`}>
+        <div className={`p-3 border-t flex items-center justify-between gap-1 transition-colors duration-200 ${showFooterBorder ? 'border-border' : 'border-transparent'}`}>
           <button
             onClick={toggleDarkMode}
             className="flex items-center justify-center p-2 rounded-md hover:bg-accent transition-colors duration-200 text-foreground"
@@ -221,6 +234,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
           >
             <Grid className="w-5 h-5" />
           </button>
+
           <a
             href="https://github.com/visualog/design-system"
             target="_blank"
@@ -238,7 +252,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
             <LogOut className="w-5 h-5" />
           </button>
         </div>
-      </aside>
+      </aside >
     </>
   );
 };
