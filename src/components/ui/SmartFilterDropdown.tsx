@@ -67,7 +67,7 @@ export const SmartFilterDropdown: React.FC<SmartFilterDropdownProps> = ({
             <DropdownMenuTrigger asChild>
                 <Button variant="outline" className={`${width} justify-between shadow-none shrink-0 group ${className}`}>
                     <span className="capitalize truncate">{triggerText}</span>
-                    <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180 shrink-0 opacity-50" />
+                    <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:-rotate-180 shrink-0 opacity-50" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="p-2 w-64 max-h-80 overflow-y-auto" align={align}>

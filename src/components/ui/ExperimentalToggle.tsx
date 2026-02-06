@@ -33,25 +33,26 @@ export const ExperimentalToggle: React.FC = () => {
                     onClick={toggleExperimental}
                     className={`
             group relative flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-300
-            ${isExperimental
-                            ? 'bg-violet-50 border-violet-200 text-violet-600 shadow-[0_0_10px_rgba(124,58,237,0.15)] dark:bg-violet-950/30 dark:border-violet-800 dark:text-violet-300'
-                            : 'bg-background border-border/60 text-muted-foreground hover:border-violet-300 hover:text-foreground dark:border-border/40'
-                        }
+            bg-violet-50 border-violet-200 text-violet-600 shadow-none hover:shadow-[0_0_10px_rgba(124,58,237,0.15)] dark:bg-violet-950/30 dark:border-violet-800 dark:text-violet-300
           `}
                 >
-                    <FlaskConical
-                        className={`w-4 h-4 transition-all duration-500 ${isExperimental ? 'rotate-[360deg] scale-110 fill-violet-500/30 text-violet-600' : 'group-hover:rotate-12 fill-transparent'}`}
-                    />
+                    <div className="relative">
+                        <FlaskConical
+                            className={`w-4 h-4 transition-all duration-500 rotate-0 scale-110 fill-violet-500/30 text-violet-600 group-hover:animate-shake`}
+                        />
+                        {/* Bubbles */}
+                        <div className="absolute -top-1 left-[6px] w-1.5 h-1.5 bg-violet-500 rounded-full opacity-0 group-hover:animate-bubble z-10" />
+                        <div className="absolute -top-2 left-[3px] w-1 h-1 bg-violet-500 rounded-full opacity-0 group-hover:animate-bubble [animation-delay:0.2s] z-10" />
+                        <div className="absolute -top-1.5 left-[8px] w-1 h-1 bg-violet-500 rounded-full opacity-0 group-hover:animate-bubble [animation-delay:0.4s] z-10" />
+                    </div>
                     <span className="text-label-sm font-medium">Experimental</span>
-                    {isExperimental && (
-                        <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] flex items-center justify-center bg-violet-500 text-white text-[10px] font-bold rounded-full animate-in fade-in zoom-in duration-300 px-1 leading-none shadow-sm">
-                            {activeCount}
-                        </span>
-                    )}
+                    <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] flex items-center justify-center bg-violet-500 text-white text-[10px] font-bold rounded-full animate-in fade-in zoom-in duration-300 px-1 leading-none shadow-sm">
+                        {activeCount}
+                    </span>
                 </button>
             </TooltipTrigger>
             <TooltipContent side="bottom" align="end" className="z-[100]">
-                <p>{isExperimental ? 'Disable experimental design features' : 'Try out new design experiments'}</p>
+                <p>{isExperimental ? '실험적인 디자인 기능을 끕니다' : '새로운 디자인 실험을 체험해보세요'}</p>
             </TooltipContent>
         </Tooltip>
     );

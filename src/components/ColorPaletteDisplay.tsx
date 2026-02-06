@@ -4,12 +4,14 @@ import ColorSwatch from '@/components/ui/ColorSwatch';
 import { SearchBar } from './SearchBar';
 import { designSystemData } from '../utils/dataLoader';
 import { Switch } from "./ui/switch"
+import { SmartFilterDropdown } from '@/components/ui/SmartFilterDropdown';
 
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from './ui/tooltip';
+
 import {
   Table,
   TableBody,
@@ -18,16 +20,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from './ui/button';
-import { ChevronDown } from 'lucide-react';
 
 // --- New Grid-based Display Component ---
 const ColorGrid: React.FC<{
@@ -211,26 +203,7 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
   const nonAlphaLevels = sortedLevels.filter((level: any) => !level.toLowerCase().includes('alpha') && !level.includes('%'));
   const grayDisplayLevels = [...nonAlphaLevels, 'alpha (10%)'];
 
-  const handleFamilySelection = (family: string) => {
-    if (family === 'All') {
-      setSelectedFamilies(['All']);
-      return;
-    }
 
-    let newSelection = selectedFamilies.filter(f => f !== 'All');
-
-    if (newSelection.includes(family)) {
-      newSelection = newSelection.filter(f => f !== family);
-    } else {
-      newSelection.push(family);
-    }
-
-    if (newSelection.length === 0) {
-      setSelectedFamilies(['All']);
-    } else {
-      setSelectedFamilies(newSelection);
-    }
-  };
 
   const filteredColors = Object.entries(colors.palette)
     .filter(([family]) => selectedFamilies.includes('All') || selectedFamilies.includes(family))
@@ -344,35 +317,21 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
       {view !== 'grid' && (
         <section className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="w-40 justify-between shadow-none group">
-                  <span>{getDropdownTriggerText()}</span>
-                  <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-40 max-h-64 overflow-y-auto">
-                <DropdownMenuItem onSelect={() => handleFamilySelection('All')}>전체</DropdownMenuItem>
-                {Object.keys(colors.palette)
-                  .sort((a, b) => {
-                    const idxA = tableOrder.indexOf(a);
-                    const idxB = tableOrder.indexOf(b);
-                    const valA = idxA === -1 ? 999 : idxA;
-                    const valB = idxB === -1 ? 999 : idxB;
-                    return valA - valB;
-                  })
-                  .map(family => (
-                    <DropdownMenuCheckboxItem
-                      key={family}
-                      checked={selectedFamilies.includes(family)}
-                      onCheckedChange={() => handleFamilySelection(family)}
-                      className="capitalize"
-                    >
-                      {family}
-                    </DropdownMenuCheckboxItem>
-                  ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <SmartFilterDropdown
+              triggerText={getDropdownTriggerText()}
+              items={Object.keys(colors.palette)
+                .sort((a, b) => {
+                  const idxA = tableOrder.indexOf(a);
+                  const idxB = tableOrder.indexOf(b);
+                  const valA = idxA === -1 ? 999 : idxA;
+                  const valB = idxB === -1 ? 999 : idxB;
+                  return valA - valB;
+                })
+                .map(family => ({ value: family, label: family }))}
+              selectedValues={selectedFamilies}
+              onSelectionChange={setSelectedFamilies}
+              width="w-40"
+            />
             <SearchBar
               placeholder={`${tokenCount}개 토큰 검색...`}
               value={searchTerm}

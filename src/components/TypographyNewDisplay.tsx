@@ -99,7 +99,7 @@ const TypographyNewDisplay: React.FC = () => {
                                 type="text"
                                 value={previewText}
                                 onChange={(e) => setPreviewText(e.target.value)}
-                                className="w-full bg-background border border-border/60 hover:border-border rounded-xl px-5 py-4 text-sm focus:ring-4 focus:ring-primary/5 transition-all outline-none pr-12"
+                                className="w-full bg-background border border-input hover:border-border rounded-xl px-5 py-4 text-sm focus:ring-4 focus:ring-primary/5 transition-all outline-none pr-12"
                                 placeholder="Type to preview styles..."
                             />
                             <Type className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/30 group-focus-within:text-primary transition-colors" />
@@ -125,9 +125,9 @@ const TypographyNewDisplay: React.FC = () => {
                             <Table>
                                 <TableHeader className="bg-transparent hover:bg-transparent">
                                     <TableRow className="border-none hover:bg-transparent">
-                                        <TableHead className="w-[50%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 pl-0">Example</TableHead>
+                                        <TableHead className="w-[50%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50">Example</TableHead>
                                         <TableHead className="w-[20%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50">Token Name</TableHead>
-                                        <TableHead className="w-[30%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 text-right pr-0">Specs & Usage</TableHead>
+                                        <TableHead className="w-[30%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 text-right">Specs & Usage</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -142,7 +142,7 @@ const TypographyNewDisplay: React.FC = () => {
                                                 className="group cursor-pointer hover:bg-secondary/20 transition-all duration-200 border-b border-border/30 last:border-none"
                                             >
                                                 {/* Visual Preview Cell */}
-                                                <TableCell className="py-10 pl-0 align-top">
+                                                <TableCell className="py-10 align-top">
                                                     <div className="flex flex-col gap-4">
                                                         <div
                                                             className="flex flex-col leading-tight"
@@ -160,9 +160,6 @@ const TypographyNewDisplay: React.FC = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all transform translate-y-1 group-hover:translate-y-0 duration-300">
-                                                            <span className="text-[9px] font-black uppercase tracking-tighter bg-primary text-primary-foreground px-1.5 py-0.5 rounded-sm">Current Sample View</span>
-                                                        </div>
                                                     </div>
                                                 </TableCell>
 
@@ -177,15 +174,15 @@ const TypographyNewDisplay: React.FC = () => {
                                                 </TableCell>
 
                                                 {/* Specifications Cell */}
-                                                <TableCell className="align-top py-10 text-right pr-0">
+                                                <TableCell className="align-top py-10 text-right">
                                                     <div className="flex flex-col items-end gap-3 max-w-[240px] ml-auto">
                                                         <div className="flex flex-col items-end gap-1">
                                                             <span className="text-[11px] text-muted-foreground leading-tight">{usage.ko}</span>
                                                         </div>
                                                         <div className="flex items-center justify-end gap-2 font-mono text-[9px] font-bold">
-                                                            <span className="bg-secondary/50 text-secondary-foreground px-2 py-1 rounded border border-border/20">{style.size}px</span>
-                                                            <span className="bg-secondary/50 text-secondary-foreground px-2 py-1 rounded border border-border/20">{style.line_height}lh</span>
-                                                            <span className="bg-secondary/50 text-secondary-foreground px-2 py-1 rounded border border-border/20">{weight.label}</span>
+                                                            <span className="bg-secondary/50 text-secondary-foreground px-2 py-0.5 rounded ring-1 ring-inset ring-border/20">{style.size}px</span>
+                                                            <span className="bg-secondary/50 text-secondary-foreground px-2 py-0.5 rounded ring-1 ring-inset ring-border/20">{style.line_height}lh</span>
+                                                            <span className="bg-secondary/50 text-secondary-foreground px-2 py-0.5 rounded ring-1 ring-inset ring-border/20">{weight.label}</span>
                                                         </div>
                                                     </div>
                                                 </TableCell>

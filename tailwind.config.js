@@ -86,10 +86,22 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "shake": {
+          "0%, 100%": { transform: "rotate(0deg) scale(1.1)" },
+          "25%": { transform: "rotate(-10deg) scale(1.1)" },
+          "75%": { transform: "rotate(10deg) scale(1.1)" },
+        },
+        "bubble": {
+          "0%": { transform: "translateY(0) scale(0.5)", opacity: "0" },
+          "50%": { opacity: "1" },
+          "100%": { transform: "translateY(-16px) scale(1)", opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "shake": "shake 0.5s ease-in-out infinite",
+        "bubble": "bubble 1s ease-in-out infinite",
       },
     },
   },
