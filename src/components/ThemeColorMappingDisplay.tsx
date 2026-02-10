@@ -13,15 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { SmartFilterDropdown } from "./ui/SmartFilterDropdown";
-import { Button } from './ui/button';
-import { ChevronDown } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { Switch } from "@/components/ui/switch";
 
 const ThemeColorMappingDisplay: React.FC = () => {
@@ -47,24 +39,7 @@ const ThemeColorMappingDisplay: React.FC = () => {
     'avatar': 'Avatar'
   };
 
-  const handleCategorySelection = (category: string) => {
-    // Reset avatar sub-filter when changing main category
-    if (category !== 'avatar') {
-      setSelectedAvatarGroup('All');
-    }
 
-    if (category === 'All') {
-      setSelectedCategories(['All']);
-    } else {
-      const newSelection = selectedCategories.includes('All')
-        ? [category]
-        : selectedCategories.includes(category)
-          ? selectedCategories.filter(c => c !== category)
-          : [...selectedCategories, category];
-
-      setSelectedCategories(newSelection.length === 0 ? ['All'] : newSelection);
-    }
-  };
 
   const getDropdownTriggerText = () => {
     if (selectedCategories.includes('All') || selectedCategories.length === 0) {

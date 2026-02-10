@@ -15,14 +15,8 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Clipboard } from './ui/clipboard';
-import { ChevronDown } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuCheckboxItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
+
 import { SmartFilterDropdown } from "./ui/SmartFilterDropdown";
 
 // --- Helper function to get SVG components ---

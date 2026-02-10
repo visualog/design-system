@@ -15,15 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { SmartFilterDropdown } from "./ui/SmartFilterDropdown";
-import { Button } from './ui/button';
-import { ChevronDown } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { Switch } from "@/components/ui/switch";
 
 const SemanticColorMappingDisplay: React.FC = () => {
@@ -93,25 +85,7 @@ const SemanticColorMappingDisplay: React.FC = () => {
     return selectedAvatarGroup === 'All' ? '전체 색상' : selectedAvatarGroup;
   };
 
-  const handleCategorySelection = (categoryId: string) => {
-    // Reset avatar sub-filter when changing from avatar to something else
-    // (Though with multi-select logic, implies mixed usage, but usually single select focused)
-    if (categoryId !== 'avatar' && !selectedCategories.includes('avatar')) {
-      setSelectedAvatarGroup('All');
-    }
 
-    if (categoryId === 'All') {
-      setSelectedCategories(['All']);
-    } else {
-      const newSelection = selectedCategories.includes('All')
-        ? [categoryId]
-        : selectedCategories.includes(categoryId)
-          ? selectedCategories.filter(c => c !== categoryId)
-          : [...selectedCategories, categoryId];
-
-      setSelectedCategories(newSelection.length === 0 ? ['All'] : newSelection);
-    }
-  };
 
   const getDropdownTriggerText = () => {
     if (selectedCategories.includes('All') || selectedCategories.length === 0) {
