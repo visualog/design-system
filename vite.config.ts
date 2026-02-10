@@ -6,7 +6,7 @@ import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/', // Ensure root path for Vercel deployment
+  base: process.env.VITE_BASE_PATH || '/', // Use env var for GitHub Pages, fallback to root for Vercel
   plugins: [
     svgr({ include: '**/*.svg' }),
     react(),
