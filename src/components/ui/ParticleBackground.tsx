@@ -385,11 +385,12 @@ const ParticleSystem: React.FC<ParticleSystemProps> = ({ focusState }) => {
 
 export const ParticleBackground: React.FC<{ focusState: 'none' | 'id' | 'password', className?: string }> = ({ focusState, className }) => {
     return (
-        <div className={`absolute inset-0 -z-10 bg-[#F5E6D3] ${className}`}>
+        <div className={`absolute inset-0 z-0 bg-[#F5E6D3] ${className}`}>
             <Canvas
                 camera={{ position: [0, 0, 50], fov: 60 }}
                 dpr={[1, 2]}
                 gl={{ antialias: true, alpha: true }}
+                style={{ width: '100%', height: '100%' }}
             >
                 <ParticleSystem focusState={focusState} />
             </Canvas>
