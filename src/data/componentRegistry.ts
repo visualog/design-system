@@ -25,6 +25,9 @@ export interface AccessibilityMeta {
     keyboard?: KeyboardInteraction[];
 }
 
+export type AtomicLevel = 'atom' | 'molecule' | 'organism';
+export type ReleasePhase = 'experimental' | 'beta' | 'stable' | 'deprecated';
+
 export interface ComponentMeta {
     name: string;
     displayName: string;
@@ -40,6 +43,14 @@ export interface ComponentMeta {
     states?: string[]; // e.g. ['default', 'hover', 'active', 'disabled']
     accessibility?: AccessibilityMeta;
     guide?: string; // Markdown content for the Guide section
+    // Phase 5 metadata fields
+    atomicLevel?: AtomicLevel;
+    releasePhase?: ReleasePhase;
+    owner?: string;
+    since?: string; // YYYY-MM-DD
+    figmaUrl?: string;
+    storybookUrl?: string;
+    tags?: string[];
 }
 
 // 컴포넌트 레지스트리
@@ -50,6 +61,11 @@ export const componentRegistry: Record<string, ComponentMeta> = {
         description: '클릭 가능한 버튼 컴포넌트. 다양한 변형과 크기를 지원합니다.',
         category: 'ui',
         filePath: 'src/components/ui/button.tsx',
+        atomicLevel: 'atom',
+        releasePhase: 'stable',
+        owner: 'design-system-core',
+        since: '2026-02-20',
+        tags: ['action', 'form', 'feedback'],
         props: [
             { name: 'variant', type: "'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'", defaultValue: 'default', description: '버튼의 시각적 스타일' },
             { name: 'size', type: "'default' | 'sm' | 'lg' | 'icon'", defaultValue: 'default', description: '버튼 크기' },
@@ -107,6 +123,11 @@ export function Example() {
         description: '콘텐츠를 그룹화하여 표시하는 카드 컴포넌트.',
         category: 'layout',
         filePath: 'src/components/ui/card.tsx',
+        atomicLevel: 'molecule',
+        releasePhase: 'stable',
+        owner: 'design-system-core',
+        since: '2026-02-20',
+        tags: ['layout', 'container'],
         props: [
             { name: 'className', type: 'string', description: '추가 CSS 클래스' },
         ],
@@ -161,6 +182,11 @@ export function Example() {
         description: '텍스트 입력 필드 컴포넌트.',
         category: 'form',
         filePath: 'src/components/ui/input.tsx',
+        atomicLevel: 'atom',
+        releasePhase: 'stable',
+        owner: 'design-system-core',
+        since: '2026-02-20',
+        tags: ['form', 'input'],
         props: [
             { name: 'type', type: 'string', defaultValue: 'text', description: '입력 타입 (text, email, password 등)' },
             { name: 'placeholder', type: 'string', description: '플레이스홀더 텍스트' },
@@ -205,6 +231,11 @@ export function Example() {
         description: '호버 시 추가 정보를 표시하는 툴팁 컴포넌트.',
         category: 'feedback',
         filePath: 'src/components/ui/tooltip.tsx',
+        atomicLevel: 'molecule',
+        releasePhase: 'stable',
+        owner: 'design-system-core',
+        since: '2026-02-20',
+        tags: ['overlay', 'feedback'],
         props: [
             { name: 'side', type: "'top' | 'right' | 'bottom' | 'left'", defaultValue: 'top', description: '툴팁 표시 위치' },
             { name: 'sideOffset', type: 'number', defaultValue: '4', description: '트리거와의 간격' },
@@ -238,6 +269,11 @@ export function Example() {
         description: '콘텐츠를 시각적으로 구분하는 구분선 컴포넌트.',
         category: 'layout',
         filePath: 'src/components/ui/separator.tsx',
+        atomicLevel: 'atom',
+        releasePhase: 'stable',
+        owner: 'design-system-core',
+        since: '2026-02-20',
+        tags: ['layout', 'divider'],
         props: [
             { name: 'orientation', type: "'horizontal' | 'vertical'", defaultValue: 'horizontal', description: '구분선 방향' },
             { name: 'decorative', type: 'boolean', defaultValue: 'true', description: '장식용 여부 (접근성)' },
@@ -265,6 +301,11 @@ export function Example() {
         description: '트리거 요소 주변에 플로팅 콘텐츠를 표시하는 팝오버 컴포넌트.',
         category: 'feedback',
         filePath: 'src/components/ui/popover.tsx',
+        atomicLevel: 'molecule',
+        releasePhase: 'beta',
+        owner: 'design-system-core',
+        since: '2026-02-20',
+        tags: ['overlay', 'interaction'],
         props: [
             { name: 'align', type: "'start' | 'center' | 'end'", defaultValue: 'center', description: '정렬 위치' },
             { name: 'sideOffset', type: 'number', defaultValue: '4', description: '트리거와의 간격' },
@@ -305,6 +346,11 @@ export function Example() {
         description: '화면 가장자리에서 슬라이드되어 나오는 패널 컴포넌트.',
         category: 'feedback',
         filePath: 'src/components/ui/sheet.tsx',
+        atomicLevel: 'organism',
+        releasePhase: 'beta',
+        owner: 'design-system-core',
+        since: '2026-02-20',
+        tags: ['overlay', 'panel', 'navigation'],
         props: [
             { name: 'side', type: "'top' | 'right' | 'bottom' | 'left'", defaultValue: 'right', description: '시트 표시 위치' },
         ],
@@ -349,6 +395,11 @@ export function Example() {
         description: '현재 페이지의 위치를 계층 구조로 표시하는 탐색 컴포넌트.',
         category: 'navigation',
         filePath: 'src/components/ui/Breadcrumb.tsx',
+        atomicLevel: 'molecule',
+        releasePhase: 'stable',
+        owner: 'design-system-core',
+        since: '2026-02-20',
+        tags: ['navigation', 'information-architecture'],
         props: [
             { name: 'separator', type: 'ReactNode', defaultValue: '/', description: '경로 구분자' },
         ],
@@ -375,6 +426,11 @@ export function Example() {
         description: '탭 기반 콘텐츠 전환 컴포넌트.',
         category: 'navigation',
         filePath: 'src/components/ui/tabs.tsx',
+        atomicLevel: 'organism',
+        releasePhase: 'stable',
+        owner: 'design-system-core',
+        since: '2026-02-20',
+        tags: ['navigation', 'content-switching'],
         props: [
             { name: 'defaultValue', type: 'string', description: '기본 활성 탭' },
             { name: 'value', type: 'string', description: '현재 활성 탭 (제어 모드)' },
@@ -477,6 +533,11 @@ export function Example() {
         description: 'Do/Don\'t 가이드라인을 표시하는 컴포넌트.',
         category: 'ui',
         filePath: 'src/components/ui/GuidelineItem.tsx',
+        atomicLevel: 'molecule',
+        releasePhase: 'beta',
+        owner: 'design-system-docs',
+        since: '2026-02-20',
+        tags: ['docs', 'do-dont'],
         props: [
             { name: 'type', type: "'do' | 'dont'", required: true, description: '가이드라인 타입' },
             { name: 'title', type: 'string', description: '가이드라인 제목' },
@@ -504,6 +565,11 @@ export function Example() {
         description: '텍스트 내 특정 키워드를 하이라이트하는 컴포넌트.',
         category: 'ui',
         filePath: 'src/components/ui/HighlightText.tsx',
+        atomicLevel: 'atom',
+        releasePhase: 'beta',
+        owner: 'design-system-docs',
+        since: '2026-02-20',
+        tags: ['docs', 'search'],
         props: [
             { name: 'text', type: 'string', required: true, description: '표시할 텍스트' },
             { name: 'highlight', type: 'string', description: '하이라이트할 키워드' },
@@ -524,6 +590,11 @@ export function Example() {
         description: '개선 제안 알림을 표시하는 사이트 운영용 컴포넌트. 애니메이션 버튼, 팝오버 목록, 시트 상세보기 제공.',
         category: 'feedback',
         filePath: 'src/components/ui/ProposalNotification.tsx',
+        atomicLevel: 'organism',
+        releasePhase: 'experimental',
+        owner: 'design-system-docs',
+        since: '2026-02-20',
+        tags: ['docs', 'feedback', 'internal-tooling'],
         props: [
             { name: 'message', type: 'string', defaultValue: '개선 제안이 있습니다!', description: '알림 메시지' },
         ],
