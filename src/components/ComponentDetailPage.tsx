@@ -24,6 +24,34 @@ import AnatomyInfoPanel from '@/components/AnatomyInfoPanel';
 import MeasureOverlay from '@/components/ui/MeasureOverlay';
 import { AccessibilitySection } from './ui/AccessibilitySection';
 
+const releasePhaseLabels = {
+    experimental: 'Experimental',
+    beta: 'Beta',
+    stable: 'Stable',
+    deprecated: 'Deprecated'
+} as const;
+
+const atomicLevelLabels = {
+    atom: 'Atom',
+    molecule: 'Molecule',
+    organism: 'Organism'
+} as const;
+
+const getReleasePhaseBadgeClass = (phase?: string) => {
+    switch (phase) {
+        case 'experimental':
+            return 'bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400';
+        case 'beta':
+            return 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400';
+        case 'stable':
+            return 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400';
+        case 'deprecated':
+            return 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300';
+        default:
+            return 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300';
+    }
+};
+
 // 컴포넌트별 라이브 프리뷰 렌더링
 const LivePreview: React.FC<{ componentName: string; variantName: string }> = ({ componentName, variantName }) => {
     const name = componentName.toLowerCase();
@@ -391,6 +419,26 @@ const ComponentDetailPage = () => {
                     <span className="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-medium uppercase tracking-wide">
                         {meta.category}
                     </span>
+                    {meta.atomicLevel && (
+                        <span className="inline-flex items-center rounded-full bg-sky-50 dark:bg-sky-950/30 px-3 py-1 text-xs font-medium text-sky-700 dark:text-sky-400">
+                            {atomicLevelLabels[meta.atomicLevel]}
+                        </span>
+                    )}
+                    {meta.releasePhase && (
+                        <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${getReleasePhaseBadgeClass(meta.releasePhase)}`}>
+                            {releasePhaseLabels[meta.releasePhase]}
+                        </span>
+                    )}
+                    {meta.owner && (
+                        <span className="inline-flex items-center rounded-full bg-violet-50 dark:bg-violet-950/30 px-3 py-1 text-xs font-medium text-violet-700 dark:text-violet-400">
+                            {meta.owner}
+                        </span>
+                    )}
+                    {meta.since && (
+                        <span className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-xs font-mono text-muted-foreground">
+                            since {meta.since}
+                        </span>
+                    )}
                     <span className="text-xs text-muted-foreground font-mono bg-muted/50 px-2 py-1 rounded">
                         {meta.filePath}
                     </span>
