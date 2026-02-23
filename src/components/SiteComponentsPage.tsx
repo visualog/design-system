@@ -150,7 +150,7 @@ const SiteComponentsPage = () => {
                                             className="block group"
                                         >
                                             <div className="rounded-xl border bg-card text-card-foreground p-6 flex flex-col gap-4 hover:bg-muted/50 transition-colors h-full relative">
-                                                <div className="flex flex-wrap items-start gap-1.5">
+                                                <div className="flex flex-wrap content-start items-start gap-1.5 min-h-[52px]">
                                                     <span className="inline-flex items-center rounded-full bg-primary px-2.5 py-0.5 text-xs font-medium text-primary-foreground">
                                                         {component.category}
                                                     </span>
