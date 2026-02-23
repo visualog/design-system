@@ -248,3 +248,4 @@
     - 기존 파운데이션 스타일은 `src/components/ui/ghost-table.tsx`로 분리 보관(미사용)
     - `ComponentDetailPage`, `SiteTypographyPage`의 원시 `<table>`을 공통 `Table` 컴포넌트로 교체
 - **컴포넌트 레지스트리 누락분 일괄 등록(로컬 반영)**: `src/data/componentRegistry.ts`에 사용 중이던 누락 UI 컴포넌트 15종(`ColorSwatch`, `SmartFilterDropdown`, `animated-tabs`, `clipboard`, `dropdown-menu`, `switch`, `table` 등)을 메타데이터와 함께 추가했습니다.
+- **사이드바 컴포넌트 카탈로그 포함**: 앱 셸 내비게이션 컴포넌트인 `src/components/Sidebar.tsx`를 `componentRegistry`에 등록하여 Components 목록에서 조회 가능하도록 반영했습니다.

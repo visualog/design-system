@@ -1080,6 +1080,41 @@ export function Example() {
     )
 }`,
     },
+
+    sidebar: {
+        name: 'sidebar',
+        displayName: 'Sidebar',
+        description: '파운데이션 탐색, 사이트 설정 탐색, 테마/그리드/로그아웃 액션을 제공하는 앱 셸 내비게이션 사이드바.',
+        category: 'navigation',
+        filePath: 'src/components/Sidebar.tsx',
+        atomicLevel: 'organism',
+        releasePhase: 'stable',
+        owner: 'design-system-core',
+        since: '2026-02-23',
+        tags: ['navigation', 'app-shell', 'sidebar'],
+        props: [
+            { name: 'isOpen', type: 'boolean', required: true, description: '모바일 사이드바 열림 상태' },
+            { name: 'toggleSidebar', type: '() => void', required: true, description: '모바일 사이드바 토글 핸들러' },
+            { name: 'showGrid', type: 'boolean', required: true, description: '그리드 오버레이 표시 상태' },
+            { name: 'toggleGrid', type: '() => void', required: true, description: '그리드 오버레이 토글 핸들러' },
+        ],
+        variants: [
+            { name: 'Desktop Fixed', description: '데스크톱 고정 사이드바', code: '<Sidebar isOpen={true} toggleSidebar={() => {}} showGrid={false} toggleGrid={() => {}} />' },
+            { name: 'Mobile Overlay', description: '모바일 오버레이 + 슬라이드 인', code: '<Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} showGrid={showGrid} toggleGrid={toggleGrid} />' },
+        ],
+        usage: `import Sidebar from "@/components/Sidebar"
+
+export function Example() {
+    return (
+        <Sidebar
+            isOpen={true}
+            toggleSidebar={() => {}}
+            showGrid={false}
+            toggleGrid={() => {}}
+        />
+    )
+}`,
+    },
 };
 
 // 컴포넌트 이름으로 메타데이터 가져오기
