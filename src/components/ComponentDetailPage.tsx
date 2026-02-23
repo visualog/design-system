@@ -757,37 +757,35 @@ const PropsTable: React.FC<PropsTableProps> = ({ props }) => {
     }
 
     return (
-        <div className="rounded-xl border overflow-hidden">
-            <table className="w-full">
-                <thead className="bg-muted/50">
-                    <tr className="border-b">
-                        <th className="text-left p-3 font-medium text-sm">이름</th>
-                        <th className="text-left p-3 font-medium text-sm">타입</th>
-                        <th className="text-left p-3 font-medium text-sm">기본값</th>
-                        <th className="text-left p-3 font-medium text-sm">설명</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {props.map((prop, index) => (
-                        <tr key={prop.name} className={index !== props.length - 1 ? 'border-b' : ''}>
-                            <td className="p-3">
-                                <code className="text-sm font-mono text-primary">{prop.name}</code>
-                                {prop.required && <span className="text-destructive ml-1">*</span>}
-                            </td>
-                            <td className="p-3">
-                                <code className="text-xs font-mono text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
-                                    {prop.type}
-                                </code>
-                            </td>
-                            <td className="p-3 text-sm text-muted-foreground">
-                                {prop.defaultValue || '-'}
-                            </td>
-                            <td className="p-3 text-sm">{prop.description}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+        <Table>
+            <TableHeader>
+                <TableRow>
+                    <TableHead>이름</TableHead>
+                    <TableHead>타입</TableHead>
+                    <TableHead>기본값</TableHead>
+                    <TableHead>설명</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                {props.map((prop) => (
+                    <TableRow key={prop.name}>
+                        <TableCell>
+                            <code className="text-sm font-mono text-primary">{prop.name}</code>
+                            {prop.required && <span className="text-destructive ml-1">*</span>}
+                        </TableCell>
+                        <TableCell>
+                            <code className="text-xs font-mono text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                                {prop.type}
+                            </code>
+                        </TableCell>
+                        <TableCell className="text-sm text-muted-foreground">
+                            {prop.defaultValue || '-'}
+                        </TableCell>
+                        <TableCell className="text-sm">{prop.description}</TableCell>
+                    </TableRow>
+                ))}
+            </TableBody>
+        </Table>
     );
 };
 
