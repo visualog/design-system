@@ -19,10 +19,11 @@ import { getComponentMeta } from '@/data/componentRegistry';
 import type { PropDefinition } from '@/data/componentRegistry';
 import { AnimatedTabs, AnimatedTabsContent } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
-import AnatomyPreview, { getAnatomyVariants } from '@/components/AnatomyPreview';
+import AnatomyPreview from '@/components/AnatomyPreview';
 import AnatomyInfoPanel from '@/components/AnatomyInfoPanel';
 import MeasureOverlay from '@/components/ui/MeasureOverlay';
 import { AccessibilitySection } from './ui/AccessibilitySection';
+import { getAnatomyVariants } from '@/components/anatomy-meta';
 
 const releasePhaseLabels = {
     experimental: 'Experimental',

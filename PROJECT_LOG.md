@@ -250,3 +250,5 @@
 - **컴포넌트 레지스트리 누락분 일괄 등록(로컬 반영)**: `src/data/componentRegistry.ts`에 사용 중이던 누락 UI 컴포넌트 15종(`ColorSwatch`, `SmartFilterDropdown`, `animated-tabs`, `clipboard`, `dropdown-menu`, `switch`, `table` 등)을 메타데이터와 함께 추가했습니다.
 - **사이드바 컴포넌트 카탈로그 포함**: 앱 셸 내비게이션 컴포넌트인 `src/components/Sidebar.tsx`를 `componentRegistry`에 등록하여 Components 목록에서 조회 가능하도록 반영했습니다.
 - **아나토미 기본값 보강**: 레지스트리에 `anatomy`가 비어 있는 컴포넌트도 상세 페이지에서 아나토미 섹션이 노출되도록 카테고리 기반 기본 아나토미 템플릿을 자동 주입하도록 개선했습니다.
+- **아나토미 다이어그램 확장 구현**: `AnatomyPreview`에 `switch`, `dropdown-menu`, `table`, `smart-filter-dropdown`, `sidebar`의 실제 아나토미 미리보기를 추가하고, `AnatomyInfoPanel`에 신규 파트 설명(Track/Thumb/MenuSurface/MenuItem/HeaderCell/Cell/SearchField/SectionGroup/NavItem/FooterAction)을 연동했습니다.
+- **아나토미 메타 분리**: `colorTokenData`, `getAnatomyVariants`를 `src/components/anatomy-meta.ts`로 분리해 상세 페이지/정보 패널/아나토미 프리뷰가 공통으로 참조하도록 구조를 정리했습니다.
