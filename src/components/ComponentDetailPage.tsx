@@ -415,7 +415,7 @@ const ComponentDetailPage = () => {
                         <p className="text-body-lg text-muted-foreground leading-relaxed max-w-2xl">{meta.description}</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-3 mt-6">
+                <div className="flex items-center gap-1 mt-6">
                     <span className="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-medium uppercase tracking-wide">
                         {meta.category}
                     </span>
@@ -574,36 +574,6 @@ const ComponentDetailPage = () => {
                 </div>
 
                 <div className="flex flex-col gap-10">
-                    {/* States & Sizes (New) */}
-                    {(meta.states || meta.sizes) && (
-                        <div className="grid md:grid-cols-2 gap-8">
-                            {meta.states && (
-                                <div className="flex flex-col gap-4 p-6 rounded-2xl bg-muted/30 border">
-                                    <h3 className="text-lg font-bold">인터랙션 상태 (States)</h3>
-                                    <div className="flex flex-wrap gap-2">
-                                        {meta.states.map((state) => (
-                                            <span key={state} className="px-3 py-1.5 rounded-lg bg-background border text-sm font-medium shadow-sm hover:scale-105 transition-transform cursor-default">
-                                                {state}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                            {meta.sizes && (
-                                <div className="flex flex-col gap-4 p-6 rounded-2xl bg-muted/30 border">
-                                    <h3 className="text-lg font-bold">지원 크기 (Sizes)</h3>
-                                    <div className="flex flex-wrap gap-2">
-                                        {meta.sizes.map((size) => (
-                                            <span key={size} className="px-3 py-1.5 rounded-lg bg-background border text-sm font-medium shadow-sm hover:scale-105 transition-transform cursor-default">
-                                                {size.toUpperCase()}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    )}
-
                     <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-8">
                         {/* Left: Preview & Code */}
                         <div className="flex flex-col gap-6">
@@ -696,6 +666,20 @@ const ComponentDetailPage = () => {
                                 <div className="text-xs text-muted-foreground">
                                     이 컴포넌트가 지원하는 속성 목록입니다.
                                 </div>
+                                {(meta.states || meta.sizes) && (
+                                    <div className="text-xs text-muted-foreground rounded-lg border bg-muted/20 px-3 py-2 flex flex-col gap-1">
+                                        {meta.states && (
+                                            <p>
+                                                <span className="font-semibold text-foreground">지원 상태:</span> {meta.states.join(', ')}
+                                            </p>
+                                        )}
+                                        {meta.sizes && (
+                                            <p>
+                                                <span className="font-semibold text-foreground">지원 크기:</span> {meta.sizes.map((size) => size.toUpperCase()).join(', ')}
+                                            </p>
+                                        )}
+                                    </div>
+                                )}
                                 <PropsTable props={meta.props} />
                             </div>
                         </div>
