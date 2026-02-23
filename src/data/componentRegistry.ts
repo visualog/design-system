@@ -614,6 +614,472 @@ export function Example() {
     )
 }`,
     },
+
+    'accessibility-section': {
+        name: 'accessibility-section',
+        displayName: 'AccessibilitySection',
+        description: '키보드 인터랙션과 ARIA 속성 정보를 표로 보여주는 접근성 문서 섹션 컴포넌트.',
+        category: 'ui',
+        filePath: 'src/components/ui/AccessibilitySection.tsx',
+        atomicLevel: 'organism',
+        releasePhase: 'beta',
+        owner: 'design-system-docs',
+        since: '2026-02-23',
+        tags: ['docs', 'accessibility', 'table'],
+        props: [
+            { name: 'data', type: 'AccessibilityMeta', required: true, description: '키보드/ARIA 메타 정보' },
+        ],
+        variants: [
+            { name: 'Default', description: '기본 접근성 정보 섹션', code: '<AccessibilitySection data={meta.accessibility} />' },
+        ],
+        usage: `import { AccessibilitySection } from "@/components/ui/AccessibilitySection"
+
+export function Example({ accessibility }: { accessibility: AccessibilityMeta }) {
+    return <AccessibilitySection data={accessibility} />
+}`,
+    },
+
+    'color-swatch': {
+        name: 'color-swatch',
+        displayName: 'ColorSwatch',
+        description: '컬러 토큰 시각화를 위한 컬러 스와치 컴포넌트.',
+        category: 'ui',
+        filePath: 'src/components/ui/ColorSwatch.tsx',
+        atomicLevel: 'atom',
+        releasePhase: 'stable',
+        owner: 'design-system-docs',
+        since: '2026-02-23',
+        tags: ['color', 'token', 'docs'],
+        props: [
+            { name: 'colorValue', type: 'string', description: '주 색상 값(CSS 변수 또는 HSL/RGB)' },
+            { name: 'fallbackColor', type: 'string', description: '보조 색상 값(Hex 등)' },
+            { name: 'isTextColor', type: 'boolean', defaultValue: 'false', description: '텍스트용 컬러 표시 여부' },
+            { name: 'size', type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'", defaultValue: 'sm', description: '스와치 크기' },
+            { name: 'showCheckerboard', type: 'boolean', defaultValue: 'true', description: '투명도 체커보드 표시 여부' },
+            { name: 'className', type: 'string', description: '추가 CSS 클래스' },
+        ],
+        variants: [
+            { name: 'Default', description: '기본 스와치', code: '<ColorSwatch colorValue="hsl(var(--primary))" />' },
+            { name: 'Text Color', description: '텍스트 컬러 표시', code: '<ColorSwatch colorValue="hsl(var(--foreground))" isTextColor />' },
+        ],
+        usage: `import ColorSwatch from "@/components/ui/ColorSwatch"
+
+export function Example() {
+    return <ColorSwatch colorValue="hsl(var(--primary))" fallbackColor="#2563eb" size="md" />
+}`,
+    },
+
+    'do-dont': {
+        name: 'do-dont',
+        displayName: 'DoDont',
+        description: '권장/주의 사례를 시각적으로 비교해 보여주는 가이드 카드 컴포넌트.',
+        category: 'feedback',
+        filePath: 'src/components/ui/DoDont.tsx',
+        atomicLevel: 'molecule',
+        releasePhase: 'beta',
+        owner: 'design-system-docs',
+        since: '2026-02-23',
+        tags: ['docs', 'guideline', 'do-dont'],
+        props: [
+            { name: 'type', type: "'do' | 'dont'", required: true, description: '가이드 타입' },
+            { name: 'title', type: 'string', required: true, description: '카드 제목' },
+            { name: 'description', type: 'string', required: true, description: '설명 텍스트' },
+            { name: 'children', type: 'ReactNode', required: true, description: '시각 예시 콘텐츠' },
+            { name: 'className', type: 'string', description: '추가 CSS 클래스' },
+        ],
+        variants: [
+            { name: 'Do', description: '권장 사례 카드', code: '<DoDont type="do" title="명확한 라벨" description="버튼 의미를 명확히 하세요">...</DoDont>' },
+            { name: 'Dont', description: '주의 사례 카드', code: '<DoDont type="dont" title="모호한 라벨" description="의미가 불명확합니다">...</DoDont>' },
+        ],
+        usage: `import { DoDont, DoDontContainer } from "@/components/ui/DoDont"
+
+export function Example() {
+    return (
+        <DoDontContainer>
+            <DoDont type="do" title="명확한 피드백" description="사용자에게 즉시 결과를 알려주세요">...</DoDont>
+            <DoDont type="dont" title="피드백 없음" description="성공/실패 상태를 숨기지 마세요">...</DoDont>
+        </DoDontContainer>
+    )
+}`,
+    },
+
+    'experimental-toggle': {
+        name: 'experimental-toggle',
+        displayName: 'ExperimentalToggle',
+        description: '문서 사이트의 실험 기능 표시/토글을 담당하는 헤더 액션 컴포넌트.',
+        category: 'feedback',
+        filePath: 'src/components/ui/ExperimentalToggle.tsx',
+        atomicLevel: 'molecule',
+        releasePhase: 'experimental',
+        owner: 'design-system-docs',
+        since: '2026-02-23',
+        tags: ['docs', 'experimental', 'toggle'],
+        props: [],
+        variants: [
+            { name: 'Default', description: '기본 실험 기능 토글', code: '<ExperimentalToggle />' },
+        ],
+        usage: `import { ExperimentalToggle } from "@/components/ui/ExperimentalToggle"
+
+export function Example() {
+    return <ExperimentalToggle />
+}`,
+    },
+
+    'measure-overlay': {
+        name: 'measure-overlay',
+        displayName: 'MeasureOverlay',
+        description: '요소의 박스 모델, 간격, 반경 정보를 시각적으로 오버레이하는 계측 컴포넌트.',
+        category: 'layout',
+        filePath: 'src/components/ui/MeasureOverlay.tsx',
+        atomicLevel: 'organism',
+        releasePhase: 'experimental',
+        owner: 'design-system-docs',
+        since: '2026-02-23',
+        tags: ['docs', 'measurement', 'layout-inspector'],
+        props: [
+            { name: 'targetRef', type: 'React.RefObject<HTMLElement>', required: true, description: '측정 대상 루트 요소 ref' },
+        ],
+        variants: [
+            { name: 'Default', description: '대상 요소 계측 오버레이', code: '<MeasureOverlay targetRef={previewRef} />' },
+        ],
+        usage: `import MeasureOverlay from "@/components/ui/MeasureOverlay"
+
+export function Example({ previewRef }: { previewRef: React.RefObject<HTMLElement> }) {
+    return <MeasureOverlay targetRef={previewRef} />
+}`,
+    },
+
+    'page-section': {
+        name: 'page-section',
+        displayName: 'PageSection',
+        description: '페이지 내 제목, 설명, 본문 콘텐츠를 일관된 구조로 묶는 섹션 래퍼 컴포넌트.',
+        category: 'layout',
+        filePath: 'src/components/ui/PageSection.tsx',
+        atomicLevel: 'molecule',
+        releasePhase: 'stable',
+        owner: 'design-system-docs',
+        since: '2026-02-23',
+        tags: ['docs', 'layout', 'section'],
+        props: [
+            { name: 'title', type: 'string', required: true, description: '섹션 제목' },
+            { name: 'description', type: 'ReactNode', description: '섹션 설명 텍스트' },
+            { name: 'children', type: 'ReactNode', required: true, description: '섹션 본문 콘텐츠' },
+            { name: 'className', type: 'string', description: '추가 CSS 클래스' },
+        ],
+        variants: [
+            { name: 'Default', description: '기본 페이지 섹션', code: '<PageSection title="Typography" description="타이포그래피 규칙">...</PageSection>' },
+        ],
+        usage: `import { PageSection } from "@/components/ui/PageSection"
+
+export function Example() {
+    return (
+        <PageSection title="Color Tokens" description="역할 기반 색상 토큰을 사용합니다.">
+            <div>...</div>
+        </PageSection>
+    )
+}`,
+    },
+
+    'particle-background': {
+        name: 'particle-background',
+        displayName: 'ParticleBackground',
+        description: '포커스 상태에 따라 파티클 형태가 변하는 인터랙티브 배경 컴포넌트.',
+        category: 'layout',
+        filePath: 'src/components/ui/ParticleBackground.tsx',
+        atomicLevel: 'organism',
+        releasePhase: 'experimental',
+        owner: 'design-system-docs',
+        since: '2026-02-23',
+        tags: ['visual', 'background', 'motion'],
+        props: [
+            { name: 'focusState', type: "'none' | 'id' | 'password'", required: true, description: '파티클 포메이션 상태' },
+            { name: 'className', type: 'string', description: '추가 CSS 클래스' },
+        ],
+        variants: [
+            { name: 'Idle', description: '기본 파티클 배경', code: '<ParticleBackground focusState="none" />' },
+            { name: 'ID Focus', description: 'ID 입력 포커스 상태', code: '<ParticleBackground focusState="id" />' },
+            { name: 'Password Focus', description: 'Password 입력 포커스 상태', code: '<ParticleBackground focusState="password" />' },
+        ],
+        usage: `import { ParticleBackground } from "@/components/ui/ParticleBackground"
+
+export function Example() {
+    return <ParticleBackground focusState="none" className="opacity-70" />
+}`,
+    },
+
+    'principles-section': {
+        name: 'principles-section',
+        displayName: 'PrinciplesSection',
+        description: '디자인 원칙 목록을 아이콘 카드 형태로 표시하는 섹션 컴포넌트.',
+        category: 'layout',
+        filePath: 'src/components/ui/PrinciplesSection.tsx',
+        atomicLevel: 'organism',
+        releasePhase: 'beta',
+        owner: 'design-system-docs',
+        since: '2026-02-23',
+        tags: ['docs', 'principles', 'card-grid'],
+        props: [
+            { name: 'items', type: 'PrincipleItem[]', required: true, description: '원칙 카드 목록' },
+            { name: 'className', type: 'string', description: '추가 CSS 클래스' },
+        ],
+        variants: [
+            { name: 'Default', description: '기본 원칙 섹션', code: '<PrinciplesSection items={principles} />' },
+        ],
+        usage: `import { PrinciplesSection } from "@/components/ui/PrinciplesSection"
+
+export function Example() {
+    return <PrinciplesSection items={principles} />
+}`,
+    },
+
+    'token-anatomy': {
+        name: 'token-anatomy',
+        displayName: 'TokenAnatomy',
+        description: '토큰 네이밍 규칙(Property-Role-Variant-State)을 시각적으로 설명하는 컴포넌트.',
+        category: 'ui',
+        filePath: 'src/components/ui/TokenAnatomy.tsx',
+        atomicLevel: 'molecule',
+        releasePhase: 'beta',
+        owner: 'design-system-docs',
+        since: '2026-02-23',
+        tags: ['token', 'naming', 'docs'],
+        props: [
+            { name: 'className', type: 'string', description: '추가 CSS 클래스' },
+        ],
+        variants: [
+            { name: 'Default', description: '기본 토큰 아나토미 설명', code: '<TokenAnatomy />' },
+        ],
+        usage: `import { TokenAnatomy } from "@/components/ui/TokenAnatomy"
+
+export function Example() {
+    return <TokenAnatomy className="mt-6" />
+}`,
+    },
+
+    'smart-filter-dropdown': {
+        name: 'smart-filter-dropdown',
+        displayName: 'SmartFilterDropdown',
+        description: '단일/복수 선택 동작을 함께 제공하는 스마트 필터 드롭다운 컴포넌트.',
+        category: 'navigation',
+        filePath: 'src/components/ui/SmartFilterDropdown.tsx',
+        atomicLevel: 'molecule',
+        releasePhase: 'beta',
+        owner: 'design-system-core',
+        since: '2026-02-23',
+        tags: ['filter', 'dropdown', 'search'],
+        props: [
+            { name: 'triggerText', type: 'string', required: true, description: '트리거 버튼 텍스트' },
+            { name: 'items', type: '{ value: string; label: string }[]', required: true, description: '필터 항목 목록' },
+            { name: 'selectedValues', type: 'string[]', required: true, description: '선택된 값 배열' },
+            { name: 'onSelectionChange', type: '(values: string[]) => void', required: true, description: '선택 변경 핸들러' },
+            { name: 'className', type: 'string', description: '추가 CSS 클래스' },
+            { name: 'width', type: 'string', defaultValue: 'w-48', description: '트리거 폭 클래스' },
+            { name: 'align', type: "'start' | 'center' | 'end'", defaultValue: 'start', description: '메뉴 정렬 방향' },
+        ],
+        variants: [
+            { name: 'Default', description: '기본 필터 드롭다운', code: '<SmartFilterDropdown triggerText="상태" items={items} selectedValues={selected} onSelectionChange={setSelected} />' },
+        ],
+        usage: `import { SmartFilterDropdown } from "@/components/ui/SmartFilterDropdown"
+
+export function Example() {
+    return (
+        <SmartFilterDropdown
+            triggerText="Category"
+            items={[{ value: "ui", label: "UI" }]}
+            selectedValues={["All"]}
+            onSelectionChange={() => {}}
+        />
+    )
+}`,
+    },
+
+    'animated-tabs': {
+        name: 'animated-tabs',
+        displayName: 'AnimatedTabs',
+        description: '활성 상태 전환 애니메이션이 적용된 탭 내비게이션 컴포넌트.',
+        category: 'navigation',
+        filePath: 'src/components/ui/animated-tabs.tsx',
+        atomicLevel: 'molecule',
+        releasePhase: 'beta',
+        owner: 'design-system-core',
+        since: '2026-02-23',
+        tags: ['tabs', 'animation', 'navigation'],
+        props: [
+            { name: 'tabs', type: '{ name: string; value: string }[]', required: true, description: '탭 목록' },
+            { name: 'activeTab', type: 'string', required: true, description: '현재 활성 탭 값' },
+            { name: 'setActiveTab', type: '(value: string) => void', required: true, description: '활성 탭 변경 핸들러' },
+            { name: 'children', type: 'ReactNode', description: '탭 콘텐츠' },
+            { name: 'className', type: 'string', description: '추가 CSS 클래스' },
+        ],
+        variants: [
+            { name: 'Default', description: '기본 애니메이션 탭', code: '<AnimatedTabs tabs={tabs} activeTab={tab} setActiveTab={setTab}>...</AnimatedTabs>' },
+        ],
+        usage: `import { AnimatedTabs, AnimatedTabsContent } from "@/components/ui/animated-tabs"
+
+export function Example() {
+    return (
+        <AnimatedTabs tabs={[{ name: "UI", value: "ui" }]} activeTab="ui" setActiveTab={() => {}}>
+            <AnimatedTabsContent value="ui">UI Content</AnimatedTabsContent>
+        </AnimatedTabs>
+    )
+}`,
+    },
+
+    clipboard: {
+        name: 'clipboard',
+        displayName: 'Clipboard',
+        description: '클립보드 복사 액션을 제공하는 아이콘 버튼 컴포넌트.',
+        category: 'ui',
+        filePath: 'src/components/ui/clipboard.tsx',
+        atomicLevel: 'atom',
+        releasePhase: 'stable',
+        owner: 'design-system-core',
+        since: '2026-02-23',
+        tags: ['utility', 'copy', 'action'],
+        props: [
+            { name: 'value', type: 'string', required: true, description: '복사할 텍스트 값' },
+            { name: 'className', type: 'string', description: '추가 CSS 클래스' },
+        ],
+        variants: [
+            { name: 'Default', description: '기본 복사 버튼', code: '<Clipboard value="text-primary-brand" />' },
+        ],
+        usage: `import { Clipboard } from "@/components/ui/clipboard"
+
+export function Example() {
+    return <Clipboard value="color.token.primary" />
+}`,
+    },
+
+    'dropdown-menu': {
+        name: 'dropdown-menu',
+        displayName: 'DropdownMenu',
+        description: '컨텍스트 액션, 옵션 선택, 서브메뉴 구성을 위한 드롭다운 메뉴 컴포넌트 세트.',
+        category: 'navigation',
+        filePath: 'src/components/ui/dropdown-menu.tsx',
+        atomicLevel: 'organism',
+        releasePhase: 'stable',
+        owner: 'design-system-core',
+        since: '2026-02-23',
+        tags: ['menu', 'overlay', 'navigation'],
+        props: [
+            { name: 'align', type: "'start' | 'center' | 'end'", defaultValue: 'start', description: '콘텐츠 정렬' },
+            { name: 'sideOffset', type: 'number', defaultValue: '4', description: '트리거와 콘텐츠 간격' },
+            { name: 'inset', type: 'boolean', defaultValue: 'false', description: '아이템 내부 들여쓰기 옵션' },
+        ],
+        variants: [
+            {
+                name: 'Default',
+                description: '기본 드롭다운 메뉴',
+                code: `<DropdownMenu>
+    <DropdownMenuTrigger asChild><Button variant="outline">Open</Button></DropdownMenuTrigger>
+    <DropdownMenuContent align="start">
+        <DropdownMenuItem>Item</DropdownMenuItem>
+    </DropdownMenuContent>
+</DropdownMenu>`
+            },
+        ],
+        usage: `import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+
+export function Example() {
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild><Button variant="outline">Open</Button></DropdownMenuTrigger>
+            <DropdownMenuContent>
+                <DropdownMenuItem>Rename</DropdownMenuItem>
+                <DropdownMenuItem>Delete</DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    )
+}`,
+    },
+
+    switch: {
+        name: 'switch',
+        displayName: 'Switch',
+        description: '켜짐/꺼짐 상태를 토글하는 스위치 컴포넌트.',
+        category: 'form',
+        filePath: 'src/components/ui/switch.tsx',
+        atomicLevel: 'atom',
+        releasePhase: 'stable',
+        owner: 'design-system-core',
+        since: '2026-02-23',
+        tags: ['form', 'toggle', 'boolean'],
+        props: [
+            { name: 'checked', type: 'boolean', description: '현재 체크 상태' },
+            { name: 'onCheckedChange', type: '(checked: boolean) => void', description: '체크 상태 변경 핸들러' },
+            { name: 'disabled', type: 'boolean', defaultValue: 'false', description: '비활성화 여부' },
+            { name: 'className', type: 'string', description: '추가 CSS 클래스' },
+        ],
+        variants: [
+            { name: 'Default', description: '기본 스위치', code: '<Switch checked={enabled} onCheckedChange={setEnabled} />' },
+        ],
+        usage: `import { Switch } from "@/components/ui/switch"
+
+export function Example() {
+    return <Switch checked={true} onCheckedChange={() => {}} />
+}`,
+        states: ['Unchecked', 'Checked', 'Disabled'],
+        accessibility: {
+            role: 'switch',
+            attributes: [
+                { name: 'aria-checked', description: '스위치의 on/off 상태를 전달합니다.' },
+            ],
+            keyboard: [
+                { key: 'Space', description: '스위치 상태를 토글합니다.' },
+                { key: 'Enter', description: '스위치 상태를 토글합니다.' },
+            ]
+        }
+    },
+
+    table: {
+        name: 'table',
+        displayName: 'Table',
+        description: '사이트 전역에서 사용하는 기본 데이터 테이블 컴포넌트 세트.',
+        category: 'layout',
+        filePath: 'src/components/ui/table.tsx',
+        atomicLevel: 'organism',
+        releasePhase: 'stable',
+        owner: 'design-system-core',
+        since: '2026-02-23',
+        tags: ['data-display', 'table', 'layout'],
+        props: [
+            { name: 'className', type: 'string', description: '각 테이블 슬롯의 추가 CSS 클래스' },
+        ],
+        variants: [
+            {
+                name: 'Default',
+                description: '기본 테이블',
+                code: `<Table>
+    <TableHeader>
+        <TableRow><TableHead>이름</TableHead><TableHead>설명</TableHead></TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow><TableCell>variant</TableCell><TableCell>버튼 스타일</TableCell></TableRow>
+    </TableBody>
+</Table>`
+            },
+        ],
+        usage: `import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+
+export function Example() {
+    return (
+        <Table>
+            <TableHeader>
+                <TableRow>
+                    <TableHead>Key</TableHead>
+                    <TableHead>Description</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                <TableRow>
+                    <TableCell>variant</TableCell>
+                    <TableCell>시각적 스타일</TableCell>
+                </TableRow>
+            </TableBody>
+        </Table>
+    )
+}`,
+    },
 };
 
 // 컴포넌트 이름으로 메타데이터 가져오기

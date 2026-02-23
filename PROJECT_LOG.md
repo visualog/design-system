@@ -216,3 +216,35 @@
 - **타이포그래피 스펙 라벨 조정**: `Specs & Usage` 열의 폰트 사이즈, 행간, 두께를 표시하는 라벨의 높이를 줄이기 위해 상하 패딩을 축소(`py-0.5`)하고, 높이값에 영향을 주던 물리적인 보더(`border`) 대신 레이아웃에 영향을 주지 않는 안쪽 그림자 테두리(`ring-1 ring-inset`)로 변경했습니다.
 - **타이포그래피 테이블 여백 표준화**: 테이블 셀의 상하 불균형을 유발하던 'Current Sample View' 라벨을 완전히 제거하고, 다른 테이블 컴포넌트(`ColorPaletteDisplay` 등)와 동일한 좌우 여백(`px-4`)을 갖도록 레이아웃을 표준화했습니다.
 - **실험 기능 버튼 스타일 개선 for Visibility**: `ExperimentalToggle` 버튼의 `bubble` 애니메이션이 더 잘 보이도록 크기와 색상을 조정하고, `shake` 애니메이션 실행 시 아이콘 크기가 유지되도록 `scale(1.1)`을 키프레임에 포함시켰습니다. 툴팁 메시지 국문 적용도 완료했습니다.
+
+## 2026년 2월 12일 목요일
+
+- **활동 앱 디자인 시스템 구축 (Activity App Design System)**: 제공된 모바일 화면 이미지를 기반으로 한 새로운 디자인 시스템을 설계하고 Pencil(`first.pen`)로 구현했습니다.
+    - **컬러 시스템**: Deep Black(#18181B), Sunset Gradient, Cotton Candy Gradient 등 생동감 넘치는 컬러와 그라데이션 토큰 정의.
+    - **타이포그래피**: 현대적이고 가독성이 높은 Heading XL(32px), Heading L(24px) 등 계층 구조 표준화.
+    - **주요 컴포넌트 구현**:
+        - **Meeting Card**: 확장형(Active/Dark) 및 기본형(Standard/White) 배리에이션 구현.
+        - **Avatar Group**: 인스턴스화 가능한 아바타 스택 컴포넌트 제작.
+        - **Floating Nav**: 하단 고정형 그라데이션 내비게이션 바 설계.
+    - **앱 모의 작업 (App Mockup)**: 설계된 디자인 시스템을 활용하여 원본 이미지와 유사한 모바일 앱 화면(Activity Screen) 구성 및 검증 완료.
+
+## 2026년 2월 20일 금요일
+
+- **문서 IA/거버넌스 1차 실행안 작성**: 디자인 시스템 문서 구조 초안과 운영 문서를 생성했습니다.
+    - `docs/README.md`, `docs/01-getting-started.md`, `docs/02-foundations/*`, `docs/03-components/*`, `docs/04-patterns/*`, `docs/05-governance/*`, `docs/06-changelog/2026-q1.md`
+    - 포함 항목: 기여 가이드, 릴리즈 단계 정의, 레지스트리 메타 스펙, ESLint 범위 정리 초안
+- **ESLint 범위 조정**: 백업 폴더(`bak`)를 린트 대상에서 제외하도록 `eslint.config.js`를 업데이트했습니다.
+- **컴포넌트 레지스트리 메타 필드 확장**: `src/data/componentRegistry.ts`에 `atomicLevel`, `releasePhase`, `owner`, `since`, `tags` 필드를 추가하고 기존 등록 컴포넌트에 기본값을 반영했습니다.
+
+## 2026년 2월 23일 월요일
+
+- **컴포넌트 목록/상세 메타 표시 강화**: 컴포넌트 카드 및 상세 상단에 아토믹 레벨, 릴리즈 단계, 소유자, 도입일, 파일 경로를 배지 형태로 반영했습니다.
+- **검색/필터 UI 통일**: 컴포넌트 페이지에서 공통 컨트롤(`SearchBar`, `SmartFilterDropdown`)을 재사용하도록 정리하고, 기존 패턴과 동일하게 `드롭다운 → 검색바` 순서로 맞췄습니다.
+- **필터 동작 안정화**: 단일 선택/전체 선택 전환 시 선택 상태가 흔들리던 로직을 보정했습니다.
+- **카드 메타 영역 높이 안정화**: 상단 배지가 1줄/2줄일 때 본문 시작 위치가 흔들리지 않도록 최소 높이를 부여해 정렬을 고정했습니다.
+- **Properties 정보 구조 정리**: 상세 페이지에서 `States`, `Sizes` 정보를 상단 분리 블록에서 Props 영역 중심으로 정리해 중복 노출을 줄였습니다.
+- **테이블 스타일 전역 통일**:
+    - `src/components/ui/table.tsx`를 사이트 기본 테이블 스타일로 표준화
+    - 기존 파운데이션 스타일은 `src/components/ui/ghost-table.tsx`로 분리 보관(미사용)
+    - `ComponentDetailPage`, `SiteTypographyPage`의 원시 `<table>`을 공통 `Table` 컴포넌트로 교체
+- **컴포넌트 레지스트리 누락분 일괄 등록(로컬 반영)**: `src/data/componentRegistry.ts`에 사용 중이던 누락 UI 컴포넌트 15종(`ColorSwatch`, `SmartFilterDropdown`, `animated-tabs`, `clipboard`, `dropdown-menu`, `switch`, `table` 등)을 메타데이터와 함께 추가했습니다.
