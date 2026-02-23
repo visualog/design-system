@@ -252,3 +252,4 @@
 - **아나토미 기본값 보강**: 레지스트리에 `anatomy`가 비어 있는 컴포넌트도 상세 페이지에서 아나토미 섹션이 노출되도록 카테고리 기반 기본 아나토미 템플릿을 자동 주입하도록 개선했습니다.
 - **아나토미 다이어그램 확장 구현**: `AnatomyPreview`에 `switch`, `dropdown-menu`, `table`, `smart-filter-dropdown`, `sidebar`의 실제 아나토미 미리보기를 추가하고, `AnatomyInfoPanel`에 신규 파트 설명(Track/Thumb/MenuSurface/MenuItem/HeaderCell/Cell/SearchField/SectionGroup/NavItem/FooterAction)을 연동했습니다.
 - **아나토미 메타 분리**: `colorTokenData`, `getAnatomyVariants`를 `src/components/anatomy-meta.ts`로 분리해 상세 페이지/정보 패널/아나토미 프리뷰가 공통으로 참조하도록 구조를 정리했습니다.
+- **아나토미 2차 확장 및 플레이스홀더 제거**: `input`, `card`, `tooltip`, `popover`, `sheet`, `separator`, `clipboard`, `animated-tabs` 아나토미를 추가 구현하고, 미구현 컴포넌트는 제너릭 아나토미 렌더러로 대체해 상세 페이지의 "No anatomy diagram available" 플레이스홀더를 제거했습니다.

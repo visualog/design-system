@@ -21,12 +21,18 @@ export const colorTokenData: Record<string, { hex: string; rgb: string; hsl: str
     'menu-surface': { hex: '#FFFFFF', rgb: 'rgb(255, 255, 255)', hsl: 'var(--color-background)', usage: '메뉴 배경', description: '드롭다운 메뉴 패널의 표면 배경입니다.' },
     'filter-trigger-bg': { hex: '#FFFFFF', rgb: 'rgb(255, 255, 255)', hsl: 'var(--color-background)', usage: '필터 트리거 배경', description: '필터 버튼의 기본 배경입니다.' },
     'search-field-bg': { hex: '#FFFFFF', rgb: 'rgb(255, 255, 255)', hsl: 'var(--color-background)', usage: '검색 필드 배경', description: '검색 입력 영역의 기본 배경입니다.' },
+    'input-field-bg': { hex: '#FFFFFF', rgb: 'rgb(255, 255, 255)', hsl: 'var(--color-background)', usage: '입력 필드 배경', description: '입력 컨트롤의 기본 표면 배경입니다.' },
 };
 
 export const getAnatomyVariants = (componentName: string): string[] => {
     const name = componentName.toLowerCase();
     if (name === 'tabs') return ['segmented', 'pill', 'line'];
+    if (name === 'animated-tabs') return ['segmented', 'pill', 'line'];
     if (name === 'button') return ['default', 'secondary', 'outline', 'ghost', 'link'];
+    if (name === 'input') return ['default', 'disabled', 'with-label'];
+    if (name === 'separator') return ['horizontal', 'vertical'];
+    if (name === 'sheet') return ['right', 'left'];
+    if (name === 'card') return ['basic', 'with-footer'];
     if (name === 'sidebar') return ['expanded', 'collapsed'];
     return [];
 };
