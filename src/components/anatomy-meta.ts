@@ -24,15 +24,55 @@ export const colorTokenData: Record<string, { hex: string; rgb: string; hsl: str
     'input-field-bg': { hex: '#FFFFFF', rgb: 'rgb(255, 255, 255)', hsl: 'var(--color-background)', usage: '입력 필드 배경', description: '입력 컨트롤의 기본 표면 배경입니다.' },
 };
 
-export const getAnatomyVariants = (componentName: string): string[] => {
+export interface AnatomyVariantOption {
+    value: string;
+    label: string;
+}
+
+const anatomyVariantOptionsMap: Record<string, AnatomyVariantOption[]> = {
+    tabs: [
+        { value: 'segmented', label: 'Basic Tabs' },
+        { value: 'pill', label: 'Animated Tabs (Basic)' },
+        { value: 'line', label: 'Settings Pattern' },
+    ],
+    'animated-tabs': [
+        { value: 'segmented', label: 'Default' },
+    ],
+    button: [
+        { value: 'default', label: 'Default' },
+        { value: 'secondary', label: 'Secondary' },
+        { value: 'outline', label: 'Outline' },
+        { value: 'ghost', label: 'Ghost' },
+        { value: 'destructive', label: 'Destructive' },
+    ],
+    input: [
+        { value: 'default', label: 'Default' },
+        { value: 'disabled', label: 'Disabled' },
+        { value: 'with-label', label: 'With Label' },
+    ],
+    separator: [
+        { value: 'horizontal', label: 'Horizontal' },
+        { value: 'vertical', label: 'Vertical' },
+    ],
+    sheet: [
+        { value: 'right', label: 'Right' },
+        { value: 'left', label: 'Left' },
+    ],
+    card: [
+        { value: 'basic', label: 'Card with Header' },
+        { value: 'with-footer', label: 'Card with Footer' },
+    ],
+    sidebar: [
+        { value: 'expanded', label: 'Desktop Fixed' },
+        { value: 'collapsed', label: 'Mobile Overlay' },
+    ],
+};
+
+export const getAnatomyVariantOptions = (componentName: string): AnatomyVariantOption[] => {
     const name = componentName.toLowerCase();
-    if (name === 'tabs') return ['segmented', 'pill', 'line'];
-    if (name === 'animated-tabs') return ['segmented', 'pill', 'line'];
-    if (name === 'button') return ['default', 'secondary', 'outline', 'ghost', 'link'];
-    if (name === 'input') return ['default', 'disabled', 'with-label'];
-    if (name === 'separator') return ['horizontal', 'vertical'];
-    if (name === 'sheet') return ['right', 'left'];
-    if (name === 'card') return ['basic', 'with-footer'];
-    if (name === 'sidebar') return ['expanded', 'collapsed'];
-    return [];
+    return anatomyVariantOptionsMap[name] ?? [];
+};
+
+export const getAnatomyVariants = (componentName: string): string[] => {
+    return getAnatomyVariantOptions(componentName).map((option) => option.value);
 };

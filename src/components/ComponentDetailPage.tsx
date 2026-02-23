@@ -14,6 +14,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Clipboard } from '@/components/ui/clipboard';
+import Breadcrumb from '@/components/ui/Breadcrumb';
+import ColorSwatch from '@/components/ui/ColorSwatch';
+import { DoDont } from '@/components/ui/DoDont';
+import { PageSection } from '@/components/ui/PageSection';
+import { PrinciplesSection } from '@/components/ui/PrinciplesSection';
+import { TokenAnatomy } from '@/components/ui/TokenAnatomy';
+import { SmartFilterDropdown } from '@/components/ui/SmartFilterDropdown';
+import { HighlightText } from '@/components/ui/HighlightText';
+import ProposalNotification from '@/components/ui/ProposalNotification';
+import { ParticleBackground } from '@/components/ui/ParticleBackground';
+import { ExperimentalToggle } from '@/components/ui/ExperimentalToggle';
 import GuidelineItem from '@/components/ui/GuidelineItem';
 import { getComponentMeta } from '@/data/componentRegistry';
 import type { PropDefinition } from '@/data/componentRegistry';
@@ -23,7 +34,7 @@ import AnatomyPreview from '@/components/AnatomyPreview';
 import AnatomyInfoPanel from '@/components/AnatomyInfoPanel';
 import MeasureOverlay from '@/components/ui/MeasureOverlay';
 import { AccessibilitySection } from './ui/AccessibilitySection';
-import { getAnatomyVariants } from '@/components/anatomy-meta';
+import { getAnatomyVariantOptions, type AnatomyVariantOption } from '@/components/anatomy-meta';
 
 const releasePhaseLabels = {
     experimental: 'Experimental',
@@ -51,6 +62,87 @@ const getReleasePhaseBadgeClass = (phase?: string) => {
         default:
             return 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300';
     }
+};
+
+const TabsLivePreview: React.FC<{ variantName: string }> = ({ variantName }) => {
+    const [activeTab, setActiveTab] = React.useState('tab1');
+    const [patternTab, setPatternTab] = React.useState('account');
+
+    if (variantName === 'Settings Pattern') {
+        const tabs = [
+            { name: 'Account', value: 'account' },
+            { name: 'Password', value: 'password' },
+            { name: 'Settings', value: 'settings' },
+        ];
+
+        return (
+            <div className="w-full max-w-[400px] p-6 border rounded-xl bg-background shadow-sm">
+                <AnimatedTabs tabs={tabs} activeTab={patternTab} setActiveTab={setPatternTab}>
+                    <div className="mt-6 p-4 border rounded-lg bg-muted/10 min-h-[120px]">
+                        <AnimatedTabsContent value="account">
+                            <h4 className="font-medium">Account</h4>
+                            <p className="text-sm text-muted-foreground">Manage your account settings here.</p>
+                        </AnimatedTabsContent>
+                        <AnimatedTabsContent value="password">
+                            <h4 className="font-medium">Password</h4>
+                            <p className="text-sm text-muted-foreground">Change your password securely.</p>
+                        </AnimatedTabsContent>
+                        <AnimatedTabsContent value="settings">
+                            <h4 className="font-medium">Settings</h4>
+                            <p className="text-sm text-muted-foreground">Adjust your preferences.</p>
+                        </AnimatedTabsContent>
+                    </div>
+                </AnimatedTabs>
+            </div>
+        );
+    }
+
+    if (variantName === 'Animated Tabs (Basic)') {
+        const tabs = [
+            { name: 'Tab 1', value: 'tab1' },
+            { name: 'Tab 2', value: 'tab2' },
+        ];
+        return (
+            <div className="w-full max-w-[400px] p-6 border rounded-xl bg-background shadow-sm">
+                <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
+                    <div className="p-4 border rounded-md mt-4">
+                        <AnimatedTabsContent value="tab1">Tab 1 Content</AnimatedTabsContent>
+                        <AnimatedTabsContent value="tab2">Tab 2 Content</AnimatedTabsContent>
+                    </div>
+                </AnimatedTabs>
+            </div>
+        );
+    }
+
+    return (
+        <Tabs defaultValue="tab1" className="w-[300px]">
+            <TabsList>
+                <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+                <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+            </TabsList>
+            <TabsContent value="tab1" className="p-4">Content 1</TabsContent>
+            <TabsContent value="tab2" className="p-4">Content 2</TabsContent>
+        </Tabs>
+    );
+};
+
+const AnimatedTabsLivePreview: React.FC = () => {
+    const [activeTab, setActiveTab] = React.useState('tab1');
+    const tabs = [
+        { name: 'Tab 1', value: 'tab1' },
+        { name: 'Tab 2', value: 'tab2' },
+    ];
+
+    return (
+        <div className="w-full max-w-[400px] p-6 border rounded-xl bg-background shadow-sm">
+            <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
+                <div className="p-4 border rounded-md mt-4">
+                    <AnimatedTabsContent value="tab1">Tab 1 Content</AnimatedTabsContent>
+                    <AnimatedTabsContent value="tab2">Tab 2 Content</AnimatedTabsContent>
+                </div>
+            </AnimatedTabs>
+        </div>
+    );
 };
 
 // 컴포넌트별 라이브 프리뷰 렌더링
@@ -183,66 +275,7 @@ const LivePreview: React.FC<{ componentName: string; variantName: string }> = ({
 
     // Tabs
     if (name === 'tabs') {
-        const [activeTab, setActiveTab] = React.useState('tab1');
-        const [patternTab, setPatternTab] = React.useState('account');
-
-        if (variantName === 'Settings Pattern') {
-            const tabs = [
-                { name: 'Account', value: 'account' },
-                { name: 'Password', value: 'password' },
-                { name: 'Settings', value: 'settings' },
-            ];
-
-            return (
-                <div className="w-full max-w-[400px] p-6 border rounded-xl bg-background shadow-sm">
-                    <AnimatedTabs tabs={tabs} activeTab={patternTab} setActiveTab={setPatternTab}>
-                        <div className="mt-6 p-4 border rounded-lg bg-muted/10 min-h-[120px]">
-                            <AnimatedTabsContent value="account">
-                                <h4 className="font-medium">Account</h4>
-                                <p className="text-sm text-muted-foreground">Manage your account settings here.</p>
-                            </AnimatedTabsContent>
-                            <AnimatedTabsContent value="password">
-                                <h4 className="font-medium">Password</h4>
-                                <p className="text-sm text-muted-foreground">Change your password securely.</p>
-                            </AnimatedTabsContent>
-                            <AnimatedTabsContent value="settings">
-                                <h4 className="font-medium">Settings</h4>
-                                <p className="text-sm text-muted-foreground">Adjust your preferences.</p>
-                            </AnimatedTabsContent>
-                        </div>
-                    </AnimatedTabs>
-                </div>
-            );
-        }
-
-        if (variantName === 'Animated Tabs (Basic)') {
-            const tabs = [
-                { name: 'Tab 1', value: 'tab1' },
-                { name: 'Tab 2', value: 'tab2' },
-            ];
-            return (
-                <div className="w-full max-w-[400px] p-6 border rounded-xl bg-background shadow-sm">
-                    <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}>
-                        <div className="p-4 border rounded-md mt-4">
-                            <AnimatedTabsContent value="tab1">Tab 1 Content</AnimatedTabsContent>
-                            <AnimatedTabsContent value="tab2">Tab 2 Content</AnimatedTabsContent>
-                        </div>
-                    </AnimatedTabs>
-                </div>
-            );
-        }
-
-        // Basic Tabs fallback
-        return (
-            <Tabs defaultValue="tab1" className="w-[300px]">
-                <TabsList>
-                    <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-                    <TabsTrigger value="tab2">Tab 2</TabsTrigger>
-                </TabsList>
-                <TabsContent value="tab1" className="p-4">Content 1</TabsContent>
-                <TabsContent value="tab2" className="p-4">Content 2</TabsContent>
-            </Tabs>
-        );
+        return <TabsLivePreview variantName={variantName} />;
     }
 
     // Dropdown Menu
@@ -298,6 +331,161 @@ const LivePreview: React.FC<{ componentName: string; variantName: string }> = ({
         );
     }
 
+    if (name === 'animated-tabs') {
+        return <AnimatedTabsLivePreview />;
+    }
+
+    if (name === 'breadcrumb') {
+        return (
+            <div className="w-full max-w-md flex flex-col gap-4">
+                <Breadcrumb />
+            </div>
+        );
+    }
+
+    if (name === 'highlight-text') {
+        return (
+            <div className="w-full max-w-md p-4 border rounded-lg bg-background text-sm">
+                <HighlightText text="Search result text with highlighted keyword." highlight="highlighted" />
+            </div>
+        );
+    }
+
+    if (name === 'proposal-notification') {
+        return (
+            <div className="w-full max-w-md p-4 border rounded-lg bg-background flex justify-end">
+                <ProposalNotification message="새로운 개선 제안이 있습니다." />
+            </div>
+        );
+    }
+
+    if (name === 'accessibility-section') {
+        return (
+            <div className="w-full max-w-2xl">
+                <AccessibilitySection
+                    data={{
+                        role: 'button',
+                        keyboard: [
+                            { key: 'Enter', description: '컴포넌트를 활성화합니다.' },
+                            { key: 'Space', description: '컴포넌트를 활성화합니다.' },
+                        ],
+                        attributes: [
+                            { name: 'aria-label', description: '요소의 접근 가능한 이름을 제공합니다.' },
+                        ],
+                    }}
+                />
+            </div>
+        );
+    }
+
+    if (name === 'color-swatch') {
+        return (
+            <div className="w-full max-w-md p-4 border rounded-lg bg-background flex items-center gap-3">
+                <ColorSwatch colorValue="hsl(var(--primary))" size="xl" />
+                <ColorSwatch colorValue="hsl(var(--foreground))" isTextColor size="lg" />
+                <ColorSwatch colorValue="transparent" fallbackColor="#2563eb80" size="lg" />
+            </div>
+        );
+    }
+
+    if (name === 'do-dont') {
+        return (
+            <div className="w-full max-w-3xl grid md:grid-cols-2 gap-4">
+                <DoDont type="do" title="명확한 레이블" description="액션 목적이 분명한 텍스트를 사용하세요.">
+                    <Button className="w-full">저장하기</Button>
+                </DoDont>
+                <DoDont type="dont" title="모호한 레이블" description="의미를 추측해야 하는 텍스트는 피하세요.">
+                    <Button variant="secondary" className="w-full">확인</Button>
+                </DoDont>
+            </div>
+        );
+    }
+
+    if (name === 'experimental-toggle') {
+        return <ExperimentalToggle />;
+    }
+
+    if (name === 'measure-overlay') {
+        return (
+            <div className="w-full max-w-md p-4 border rounded-lg bg-background text-sm text-muted-foreground">
+                MeasureOverlay는 대상 요소(`targetRef`) 위에 패딩/크기/간격을 시각화하는 유틸리티 컴포넌트입니다.
+            </div>
+        );
+    }
+
+    if (name === 'page-section') {
+        return (
+            <div className="w-full max-w-2xl">
+                <PageSection title="Section Title" description="섹션 설명 텍스트입니다.">
+                    <div className="rounded-lg border bg-background p-4 text-sm">Section Content</div>
+                </PageSection>
+            </div>
+        );
+    }
+
+    if (name === 'particle-background') {
+        return (
+            <div className="relative w-full max-w-xl h-48 border rounded-xl overflow-hidden bg-muted/40">
+                <ParticleBackground focusState="none" className="opacity-70" />
+                <div className="absolute bottom-3 left-3 text-xs text-muted-foreground bg-background/80 px-2 py-1 rounded">
+                    Interactive Particle Background
+                </div>
+            </div>
+        );
+    }
+
+    if (name === 'principles-section') {
+        return (
+            <div className="w-full max-w-3xl">
+                <PrinciplesSection
+                    items={[
+                        { icon: Copy, title: '일관성', description: '반복 가능한 패턴으로 사용자 학습 비용을 낮춥니다.' },
+                        { icon: Palette, title: '명료성', description: '정보 계층을 명확하게 전달합니다.' },
+                    ]}
+                />
+            </div>
+        );
+    }
+
+    if (name === 'token-anatomy') {
+        return (
+            <div className="w-full max-w-2xl">
+                <TokenAnatomy />
+            </div>
+        );
+    }
+
+    if (name === 'smart-filter-dropdown') {
+        return (
+            <div className="w-full max-w-md">
+                <SmartFilterDropdown
+                    triggerText="Category"
+                    items={[
+                        { value: 'ui', label: 'UI' },
+                        { value: 'form', label: 'Form' },
+                    ]}
+                    selectedValues={['All']}
+                    onSelectionChange={() => { }}
+                    width="w-[180px]"
+                    align="start"
+                />
+            </div>
+        );
+    }
+
+    if (name === 'sidebar') {
+        return (
+            <div className="w-full max-w-md border rounded-xl bg-background overflow-hidden">
+                <div className="px-4 py-3 border-b text-sm font-black">MDS</div>
+                <div className="p-3 space-y-1">
+                    <div className="h-9 rounded-lg bg-accent px-2 flex items-center text-sm text-primary">Colors</div>
+                    <div className="h-9 rounded-lg px-2 flex items-center text-sm text-foreground">Typography</div>
+                    <div className="h-9 rounded-lg px-2 flex items-center text-sm text-foreground">Components</div>
+                </div>
+            </div>
+        );
+    }
+
     // Default fallback
     return (
         <div className="text-sm text-muted-foreground font-mono bg-background px-3 py-2 rounded border">
@@ -349,6 +537,10 @@ const parseBold = (text: string) => {
 
 const ComponentDetailPage = () => {
     const { componentName } = useParams<{ componentName: string }>();
+    const resolveInitialAnatomyStyle = React.useCallback((name?: string) => {
+        const options = getAnatomyVariantOptions(name || '');
+        return options.length > 0 ? options[0].value : 'default';
+    }, []);
     const [activeVariantIndex, setActiveVariantIndex] = React.useState(0);
     const [copiedCode, setCopiedCode] = React.useState<string | null>(null);
     const [isMeasureMode, setIsMeasureMode] = React.useState(false);
@@ -358,27 +550,23 @@ const ComponentDetailPage = () => {
     const [showColorInfo, setShowColorInfo] = React.useState(false);
     const [hoveredColorToken, setHoveredColorToken] = React.useState<string | null>(null);
     const [hoveredColorName, setHoveredColorName] = React.useState<string | undefined>(undefined);
-    const [anatomyStyle, setAnatomyStyle] = React.useState(() => {
-        const variants = getAnatomyVariants(componentName || '');
-        return variants.length > 0 ? variants[0] : 'segmented';
-    });
+    const [anatomyStyle, setAnatomyStyle] = React.useState(() => resolveInitialAnatomyStyle(componentName));
     const [isAnatomyTabAnimating, setIsAnatomyTabAnimating] = React.useState(false);
     const previewRef = React.useRef<HTMLDivElement>(null);
 
     const meta = componentName ? getComponentMeta(componentName) : undefined;
+    const anatomyVariantOptions: AnatomyVariantOption[] = React.useMemo(
+        () => getAnatomyVariantOptions(componentName || ''),
+        [componentName]
+    );
 
     // meta가 변경되면 variant 인덱스, 측정모드 초기화
     React.useEffect(() => {
         setActiveVariantIndex(0);
         setIsMeasureMode(false);
         // Reset anatomy style to first valid variant when component changes
-        const variants = getAnatomyVariants(componentName || '');
-        if (variants.length > 0) {
-            setAnatomyStyle(variants[0]);
-        } else {
-            setAnatomyStyle('segmented');
-        }
-    }, [componentName]);
+        setAnatomyStyle(resolveInitialAnatomyStyle(componentName));
+    }, [componentName, resolveInitialAnatomyStyle]);
 
     const copyToClipboard = (code: string, id: string) => {
         navigator.clipboard.writeText(code);
@@ -460,18 +648,18 @@ const ComponentDetailPage = () => {
                             {/* Unified Toolbar - Split into Left and Right */}
                             <div className="absolute top-3 left-3 z-50">
                                 {/* Component Variants Switcher */}
-                                {getAnatomyVariants(componentName || '').length > 0 && (
+                                {anatomyVariantOptions.length > 1 && (
                                     <div className="flex gap-0.5 p-[2px] bg-muted rounded-[10px] h-8 items-center relative group">
-                                        {getAnatomyVariants(componentName || '').map((s) => (
+                                        {anatomyVariantOptions.map((option) => (
                                             <button
-                                                key={s}
-                                                onClick={() => setAnatomyStyle(s)}
+                                                key={option.value}
+                                                onClick={() => setAnatomyStyle(option.value)}
                                                 className={cn(
                                                     "relative px-3 h-7 text-[11px] font-bold rounded-[8px] transition-colors flex items-center justify-center outline-none",
-                                                    anatomyStyle === s ? "text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                                    anatomyStyle === option.value ? "text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                                                 )}
                                             >
-                                                {anatomyStyle === s && (
+                                                {anatomyStyle === option.value && (
                                                     <motion.div
                                                         layoutId="anatomyStyleActive"
                                                         className={cn(
@@ -483,7 +671,7 @@ const ComponentDetailPage = () => {
                                                         onLayoutAnimationComplete={() => setIsAnatomyTabAnimating(false)}
                                                     />
                                                 )}
-                                                <span className="relative z-10">{s.charAt(0).toUpperCase() + s.slice(1)}</span>
+                                                <span className="relative z-10">{option.label}</span>
                                             </button>
                                         ))}
                                     </div>

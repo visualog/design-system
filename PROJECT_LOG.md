@@ -253,3 +253,5 @@
 - **아나토미 다이어그램 확장 구현**: `AnatomyPreview`에 `switch`, `dropdown-menu`, `table`, `smart-filter-dropdown`, `sidebar`의 실제 아나토미 미리보기를 추가하고, `AnatomyInfoPanel`에 신규 파트 설명(Track/Thumb/MenuSurface/MenuItem/HeaderCell/Cell/SearchField/SectionGroup/NavItem/FooterAction)을 연동했습니다.
 - **아나토미 메타 분리**: `colorTokenData`, `getAnatomyVariants`를 `src/components/anatomy-meta.ts`로 분리해 상세 페이지/정보 패널/아나토미 프리뷰가 공통으로 참조하도록 구조를 정리했습니다.
 - **아나토미 2차 확장 및 플레이스홀더 제거**: `input`, `card`, `tooltip`, `popover`, `sheet`, `separator`, `clipboard`, `animated-tabs` 아나토미를 추가 구현하고, 미구현 컴포넌트는 제너릭 아나토미 렌더러로 대체해 상세 페이지의 "No anatomy diagram available" 플레이스홀더를 제거했습니다.
+- **아나토미 배리언트 정합성 개선**: `anatomy-meta`에 `getAnatomyVariantOptions`를 추가해 스타일 값과 표시 라벨을 분리하고, 상세 페이지 아나토미 스위처가 컴포넌트별 옵션 라벨(예: `Basic Tabs`, `Settings Pattern`, `Desktop Fixed`)을 사용하도록 정리했습니다.
+- **미리보기 전수 커버리지 확보**: `ComponentDetailPage`의 `LivePreview`에 누락 15개 컴포넌트(`breadcrumb`, `highlight-text`, `proposal-notification`, `smart-filter-dropdown`, `sidebar` 등) 렌더 케이스를 추가해 레지스트리 등록 컴포넌트 전체가 상세 미리보기에 대응되도록 개선했습니다.
