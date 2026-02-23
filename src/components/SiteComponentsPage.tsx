@@ -102,12 +102,6 @@ const SiteComponentsPage = () => {
                     <AnimatedTabs tabs={tabs} activeTab={selectedCategory} setActiveTab={setSelectedCategory}>
                         <div className="flex flex-col gap-6 mt-6">
                             <div className="flex flex-wrap items-center gap-2">
-                                <SearchBar
-                                    containerClassName="min-w-[220px] flex-1 max-w-[420px]"
-                                    placeholder={`${filteredComponents.length}개 컴포넌트 검색...`}
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                />
                                 <SmartFilterDropdown
                                     triggerText={atomicFilterTriggerText}
                                     items={atomicFilterItems}
@@ -137,6 +131,12 @@ const SiteComponentsPage = () => {
                                     }}
                                     width="w-[172px]"
                                     align="start"
+                                />
+                                <SearchBar
+                                    containerClassName="min-w-[220px] flex-1 max-w-[420px]"
+                                    placeholder={`${filteredComponents.length}개 컴포넌트 검색...`}
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
                                 />
                             </div>
 
