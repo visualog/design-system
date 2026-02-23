@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { AnimatedTabs } from '@/components/ui/animated-tabs';
 import { getAllComponents } from '@/data/componentRegistry';
 import { ExperimentalToggle } from './ui/ExperimentalToggle';
+import { SearchBar } from './SearchBar';
+import { SmartFilterDropdown } from '@/components/ui/SmartFilterDropdown';
 
 const releasePhaseLabels = {
     experimental: 'Experimental',
@@ -17,6 +19,19 @@ const atomicLevelLabels = {
     molecule: 'Molecule',
     organism: 'Organism'
 } as const;
+
+const atomicFilterItems = [
+    { value: 'atom', label: 'Atom' },
+    { value: 'molecule', label: 'Molecule' },
+    { value: 'organism', label: 'Organism' }
+];
+
+const releasePhaseFilterItems = [
+    { value: 'experimental', label: 'Experimental' },
+    { value: 'beta', label: 'Beta' },
+    { value: 'stable', label: 'Stable' },
+    { value: 'deprecated', label: 'Deprecated' }
+];
 
 const getReleasePhaseBadgeClass = (phase?: string) => {
     switch (phase) {
@@ -61,6 +76,14 @@ const SiteComponentsPage = () => {
         value: category
     }));
 
+    const atomicFilterTriggerText = selectedAtomicLevel === 'all'
+        ? 'Atomic: 전체'
+        : `Atomic: ${atomicLevelLabels[selectedAtomicLevel]}`;
+
+    const releaseFilterTriggerText = selectedReleasePhase === 'all'
+        ? 'Release: 전체'
+        : `Release: ${releasePhaseLabels[selectedReleasePhase]}`;
+
     return (
         <div className="flex flex-col gap-16 pb-24 w-full max-w-[1104px] mx-auto">
             <div>
@@ -78,48 +101,43 @@ const SiteComponentsPage = () => {
                 <div className="mt-8">
                     <AnimatedTabs tabs={tabs} activeTab={selectedCategory} setActiveTab={setSelectedCategory}>
                         <div className="flex flex-col gap-6 mt-6">
-                            <div className="flex flex-col gap-3">
-                                {/* 검색창 */}
-                                <div className="relative w-full md:w-72 self-start">
-                                    <input
-                                        type="text"
-                                        placeholder={`${filteredComponents.length}개 컴포넌트 검색...`}
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="w-full h-10 px-3 pl-10 rounded-md border bg-background text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                                    />
-                                    <div className="absolute left-3 top-2.5 text-muted-foreground">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <circle cx="11" cy="11" r="8"></circle>
-                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                        </svg>
-                                    </div>
-                                </div>
-
-                                {/* 메타 필터 */}
-                                <div className="flex flex-wrap gap-2">
-                                    <select
-                                        value={selectedAtomicLevel}
-                                        onChange={(e) => setSelectedAtomicLevel(e.target.value as 'all' | 'atom' | 'molecule' | 'organism')}
-                                        className="h-9 rounded-md border bg-background px-3 text-xs text-foreground"
-                                    >
-                                        <option value="all">Atomic: 전체</option>
-                                        <option value="atom">Atom</option>
-                                        <option value="molecule">Molecule</option>
-                                        <option value="organism">Organism</option>
-                                    </select>
-                                    <select
-                                        value={selectedReleasePhase}
-                                        onChange={(e) => setSelectedReleasePhase(e.target.value as 'all' | 'experimental' | 'beta' | 'stable' | 'deprecated')}
-                                        className="h-9 rounded-md border bg-background px-3 text-xs text-foreground"
-                                    >
-                                        <option value="all">Release: 전체</option>
-                                        <option value="experimental">Experimental</option>
-                                        <option value="beta">Beta</option>
-                                        <option value="stable">Stable</option>
-                                        <option value="deprecated">Deprecated</option>
-                                    </select>
-                                </div>
+                            <div className="flex flex-wrap items-center gap-2">
+                                <SearchBar
+                                    containerClassName="min-w-[220px] flex-1 max-w-[420px]"
+                                    placeholder={`${filteredComponents.length}개 컴포넌트 검색...`}
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                                <SmartFilterDropdown
+                                    triggerText={atomicFilterTriggerText}
+                                    items={atomicFilterItems}
+                                    selectedValues={selectedAtomicLevel === 'all' ? ['All'] : [selectedAtomicLevel]}
+                                    onSelectionChange={(values) => {
+                                        const next = values[0];
+                                        if (!next || next === 'All') {
+                                            setSelectedAtomicLevel('all');
+                                            return;
+                                        }
+                                        setSelectedAtomicLevel(next as 'atom' | 'molecule' | 'organism');
+                                    }}
+                                    width="w-[156px]"
+                                    align="start"
+                                />
+                                <SmartFilterDropdown
+                                    triggerText={releaseFilterTriggerText}
+                                    items={releasePhaseFilterItems}
+                                    selectedValues={selectedReleasePhase === 'all' ? ['All'] : [selectedReleasePhase]}
+                                    onSelectionChange={(values) => {
+                                        const next = values[0];
+                                        if (!next || next === 'All') {
+                                            setSelectedReleasePhase('all');
+                                            return;
+                                        }
+                                        setSelectedReleasePhase(next as 'experimental' | 'beta' | 'stable' | 'deprecated');
+                                    }}
+                                    width="w-[172px]"
+                                    align="start"
+                                />
                             </div>
 
                             {/* 결과 목록 */}
