@@ -53,6 +53,52 @@ export interface ComponentMeta {
     tags?: string[];
 }
 
+function getFallbackAnatomy(meta: ComponentMeta): string {
+    switch (meta.category) {
+        case 'form':
+            return `
+### 구조 (Anatomy)
+
+- **Root**: 사용자 입력을 받는 기본 컨테이너입니다.
+- **Control**: 실제 값 변경/선택이 일어나는 인터랙션 영역입니다.
+- **State Layer**: 기본/포커스/비활성/에러 등 상태 표현 레이어입니다.
+            `;
+        case 'navigation':
+            return `
+### 구조 (Anatomy)
+
+- **Container**: 내비게이션 아이템들을 그룹화하는 상위 영역입니다.
+- **Item / Trigger**: 페이지 이동 또는 메뉴 확장을 담당하는 인터랙션 요소입니다.
+- **Active Indicator**: 현재 위치/선택 상태를 시각적으로 표시하는 요소입니다.
+            `;
+        case 'feedback':
+            return `
+### 구조 (Anatomy)
+
+- **Trigger**: 피드백 UI를 호출하는 시작 요소입니다.
+- **Surface**: 메시지/상태/도움을 표시하는 본문 영역입니다.
+- **Support Elements**: 아이콘, 액션, 보조 텍스트 등 맥락을 보완하는 요소입니다.
+            `;
+        case 'layout':
+            return `
+### 구조 (Anatomy)
+
+- **Root**: 콘텐츠 배치 기준이 되는 상위 레이아웃 컨테이너입니다.
+- **Region**: 헤더/본문/푸터 등 의미 단위로 분리된 영역입니다.
+- **Spacing Rules**: 패딩/간격/정렬 기준으로 시각 리듬을 유지합니다.
+            `;
+        case 'ui':
+        default:
+            return `
+### 구조 (Anatomy)
+
+- **Root**: 컴포넌트의 최상위 래퍼입니다.
+- **Content**: 사용자에게 노출되는 핵심 정보/요소 영역입니다.
+- **Optional Slots**: 아이콘, 보조 텍스트, 액션 등 확장 가능한 슬롯입니다.
+            `;
+    }
+}
+
 // 컴포넌트 레지스트리
 export const componentRegistry: Record<string, ComponentMeta> = {
     button: {
@@ -1119,7 +1165,13 @@ export function Example() {
 
 // 컴포넌트 이름으로 메타데이터 가져오기
 export function getComponentMeta(name: string): ComponentMeta | undefined {
-    return componentRegistry[name.toLowerCase()];
+    const meta = componentRegistry[name.toLowerCase()];
+    if (!meta) return undefined;
+
+    return {
+        ...meta,
+        anatomy: meta.anatomy ?? getFallbackAnatomy(meta),
+    };
 }
 
 // 모든 컴포넌트 목록 가져오기
