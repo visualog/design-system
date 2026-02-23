@@ -48,6 +48,14 @@ const getReleasePhaseBadgeClass = (phase?: string) => {
     }
 };
 
+const resolveSingleSelectValue = <T extends string>(values: string[], fallback: T): T => {
+    if (!values.length || values.includes('All')) {
+        return fallback;
+    }
+    // SmartFilterDropdown can emit multi-select values; pick the latest one for single-select UX.
+    return values[values.length - 1] as T;
+};
+
 const SiteComponentsPage = () => {
     const components = getAllComponents();
     const [searchQuery, setSearchQuery] = React.useState('');
@@ -107,12 +115,8 @@ const SiteComponentsPage = () => {
                                     items={atomicFilterItems}
                                     selectedValues={selectedAtomicLevel === 'all' ? ['All'] : [selectedAtomicLevel]}
                                     onSelectionChange={(values) => {
-                                        const next = values[0];
-                                        if (!next || next === 'All') {
-                                            setSelectedAtomicLevel('all');
-                                            return;
-                                        }
-                                        setSelectedAtomicLevel(next as 'atom' | 'molecule' | 'organism');
+                                        const next = resolveSingleSelectValue<'all' | 'atom' | 'molecule' | 'organism'>(values, 'all');
+                                        setSelectedAtomicLevel(next);
                                     }}
                                     width="w-[156px]"
                                     align="start"
@@ -122,12 +126,8 @@ const SiteComponentsPage = () => {
                                     items={releasePhaseFilterItems}
                                     selectedValues={selectedReleasePhase === 'all' ? ['All'] : [selectedReleasePhase]}
                                     onSelectionChange={(values) => {
-                                        const next = values[0];
-                                        if (!next || next === 'All') {
-                                            setSelectedReleasePhase('all');
-                                            return;
-                                        }
-                                        setSelectedReleasePhase(next as 'experimental' | 'beta' | 'stable' | 'deprecated');
+                                        const next = resolveSingleSelectValue<'all' | 'experimental' | 'beta' | 'stable' | 'deprecated'>(values, 'all');
+                                        setSelectedReleasePhase(next);
                                     }}
                                     width="w-[172px]"
                                     align="start"
