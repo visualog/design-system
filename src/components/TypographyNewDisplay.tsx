@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { designSystemData } from '../utils/dataLoader';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Type, Copy, MessageSquare } from "lucide-react";
+import { DocSubsection } from './ui/DocLayout';
 
 /**
  * Geist-inspired Typography Page
@@ -42,11 +43,25 @@ const getCategoryDescription = (category: string) => {
     }
 };
 
+interface TypographyToken {
+    text_style: string;
+    style_name: string;
+    size: string;
+    line_height: string;
+    weight: string;
+}
+
+type TypographySource = Record<string, string | TypographyToken[]>;
+
 const TypographyNewDisplay: React.FC = () => {
     const { typography } = designSystemData;
+    const typographyData = typography as TypographySource;
     const [previewText, setPreviewText] = useState('The quick brown fox jumps over the lazy dog');
 
-    const availableCategories = Object.keys(typography).filter(key => key !== 'font_family');
+    const availableCategories = useMemo(
+        () => Object.keys(typographyData).filter((key) => key !== 'font_family' && Array.isArray(typographyData[key])),
+        [typographyData]
+    );
 
     const copyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text);
@@ -58,80 +73,70 @@ const TypographyNewDisplay: React.FC = () => {
 
     const displayData = useMemo(() => {
         return availableCategories
-            .reduce((acc: any, category) => {
-                const styles = (typography as any)[category] || [];
-                if (styles.length > 0) acc[category] = styles;
-                return acc;
-            }, {});
-    }, [typography, availableCategories]);
+            .map((category) => {
+                const styles = typographyData[category];
+                if (!Array.isArray(styles) || styles.length === 0) {
+                    return null;
+                }
+
+                return { category, styles };
+            })
+            .filter((item): item is { category: string; styles: TypographyToken[] } => item !== null);
+    }, [availableCategories, typographyData]);
 
     return (
-        <div className="flex flex-col gap-16 max-w-7xl mx-auto py-12 font-pretendard">
-            {/* HER0 - Geist Style */}
-            <header className="flex flex-col gap-8 pb-12">
-                <div className="flex flex-col gap-6">
-
-                    <div className="flex flex-col gap-3">
-                        <h1 className="text-5xl font-extrabold tracking-tighter text-foreground">Pretendard</h1>
-                        <p className="text-lg text-muted-foreground max-w-3xl leading-relaxed">
-                            가독성과 시각적 균형을 최우선으로 설계된 현대적인 다중 플랫폼 가변 글꼴 시스템입니다.
-                        </p>
+        <div className="font-pretendard doc-content-stack">
+            <DocSubsection
+                title="타이포그래피 기초"
+                description="가독성과 시각적 균형을 최우선으로 설계된 Pretendard 기반 타이포그래피 시스템입니다."
+            >
+                <div className="flex flex-wrap items-center gap-6">
+                    <div className="flex items-center gap-2 text-sm bg-muted/50 px-3 py-1.5 rounded-full border border-border/50">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="text-muted-foreground">Variable Font</span>
                     </div>
-
-                    <div className="flex flex-wrap items-center gap-6">
-                        <div className="flex items-center gap-2 text-sm bg-muted/50 px-3 py-1.5 rounded-full border border-border/50">
-                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                            <span className="text-muted-foreground">Variable Font</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <MessageSquare className="w-4 h-4" />
-                            <span>Pretendard JP/CN Support</span>
-                        </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <MessageSquare className="w-4 h-4" />
+                        <span>Pretendard JP/CN Support</span>
                     </div>
                 </div>
+            </DocSubsection>
 
-                <div className="flex flex-col sm:flex-row items-end justify-between gap-8">
-                    {/* Live Preview Tester */}
-                    <div className="flex flex-col gap-3 w-full">
-
-                        <div className="relative group">
-                            <input
-                                type="text"
-                                value={previewText}
-                                onChange={(e) => setPreviewText(e.target.value)}
-                                className="w-full bg-background border border-input hover:border-border rounded-xl px-5 py-4 text-sm focus:ring-4 focus:ring-primary/5 transition-all outline-none pr-12"
-                                placeholder="Type to preview styles..."
-                            />
-                            <Type className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/30 group-focus-within:text-primary transition-colors" />
-                        </div>
-                    </div>
-
-
+            <DocSubsection
+                title="라이브 타입 테스터"
+                description="프리뷰 문장을 직접 입력해 각 토큰의 실제 읽기감을 확인합니다."
+            >
+                <div className="relative group max-w-3xl">
+                    <input
+                        type="text"
+                        value={previewText}
+                        onChange={(e) => setPreviewText(e.target.value)}
+                        className="w-full bg-background border border-input hover:border-border rounded-xl px-5 py-4 text-sm focus:ring-4 focus:ring-primary/5 transition-all outline-none pr-12"
+                        placeholder="Type to preview styles..."
+                    />
+                    <Type className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/30 group-focus-within:text-primary transition-colors" />
                 </div>
-            </header>
+            </DocSubsection>
 
-            {/* CONTENT SECTIONS */}
-            <main className="flex flex-col gap-24 py-4">
-                {Object.entries(displayData).map(([category, styles]: [string, any]) => (
-                    <section key={category} className="flex flex-col gap-8 scroll-mt-32">
-                        <div className="flex items-end justify-between">
-                            <div className="flex flex-col gap-1">
-                                <h2 className="text-3xl font-bold tracking-tight">{category}</h2>
-                                <p className="text-sm text-muted-foreground">{getCategoryDescription(category)}</p>
-                            </div>
-                        </div>
-
+            <div className="doc-content-stack">
+                {displayData.map(({ category, styles }) => (
+                    <DocSubsection
+                        key={category}
+                        title={category}
+                        description={getCategoryDescription(category)}
+                        className="scroll-mt-32"
+                    >
                         <div className="overflow-x-auto rounded-xl">
                             <Table>
                                 <TableHeader className="bg-transparent hover:bg-transparent">
                                     <TableRow className="border-none hover:bg-transparent">
                                         <TableHead className="w-[50%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50">Example</TableHead>
                                         <TableHead className="w-[20%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50">Token Name</TableHead>
-                                        <TableHead className="w-[30%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 text-right">Specs & Usage</TableHead>
+                                        <TableHead className="w-[30%] h-12 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 text-right">스펙 및 용도</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {styles.map((style: any) => {
+                                    {styles.map((style) => {
                                         const weight = getWeight(style.weight);
                                         const usage = getUsage(style.style_name);
 
@@ -192,45 +197,29 @@ const TypographyNewDisplay: React.FC = () => {
                                 </TableBody>
                             </Table>
                         </div>
-                    </section>
+                    </DocSubsection>
                 ))}
-            </main>
+            </div>
 
-            {/* FOOTER PRINCIPLES */}
-            <footer className="mt-12 bg-secondary/10 rounded-3xl p-10 sm:p-16 border border-border/60 overflow-hidden relative group">
-                <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-colors duration-1000" />
-                <div className="relative z-10 flex flex-col gap-12">
-                    <div className="flex flex-col gap-3">
-                        <Tag label="Principles" />
-                        <h2 className="text-4xl font-black tracking-tighter">Typography Core Philosophy</h2>
-                        <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
-                            모든 서체 스타일은 미학적인 아름다움과 기능적인 완성도를 연결하며, 체계적이고 일관된 사용자 경험을 제공합니다.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                        {[
-                            { title: 'Readability First', desc: '정보 전달의 명확성을 위해 최적의 여백과 대비를 제공하여 사용자의 피로도를 낮춥니다.' },
-                            { title: 'Visual Hierarchy', desc: '일관된 서체 두께와 크기 체계를 활용하여 사용자의 시선을 효과적으로 유도합니다.' },
-                            { title: 'Accessibility', desc: '모든 사용자가 정보를 쉽고 정확하게 인지할 수 있도록 엄격한 타이포그래피 규칙을 준수합니다.' }
-                        ].map(p => (
-                            <div key={p.title} className="flex flex-col gap-4">
-                                <div className="w-10 h-1 stroke-primary bg-primary rounded-full transition-all group-hover:w-20" />
-                                <h3 className="text-xl font-bold">{p.title}</h3>
-                                <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
-                            </div>
-                        ))}
-                    </div>
+            <DocSubsection
+                title="타이포그래피 설계 원칙"
+                description="모든 서체 스타일은 미학적 완성도와 기능적 명확성을 동시에 만족하도록 설계합니다."
+            >
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {[
+                        { title: 'Readability First', desc: '정보 전달의 명확성을 위해 최적의 여백과 대비를 제공하여 사용자의 피로도를 낮춥니다.' },
+                        { title: 'Visual Hierarchy', desc: '일관된 서체 두께와 크기 체계를 활용하여 사용자의 시선을 효과적으로 유도합니다.' },
+                        { title: 'Accessibility', desc: '모든 사용자가 정보를 쉽고 정확하게 인지할 수 있도록 엄격한 타이포그래피 규칙을 준수합니다.' }
+                    ].map((principle) => (
+                        <div key={principle.title} className="flex flex-col gap-3 rounded-xl border bg-card p-5">
+                            <h3 className="text-lg font-bold">{principle.title}</h3>
+                            <p className="text-sm text-muted-foreground leading-relaxed">{principle.desc}</p>
+                        </div>
+                    ))}
                 </div>
-            </footer>
+            </DocSubsection>
         </div>
     );
 };
-
-const Tag = ({ label }: { label: string }) => (
-    <div className="inline-flex h-6 items-center px-3 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest border border-primary/20 w-fit">
-        {label}
-    </div>
-);
 
 export default TypographyNewDisplay;

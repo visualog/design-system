@@ -2,14 +2,20 @@ import React from 'react';
 
 import LayoutDisplay from './LayoutDisplay';
 import { FoundationPageLayout } from './FoundationPageLayout';
+import { DocSection } from './ui/DocLayout';
 
 const LayoutPage: React.FC = () => {
     return (
         <FoundationPageLayout
             title="Layout"
-            description="레이아웃 시스템은 12컬럼 그리드를 기본으로 하며, 다양한 디바이스 해상도에 대응하는 반응형 중단점과 여백 규칙을 정의합니다. 일관된 레이아웃 구조를 통해 사용자에게 안정적인 시각적 경험을 제공합니다."
+            description="레이아웃 시스템은 해상도, 반응형 전환 기준, 마진/거터 규칙을 정의합니다. 해상도, 브레이크포인트, 메인 레이아웃 기준을 순서대로 확인합니다."
         >
-            <LayoutDisplay />
+            <DocSection
+                title="레이아웃 기준"
+                description="해상도, 중단점, 디바이스별 메인 레이아웃 규칙을 확인합니다."
+            >
+                <LayoutDisplay />
+            </DocSection>
         </FoundationPageLayout>
     );
 };

@@ -3,9 +3,9 @@ import { DoDont, DoDontContainer } from './ui/DoDont';
 
 const SpacingUsage: React.FC = () => {
     return (
-        <div className="flex flex-col gap-12">
-            <section className="flex flex-col gap-6">
-                <h3 className="text-lg font-bold">간격 원칙 (Spacing Principles)</h3>
+        <div className="doc-content-stack-tight">
+            <section className="doc-subsection">
+                <h3 className="text-doc-subsection-title">간격 원칙 (Spacing Principles)</h3>
                 <DoDontContainer>
                     <DoDont
                         type="do"
@@ -31,8 +31,8 @@ const SpacingUsage: React.FC = () => {
                 </DoDontContainer>
             </section>
 
-            <section className="flex flex-col gap-6">
-                <h3 className="text-lg font-bold">Gap vs Padding</h3>
+            <section className="doc-subsection">
+                <h3 className="text-doc-subsection-title">Gap vs Padding</h3>
                 <DoDontContainer>
                     <DoDont
                         type="do"

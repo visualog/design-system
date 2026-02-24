@@ -14,10 +14,10 @@ const SpacingDisplay: React.FC = () => {
     const { spacing } = designSystemData;
 
     return (
-        <div className="flex flex-col gap-12">
+        <div className="doc-content-stack-tight">
             {/* Interactive Visualizer */}
-            <section className="flex flex-col gap-6">
-                <h2 className="text-xl font-bold">Interactive Visualizer</h2>
+            <section className="doc-subsection">
+                <h2 className="text-doc-subsection-title">인터랙티브 시각화</h2>
                 <div className="bg-secondary/10 border border-border rounded-xl p-8 flex flex-col md:flex-row gap-8 items-center justify-center min-h-[300px]">
                     <div className="flex flex-col items-center gap-4 w-full max-w-md">
                         <div className="flex items-center gap-0 w-full justify-center">
@@ -61,8 +61,8 @@ const SpacingDisplay: React.FC = () => {
             </section>
 
             {/* Spacing System Table */}
-            <section className="flex flex-col gap-4">
-                <h2 className="text-xl font-bold">토큰</h2>
+            <section className="doc-subsection">
+                <h2 className="text-doc-subsection-title">토큰</h2>
                 <div className="overflow-hidden">
                     <Table>
                         <TableHeader>
@@ -73,7 +73,7 @@ const SpacingDisplay: React.FC = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {spacing.spacing_values.map((s: any, index: number) => (
+                            {spacing.spacing_values.map((s: { variable: string; px: number }, index: number) => (
                                 <TableRow key={index}>
                                     <TableCell className="font-mono text-sm font-medium">
                                         <div className="flex items-center gap-2">

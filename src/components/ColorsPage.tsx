@@ -9,6 +9,7 @@ import { FoundationPageLayout, FoundationPageTabs } from './FoundationPageLayout
 import { PrinciplesSection, type PrincipleItem } from './ui/PrinciplesSection';
 import { TokenAnatomy } from './ui/TokenAnatomy';
 import { DoDont, DoDontContainer } from './ui/DoDont';
+import { DocSection } from './ui/DocLayout';
 import { Eye, Type, Palette } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -80,25 +81,40 @@ const ColorsPage: React.FC = () => {
       value: 'overview',
       label: '개요',
       content: (
-        <div className="flex flex-col gap-10 mt-6">
-          <PrinciplesSection items={colorPrinciples} />
+        <div className="doc-content-stack mt-6">
+          <DocSection
+            title="컬러 원칙"
+            description="접근성, 의미론, 확장성을 기준으로 컬러 시스템의 핵심 원칙을 정의합니다."
+          >
+            <PrinciplesSection items={colorPrinciples} />
+          </DocSection>
 
-          <section>
-            <h3 className="text-heading-md font-bold mb-4">Color Scale</h3>
+          <DocSection
+            title="컬러 스케일"
+            description="원시 컬러 스케일을 통해 토큰 전개 범위를 확인합니다."
+          >
             <ColorPaletteDisplay view="grid" />
-          </section>
+          </DocSection>
 
-          <TokenAnatomy />
+          <DocSection
+            title="토큰 네이밍 규칙"
+            description="토큰은 속성(Property)-역할(Role)-변형(Variant)-상태(State) 규칙으로 작성합니다."
+          >
+            <TokenAnatomy showHeading={false} />
+          </DocSection>
 
-          <section>
-            <h3 className="text-heading-md font-bold mb-6">Usage Guide</h3>
+          <DocSection
+            title="사용 가이드"
+            description="시맨틱 토큰을 사용해 테마 전환과 확장에 대응합니다."
+            contentClassName="doc-content-stack-tight"
+          >
 
-            <div className="flex flex-col gap-8">
+            <div className="doc-content-stack-tight">
               <DoDontContainer>
                 <DoDont
                   type="do"
                   title="의미론적 이름 사용하기"
-                  description="색상의 시각적 이름(Blue, Red) 대신 역할(Primary, Error)을 나타내는 Semantic Token을 사용하세요."
+                  description="색상의 시각적 이름(Blue, Red) 대신 역할(Primary, Error)을 나타내는 시맨틱 토큰을 사용하세요."
                 >
                   <div className="flex items-center gap-4 p-4 bg-white dark:bg-zinc-900 rounded-lg border shadow-sm">
                     <div className="flex flex-col gap-1">
@@ -106,7 +122,7 @@ const ColorsPage: React.FC = () => {
                       <div className="h-10 w-24 bg-primary rounded-md"></div>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <div className="text-xs text-muted-foreground font-mono">text-error</div>
+                      <div className="text-xs text-muted-foreground font-mono">text-destructive</div>
                       <div className="text-destructive font-bold">Error Message</div>
                     </div>
                   </div>
@@ -131,7 +147,7 @@ const ColorsPage: React.FC = () => {
 
               <ColorUsage />
             </div>
-          </section>
+          </DocSection>
         </div>
       )
     },
@@ -155,7 +171,7 @@ const ColorsPage: React.FC = () => {
   return (
     <FoundationPageLayout
       title="Colors"
-      description="컬러 시스템은 접근성과 일관성을 고려하여 설계되었습니다. 전체 컬러 팔레트(Raw Palette), 라이트/다크 모드에 매핑된 테마 컬러(Theme Colors), 그리고 사용 목적에 따른 시맨틱 컬러(Semantic Colors)로 구성되어 있습니다."
+      description="컬러 시스템은 접근성과 일관성을 기준으로 색상 역할을 정의합니다. 컬러 원칙, 스케일, 네이밍 규칙, 사용 가이드를 순서대로 확인합니다."
       actions={
         <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as 'legacy' | 'new')} className="w-auto">
           <TabsList>

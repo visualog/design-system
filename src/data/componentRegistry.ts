@@ -32,7 +32,7 @@ export interface ComponentMeta {
     name: string;
     displayName: string;
     description: string;
-    category: 'ui' | 'layout' | 'form' | 'feedback' | 'navigation';
+    category: 'layout' | 'form' | 'feedback' | 'navigation' | 'docs' | 'utility';
     filePath: string;
     props: PropDefinition[];
     variants: ComponentVariant[];
@@ -87,7 +87,8 @@ function getFallbackAnatomy(meta: ComponentMeta): string {
 - **Region**: 헤더/본문/푸터 등 의미 단위로 분리된 영역입니다.
 - **Spacing Rules**: 패딩/간격/정렬 기준으로 시각 리듬을 유지합니다.
             `;
-        case 'ui':
+        case 'docs':
+        case 'utility':
         default:
             return `
 ### 구조 (Anatomy)
@@ -105,7 +106,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
         name: 'button',
         displayName: 'Button',
         description: '클릭 가능한 버튼 컴포넌트. 다양한 변형과 크기를 지원합니다.',
-        category: 'ui',
+        category: 'form',
         filePath: 'src/components/ui/button.tsx',
         atomicLevel: 'atom',
         releasePhase: 'stable',
@@ -161,6 +162,56 @@ export function Example() {
 - **우선순위 구분**: 페이지 내에서 가장 중요한 작업에는 Primary(Default) 버튼을, 덜 중요한 작업에는 Secondary 또는 Ghost 버튼을 사용하여 시각적 계층을 만드세요.
 - **일관성**: 버튼의 위치와 순서를 일관되게 유지하여 사용자가 예측 가능한 경험을 할 수 있도록 하세요.
         `
+    },
+
+    badge: {
+        name: 'badge',
+        displayName: 'Badge',
+        description: '상태 배지, 분류 태그, 메타 배지를 일관된 규칙으로 표시하는 배지 컴포넌트.',
+        category: 'feedback',
+        filePath: 'src/components/ui/badge.tsx',
+        atomicLevel: 'atom',
+        releasePhase: 'stable',
+        owner: 'design-system-core',
+        since: '2026-02-23',
+        tags: ['status', 'metadata', 'classification'],
+        props: [
+            { name: 'variant', type: "'default' | 'notification' | 'status' | 'tag' | 'meta' | 'category' | 'atomic' | 'stable' | 'beta' | 'experimental' | 'deprecated' | 'owner' | 'since'", defaultValue: 'default', description: '배지 시각 스타일' },
+            { name: 'className', type: 'string', description: '추가 CSS 클래스' },
+            { name: 'children', type: 'ReactNode', description: '배지 텍스트 또는 콘텐츠' },
+        ],
+        variants: [
+            { name: 'Notification Badge', description: '알림 수량/카운트를 표시하는 배지', code: '<Badge variant="notification">1</Badge>' },
+            { name: 'Status Badge', description: '릴리즈 단계(Stable/Beta/Experimental/Deprecated) 표시 배지', code: '<Badge variant="stable">Stable</Badge>' },
+            { name: 'Tag', description: '주제/분류 표시용 태그 토큰', code: '<Badge variant="tag">ui</Badge>' },
+            { name: 'Meta Badge', description: '파일/개수 등 보조 메타 정보 표시', code: '<Badge variant="meta">4 props</Badge>' },
+        ],
+        usage: `import { Badge } from "@/components/ui/badge"
+
+export function Example() {
+    return (
+        <div className="flex items-center gap-2">
+            <Badge variant="notification">1</Badge>
+            <Badge variant="stable">Stable</Badge>
+            <Badge variant="tag">ui</Badge>
+            <Badge variant="meta">4 props</Badge>
+        </div>
+    )
+}`,
+        anatomy: `
+### 구조 (Anatomy)
+
+- **Badge Root**: 배지의 외형(배경, 모서리, 패딩)을 담당하는 컨테이너입니다.
+- **Label**: 상태/분류/메타 정보를 전달하는 텍스트 콘텐츠입니다.
+        
+### 용어 기준 (Terminology)
+
+- **Notification Badge**: 알림 개수/노티를 표시합니다.
+- **Status Badge**: 상태/등급/단계를 표시합니다.
+- **Tag**: 주제/카테고리 분류용 토큰입니다.
+- **Meta Badge**: 파일명, props 수, variants 수 같은 보조 정보를 표시합니다.
+- **Label**: 폼 컨트롤 이름 텍스트에만 사용합니다.
+        `,
     },
 
     card: {
@@ -577,7 +628,7 @@ export function Example() {
         name: 'guideline-item',
         displayName: 'GuidelineItem',
         description: 'Do/Don\'t 가이드라인을 표시하는 컴포넌트.',
-        category: 'ui',
+        category: 'docs',
         filePath: 'src/components/ui/GuidelineItem.tsx',
         atomicLevel: 'molecule',
         releasePhase: 'beta',
@@ -609,7 +660,7 @@ export function Example() {
         name: 'highlight-text',
         displayName: 'HighlightText',
         description: '텍스트 내 특정 키워드를 하이라이트하는 컴포넌트.',
-        category: 'ui',
+        category: 'docs',
         filePath: 'src/components/ui/HighlightText.tsx',
         atomicLevel: 'atom',
         releasePhase: 'beta',
@@ -665,7 +716,7 @@ export function Example() {
         name: 'accessibility-section',
         displayName: 'AccessibilitySection',
         description: '키보드 인터랙션과 ARIA 속성 정보를 표로 보여주는 접근성 문서 섹션 컴포넌트.',
-        category: 'ui',
+        category: 'docs',
         filePath: 'src/components/ui/AccessibilitySection.tsx',
         atomicLevel: 'organism',
         releasePhase: 'beta',
@@ -689,7 +740,7 @@ export function Example({ accessibility }: { accessibility: AccessibilityMeta })
         name: 'color-swatch',
         displayName: 'ColorSwatch',
         description: '컬러 토큰 시각화를 위한 컬러 스와치 컴포넌트.',
-        category: 'ui',
+        category: 'docs',
         filePath: 'src/components/ui/ColorSwatch.tsx',
         atomicLevel: 'atom',
         releasePhase: 'stable',
@@ -882,7 +933,7 @@ export function Example() {
         name: 'token-anatomy',
         displayName: 'TokenAnatomy',
         description: '토큰 네이밍 규칙(Property-Role-Variant-State)을 시각적으로 설명하는 컴포넌트.',
-        category: 'ui',
+        category: 'docs',
         filePath: 'src/components/ui/TokenAnatomy.tsx',
         atomicLevel: 'molecule',
         releasePhase: 'beta',
@@ -975,7 +1026,7 @@ export function Example() {
         name: 'clipboard',
         displayName: 'Clipboard',
         description: '클립보드 복사 액션을 제공하는 아이콘 버튼 컴포넌트.',
-        category: 'ui',
+        category: 'utility',
         filePath: 'src/components/ui/clipboard.tsx',
         atomicLevel: 'atom',
         releasePhase: 'stable',

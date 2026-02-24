@@ -32,10 +32,12 @@ const TokenPart: React.FC<TokenPartProps> = ({ label, description, color }) => {
     );
 };
 
-export const TokenAnatomy: React.FC<{ className?: string }> = ({ className }) => {
+export const TokenAnatomy: React.FC<{ className?: string; showHeading?: boolean }> = ({ className, showHeading = true }) => {
     return (
         <div className={cn("p-8 rounded-xl border bg-card/50 flex flex-col items-center justify-center gap-8", className)}>
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-widest">Token Naming Convention</h3>
+            {showHeading && (
+                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-widest">Token Naming Convention</h3>
+            )}
 
             <div className="flex items-start gap-1 md:gap-2 flex-wrap justify-center">
                 <TokenPart label="text" description="Property (속성)" color="muted" />
@@ -47,7 +49,7 @@ export const TokenAnatomy: React.FC<{ className?: string }> = ({ className }) =>
                 <TokenPart label="hover" description="State (상태)" color="accent" />
             </div>
 
-            <p className="text-sm text-muted-foreground text-center max-w-lg leading-relaxed">
+            <p className="text-doc-body text-muted-foreground text-center max-w-lg leading-relaxed">
                 토큰 이름은 <strong>속성(Property)</strong>, <strong>역할(Role)</strong>, <strong>변형(Variant)</strong>, 그리고 <strong>상태(State)</strong>의 4단계 조합으로 구성됩니다.<br />
                 맥락(Context)을 먼저 정의하고, 구체적인 조건(Condition)을 뒤에 붙여 예측 가능한 시스템을 만듭니다.
             </p>

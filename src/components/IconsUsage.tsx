@@ -4,9 +4,9 @@ import { Home, Search } from 'lucide-react';
 
 const IconsUsage: React.FC = () => {
     return (
-        <div className="flex flex-col gap-12">
-            <section className="flex flex-col gap-6">
-                <h3 className="text-lg font-bold">사이즈 규칙 (Size Rules)</h3>
+        <div className="doc-content-stack-tight">
+            <section className="doc-subsection">
+                <h3 className="text-doc-subsection-title">사이즈 규칙 (Size Rules)</h3>
                 <DoDontContainer>
                     <DoDont
                         type="do"
@@ -51,8 +51,8 @@ const IconsUsage: React.FC = () => {
                 </DoDontContainer>
             </section>
 
-            <section className="flex flex-col gap-6">
-                <h3 className="text-lg font-bold">터치 타겟 (Touch Target)</h3>
+            <section className="doc-subsection">
+                <h3 className="text-doc-subsection-title">터치 타겟 (Touch Target)</h3>
                 <DoDontContainer>
                     <DoDont
                         type="do"

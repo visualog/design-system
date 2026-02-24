@@ -10,10 +10,31 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
+import { DocSubsection } from './ui/DocLayout';
+
+interface MotionDurationToken {
+    token: string;
+    value: string;
+    variable: string;
+    description: string;
+}
+
+interface MotionEasingToken {
+    token: string;
+    value: string;
+    css_value: string;
+    variable: string;
+    description: string;
+}
+
+interface MotionData {
+    duration: MotionDurationToken[];
+    easing: MotionEasingToken[];
+}
 
 const MotionDisplay: React.FC = () => {
-    const { motion } = designSystemData;
+    const motion = designSystemData.motion as MotionData;
     const [activeDuration, setActiveDuration] = useState('300ms');
     const [activeEasing, setActiveEasing] = useState('ease-out');
     const [isAnimating, setIsAnimating] = useState(false);
@@ -24,51 +45,49 @@ const MotionDisplay: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col gap-12 font-pretendard">
-
-            {/* Interactive Playground */}
-            <section className="flex flex-col gap-6">
-                <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-bold">인터랙티브 플레이그라운드</h2>
-                    <p className="text-muted-foreground">
-                        다양한 지속 시간과 가속도 조합을 테스트하여 모션의 느낌을 이해해보세요.
-                    </p>
-                </div>
-
+        <div className="doc-content-stack-tight font-pretendard">
+            <DocSubsection
+                title="인터랙션 플레이그라운드"
+                description="지속 시간과 가속도 토큰 조합을 직접 바꿔보며 모션의 체감 차이를 확인합니다."
+            >
                 <div className="border border-border rounded-xl p-8 bg-muted/10 flex flex-col gap-8">
                     <div className="flex flex-col md:flex-row gap-8 items-center justify-between">
-
-                        {/* Controls */}
                         <div className="flex flex-col gap-4 w-full md:w-1/3">
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold">지속 시간 (Duration)</label>
+                                <label className="text-sm font-semibold">지속 시간 토큰 (Duration)</label>
                                 <div className="flex flex-wrap gap-2">
-                                    {motion.duration.map((d: any) => (
+                                    {motion.duration.map((durationToken) => (
                                         <Button
-                                            key={d.token}
-                                            variant={activeDuration === d.value ? "default" : "outline"}
+                                            key={durationToken.token}
+                                            variant={activeDuration === durationToken.value ? 'default' : 'outline'}
                                             size="sm"
-                                            onClick={() => { setActiveDuration(d.value); handlePlayAnimation(); }}
+                                            onClick={() => {
+                                                setActiveDuration(durationToken.value);
+                                                handlePlayAnimation();
+                                            }}
                                             className="text-xs"
                                         >
-                                            {d.token.replace('duration-', '')}
+                                            {durationToken.token.replace('duration-', '')}
                                         </Button>
                                     ))}
                                 </div>
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold">가속도 (Easing)</label>
+                                <label className="text-sm font-semibold">가속도 토큰 (Easing)</label>
                                 <div className="flex flex-wrap gap-2">
-                                    {motion.easing.map((e: any) => (
+                                    {motion.easing.map((easingToken) => (
                                         <Button
-                                            key={e.token}
-                                            variant={activeEasing === e.css_value ? "default" : "outline"}
+                                            key={easingToken.token}
+                                            variant={activeEasing === easingToken.css_value ? 'default' : 'outline'}
                                             size="sm"
-                                            onClick={() => { setActiveEasing(e.css_value); handlePlayAnimation(); }}
+                                            onClick={() => {
+                                                setActiveEasing(easingToken.css_value);
+                                                handlePlayAnimation();
+                                            }}
                                             className="text-xs"
                                         >
-                                            {e.token.replace('ease-', '')}
+                                            {easingToken.token.replace('ease-', '')}
                                         </Button>
                                     ))}
                                 </div>
@@ -80,14 +99,13 @@ const MotionDisplay: React.FC = () => {
                             </Button>
                         </div>
 
-                        {/* Stage */}
                         <div className="flex-1 w-full h-64 bg-white border border-border rounded-lg relative overflow-hidden flex items-center px-12 shadow-inner">
                             <div
-                                className={`w-16 h-16 bg-primary rounded-xl shadow-lg flex items-center justify-center text-primary-foreground font-bold`}
+                                className="w-16 h-16 bg-primary rounded-xl shadow-lg flex items-center justify-center text-primary-foreground font-bold"
                                 style={{
                                     transition: `transform ${activeDuration} ${activeEasing}, opacity ${activeDuration} ${activeEasing}`,
                                     transform: isAnimating ? 'translateX(300%)' : 'translateX(0)',
-                                    opacity: isAnimating ? 1 : 0.5
+                                    opacity: isAnimating ? 1 : 0.5,
                                 }}
                             >
                                 Box
@@ -98,11 +116,12 @@ const MotionDisplay: React.FC = () => {
                         transition: transform {activeDuration} {activeEasing};
                     </div>
                 </div>
-            </section>
+            </DocSubsection>
 
-            {/* Duration Tokens */}
-            <section className="flex flex-col gap-4">
-                <h2 className="text-xl font-bold">지속 시간 (Duration)</h2>
+            <DocSubsection
+                title="지속 시간 토큰 (Duration)"
+                description="인터랙션의 응답 속도와 전환 리듬을 정의하는 시간 토큰 목록입니다."
+            >
                 <div className="overflow-hidden">
                     <Table>
                         <TableHeader>
@@ -114,8 +133,8 @@ const MotionDisplay: React.FC = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {motion.duration.map((token: any, index: number) => (
-                                <TableRow key={index} className="hover:bg-muted/30 group">
+                            {motion.duration.map((token) => (
+                                <TableRow key={token.token} className="hover:bg-muted/30 group">
                                     <TableCell className="font-mono text-sm font-medium">
                                         <div className="flex items-center gap-2">
                                             <span className="text-primary">${token.token}</span>
@@ -130,11 +149,12 @@ const MotionDisplay: React.FC = () => {
                         </TableBody>
                     </Table>
                 </div>
-            </section>
+            </DocSubsection>
 
-            {/* Easing Tokens */}
-            <section className="flex flex-col gap-4">
-                <h2 className="text-xl font-bold">가속도 (Easing)</h2>
+            <DocSubsection
+                title="가속도 토큰 (Easing)"
+                description="애니메이션 시작/중간/종료의 속도 변화를 제어하는 곡선 토큰입니다."
+            >
                 <div className="overflow-hidden">
                     <Table>
                         <TableHeader>
@@ -146,8 +166,8 @@ const MotionDisplay: React.FC = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {motion.easing.map((token: any, index: number) => (
-                                <TableRow key={index} className="hover:bg-muted/30 group">
+                            {motion.easing.map((token) => (
+                                <TableRow key={token.token} className="hover:bg-muted/30 group">
                                     <TableCell className="font-mono text-sm font-medium">
                                         <div className="flex items-center gap-2">
                                             <span className="text-primary">${token.token}</span>
@@ -162,7 +182,7 @@ const MotionDisplay: React.FC = () => {
                         </TableBody>
                     </Table>
                 </div>
-            </section>
+            </DocSubsection>
         </div>
     );
 };

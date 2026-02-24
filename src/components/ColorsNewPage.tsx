@@ -10,6 +10,7 @@ import { PrinciplesSection, type PrincipleItem } from './ui/PrinciplesSection';
 import { Eye, Type, Palette } from 'lucide-react';
 import { TokenAnatomy } from './ui/TokenAnatomy';
 import { DoDont, DoDontContainer } from './ui/DoDont';
+import { DocSection } from './ui/DocLayout';
 
 const ColorsNewPage: React.FC = () => {
     const [searchParams] = useSearchParams();
@@ -39,21 +40,34 @@ const ColorsNewPage: React.FC = () => {
             value: 'overview',
             label: '개요',
             content: (
-                <div className="flex flex-col gap-10 mt-6">
-                    <PrinciplesSection items={colorPrinciples} />
+                <div className="doc-content-stack mt-6">
+                    <DocSection
+                        title="Color Principles"
+                        description="접근성, 의미론, 확장성을 기준으로 컬러 시스템의 핵심 원칙을 정의합니다."
+                    >
+                        <PrinciplesSection items={colorPrinciples} />
+                    </DocSection>
 
-                    <section>
-                        <h3 className="text-heading-md font-bold mb-4">Color Scale</h3>
+                    <DocSection
+                        title="Color Scale"
+                        description="원시 컬러 스케일을 통해 토큰 전개 범위를 확인합니다."
+                    >
                         <ColorPaletteDisplay view="grid" />
-                    </section>
+                    </DocSection>
 
+                    <DocSection
+                        title="Token Naming Convention"
+                        description="토큰은 Property-Role-Variant-State 규칙으로 작성합니다."
+                    >
+                        <TokenAnatomy showHeading={false} />
+                    </DocSection>
 
-                    <TokenAnatomy />
-
-                    <section>
-                        <h3 className="text-heading-md font-bold mb-6">Usage Guide</h3>
-
-                        <div className="flex flex-col gap-8">
+                    <DocSection
+                        title="Usage Guide"
+                        description="Semantic token을 사용해 테마 전환과 확장에 대응합니다."
+                        contentClassName="doc-content-stack-tight"
+                    >
+                        <div className="doc-content-stack-tight">
                             <DoDontContainer>
                                 <DoDont
                                     type="do"
@@ -66,7 +80,7 @@ const ColorsNewPage: React.FC = () => {
                                             <div className="h-10 w-24 bg-primary rounded-md"></div>
                                         </div>
                                         <div className="flex flex-col gap-1">
-                                            <div className="text-xs text-muted-foreground font-mono">text-error</div>
+                                            <div className="text-xs text-muted-foreground font-mono">text-destructive</div>
                                             <div className="text-destructive font-bold">Error Message</div>
                                         </div>
                                     </div>
@@ -90,10 +104,9 @@ const ColorsNewPage: React.FC = () => {
                             </DoDontContainer>
 
                             <ColorUsage />
-
                             <ColorPairingDisplay />
                         </div>
-                    </section>
+                    </DocSection>
                 </div>
             )
         },

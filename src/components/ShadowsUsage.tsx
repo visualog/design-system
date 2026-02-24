@@ -3,9 +3,9 @@ import { DoDont, DoDontContainer } from './ui/DoDont';
 
 const ShadowsUsage: React.FC = () => {
     return (
-        <div className="flex flex-col gap-12">
-            <section className="flex flex-col gap-6">
-                <h3 className="text-lg font-bold">엘리베이션 (Elevation)</h3>
+        <div className="doc-content-stack-tight">
+            <section className="doc-subsection">
+                <h3 className="text-doc-subsection-title">엘리베이션 (Elevation)</h3>
                 <DoDontContainer>
                     <DoDont
                         type="do"
@@ -44,8 +44,8 @@ const ShadowsUsage: React.FC = () => {
                 </DoDontContainer>
             </section>
 
-            <section className="flex flex-col gap-6">
-                <h3 className="text-lg font-bold">사용 사례 (Use Cases)</h3>
+            <section className="doc-subsection">
+                <h3 className="text-doc-subsection-title">사용 사례 (Use Cases)</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 lg:gap-5">
                     <div className="bg-card border rounded-lg p-6 flex flex-col gap-4 items-center">
                         <span className="font-bold text-sm">Low Elevation</span>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FoundationPageLayout } from './FoundationPageLayout';
 import { PrinciplesSection, type PrincipleItem } from './ui/PrinciplesSection';
-import { Sparkles, Zap, Layout, Accessibility, Palette, Terminal } from 'lucide-react';
+import { Sparkles, Zap, Layout, Accessibility } from 'lucide-react';
 import { DoDont, DoDontContainer } from './ui/DoDont';
 import { PageSection } from '@/components/ui/PageSection';
 
@@ -32,66 +32,45 @@ const IntroductionPage: React.FC = () => {
     return (
         <FoundationPageLayout
             title="Overview"
-            description="디자인 시스템의 철학, 목표, 그리고 핵심 원칙에 대해 알아봅니다. 우리는 일관된 시각 언어를 통해 더 나은 제품을 더 빠르게 만듭니다."
+            description="디자인 시스템의 철학, 운영 목표, 핵심 원칙을 소개합니다. 디자인 원칙, 시스템 목표, 빠른 시작 가이드를 순서대로 확인합니다."
         >
             {/* Core Principles */}
             <PageSection
-                title="Design Principles"
+                title="디자인 원칙"
                 description="우리의 모든 의사결정은 아래의 네 가지 핵심 원칙을 기반으로 이루어집니다."
             >
-                <PrinciplesSection items={corePrinciples} />
+                <PrinciplesSection items={corePrinciples} className="md:grid-cols-1" />
             </PageSection>
 
             {/* System Goals */}
             <PageSection
-                title="System Goals"
-                description="디자인 시스템은 디자이너와 개발자 모두에게 강력한 도구가 되어야 합니다."
+                title="시스템 목표"
+                description="디자인 시스템이 디자이너와 개발자의 업무 효율과 결과 품질을 어떻게 높이는지 설명합니다."
             >
-                <div className="grid md:grid-cols-2 gap-3 md:gap-4 lg:gap-5">
-                    <div className="flex flex-col gap-4 px-6">
-                        <div className="flex items-center gap-3 text-primary">
-                            <div className="text-primary">
-                                <Palette size={20} strokeWidth={2.5} />
-                            </div>
-                            <h3 className="text-base font-bold text-foreground">For Designers</h3>
-                        </div>
+                <div className="doc-content-stack-tight">
+                    <section className="doc-subsection border-b pb-6">
+                        <h3 className="text-doc-subsection-title">디자이너를 위한 목표</h3>
                         <ul className="flex flex-col gap-3 text-muted-foreground text-sm">
-                            <li>
-                                반복적인 UI 설계 시간을 줄이고 사용자 경험 개선에 집중합니다.
-                            </li>
-                            <li>
-                                풍부한 컴포넌트 라이브러리와 가이드를 통해 설계의 일관성을 유지합니다.
-                            </li>
-                            <li>
-                                표준 토큰을 사용하여 개발자와 더 정확하게 소통합니다.
-                            </li>
+                            <li>반복적인 UI 설계 시간을 줄이고 사용자 경험 개선에 집중합니다.</li>
+                            <li>컴포넌트 라이브러리와 가이드를 통해 설계 일관성을 유지합니다.</li>
+                            <li>표준 토큰으로 개발자와의 핸드오프 정확도를 높입니다.</li>
                         </ul>
-                    </div>
-                    <div className="flex flex-col gap-4 px-6">
-                        <div className="flex items-center gap-3 text-primary">
-                            <div className="text-primary">
-                                <Terminal size={20} strokeWidth={2.5} />
-                            </div>
-                            <h3 className="text-base font-bold text-foreground">For Developers</h3>
-                        </div>
+                    </section>
+
+                    <section className="doc-subsection">
+                        <h3 className="text-doc-subsection-title">개발자를 위한 목표</h3>
                         <ul className="flex flex-col gap-3 text-muted-foreground text-sm">
-                            <li>
-                                문서화된 API와 Props를 통해 구현의 고민을 줄입니다.
-                            </li>
-                            <li>
-                                다양한 상태와 접근성 대응이 완료된 컴포넌트를 즉시 사용합니다.
-                            </li>
-                            <li>
-                                테마 시스템을 통해 스타일 변경에 유연하게 대응합니다.
-                            </li>
+                            <li>문서화된 API와 Props로 구현 의사결정 부담을 줄입니다.</li>
+                            <li>상태와 접근성이 반영된 컴포넌트를 즉시 재사용합니다.</li>
+                            <li>테마 시스템으로 스타일 변경과 확장에 유연하게 대응합니다.</li>
                         </ul>
-                    </div>
+                    </section>
                 </div>
             </PageSection>
 
             {/* Getting Started Brief */}
             <PageSection
-                title="Best Practices"
+                title="빠른 시작 가이드"
                 className="mb-10"
             >
                 <DoDontContainer>

@@ -14,11 +14,11 @@ const RadiusDisplay: React.FC = () => {
     const { radius } = designSystemData;
 
     return (
-        <div className="flex flex-col gap-12 font-pretendard">
+        <div className="doc-content-stack-tight font-pretendard">
             {/* Visual Overview */}
-            <section className="flex flex-col gap-6">
+            <section className="doc-subsection">
                 <div className="flex flex-col gap-2">
-                    <h2 className="text-xl font-bold">스케일</h2>
+                    <h2 className="text-doc-subsection-title">스케일</h2>
                 </div>
 
                 <div className="w-full border border-border rounded-xl bg-secondary p-8">
@@ -73,8 +73,8 @@ const RadiusDisplay: React.FC = () => {
             </section>
 
             {/* Token Table */}
-            <section className="flex flex-col gap-4">
-                <h2 className="text-xl font-bold">토큰</h2>
+            <section className="doc-subsection">
+                <h2 className="text-doc-subsection-title">토큰</h2>
                 <div className="overflow-hidden">
                     <Table>
                         <TableHeader>

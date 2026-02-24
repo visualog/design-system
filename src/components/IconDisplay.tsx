@@ -1,59 +1,83 @@
-import React, { useState, useRef, useMemo } from 'react';
-import { SearchBar } from "./SearchBar";
+import React, { useMemo, useRef, useState } from 'react';
 import { RotateCcw } from 'lucide-react';
+import { SearchBar } from './SearchBar';
 import ColorSwatch from '@/components/ui/ColorSwatch';
 import { designSystemData } from '../utils/dataLoader';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { AnimatedTabs, AnimatedTabsContent } from "@/components/ui/animated-tabs";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { AnimatedTabs, AnimatedTabsContent } from '@/components/ui/animated-tabs';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet";
+} from '@/components/ui/sheet';
 import { Clipboard } from './ui/clipboard';
-
-
-import { SmartFilterDropdown } from "./ui/SmartFilterDropdown";
-
-// --- Helper function to get SVG components ---
-const allSvgModules = import.meta.glob<{ default: React.FC<React.SVGProps<SVGSVGElement>> }>('/src/assets/icons/**/*.svg', { eager: true });
-
-const getSvgComponentFromFilename = (filename: string, category: 'line' | 'fill' | 'illust', illustSubfolder?: string): React.FC<React.SVGProps<SVGSVGElement>> | null => {
-  let modulePathPrefix;
-  if (category === 'line') modulePathPrefix = '/src/assets/icons/line/';
-  else if (category === 'fill') modulePathPrefix = '/src/assets/icons/fill/';
-  else if (category === 'illust') {
-    if (!illustSubfolder) return null;
-    modulePathPrefix = `/src/assets/icons/illust/${illustSubfolder}/`;
-  } else return null;
-
-  const fullModulePath = `${modulePathPrefix}${filename}.svg`.toLowerCase();
-  const moduleKey = Object.keys(allSvgModules).find(key => key.toLowerCase() === fullModulePath);
-
-  if (moduleKey && allSvgModules[moduleKey]) {
-    const mod = allSvgModules[moduleKey];
-    if (!mod.default) {
-      console.warn(`[IconDisplay] Module found for ${filename} but no default export. keys:`, Object.keys(mod));
-      return null;
-    }
-    return mod.default;
-  }
-  console.warn(`[IconDisplay] Icon module not found for: ${fullModulePath}`);
-  return null;
-};
-
+import { SmartFilterDropdown } from './ui/SmartFilterDropdown';
+import { DocSubsection } from './ui/DocLayout';
 import { resolveColorToken } from '../lib/colorUtils';
 
-// --- Color Palette Component ---
+type IconCategory = 'line' | 'fill' | 'illust';
+
+interface SemanticToken {
+  devToken: string;
+  value?: string;
+}
+
+interface SemanticMapping {
+  icon: SemanticToken[];
+  bg: SemanticToken[];
+}
+
+interface IconCollectionInfo {
+  notes?: string;
+  subfolder?: string;
+}
+
+type IllustrationCollections = Record<string, IconCollectionInfo>;
+
+type FilenameMapping = Record<string, string>;
+
+interface IllustrationIconItem {
+  filename: string;
+  category: string;
+  subfolder: string;
+}
+
+interface SelectedIcon {
+  name: string;
+  category: IconCategory;
+  filename: string;
+  subfolder?: string;
+  color: string;
+}
+
+interface SheetConfig {
+  color: string;
+  size: number;
+}
+
 interface ColorPaletteProps {
   onColorSelect: (color: string) => void;
   purpose: 'icon' | 'background';
   className?: string;
 }
+
+interface IconSectionProps {
+  iconList: string[];
+  categoryType: 'line' | 'fill';
+  filenameMapping: FilenameMapping;
+  searchQuery: string;
+  onIconClick: (name: string, category: 'line' | 'fill', filename: string, color: string) => void;
+  searchInput?: React.ReactNode;
+}
+
+const allSvgModules = import.meta.glob<{ default: React.FC<React.SVGProps<SVGSVGElement>> }>('/src/assets/icons/**/*.svg', { eager: true });
+
+const DEFAULT_ICON_COLOR = '#374151';
+const DEFAULT_BG_COLOR = '#F3F4F6';
 
 const ICON_COLOR_ORDER = [
   'icon.primary', 'icon.info', 'icon.interactive.primary',
@@ -62,11 +86,57 @@ const ICON_COLOR_ORDER = [
   'icon.interactive.inverse', 'icon.inverse', 'icon.brand',
   'icon.interactive.brand', 'icon.interactive.brand_hovered',
   'icon.interactive.selected', 'icon.interactive.brand_disabled',
-  'icon.loading', 'icon.success', 'icon.error', 'icon.interactive.error'
+  'icon.loading', 'icon.success', 'icon.error', 'icon.interactive.error',
 ];
 
+const ColorChipTrigger: React.FC<{ color: string }> = ({ color }) => (
+  <ColorSwatch
+    colorValue={color}
+    size="md"
+    className="rounded-full border-black/10 cursor-pointer"
+  />
+);
+
+const getSvgComponentFromFilename = (
+  filename: string,
+  category: IconCategory,
+  illustSubfolder?: string
+): React.FC<React.SVGProps<SVGSVGElement>> | null => {
+  let modulePathPrefix: string;
+
+  if (category === 'line') {
+    modulePathPrefix = '/src/assets/icons/line/';
+  } else if (category === 'fill') {
+    modulePathPrefix = '/src/assets/icons/fill/';
+  } else if (category === 'illust') {
+    if (!illustSubfolder) {
+      return null;
+    }
+
+    modulePathPrefix = `/src/assets/icons/illust/${illustSubfolder}/`;
+  } else {
+    return null;
+  }
+
+  const fullModulePath = `${modulePathPrefix}${filename}.svg`.toLowerCase();
+  const moduleKey = Object.keys(allSvgModules).find((key) => key.toLowerCase() === fullModulePath);
+
+  if (moduleKey && allSvgModules[moduleKey]) {
+    const module = allSvgModules[moduleKey];
+    if (!module.default) {
+      console.warn(`[IconDisplay] Module found for ${filename} but no default export. keys:`, Object.keys(module));
+      return null;
+    }
+
+    return module.default;
+  }
+
+  console.warn(`[IconDisplay] Icon module not found for: ${fullModulePath}`);
+  return null;
+};
+
 const ColorPalette: React.FC<ColorPaletteProps> = ({ onColorSelect, purpose, className = '' }) => {
-  const semanticMapping = designSystemData.colors.semanticMapping;
+  const semanticMapping = designSystemData.colors.semanticMapping as SemanticMapping;
   const customColorInputRef = useRef<HTMLInputElement>(null);
 
   const handleCustomClick = () => {
@@ -78,22 +148,16 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onColorSelect, purpose, cla
   let resolvedColors: { name: string; hex: string }[] = [];
 
   if (purpose === 'icon') {
-    resolvedColors = ICON_COLOR_ORDER.map(semanticName => {
-      // Find the token object where devToken matches semanticName
-      const tokenObj = (semanticMapping.icon as any[]).find((t: any) => t.devToken === semanticName);
-      // Resolve the value from the found token object
-      const tokenRef = tokenObj ? tokenObj.value : undefined;
-      const hex = resolveColorToken(tokenRef);
+    resolvedColors = ICON_COLOR_ORDER.map((semanticName) => {
+      const token = semanticMapping.icon.find((item) => item.devToken === semanticName);
+      const hex = resolveColorToken(token?.value);
       return { name: semanticName, hex: hex || '#CCCCCC' };
-    }).filter(color => color.hex !== '#CCCCCC');
+    }).filter((color) => color.hex !== '#CCCCCC');
   } else {
-    // Backgrounds logic - iterate over the array
-    (semanticColorTokens as any[]).forEach((tokenObj: any) => {
-      const semanticName = tokenObj.devToken;
-      const tokenRef = tokenObj.value;
-      const hex = resolveColorToken(tokenRef);
+    semanticColorTokens.forEach((token) => {
+      const hex = resolveColorToken(token.value);
       if (hex) {
-        resolvedColors.push({ name: semanticName, hex });
+        resolvedColors.push({ name: token.devToken, hex });
       }
     });
   }
@@ -105,10 +169,7 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onColorSelect, purpose, cla
           <TooltipProvider key={color.name} delayDuration={100}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <div
-                  className="cursor-pointer"
-                  onClick={() => onColorSelect(color.hex)}
-                >
+                <div className="cursor-pointer" onClick={() => onColorSelect(color.hex)}>
                   <ColorSwatch
                     colorValue={color.hex}
                     size="md"
@@ -123,7 +184,6 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onColorSelect, purpose, cla
           </TooltipProvider>
         ))}
 
-        {/* Custom Color Picker as a Chip */}
         <TooltipProvider delayDuration={100}>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -135,7 +195,7 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onColorSelect, purpose, cla
                 <input
                   type="color"
                   ref={customColorInputRef}
-                  onChange={(e) => onColorSelect(e.target.value)}
+                  onChange={(event) => onColorSelect(event.target.value)}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 />
               </div>
@@ -150,26 +210,14 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onColorSelect, purpose, cla
   );
 };
 
-
-// --- Icon Section Component ---
-const DEFAULT_ICON_COLOR = '#374151';
-const DEFAULT_BG_COLOR = '#F3F4F6';
-
-interface IconSectionProps {
-  title: string;
-  iconList: string[];
-  categoryType: 'line' | 'fill';
-  filenameMapping: any;
-  searchQuery: string;
-  onIconClick: (name: string, category: 'line' | 'fill', filename: string, color: string) => void;
-  searchInput?: React.ReactNode;
-}
-
-
-
-// ... existing code ...
-
-const IconSection: React.FC<IconSectionProps> = ({ iconList, categoryType, filenameMapping, searchQuery, onIconClick, searchInput }) => {
+const IconSection: React.FC<IconSectionProps> = ({
+  iconList,
+  categoryType,
+  filenameMapping,
+  searchQuery,
+  onIconClick,
+  searchInput,
+}) => {
   const [iconColor, setIconColor] = useState(DEFAULT_ICON_COLOR);
   const [bgColor, setBgColor] = useState(DEFAULT_BG_COLOR);
 
@@ -180,367 +228,410 @@ const IconSection: React.FC<IconSectionProps> = ({ iconList, categoryType, filen
     setBgColor(DEFAULT_BG_COLOR);
   };
 
-  const ColorChipTrigger = ({ color }: { color: string; }) => (
-    <ColorSwatch
-      colorValue={color}
-      size="md"
-      className="rounded-full border-black/10 cursor-pointer"
-    />
-  );
-
   const filteredIcons = useMemo(() => {
-    return iconList.filter(iconName =>
+    return iconList.filter((iconName) =>
       iconName.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [iconList, searchQuery]);
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex items-center justify-between">
-        {searchInput}
-        <div className="flex items-center gap-2">
-          <Popover>
-            <PopoverTrigger>
-              <ColorChipTrigger color={iconColor} />
-            </PopoverTrigger>
-            <PopoverContent className="p-0 border-none w-auto shadow-none bg-transparent">
-              <div className="w-64 p-4 bg-popover rounded-md border shadow-md">
-                <ColorPalette purpose="icon" onColorSelect={setIconColor} />
-              </div>
-            </PopoverContent>
-          </Popover>
-          <Popover>
-            <PopoverTrigger>
-              <ColorChipTrigger color={bgColor} />
-            </PopoverTrigger>
-            <PopoverContent className="p-0 border-none w-auto shadow-none bg-transparent">
-              <div className="w-64 p-4 bg-popover rounded-md border shadow-md">
-                <ColorPalette purpose="background" onColorSelect={setBgColor} />
-              </div>
-            </PopoverContent>
-          </Popover>
-          {!isPristine && (
-            <Button onClick={handleReset} variant="ghost" size="icon" aria-label="Reset colors">
-              <RotateCcw className="w-5 h-5" />
-            </Button>
-          )}
+    <div className="doc-content-stack-tight">
+      <DocSubsection title="탐색 및 필터" className="gap-3" contentClassName="gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          {searchInput}
+          <div className="flex items-center gap-2">
+            <Popover>
+              <PopoverTrigger>
+                <ColorChipTrigger color={iconColor} />
+              </PopoverTrigger>
+              <PopoverContent className="p-0 border-none w-auto shadow-none bg-transparent">
+                <div className="w-64 p-4 bg-popover rounded-md border shadow-md">
+                  <ColorPalette purpose="icon" onColorSelect={setIconColor} />
+                </div>
+              </PopoverContent>
+            </Popover>
+            <Popover>
+              <PopoverTrigger>
+                <ColorChipTrigger color={bgColor} />
+              </PopoverTrigger>
+              <PopoverContent className="p-0 border-none w-auto shadow-none bg-transparent">
+                <div className="w-64 p-4 bg-popover rounded-md border shadow-md">
+                  <ColorPalette purpose="background" onColorSelect={setBgColor} />
+                </div>
+              </PopoverContent>
+            </Popover>
+            {!isPristine && (
+              <Button onClick={handleReset} variant="ghost" size="icon" aria-label="Reset colors">
+                <RotateCcw className="w-5 h-5" />
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
+      </DocSubsection>
 
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-2">
-        {filteredIcons.map((iconName: string, index: number) => {
-          const mappedFilename = filenameMapping[iconName];
-          const SvgComponent = mappedFilename ? getSvgComponentFromFilename(mappedFilename, categoryType) : null;
+      <DocSubsection
+        title="아이콘 그리드"
+        description={`${filteredIcons.length}개 결과`}
+        className="gap-3"
+        contentClassName="gap-3"
+      >
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-2">
+          {filteredIcons.map((iconName, index) => {
+            const mappedFilename = filenameMapping[iconName];
+            const SvgComponent = mappedFilename
+              ? getSvgComponentFromFilename(mappedFilename, categoryType)
+              : null;
 
-          return (
-            <TooltipProvider key={index} delayDuration={100}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Card
-                    className="shadow-none w-full aspect-square flex items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:border-black/10 cursor-pointer"
-                    style={{ backgroundColor: bgColor }}
-                    onClick={() => mappedFilename && onIconClick(iconName, categoryType, mappedFilename, iconColor)}
-                  >
-                    <CardContent className="p-0">
-                      {SvgComponent ? <SvgComponent className="w-6 h-6" style={{ color: iconColor }} /> : <span className="text-xs">N/A</span>}
-                    </CardContent>
-                  </Card>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{iconName}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          );
-        })}
-      </div>
-    </div >
+            return (
+              <TooltipProvider key={`${iconName}-${index}`} delayDuration={100}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Card
+                      className="shadow-none w-full aspect-square flex items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:border-black/10 cursor-pointer"
+                      style={{ backgroundColor: bgColor }}
+                      onClick={() => mappedFilename && onIconClick(iconName, categoryType, mappedFilename, iconColor)}
+                    >
+                      <CardContent className="p-0">
+                        {SvgComponent ? (
+                          <SvgComponent className="w-6 h-6" style={{ color: iconColor }} />
+                        ) : (
+                          <span className="text-xs">N/A</span>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{iconName}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            );
+          })}
+        </div>
+      </DocSubsection>
+    </div>
   );
 };
 
-// --- Main Icon Display Component ---
 const IconDisplay: React.FC = () => {
   const [lineSearchQuery, setLineSearchQuery] = useState('');
   const [filledSearchQuery, setFilledSearchQuery] = useState('');
   const [illustSearchQuery, setIllustSearchQuery] = useState('');
   const [illustCategory, setIllustCategory] = useState<string[]>(['All']);
-  const { icons } = designSystemData;
   const [activeTab, setActiveTab] = useState('line');
+  const [selectedIcon, setSelectedIcon] = useState<SelectedIcon | null>(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [sheetConfig, setSheetConfig] = useState<SheetConfig>({ color: '#374151', size: 20 });
+
+  const { icons } = designSystemData;
+
+  const lineIcons = icons.line.line_icons as string[];
+  const filledIcons = icons.filled.filled_icons as string[];
+  const illustrationCollections = icons.illustration as IllustrationCollections;
+  const filenameMapping = icons.filenameMapping as {
+    line_icons: FilenameMapping;
+    filled_icons: FilenameMapping;
+  };
+
   const tabs = [
     { name: 'Line Icons', value: 'line' },
     { name: 'Filled Icons', value: 'filled' },
-    { name: 'Illustration Icons', value: 'illustration' }
+    { name: 'Illustration Icons', value: 'illustration' },
   ];
 
-  // Create category name mapping
   const illustCategoryNames: Record<string, string> = useMemo(() => {
     const categories: Record<string, string> = {};
-    Object.entries(icons.illustration).forEach(([categoryKey, data]) => {
-      if (categoryKey !== "icon_assets_notes" && data.subfolder) {
-        // Map category keys to display names
-        if (categoryKey.toLowerCase().includes('document')) {
-          categories[categoryKey] = 'Document';
-        } else if (categoryKey.toLowerCase().includes('card')) {
-          categories[categoryKey] = 'Card';
-        } else if (categoryKey.toLowerCase().includes('fed')) {
-          categories[categoryKey] = 'FED';
-        } else if (categoryKey.toLowerCase().includes('film')) {
-          categories[categoryKey] = 'FILM';
-        } else {
-          categories[categoryKey] = categoryKey;
-        }
+
+    Object.entries(illustrationCollections).forEach(([categoryKey, data]) => {
+      if (categoryKey === 'icon_assets_notes' || !data.subfolder) {
+        return;
+      }
+
+      if (categoryKey.toLowerCase().includes('document')) {
+        categories[categoryKey] = 'Document';
+      } else if (categoryKey.toLowerCase().includes('card')) {
+        categories[categoryKey] = 'Card';
+      } else if (categoryKey.toLowerCase().includes('fed')) {
+        categories[categoryKey] = 'FED';
+      } else if (categoryKey.toLowerCase().includes('film')) {
+        categories[categoryKey] = 'FILM';
+      } else {
+        categories[categoryKey] = categoryKey;
       }
     });
+
     return categories;
-  }, [icons.illustration]);
+  }, [illustrationCollections]);
 
-  // Flatten all illustration icons with category info
   const allIllustrationIcons = useMemo(() => {
-    const iconsList: Array<{ filename: string; category: string; subfolder: string; moduleKey: string }> = [];
+    const iconList: IllustrationIconItem[] = [];
 
-    Object.entries(icons.illustration).forEach(([categoryKey, data]) => {
-      if (categoryKey === "icon_assets_notes" || !data.subfolder) return;
+    Object.entries(illustrationCollections).forEach(([categoryKey, data]) => {
+      if (categoryKey === 'icon_assets_notes' || !data.subfolder) {
+        return;
+      }
 
       Object.keys(allSvgModules)
-        .filter(key => key.toLowerCase().startsWith(`/src/assets/icons/illust/${data.subfolder}/`.toLowerCase()))
-        .forEach(moduleKey => {
+        .filter((key) =>
+          key.toLowerCase().startsWith(`/src/assets/icons/illust/${data.subfolder}/`.toLowerCase())
+        )
+        .forEach((moduleKey) => {
           const filename = moduleKey.split('/').pop()?.replace('.svg', '');
           if (filename) {
-            iconsList.push({ filename, category: categoryKey, subfolder: data.subfolder, moduleKey });
+            iconList.push({ filename, category: categoryKey, subfolder: data.subfolder as string });
           }
         });
     });
 
-    return iconsList;
-  }, [icons.illustration]);
+    return iconList;
+  }, [illustrationCollections]);
 
   const filteredIllustrations = useMemo(() => {
-    return allIllustrationIcons.filter(icon => {
+    return allIllustrationIcons.filter((icon) => {
       const matchesSearch = icon.filename.toLowerCase().includes(illustSearchQuery.toLowerCase());
       const matchesCategory = illustCategory.includes('All') || illustCategory.includes(icon.category);
       return matchesSearch && matchesCategory;
     });
-  }, [allIllustrationIcons, illustSearchQuery, illustCategory]);
+  }, [allIllustrationIcons, illustCategory, illustSearchQuery]);
 
-  // Calculate icon counts
-  const lineIconCount = icons.line.line_icons.length;
-  const filledIconCount = icons.filled.filled_icons.length;
+  const lineIconCount = lineIcons.length;
+  const filledIconCount = filledIcons.length;
   const illustIconCount = filteredIllustrations.length;
 
-  const [selectedIcon, setSelectedIcon] = useState<{ name: string; category: 'line' | 'fill' | 'illust'; filename: string; subfolder?: string; color: string } | null>(null);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [sheetConfig, setSheetConfig] = useState<{ color: string; size: number }>({ color: '#374151', size: 20 });
-
-  const handleIconClick = (name: string, category: 'line' | 'fill' | 'illust', filename: string, color: string, subfolder?: string) => {
+  const handleIconClick = (
+    name: string,
+    category: IconCategory,
+    filename: string,
+    color: string,
+    subfolder?: string
+  ) => {
     setSelectedIcon({ name, category, filename, subfolder, color });
     setSheetConfig({ color, size: 20 });
     setIsSheetOpen(true);
   };
 
-  const SvgPreview = selectedIcon ? getSvgComponentFromFilename(selectedIcon.filename, selectedIcon.category, selectedIcon.subfolder) : null;
+  const SvgPreview = selectedIcon
+    ? getSvgComponentFromFilename(selectedIcon.filename, selectedIcon.category, selectedIcon.subfolder)
+    : null;
 
-  // Usage code snippet generation
-  const getUsageCode = () => {
-    if (!selectedIcon) return '';
-    // Constructing a PascalCase component name from filename (e.g., ic_user_line -> IcUserLine)
+  const usageCode = useMemo(() => {
+    if (!selectedIcon) {
+      return '';
+    }
+
     const componentName = selectedIcon.filename
       .split('_')
-      .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
       .join('');
 
-    const sizeClass = sheetConfig.size === 16 ? 'w-4 h-4' : sheetConfig.size === 20 ? 'w-5 h-5' : 'w-6 h-6';
+    const sizeClass =
+      sheetConfig.size === 16
+        ? 'w-4 h-4'
+        : sheetConfig.size === 20
+          ? 'w-5 h-5'
+          : 'w-6 h-6';
 
     return `<${componentName} className="${sizeClass}" style={{ color: '${sheetConfig.color}' }} />`;
-  };
+  }, [selectedIcon, sheetConfig.color, sheetConfig.size]);
 
   return (
     <div>
-      <AnimatedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} className="flex flex-col gap-8">
+      <AnimatedTabs
+        tabs={tabs}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        className="doc-content-stack-tight"
+      >
         <AnimatedTabsContent value="line">
-          <div>
+          <div className="doc-content-stack-tight">
             <h2 className="sr-only">라인 아이콘 (Line Icons)</h2>
             <IconSection
-              title="Line Icons"
-              iconList={icons.line.line_icons}
+              iconList={lineIcons}
               categoryType="line"
-              filenameMapping={icons.filenameMapping.line_icons}
+              filenameMapping={filenameMapping.line_icons}
               searchQuery={lineSearchQuery}
               onIconClick={handleIconClick}
               searchInput={
                 <SearchBar
                   placeholder={`${lineIconCount}개 아이콘 검색...`}
                   value={lineSearchQuery}
-                  onChange={(e) => setLineSearchQuery(e.target.value)}
+                  onChange={(event) => setLineSearchQuery(event.target.value)}
                 />
-
               }
             />
           </div>
         </AnimatedTabsContent>
+
         <AnimatedTabsContent value="filled">
-          <div>
+          <div className="doc-content-stack-tight">
             <h2 className="sr-only">필드 아이콘 (Filled Icons)</h2>
             <IconSection
-              title="Filled Icons"
-              iconList={icons.filled.filled_icons}
+              iconList={filledIcons}
               categoryType="fill"
-              filenameMapping={icons.filenameMapping.filled_icons}
+              filenameMapping={filenameMapping.filled_icons}
               searchQuery={filledSearchQuery}
               onIconClick={handleIconClick}
               searchInput={
                 <SearchBar
                   placeholder={`${filledIconCount}개 아이콘 검색...`}
                   value={filledSearchQuery}
-                  onChange={(e) => setFilledSearchQuery(e.target.value)}
+                  onChange={(event) => setFilledSearchQuery(event.target.value)}
                 />
-
               }
             />
           </div>
-        </AnimatedTabsContent >
+        </AnimatedTabsContent>
+
         <AnimatedTabsContent value="illustration">
-          <div className="flex flex-col gap-8">
+          <div className="doc-content-stack-tight">
             <h2 className="sr-only">일러스트 아이콘 (Illustration Icons)</h2>
-            <div className="flex items-center gap-2 w-full">
-              <SmartFilterDropdown
-                triggerText={
-                  illustCategory.includes('All') || illustCategory.length === 0
-                    ? '전체'
-                    : illustCategory.length === 1
-                      ? illustCategoryNames[illustCategory[0]] || illustCategory[0]
-                      : `${illustCategory.length}개 선택됨`
-                }
-                items={Object.entries(illustCategoryNames).map(([key, label]) => ({ value: key, label }))}
-                selectedValues={illustCategory}
-                onSelectionChange={setIllustCategory}
-              />
-              <SearchBar
-                placeholder={`${illustIconCount}개 아이콘 검색...`}
-                value={illustSearchQuery}
-                onChange={(e) => setIllustSearchQuery(e.target.value)}
-              />
-            </div>
 
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-2">
-              {filteredIllustrations.length > 0 ? (
-                filteredIllustrations.map((icon, index) => {
-                  const SvgComponent = getSvgComponentFromFilename(icon.filename, 'illust', icon.subfolder);
-                  const defaultIllustColor = '#374151';
+            <DocSubsection title="탐색 및 필터" className="gap-3" contentClassName="gap-3">
+              <div className="flex items-center gap-2 w-full flex-wrap">
+                <SmartFilterDropdown
+                  triggerText={
+                    illustCategory.includes('All') || illustCategory.length === 0
+                      ? '전체'
+                      : illustCategory.length === 1
+                        ? illustCategoryNames[illustCategory[0]] || illustCategory[0]
+                        : `${illustCategory.length}개 선택됨`
+                  }
+                  items={Object.entries(illustCategoryNames).map(([key, label]) => ({ value: key, label }))}
+                  selectedValues={illustCategory}
+                  onSelectionChange={setIllustCategory}
+                />
+                <SearchBar
+                  placeholder={`${illustIconCount}개 아이콘 검색...`}
+                  value={illustSearchQuery}
+                  onChange={(event) => setIllustSearchQuery(event.target.value)}
+                />
+              </div>
+            </DocSubsection>
 
-                  return (
-                    <TooltipProvider key={index} delayDuration={100}>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Card
-                            className="shadow-none w-full aspect-square flex items-center justify-center cursor-pointer hover:bg-secondary/50 transition-all duration-200 hover:-translate-y-1"
-                            onClick={() => handleIconClick(icon.filename, 'illust', icon.filename, defaultIllustColor, icon.subfolder)}
-                          >
-                            <CardContent className="p-0">
-                              {SvgComponent ? <SvgComponent className="w-8 h-8 text-foreground" /> : <span className="text-xs">N/A</span>}
-                            </CardContent>
-                          </Card>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{icon.filename}</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  );
-                })
-              ) : (
-                <p className="text-gray-500">No illustration icons found for this query.</p>
-              )}
-            </div>
+            <DocSubsection
+              title="아이콘 그리드"
+              description={`${illustIconCount}개 결과`}
+              className="gap-3"
+              contentClassName="gap-3"
+            >
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-2">
+                {filteredIllustrations.length > 0 ? (
+                  filteredIllustrations.map((icon, index) => {
+                    const SvgComponent = getSvgComponentFromFilename(icon.filename, 'illust', icon.subfolder);
+                    const defaultIllustColor = '#374151';
+
+                    return (
+                      <TooltipProvider key={`${icon.filename}-${index}`} delayDuration={100}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Card
+                              className="shadow-none w-full aspect-square flex items-center justify-center cursor-pointer hover:bg-secondary/50 transition-all duration-200 hover:-translate-y-1"
+                              onClick={() =>
+                                handleIconClick(icon.filename, 'illust', icon.filename, defaultIllustColor, icon.subfolder)
+                              }
+                            >
+                              <CardContent className="p-0">
+                                {SvgComponent ? (
+                                  <SvgComponent className="w-8 h-8 text-foreground" />
+                                ) : (
+                                  <span className="text-xs">N/A</span>
+                                )}
+                              </CardContent>
+                            </Card>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{icon.filename}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    );
+                  })
+                ) : (
+                  <p className="text-muted-foreground text-sm col-span-full">검색 결과가 없습니다.</p>
+                )}
+              </div>
+            </DocSubsection>
           </div>
         </AnimatedTabsContent>
-      </AnimatedTabs >
+      </AnimatedTabs>
 
+      {selectedIcon && (
+        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+          <SheetContent side="bottom" className="sm:max-w-full" onOpenAutoFocus={(event) => event.preventDefault()}>
+            <SheetHeader>
+              <SheetTitle className="flex items-center justify-between">
+                <span className="font-mono text-lg">{selectedIcon.name}</span>
+              </SheetTitle>
+            </SheetHeader>
 
-      {
-        selectedIcon && (
-          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-            <SheetContent side="bottom" className="sm:max-w-full" onOpenAutoFocus={(e) => e.preventDefault()}>
-              <SheetHeader>
-                <SheetTitle className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono text-lg">{selectedIcon.name}</span>
-                  </div>
-                </SheetTitle>
-              </SheetHeader>
-              <div className="py-6 flex flex-col md:flex-row gap-6 md:gap-8">
-                {/* Left Column: Visuals & Color Picker */}
-                <div className="w-full md:w-1/3 lg:w-1/4 flex flex-col bg-secondary/30 rounded-lg border border-border p-4 md:p-6 gap-6">
-                  <div>
-                    <div className="flex items-end gap-4 justify-center md:justify-start">
-                      <div className="flex items-end gap-4 justify-center md:justify-start flex-wrap">
-                        {(selectedIcon.category === 'illust' ? [16, 20, 24, 28, 32, 40] : [16, 20, 24]).map((size) => (
-                          <div
-                            key={size}
-                            className={`flex flex-col items-center gap-2 cursor-pointer transition-opacity ${sheetConfig.size === size ? 'opacity-100' : 'opacity-50 hover:opacity-100'}`}
-                            onClick={() => setSheetConfig(prev => ({ ...prev, size: size as number }))}
-                          >
-                            <div className={`flex items-center justify-center border border-black/5 bg-white rounded-md ${sheetConfig.size === size ? 'border-black' : ''}`}
-                              style={{ width: size + 16, height: size + 16 }}>
-                              {SvgPreview && (
-                                <SvgPreview
-                                  width={size}
-                                  height={size}
-                                  style={{ color: sheetConfig.color }}
-                                />
-                              )}
-                            </div>
-                            <span className={`text-xs font-mono ${sheetConfig.size === size ? 'font-bold text-primary' : 'text-muted-foreground'}`}>{size}px</span>
-                          </div>
-                        ))}
+            <div className="py-6 flex flex-col md:flex-row gap-6 md:gap-8">
+              <div className="w-full md:w-1/3 lg:w-1/4 flex flex-col bg-secondary/30 rounded-lg border border-border p-4 md:p-6 gap-6">
+                <DocSubsection title="프리뷰 크기" className="gap-3" contentClassName="gap-3">
+                  <div className="flex items-end gap-4 justify-center md:justify-start flex-wrap">
+                    {(selectedIcon.category === 'illust' ? [16, 20, 24, 28, 32, 40] : [16, 20, 24]).map((size) => (
+                      <div
+                        key={size}
+                        className={`flex flex-col items-center gap-2 cursor-pointer transition-opacity ${sheetConfig.size === size ? 'opacity-100' : 'opacity-50 hover:opacity-100'}`}
+                        onClick={() => setSheetConfig((prev) => ({ ...prev, size }))}
+                      >
+                        <div
+                          className={`flex items-center justify-center border border-black/5 bg-white rounded-md ${sheetConfig.size === size ? 'border-black' : ''}`}
+                          style={{ width: size + 16, height: size + 16 }}
+                        >
+                          {SvgPreview && (
+                            <SvgPreview width={size} height={size} style={{ color: sheetConfig.color }} />
+                          )}
+                        </div>
+                        <span className={`text-xs font-mono ${sheetConfig.size === size ? 'font-bold text-primary' : 'text-muted-foreground'}`}>
+                          {size}px
+                        </span>
                       </div>
-                    </div>
+                    ))}
                   </div>
+                </DocSubsection>
 
-                  <div>
-                    {selectedIcon.category !== 'illust' && (
-                      <div>
-                        <ColorPalette purpose="icon" onColorSelect={(c) => setSheetConfig(prev => ({ ...prev, color: c }))} />
-                      </div>
-                    )}
-                  </div>
-                </div>
+                {selectedIcon.category !== 'illust' && (
+                  <DocSubsection title="아이콘 컬러" className="gap-3" contentClassName="gap-3">
+                    <ColorPalette
+                      purpose="icon"
+                      onColorSelect={(color) => setSheetConfig((prev) => ({ ...prev, color }))}
+                    />
+                  </DocSubsection>
+                )}
+              </div>
 
-                {/* Right Column: Details & Code */}
-                <div className="flex flex-col gap-6 flex-1">
+              <div className="flex flex-col gap-6 flex-1">
+                <DocSubsection title="메타 정보" className="gap-3" contentClassName="gap-3">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
                     <div>
-                      <span className="font-semibold block mb-1">Category</span>
+                      <span className="font-semibold block mb-1">카테고리</span>
                       <span className="capitalize">{selectedIcon.category}</span>
                     </div>
                     <div>
-                      <span className="font-semibold block mb-1">Filename</span>
+                      <span className="font-semibold block mb-1">파일명</span>
                       <span className="font-mono text-muted-foreground break-all">{selectedIcon.filename}</span>
                     </div>
                     {selectedIcon.subfolder && (
                       <div>
-                        <span className="font-semibold block mb-1">Subfolder</span>
+                        <span className="font-semibold block mb-1">서브폴더</span>
                         <span className="font-mono text-muted-foreground">{selectedIcon.subfolder}</span>
                       </div>
                     )}
                   </div>
+                </DocSubsection>
 
-                  {/* Usage Code Section */}
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-semibold text-sm">Usage</span>
-                    </div>
-                    <div className="bg-muted p-4 rounded-md flex items-start sm:items-center justify-between gap-2 font-mono text-xs border border-border flex-col sm:flex-row">
-                      <code className="break-all flex-1">{getUsageCode()}</code>
-                      <Clipboard value={getUsageCode()} />
-                    </div>
+                <DocSubsection title="사용 코드" className="gap-3" contentClassName="gap-3">
+                  <div className="bg-muted p-4 rounded-md flex items-start sm:items-center justify-between gap-2 font-mono text-xs border border-border flex-col sm:flex-row">
+                    <code className="break-all flex-1">{usageCode}</code>
+                    <Clipboard value={usageCode} />
                   </div>
-                </div>
+                </DocSubsection>
               </div>
-            </SheetContent>
-          </Sheet>
-        )
-      }
-    </div >
+            </div>
+          </SheetContent>
+        </Sheet>
+      )}
+    </div>
   );
 };
 

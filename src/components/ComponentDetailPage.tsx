@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Clipboard } from '@/components/ui/clipboard';
+import { Badge } from '@/components/ui/badge';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import ColorSwatch from '@/components/ui/ColorSwatch';
 import { DoDont } from '@/components/ui/DoDont';
@@ -49,18 +50,18 @@ const atomicLevelLabels = {
     organism: 'Organism'
 } as const;
 
-const getReleasePhaseBadgeClass = (phase?: string) => {
+const getReleasePhaseBadgeVariant = (phase?: string): 'experimental' | 'beta' | 'stable' | 'deprecated' => {
     switch (phase) {
         case 'experimental':
-            return 'bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400';
+            return 'experimental';
         case 'beta':
-            return 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400';
+            return 'beta';
         case 'stable':
-            return 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400';
+            return 'stable';
         case 'deprecated':
-            return 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300';
+            return 'deprecated';
         default:
-            return 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300';
+            return 'deprecated';
     }
 };
 
@@ -156,6 +157,16 @@ const LivePreview: React.FC<{ componentName: string; variantName: string }> = ({
         if (variantName === 'Outline') return <Button variant="outline">Outline</Button>;
         if (variantName === 'Ghost') return <Button variant="ghost">Ghost</Button>;
         if (variantName === 'Destructive') return <Button variant="destructive">Delete</Button>;
+    }
+
+    if (name === 'badge') {
+        if (variantName === 'Notification Badge') return <Badge variant="notification">1</Badge>;
+        if (variantName === 'Status Badge') return <Badge variant="stable">Stable</Badge>;
+        if (variantName === 'Category' || variantName === 'Category Badge') return <Badge variant="category">ui</Badge>;
+        if (variantName === 'Release Stable') return <Badge variant="stable">Stable</Badge>;
+        if (variantName === 'Tag') return <Badge variant="tag">action</Badge>;
+        if (variantName === 'Meta Badge') return <Badge variant="meta">4 props</Badge>;
+        return <Badge>Badge</Badge>;
     }
 
     // Card
@@ -604,33 +615,42 @@ const ComponentDetailPage = () => {
                         <p className="text-body-lg text-muted-foreground leading-relaxed max-w-2xl">{meta.description}</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-1 mt-6">
-                    <span className="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-medium uppercase tracking-wide">
+                <div className="flex flex-wrap items-center gap-1 mt-6">
+                    <Badge variant="category" className="uppercase tracking-wide px-3 py-1">
                         {meta.category}
-                    </span>
+                    </Badge>
                     {meta.atomicLevel && (
-                        <span className="inline-flex items-center rounded-full bg-sky-50 dark:bg-sky-950/30 px-3 py-1 text-xs font-medium text-sky-700 dark:text-sky-400">
+                        <Badge variant="atomic" className="px-3 py-1">
                             {atomicLevelLabels[meta.atomicLevel]}
-                        </span>
+                        </Badge>
                     )}
                     {meta.releasePhase && (
-                        <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${getReleasePhaseBadgeClass(meta.releasePhase)}`}>
+                        <Badge variant={getReleasePhaseBadgeVariant(meta.releasePhase)} className="px-3 py-1">
                             {releasePhaseLabels[meta.releasePhase]}
-                        </span>
+                        </Badge>
                     )}
                     {meta.owner && (
-                        <span className="inline-flex items-center rounded-full bg-violet-50 dark:bg-violet-950/30 px-3 py-1 text-xs font-medium text-violet-700 dark:text-violet-400">
+                        <Badge variant="owner" className="px-3 py-1">
                             {meta.owner}
-                        </span>
+                        </Badge>
                     )}
                     {meta.since && (
-                        <span className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-xs font-mono text-muted-foreground">
+                        <Badge variant="since" className="px-3 py-1">
                             since {meta.since}
-                        </span>
+                        </Badge>
                     )}
-                    <span className="text-xs text-muted-foreground font-mono bg-muted/50 px-2 py-1 rounded">
+                    {(meta.tags || []).slice(0, 3).map((tag) => (
+                        <Badge
+                            key={`${meta.name}-${tag}`}
+                            variant="tag"
+                            className="px-3 py-1"
+                        >
+                            {tag}
+                        </Badge>
+                    ))}
+                    <Badge variant="meta" className="px-2 py-1 rounded font-mono">
                         {meta.filePath}
-                    </span>
+                    </Badge>
                 </div>
             </div>
 

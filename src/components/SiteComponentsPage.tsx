@@ -6,6 +6,7 @@ import { getAllComponents } from '@/data/componentRegistry';
 import { ExperimentalToggle } from './ui/ExperimentalToggle';
 import { SearchBar } from './SearchBar';
 import { SmartFilterDropdown } from '@/components/ui/SmartFilterDropdown';
+import { Badge } from '@/components/ui/badge';
 
 const releasePhaseLabels = {
     experimental: 'Experimental',
@@ -26,25 +27,35 @@ const atomicFilterItems = [
     { value: 'organism', label: 'Organism' }
 ];
 
+const categoryTabOrder = ['layout', 'form', 'feedback', 'navigation', 'docs', 'utility'] as const;
+const categoryTabLabels: Record<string, string> = {
+    layout: 'Layout',
+    form: 'Form',
+    feedback: 'Feedback',
+    navigation: 'Navigation',
+    docs: 'Docs',
+    utility: 'Utility'
+};
+
 const releasePhaseFilterItems = [
-    { value: 'experimental', label: 'Experimental' },
     { value: 'beta', label: 'Beta' },
     { value: 'stable', label: 'Stable' },
+    { value: 'experimental', label: 'Experimental' },
     { value: 'deprecated', label: 'Deprecated' }
 ];
 
-const getReleasePhaseBadgeClass = (phase?: string) => {
+const getReleasePhaseBadgeVariant = (phase?: string): 'experimental' | 'beta' | 'stable' | 'deprecated' => {
     switch (phase) {
         case 'experimental':
-            return 'bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400';
+            return 'experimental';
         case 'beta':
-            return 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400';
+            return 'beta';
         case 'stable':
-            return 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400';
+            return 'stable';
         case 'deprecated':
-            return 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300';
+            return 'deprecated';
         default:
-            return 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300';
+            return 'deprecated';
     }
 };
 
@@ -63,8 +74,13 @@ const SiteComponentsPage = () => {
     const [selectedAtomicLevel, setSelectedAtomicLevel] = React.useState<'all' | 'atom' | 'molecule' | 'organism'>('all');
     const [selectedReleasePhase, setSelectedReleasePhase] = React.useState<'all' | 'experimental' | 'beta' | 'stable' | 'deprecated'>('all');
 
-    // 고유 카테고리 추출
-    const categories = ['All', ...new Set(components.map(c => c.category))];
+    // 고유 카테고리 추출 + 탭 순서 정규화
+    const uniqueCategories = new Set(components.map(c => c.category));
+    const orderedCategories = [
+        ...categoryTabOrder.filter((category) => uniqueCategories.has(category)),
+        ...Array.from(uniqueCategories).filter((category) => !categoryTabOrder.includes(category as (typeof categoryTabOrder)[number])).sort()
+    ];
+    const categories = ['All', ...orderedCategories];
 
     // 필터링 로직
     const filteredComponents = components.filter(component => {
@@ -80,7 +96,7 @@ const SiteComponentsPage = () => {
     });
 
     const tabs = categories.map(category => ({
-        name: category === 'All' ? '전체' : category.charAt(0).toUpperCase() + category.slice(1),
+        name: category === 'All' ? '전체' : (categoryTabLabels[category] || category),
         value: category
     }));
 
@@ -150,19 +166,19 @@ const SiteComponentsPage = () => {
                                             className="block group"
                                         >
                                             <div className="rounded-xl border bg-card text-card-foreground p-6 flex flex-col gap-4 hover:bg-muted/50 transition-colors h-full relative">
-                                                <div className="flex flex-wrap content-start items-start gap-1.5 min-h-[52px]">
-                                                    <span className="inline-flex items-center rounded-full bg-primary px-2.5 py-0.5 text-xs font-medium text-primary-foreground">
+                                                <div className="flex flex-wrap content-start items-start gap-1 min-h-[52px]">
+                                                    <Badge variant="category" className="lowercase">
                                                         {component.category}
-                                                    </span>
+                                                    </Badge>
                                                     {component.atomicLevel && (
-                                                        <span className="inline-flex items-center rounded-full bg-sky-50 dark:bg-sky-950/30 px-2.5 py-0.5 text-xs font-medium text-sky-700 dark:text-sky-400">
+                                                        <Badge variant="atomic">
                                                             {atomicLevelLabels[component.atomicLevel]}
-                                                        </span>
+                                                        </Badge>
                                                     )}
                                                     {component.releasePhase && (
-                                                        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getReleasePhaseBadgeClass(component.releasePhase)}`}>
+                                                        <Badge variant={getReleasePhaseBadgeVariant(component.releasePhase)}>
                                                             {releasePhaseLabels[component.releasePhase]}
-                                                        </span>
+                                                        </Badge>
                                                     )}
                                                 </div>
                                                 <div className="flex flex-col gap-0">
@@ -175,15 +191,15 @@ const SiteComponentsPage = () => {
                                                 </div>
 
                                                 <div className="mt-auto w-full flex flex-wrap gap-1">
-                                                    <div className="inline-flex items-center rounded bg-blue-50 dark:bg-blue-950/30 px-2 py-1 text-xs font-medium text-blue-700 dark:text-blue-400 font-mono truncate max-w-full" title={component.filePath.split('/').pop()}>
+                                                    <Badge variant="meta" className="rounded truncate max-w-full px-2 py-1 font-mono" title={component.filePath.split('/').pop()}>
                                                         {component.filePath.split('/').pop()}
-                                                    </div>
-                                                    <span className="inline-flex items-center justify-center rounded bg-purple-50 dark:bg-purple-950/30 px-2 py-1 text-xs font-medium text-purple-700 dark:text-purple-400">
+                                                    </Badge>
+                                                    <Badge variant="meta" className="rounded px-2 py-1">
                                                         {component.props.length} props
-                                                    </span>
-                                                    <span className="inline-flex items-center justify-center rounded bg-orange-50 dark:bg-orange-950/30 px-2 py-1 text-xs font-medium text-orange-700 dark:text-orange-400">
+                                                    </Badge>
+                                                    <Badge variant="meta" className="rounded px-2 py-1">
                                                         {component.variants?.length || 0} variants
-                                                    </span>
+                                                    </Badge>
                                                 </div>
                                             </div>
                                         </Link>
