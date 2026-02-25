@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { BookOpen, ChevronDown } from 'lucide-react';
 import { FoundationPageLayout } from './FoundationPageLayout';
 import { PrinciplesSection, type PrincipleItem } from './ui/PrinciplesSection';
@@ -7,15 +7,38 @@ import { DocSection } from './ui/DocLayout';
 
 const IntroductionPage: React.FC = () => {
     const [isWcagNoteOpen, setIsWcagNoteOpen] = useState(false);
+    const wcagNoteRef = useRef<HTMLElement | null>(null);
+
+    const scrollToWcagNote = useCallback((behavior: ScrollBehavior = 'smooth') => {
+        const target = wcagNoteRef.current;
+        if (!target) {
+            return;
+        }
+
+        const viewportOffset = 88; // breadcrumb + 상단 여백 보정
+        const top = target.getBoundingClientRect().top + window.scrollY - viewportOffset;
+        window.scrollTo({ top: Math.max(0, top), behavior });
+    }, []);
+
+    const openWcagNoteAndFocus = useCallback((behavior: ScrollBehavior = 'smooth') => {
+        setIsWcagNoteOpen(true);
+
+        // 아코디언가 열린 뒤 위치를 다시 맞춰 본문이 바로 보이도록 보정
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                scrollToWcagNote(behavior);
+            }, 80);
+        });
+    }, [scrollToWcagNote]);
 
     useEffect(() => {
         if (window.location.hash === '#wcag-2-1-note') {
-            setIsWcagNoteOpen(true);
+            openWcagNoteAndFocus('auto');
         }
 
         const handleHashChange = () => {
             if (window.location.hash === '#wcag-2-1-note') {
-                setIsWcagNoteOpen(true);
+                openWcagNoteAndFocus('smooth');
             }
         };
 
@@ -23,7 +46,7 @@ const IntroductionPage: React.FC = () => {
         return () => {
             window.removeEventListener('hashchange', handleHashChange);
         };
-    }, []);
+    }, [openWcagNoteAndFocus]);
 
     const corePrinciples: PrincipleItem[] = [
         {
@@ -45,7 +68,13 @@ const IntroductionPage: React.FC = () => {
                     다양한 신체적 조건과 환경의 사용자를 고려하여 설계합니다.{' '}
                     <a
                         href="#wcag-2-1-note"
-                        onClick={() => setIsWcagNoteOpen(true)}
+                        onClick={(event) => {
+                            event.preventDefault();
+                            if (window.location.hash !== '#wcag-2-1-note') {
+                                window.history.pushState(null, '', '#wcag-2-1-note');
+                            }
+                            openWcagNoteAndFocus('smooth');
+                        }}
                         className="font-medium text-foreground underline underline-offset-2"
                     >
                         WCAG 2.1
@@ -122,9 +151,13 @@ const IntroductionPage: React.FC = () => {
                 </DoDontContainer>
             </DocSection>
 
-            <section id="wcag-2-1-note" className="doc-section mt-8 border-t border-border/40 pt-8">
+            <section id="wcag-2-1-note" ref={wcagNoteRef} className="doc-section mt-8 border-t border-border/40 pt-8">
                 <div className="doc-section-content flex flex-col gap-4">
-                    <div className="w-full rounded-xl border bg-card overflow-hidden">
+                    <div
+                        className={`w-full rounded-xl border overflow-hidden transition-colors duration-300 ${
+                            isWcagNoteOpen ? 'bg-muted/40' : 'bg-card'
+                        }`}
+                    >
                         <button
                             type="button"
                             aria-expanded={isWcagNoteOpen}
@@ -153,7 +186,7 @@ const IntroductionPage: React.FC = () => {
                         <div
                             id="wcag-2-1-note-content"
                             aria-hidden={!isWcagNoteOpen}
-                            className={`grid bg-muted/40 transition-[grid-template-rows,opacity] duration-300 ease-out ${
+                            className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
                                 isWcagNoteOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
                             }`}
                         >

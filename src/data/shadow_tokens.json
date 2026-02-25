@@ -1,6 +1,11 @@
 {
   "shadow_tokens": [
     {
+      "token": "shadow_0",
+      "css_value": "none",
+      "description": "Elevation 0 - 기본 레이어(그림자 없음)"
+    },
+    {
       "token": "shadow_100",
       "css_value": "0px 1px 4px 0px rgba(25,31,40,0.12)",
       "description": "Elevation 1 - 카드, 일반적인 컨텐츠 (선택)"

@@ -6,15 +6,15 @@ const Breadcrumb: React.FC = () => {
   const location = useLocation();
   const rawPathnames = location.pathname.split('/').filter((x) => x);
 
-  const foundationPaths = ["colors", "typography", "spacing", "layout", "radius", "icons", "shadows"];
+  const foundationPaths = ["overview", "colors", "typography", "spacing", "layout", "radius", "icons", "shadows"];
 
   const pathMapping: Record<string, string> = {};
 
   let displayPathnames = [...rawPathnames];
 
-  // Handle root path ('/') specifically for Colors page
+  // Handle root path ('/') as Foundation > Overview
   if (rawPathnames.length === 0) {
-    displayPathnames = ['foundation', 'colors'];
+    displayPathnames = ['foundation', 'overview'];
   } else if (rawPathnames.length > 0 && foundationPaths.includes(rawPathnames[0])) {
     displayPathnames.unshift("foundation");
   }

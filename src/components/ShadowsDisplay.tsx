@@ -67,7 +67,7 @@ const ShadowsDisplay: React.FC = () => {
       const dy = targetTop - currentTop;
 
       newStyles[index] = {
-        transform: `translate(${dx}px, ${dy}px)`,
+        transform: `translate(${Math.round(dx)}px, ${Math.round(dy)}px)`,
         zIndex: 10 + index,
         transition: 'all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)'
       };
@@ -108,14 +108,14 @@ const ShadowsDisplay: React.FC = () => {
             {shadows.shadow_tokens.map((shadow, index: number) => (
               <div
                 key={index}
-                className="flex flex-col items-center gap-4 will-change-transform"
+                className="flex flex-col items-center gap-4"
                 ref={el => { itemRefs.current[index] = el }}
                 style={{
                   ...hoverStyles[index],
                   transition: hoverStyles[index] ? hoverStyles[index].transition : 'all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)'
                 }}
               >
-                <div className="w-full h-32 bg-white rounded-xl flex items-center justify-center border border-border relative">
+                <div className="w-full h-32 bg-card rounded-xl flex items-center justify-center border border-border relative">
                   {/* Shadow Layer with Opacity Animation */}
                   <div
                     className="absolute inset-0 rounded-xl"
@@ -125,43 +125,16 @@ const ShadowsDisplay: React.FC = () => {
                     } as React.CSSProperties}
                   />
                   {/* Content */}
-                  <span className={`absolute z-10 transition-all duration-500 whitespace-nowrap ${isHovering ? 'top-4 left-4 translate-x-0 translate-y-0 text-sm font-medium text-muted-foreground' : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-medium text-muted-foreground'}`}>
-                    Elevation {shadow.token.replace('shadow_', '').charAt(0)}
-                  </span>
+                  <div className={`absolute z-10 transition-all duration-500 ${isHovering ? 'top-4 left-4 translate-x-0 translate-y-0' : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'} flex flex-col items-center gap-0.5`}>
+                    <span className="whitespace-nowrap text-sm font-medium text-muted-foreground">
+                      Elevation {shadow.token.replace('shadow_', '').charAt(0)}
+                    </span>
+                    <span className="whitespace-nowrap font-mono text-[11px] text-muted-foreground/90">
+                      {shadow.token}
+                    </span>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Interactive Playground */}
-      <section className="doc-subsection">
-        <h2 className="text-doc-section-title">인터랙티브 플레이그라운드</h2>
-        <div className="bg-secondary/10 border border-border rounded-xl p-6 flex flex-col items-center justify-center min-h-[260px] relative overflow-hidden">
-          <div className="absolute inset-0 bg-grid-slate-200/50 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] dark:bg-grid-slate-800/20" />
-
-          <div id="shadow-card" className="bg-card w-48 h-48 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 z-10 shadow-sm border border-border">
-            <span className="text-lg font-bold text-primary mb-1">Card</span>
-            <span className="text-xs text-muted-foreground" id="shadow-label">shadow-sm</span>
-          </div>
-
-          <div className="mt-6 z-10 flex gap-2 bg-background/80 backdrop-blur p-2 rounded-lg border border-border shadow-sm">
-            {['shadow-none', 'shadow-sm', 'shadow-md', 'shadow-lg', 'shadow-xl', 'shadow-2xl'].map((shadow) => (
-              <button
-                key={shadow}
-                onClick={() => {
-                  const card = document.getElementById('shadow-card');
-                  const label = document.getElementById('shadow-label');
-                  if (card && label) {
-                    card.className = `bg-card w-48 h-48 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 z-10 border border-border ${shadow}`;
-                    label.innerText = shadow;
-                  }
-                }}
-                className="px-3 py-1.5 text-xs font-medium rounded-md hover:bg-muted transition-colors focus:bg-primary/10 focus:text-primary"
-              >
-                {shadow.replace('shadow-', '')}
-              </button>
             ))}
           </div>
         </div>
