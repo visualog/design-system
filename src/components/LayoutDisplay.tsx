@@ -7,17 +7,59 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
-import { Info } from "lucide-react";
+} from '@/components/ui/table';
+import { Info } from 'lucide-react';
+import { DocSubsection } from './ui/DocLayout';
+
+interface DeviceResolution {
+    device: string;
+    css_width: string;
+    css_height: string;
+    aspect_ratio: string;
+}
+
+interface BreakpointToken {
+    breakpoint: string;
+    class_infix: string;
+    dimensions: string;
+    notes: string;
+}
+
+interface MobileTabletLayout {
+    device_width_range: string;
+    left_margin: string;
+    right_margin: string;
+    gutter: string;
+}
+
+interface DesktopLayout extends MobileTabletLayout {
+    body_width?: string;
+    column_width?: string;
+}
+
+interface LayoutData {
+    deviceResolutions: {
+        device_resolutions: DeviceResolution[];
+    };
+    breakpoints: {
+        breakpoints: BreakpointToken[];
+    };
+    mainLayouts: {
+        mobile_tablet_layouts: MobileTabletLayout[];
+        desktop_layouts: DesktopLayout[];
+        notes?: string[];
+    };
+}
 
 const LayoutDisplay: React.FC = () => {
-    const { layout } = designSystemData;
+    const layout = designSystemData.layout as LayoutData;
 
     return (
-        <div className="flex flex-col gap-12">
-            {/* Device Resolutions Table */}
-            <section className="flex flex-col gap-4">
-                <h2 className="text-xl font-bold">해상도</h2>
+        <div className="doc-content-stack">
+            <DocSubsection
+                title="기기 해상도"
+                description="주요 디바이스의 CSS 기준 해상도와 화면 비율을 확인합니다."
+            >
                 <div className="overflow-hidden">
                     <Table>
                         <TableHeader>
@@ -29,8 +71,8 @@ const LayoutDisplay: React.FC = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {layout.deviceResolutions.device_resolutions.map((device: any, index: number) => (
-                                <TableRow key={index}>
+                            {layout.deviceResolutions.device_resolutions.map((device) => (
+                                <TableRow key={`${device.device}-${device.css_width}-${device.css_height}`}>
                                     <TableCell className="font-medium text-sm text-primary">{device.device}</TableCell>
                                     <TableCell className="text-muted-foreground font-mono text-xs">{device.css_width}px</TableCell>
                                     <TableCell className="text-muted-foreground font-mono text-xs">{device.css_height}px</TableCell>
@@ -40,11 +82,12 @@ const LayoutDisplay: React.FC = () => {
                         </TableBody>
                     </Table>
                 </div>
-            </section>
+            </DocSubsection>
 
-            {/* Breakpoints Table */}
-            <section className="flex flex-col gap-4">
-                <h2 className="text-xl font-bold">중단점</h2>
+            <DocSubsection
+                title="브레이크포인트"
+                description="반응형 레이아웃 전환 기준과 각 구간의 목적을 정의합니다."
+            >
                 <div className="overflow-hidden">
                     <Table>
                         <TableHeader>
@@ -56,8 +99,8 @@ const LayoutDisplay: React.FC = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {layout.breakpoints.breakpoints.map((bp: any, index: number) => (
-                                <TableRow key={index}>
+                            {layout.breakpoints.breakpoints.map((bp) => (
+                                <TableRow key={`${bp.breakpoint}-${bp.class_infix}`}>
                                     <TableCell className="font-medium text-sm text-primary">{bp.breakpoint}</TableCell>
                                     <TableCell className="font-mono text-xs text-primary">{bp.class_infix}</TableCell>
                                     <TableCell className="text-muted-foreground font-mono text-xs">{bp.dimensions}</TableCell>
@@ -67,11 +110,12 @@ const LayoutDisplay: React.FC = () => {
                         </TableBody>
                     </Table>
                 </div>
-            </section>
+            </DocSubsection>
 
-            {/* Main Layouts (Mobile/Tablet) Table */}
-            <section className="flex flex-col gap-4">
-                <h2 className="text-xl font-bold">모바일/태블릿</h2>
+            <DocSubsection
+                title="모바일/태블릿 레이아웃"
+                description="중소형 뷰포트에서의 좌우 마진과 거터 기준입니다."
+            >
                 <div className="overflow-hidden">
                     <Table>
                         <TableHeader>
@@ -83,22 +127,23 @@ const LayoutDisplay: React.FC = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {layout.mainLayouts.mobile_tablet_layouts.map((ml: any, index: number) => (
-                                <TableRow key={index}>
-                                    <TableCell className="font-medium text-sm text-primary">{ml.device_width_range}</TableCell>
-                                    <TableCell className="text-muted-foreground font-mono text-xs">{ml.left_margin}px</TableCell>
-                                    <TableCell className="text-muted-foreground font-mono text-xs">{ml.right_margin}px</TableCell>
-                                    <TableCell className="text-muted-foreground font-mono text-xs">{ml.gutter}px</TableCell>
+                            {layout.mainLayouts.mobile_tablet_layouts.map((layoutToken) => (
+                                <TableRow key={layoutToken.device_width_range}>
+                                    <TableCell className="font-medium text-sm text-primary">{layoutToken.device_width_range}</TableCell>
+                                    <TableCell className="text-muted-foreground font-mono text-xs">{layoutToken.left_margin}px</TableCell>
+                                    <TableCell className="text-muted-foreground font-mono text-xs">{layoutToken.right_margin}px</TableCell>
+                                    <TableCell className="text-muted-foreground font-mono text-xs">{layoutToken.gutter}px</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </div>
-            </section>
+            </DocSubsection>
 
-            {/* Main Layouts (Desktop) Table */}
-            <section className="flex flex-col gap-4">
-                <h2 className="text-xl font-bold">데스크톱</h2>
+            <DocSubsection
+                title="데스크톱 레이아웃"
+                description="대형 뷰포트에서의 마진, 본문 너비, 컬럼 너비 기준입니다."
+            >
                 <div className="overflow-hidden">
                     <Table>
                         <TableHeader>
@@ -112,33 +157,38 @@ const LayoutDisplay: React.FC = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {layout.mainLayouts.desktop_layouts.map((dl: any, index: number) => (
-                                <TableRow key={index}>
-                                    <TableCell className="font-medium text-sm text-primary">{dl.device_width_range}</TableCell>
-                                    <TableCell className="text-muted-foreground font-mono text-xs">{dl.left_margin}px</TableCell>
-                                    <TableCell className="text-muted-foreground font-mono text-xs">{dl.right_margin}px</TableCell>
-                                    <TableCell className="text-muted-foreground font-mono text-xs">{dl.gutter}px</TableCell>
-                                    <TableCell className="text-muted-foreground font-mono text-xs">{dl.body_width ? `${dl.body_width}px` : '-'}</TableCell>
-                                    <TableCell className="text-muted-foreground font-mono text-xs">{dl.column_width ? `${dl.column_width}px` : '-'}</TableCell>
+                            {layout.mainLayouts.desktop_layouts.map((layoutToken) => (
+                                <TableRow key={layoutToken.device_width_range}>
+                                    <TableCell className="font-medium text-sm text-primary">{layoutToken.device_width_range}</TableCell>
+                                    <TableCell className="text-muted-foreground font-mono text-xs">{layoutToken.left_margin}px</TableCell>
+                                    <TableCell className="text-muted-foreground font-mono text-xs">{layoutToken.right_margin}px</TableCell>
+                                    <TableCell className="text-muted-foreground font-mono text-xs">{layoutToken.gutter}px</TableCell>
+                                    <TableCell className="text-muted-foreground font-mono text-xs">{layoutToken.body_width ? `${layoutToken.body_width}px` : '-'}</TableCell>
+                                    <TableCell className="text-muted-foreground font-mono text-xs">{layoutToken.column_width ? `${layoutToken.column_width}px` : '-'}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </div>
-            </section>
+            </DocSubsection>
 
             {layout.mainLayouts.notes && layout.mainLayouts.notes.length > 0 && (
-                <div className="mb-12 rounded-lg border bg-muted/30 p-6">
-                    <h3 className="flex items-center gap-2 text-lg font-semibold mb-3">
-                        <Info className="w-4 h-4" />
-                        참고사항
-                    </h3>
-                    <ul className="list-disc pl-5 space-y-1">
-                        {layout.mainLayouts.notes.map((note: string, index: number) => (
-                            <li key={index} className="text-sm text-muted-foreground">{note}</li>
-                        ))}
-                    </ul>
-                </div>
+                <DocSubsection
+                    title="참고사항"
+                    description="레이아웃 운영 시 함께 확인해야 하는 조건과 예외 사항입니다."
+                >
+                    <div className="rounded-lg border bg-muted/30 p-6">
+                        <h3 className="flex items-center gap-2 text-base font-semibold mb-3">
+                            <Info className="w-4 h-4" />
+                            운영 메모
+                        </h3>
+                        <ul className="list-disc pl-5 space-y-1">
+                            {layout.mainLayouts.notes.map((note, index) => (
+                                <li key={index} className="text-sm text-muted-foreground">{note}</li>
+                            ))}
+                        </ul>
+                    </div>
+                </DocSubsection>
             )}
         </div>
     );

@@ -16,7 +16,17 @@ import { SmartFilterDropdown } from "./ui/SmartFilterDropdown";
 
 import { Switch } from "@/components/ui/switch";
 
-const ThemeColorMappingDisplay: React.FC = () => {
+interface ThemeColorMappingDisplayProps {
+  isDarkMode?: boolean;
+  onDarkModeChange?: (checked: boolean) => void;
+  showDarkModeControl?: boolean;
+}
+
+const ThemeColorMappingDisplay: React.FC<ThemeColorMappingDisplayProps> = ({
+  isDarkMode: controlledDarkMode,
+  onDarkModeChange,
+  showDarkModeControl = true
+}) => {
   const AVATAR_ORDER = [
     'Red', 'Orange', 'Yellow Orange', 'Green', 'Deep Green',
     'Cyan', 'Light Blue', 'Deep Blue', 'Purple', 'Pink',
@@ -27,7 +37,9 @@ const ThemeColorMappingDisplay: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>(['All']);
   const [selectedAvatarGroup, setSelectedAvatarGroup] = useState('All');
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [internalDarkMode, setInternalDarkMode] = useState(false);
+  const isDarkMode = controlledDarkMode ?? internalDarkMode;
+  const setDarkMode = onDarkModeChange ?? setInternalDarkMode;
 
   // Group name mapping for display
   const groupNames: Record<string, string> = {
@@ -185,16 +197,18 @@ const ThemeColorMappingDisplay: React.FC = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <div className="flex items-center gap-2 ml-auto">
-          <Switch
-            checked={isDarkMode}
-            onCheckedChange={setIsDarkMode}
-            id="dark-mode-theme"
-          />
-          <label htmlFor="dark-mode-theme" className="text-xs font-medium leading-none cursor-pointer whitespace-nowrap text-gray-500">
-            {isDarkMode ? 'Dark' : 'Light'}
-          </label>
-        </div>
+        {showDarkModeControl && (
+          <div className="flex items-center gap-2 ml-auto">
+            <Switch
+              checked={isDarkMode}
+              onCheckedChange={setDarkMode}
+              id="dark-mode-theme"
+            />
+            <label htmlFor="dark-mode-theme" className="text-xs font-medium leading-none cursor-pointer whitespace-nowrap text-muted-foreground">
+              {isDarkMode ? 'Dark' : 'Light'}
+            </label>
+          </div>
+        )}
       </div>
 
       <div className="overflow-hidden">
@@ -341,7 +355,6 @@ const ThemeColorMappingDisplay: React.FC = () => {
                             {displayHexValue ? (
                               <span className="uppercase">
                                 {displayHexValue}
-                                {isDarkMode && <span className="text-gray-400 normal-case"> (Dark)</span>}
                               </span>
                             ) : (
                               <span className="text-gray-300">-</span>

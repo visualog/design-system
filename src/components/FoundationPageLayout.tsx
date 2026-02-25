@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AnimatedTabs, AnimatedTabsContent } from "@/components/ui/tabs";
 import { ExperimentalToggle } from './ui/ExperimentalToggle';
+import { DocPageFrame, DocPageHeader } from './ui/DocLayout';
 
 interface FoundationPageLayoutProps {
     title: string;
@@ -18,23 +19,17 @@ export const FoundationPageLayout: React.FC<FoundationPageLayoutProps> = ({
     showExperimental = false
 }) => {
     return (
-        <div className="flex flex-col gap-12 pb-24">
-            <div className="flex flex-col gap-1">
-                <div className="flex items-center justify-between gap-4 flex-wrap">
-                    <div className="flex items-center gap-4">
-                        <h1 className="text-heading-xl tracking-tight">{title}</h1>
-                        {showExperimental && <ExperimentalToggle />}
-                    </div>
-                    {actions && <div className="flex-shrink-0">{actions}</div>}
-                </div>
-                <p className="text-body-sm text-muted-foreground max-w-3xl">
-                    {description}
-                </p>
-            </div>
-            <div className="flex flex-col gap-12">
+        <DocPageFrame className="foundation-doc-page">
+            <DocPageHeader
+                title={title}
+                description={description}
+                actions={actions}
+                titleAddon={showExperimental ? <ExperimentalToggle /> : undefined}
+            />
+            <div className="doc-page-content">
                 {children}
             </div>
-        </div>
+        </DocPageFrame>
     );
 };
 
@@ -47,25 +42,29 @@ interface FoundationTabItem {
 interface FoundationPageTabsProps {
     items: FoundationTabItem[];
     defaultValue?: string;
+    floatingAction?: React.ReactNode | ((activeTab: string) => React.ReactNode);
 }
 
 export const FoundationPageTabs: React.FC<FoundationPageTabsProps> = ({
     items,
-    defaultValue
+    defaultValue,
+    floatingAction
 }) => {
     const defaultVal = defaultValue || (items.length > 0 ? items[0].value : '');
     const [activeTab, setActiveTab] = useState(defaultVal);
 
     const tabHeaders = items.map(item => ({ name: item.label, value: item.value }));
+    const floatingActionNode = typeof floatingAction === 'function' ? floatingAction(activeTab) : floatingAction;
 
     return (
         <AnimatedTabs
             tabs={tabHeaders}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
+            floatingAction={floatingActionNode}
         >
             {items.map((item) => (
-                <AnimatedTabsContent key={item.value} value={item.value} className="space-y-8">
+                <AnimatedTabsContent key={item.value} value={item.value} className="doc-tab-panel">
                     {/* Hidden H2 for accessibility (document structure) */}
                     <h2 className="sr-only">{item.label}</h2>
                     {item.content}

@@ -126,7 +126,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
           </div>
           <nav>
             <ul className="flex flex-col gap-1">
-              <li className="flex flex-col gap-1">
+              <li className="flex flex-col gap-0">
                 <button
                   onClick={toggleFoundationMenu}
                   className="w-full flex items-center justify-between text-label-md text-foreground px-2 h-10 rounded-lg hover:bg-accent"
@@ -137,7 +137,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
                   />
                 </button>
                 {isFoundationOpen && (
-                  <ul className="pl-4 flex flex-col gap-1">
+                  <ul className="pl-4 flex flex-col gap-0">
                     <li>
                       <NavLink
                         to="/overview"
@@ -157,7 +157,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
                         Colors
                       </NavLink>
                     </li>
-
                     <li>
                       <NavLink to="/typography" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Typography</NavLink>
                     </li>
@@ -187,7 +186,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
               <li>
                 <div className="h-px bg-border my-2 mx-1" />
               </li>
-              <li className="flex flex-col gap-1">
+              <li className="flex flex-col gap-0">
                 <button
                   onClick={toggleSettingsMenu}
                   className="w-full flex items-center justify-between text-label-md text-foreground px-2 h-10 rounded-lg hover:bg-accent"
@@ -198,7 +197,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
                   />
                 </button>
                 {isSettingsOpen && (
-                  <ul className="pl-4 flex flex-col gap-1">
+                  <ul className="pl-4 flex flex-col gap-0">
                     <li>
                       <NavLink to="/site-settings/theme" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Theme</NavLink>
                     </li>

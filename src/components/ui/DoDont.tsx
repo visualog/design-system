@@ -8,9 +8,19 @@ interface DoDontProps {
     description: string;
     children: React.ReactNode;
     className?: string;
+    withStage?: boolean;
+    stageClassName?: string;
 }
 
-export const DoDont: React.FC<DoDontProps> = ({ type, title, description, children, className }) => {
+export const DoDont: React.FC<DoDontProps> = ({
+    type,
+    title,
+    description,
+    children,
+    className,
+    withStage = false,
+    stageClassName
+}) => {
     const isDo = type === 'do';
 
     return (
@@ -21,35 +31,43 @@ export const DoDont: React.FC<DoDontProps> = ({ type, title, description, childr
         )}>
             {/* Visual Area */}
             <div className={cn(
-                "relative shrink-0 py-12 px-6 flex items-center justify-center",
+                "relative shrink-0 h-44 px-6 flex items-center justify-center",
                 isDo ? "bg-green-50/50 dark:bg-green-950/20" : "bg-red-50/50 dark:bg-red-950/20"
             )}>
-                {/* Status Indicator */}
-                <div className={cn(
-                    "absolute bottom-0 left-6 translate-y-1/2 h-8 w-8 rounded-full flex items-center justify-center shadow-sm z-10",
-                    isDo ? "bg-green-500 text-white" : "bg-red-500 text-white"
-                )}>
-                    {isDo ? <Check size={18} strokeWidth={3} /> : <X size={18} strokeWidth={3} />}
-                </div>
-
                 {/* Content Preview */}
-                <div className="w-full">
-                    {children}
+                <div className="w-full h-full flex items-center justify-center overflow-hidden">
+                    {withStage ? (
+                        <div className={cn("w-full rounded-lg border bg-background p-4 shadow-sm", stageClassName)}>
+                            {children}
+                        </div>
+                    ) : (
+                        children
+                    )}
                 </div>
             </div>
 
             {/* Text Content */}
-            <div className="flex flex-col gap-1 px-6 pb-6 pt-8 bg-card flex-1">
-                <h4 className={cn(
-                    "font-bold text-sm tracking-wider",
-                    isDo ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
-                )}>
-                    {isDo ? "권장" : "주의"}
-                </h4>
-                <h5 className="font-semibold text-foreground">{title}</h5>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                    {description}
-                </p>
+            <div className="flex flex-col px-6 pb-6 pt-6 bg-card flex-1">
+                <div className="flex items-center gap-2">
+                    <span className={cn(
+                        "inline-flex h-5 w-5 items-center justify-center rounded-full shadow-sm",
+                        isDo ? "bg-green-500 text-white" : "bg-red-500 text-white"
+                    )}>
+                        {isDo ? <Check size={14} strokeWidth={2.6} /> : <X size={14} strokeWidth={2.6} />}
+                    </span>
+                    <h4 className={cn(
+                        "font-bold text-sm tracking-wider",
+                        isDo ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
+                    )}>
+                        {isDo ? "권장" : "주의"}
+                    </h4>
+                </div>
+                <div className="mt-3 flex flex-col gap-1">
+                    <h5 className="text-doc-subsection-title text-foreground">{title}</h5>
+                    <p className="text-doc-body text-muted-foreground">
+                        {description}
+                    </p>
+                </div>
             </div>
         </div>
     );

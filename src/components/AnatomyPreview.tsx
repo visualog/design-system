@@ -3,8 +3,9 @@ import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 import MeasureOverlay from '@/components/ui/MeasureOverlay';
 import { Button } from '@/components/ui/button';
-import { Search } from 'lucide-react';
+import { Search, ChevronDown } from 'lucide-react';
 import ColorSwatch from './ui/ColorSwatch';
+import { colorTokenData } from './anatomy-meta';
 
 // Anatomy Label Component with connecting line
 const AnatomyLabel = ({
@@ -173,28 +174,6 @@ const ColorLabel = ({
             </div>
         </div>
     );
-};
-
-// Color token data with hex values
-export const colorTokenData: Record<string, { hex: string; rgb: string; hsl: string; usage: string; description?: string }> = {
-    'bg-muted': { hex: '#F4F4F5', rgb: 'rgb(244, 244, 245)', hsl: 'var(--color-muted)', usage: '컨테이너 배경', description: '보조적인 배경색으로 사용되어 계층 구조를 구분합니다.' },
-    'bg-background': { hex: '#FFFFFF', rgb: 'rgb(255, 255, 255)', hsl: 'var(--color-background)', usage: '활성 트리거 배경', description: '가장 기본적인 배경색으로, 콘텐츠를 올리는 캔버스 역할을 합니다.' },
-    'bg-primary': { hex: '#18181B', rgb: 'rgb(24, 24, 27)', hsl: 'var(--color-primary)', usage: '주색상 배경', description: '브랜드의 주요 액션이나 강조하고 싶은 부분에 사용됩니다.' },
-    'bg-secondary': { hex: '#F4F4F5', rgb: 'rgb(244, 244, 245)', hsl: 'var(--color-secondary)', usage: '보조 배경', description: '주요 액션보다 덜 중요한, 부차적인 배경 요소에 사용됩니다.' },
-    'bg-destructive': { hex: '#EF4444', rgb: 'rgb(239, 68, 68)', hsl: 'var(--color-destructive)', usage: '파괴적 배경', description: '삭제, 오류 등 위험하거나 주의가 필요한 액션의 배경에 사용됩니다.' },
-    'bg-transparent': { hex: 'transparent', rgb: 'transparent', hsl: 'transparent', usage: '투명 배경', description: '배경색 없이 콘텐츠만 강조하거나 다른 배경 위에 얹혀질 때 사용됩니다.' },
-
-    'text-foreground': { hex: '#09090B', rgb: 'rgb(9, 9, 11)', hsl: 'var(--color-foreground)', usage: '기본 텍스트', description: '가독성이 가장 높은 기본 텍스트 색상입니다.' },
-    'text-muted-foreground': { hex: '#71717A', rgb: 'rgb(113, 113, 122)', hsl: 'var(--color-muted-foreground)', usage: '보조 텍스트', description: '덜 중요한 정보나 비활성화된 상태를 나타낼 때 사용됩니다.' },
-    'text-background': { hex: '#FFFFFF', rgb: 'rgb(255, 255, 255)', hsl: 'var(--color-background)', usage: '반전 텍스트', description: '어두운 배경 위에서 높은 가독성을 제공하는 텍스트 색상입니다.' },
-    'text-primary': { hex: '#18181B', rgb: 'rgb(24, 24, 27)', hsl: 'var(--color-primary)', usage: '주색상 텍스트', description: '브랜드 컬러를 텍스트에 적용하여 강조할 때 사용됩니다.' },
-    'text-primary-foreground': { hex: '#FAFAFA', rgb: 'rgb(250, 250, 250)', hsl: 'var(--color-primary-foreground)', usage: '주색상 위 텍스트', description: '주색상 배경 위에서 읽기 쉽도록 대비를 이룹니다.' },
-    'text-secondary-foreground': { hex: '#18181B', rgb: 'rgb(24, 24, 27)', hsl: 'var(--color-secondary-foreground)', usage: '보조 배경 위 텍스트', description: '보조 배경 위에서 가독성을 확보하는 텍스트 색상입니다.' },
-    'text-accent-foreground': { hex: '#18181B', rgb: 'rgb(24, 24, 27)', hsl: 'var(--color-accent-foreground)', usage: '강조 배경 위 텍스트', description: '호버 등 강조된 배경 위에서 사용되는 텍스트 색상입니다.' },
-    'text-destructive-foreground': { hex: '#FAFAFA', rgb: 'rgb(250, 250, 250)', hsl: 'var(--color-destructive-foreground)', usage: '파괴적 배경 위 텍스트', description: '위험/경고 배경 위에서 높은 가독성을 제공합니다.' },
-
-    'border-input': { hex: '#E4E4E7', rgb: 'rgb(228, 228, 231)', hsl: 'var(--color-input)', usage: '입력창 테두리', description: '인풋 컴포넌트나 카드 등의 경계를 구분하는 테두리 색상입니다.' },
-    'border-border': { hex: '#E4E4E7', rgb: 'rgb(228, 228, 231)', hsl: 'var(--color-border)', usage: '컨테이너 보더', description: '컴포넌트의 경계를 구분하는 기본 보더 색상입니다.' },
 };
 
 const TabsAnatomy = ({ style = 'segmented', showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { style?: 'segmented' | 'pill' | 'line'; showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
@@ -701,7 +680,7 @@ interface AnatomyPreviewProps {
     showColorInfo?: boolean;
     style?: string;
     onHoverChange?: (part: string | null) => void;
-    onColorHoverChange?: (color: string | null) => void;
+    onColorHoverChange?: (color: string | null, name?: string) => void;
 }
 
 // Button Anatomy Component
@@ -723,7 +702,22 @@ const ButtonAnatomy = ({ style = 'default', showLabels = true, showColorInfo = f
     };
 
     // Helper to get token keys based on variant
-    const getTokenKeys = (variant: string) => {
+    const resolveButtonStyle = (variant: string): 'default' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive' => {
+        switch (variant) {
+            case 'secondary':
+            case 'outline':
+            case 'ghost':
+            case 'link':
+            case 'destructive':
+                return variant;
+            default:
+                return 'default';
+        }
+    };
+
+    const buttonStyle = resolveButtonStyle(style);
+
+    const getTokenKeys = (variant: 'default' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive') => {
         switch (variant) {
             case 'secondary':
                 return { bg: 'bg-secondary', text: 'text-secondary-foreground' };
@@ -740,7 +734,7 @@ const ButtonAnatomy = ({ style = 'default', showLabels = true, showColorInfo = f
         }
     };
 
-    const tokens = getTokenKeys(style);
+    const tokens = getTokenKeys(buttonStyle);
 
     return (
         <div className="relative flex flex-col items-center gap-8 select-none mx-auto w-96 justify-center min-h-[120px]">
@@ -773,7 +767,7 @@ const ButtonAnatomy = ({ style = 'default', showLabels = true, showColorInfo = f
                 )}
 
                 <Button
-                    variant={style as any}
+                    variant={buttonStyle}
                     className="relative"
                     style={{
                         outline: hoveredPart === 'Container' ? '2px solid #2563eb' : (
@@ -875,12 +869,1069 @@ const ButtonAnatomy = ({ style = 'default', showLabels = true, showColorInfo = f
     );
 };
 
-// Helper function to get variants for a component
-export const getAnatomyVariants = (componentName: string): string[] => {
-    const name = componentName.toLowerCase();
-    if (name === 'tabs') return ['segmented', 'pill', 'line'];
-    if (name === 'button') return ['default', 'secondary', 'outline', 'ghost', 'link'];
-    return [];
+const SwitchAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
+    const [hoveredPart, setHoveredPart] = useState<string | null>(null);
+    const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+    const effectiveShowLabels = showLabels && !showColorInfo;
+
+    const handleHoverChange = (part: string | null) => {
+        setHoveredPart(part);
+        onHoverChange?.(part);
+    };
+
+    const handleColorHoverChange = (color: string | null, name?: string) => {
+        setHoveredColor(color);
+        onColorHoverChange?.(color, name);
+    };
+
+    return (
+        <div className="relative flex items-center justify-center min-h-[180px] w-96 mx-auto">
+            <div className="relative">
+                {effectiveShowLabels && (
+                    <AnatomyLabel
+                        label="트랙"
+                        direction="left"
+                        length={28}
+                        isActive={hoveredPart === 'Track'}
+                        isDimmed={hoveredPart !== null && hoveredPart !== 'Track'}
+                        onMouseEnter={() => handleHoverChange('Track')}
+                        onMouseLeave={() => handleHoverChange(null)}
+                    />
+                )}
+                {showColorInfo && (
+                    <ColorLabel
+                        tokenName="트랙 배경"
+                        colorValue={colorTokenData['bg-primary'].hsl}
+                        fallbackColor={colorTokenData['bg-primary'].hex}
+                        direction="left"
+                        length={28}
+                        isActive={hoveredColor === 'bg-primary'}
+                        isDimmed={hoveredColor !== null && hoveredColor !== 'bg-primary'}
+                        onMouseEnter={() => handleColorHoverChange('bg-primary', '트랙 배경')}
+                        onMouseLeave={() => handleColorHoverChange(null)}
+                    />
+                )}
+
+                <div
+                    className="relative w-14 h-8 rounded-full bg-primary p-1"
+                    style={{
+                        outline: hoveredPart === 'Track' ? '2px solid #2563eb' : (hoveredColor === 'bg-primary' ? '2px solid #7c3aed' : 'none'),
+                    }}
+                    onMouseEnter={() => {
+                        if (effectiveShowLabels) handleHoverChange('Track');
+                        if (showColorInfo) handleColorHoverChange('bg-primary', '트랙 배경');
+                    }}
+                    onMouseLeave={() => {
+                        handleHoverChange(null);
+                        handleColorHoverChange(null);
+                    }}
+                >
+                    <div
+                        className="absolute top-1 left-1 h-6 w-6 translate-x-6 rounded-full bg-background shadow-sm"
+                        style={{
+                            outline: hoveredPart === 'Thumb' ? '2px solid #2563eb' : (hoveredColor === 'bg-background' ? '2px solid #7c3aed' : 'none'),
+                        }}
+                        onMouseEnter={(e) => {
+                            e.stopPropagation();
+                            if (effectiveShowLabels) handleHoverChange('Thumb');
+                            if (showColorInfo) handleColorHoverChange('bg-background', '썸 배경');
+                        }}
+                        onMouseLeave={(e) => {
+                            e.stopPropagation();
+                            handleHoverChange(null);
+                            handleColorHoverChange(null);
+                        }}
+                    >
+                        {effectiveShowLabels && (
+                            <AnatomyLabel
+                                label="썸"
+                                direction="bottom"
+                                length={24}
+                                isActive={hoveredPart === 'Thumb'}
+                                isDimmed={hoveredPart !== null && hoveredPart !== 'Thumb'}
+                                className="left-1/2 -translate-x-1/2"
+                            />
+                        )}
+                        {showColorInfo && (
+                            <ColorLabel
+                                tokenName="썸 배경"
+                                colorValue={colorTokenData['bg-background'].hsl}
+                                fallbackColor={colorTokenData['bg-background'].hex}
+                                direction="bottom"
+                                length={24}
+                                isActive={hoveredColor === 'bg-background'}
+                                isDimmed={hoveredColor !== null && hoveredColor !== 'bg-background'}
+                                onMouseEnter={() => handleColorHoverChange('bg-background', '썸 배경')}
+                                onMouseLeave={() => handleColorHoverChange(null)}
+                            />
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const DropdownMenuAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
+    const [hoveredPart, setHoveredPart] = useState<string | null>(null);
+    const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+    const effectiveShowLabels = showLabels && !showColorInfo;
+
+    const handleHoverChange = (part: string | null) => {
+        setHoveredPart(part);
+        onHoverChange?.(part);
+    };
+    const handleColorHoverChange = (color: string | null, name?: string) => {
+        setHoveredColor(color);
+        onColorHoverChange?.(color, name);
+    };
+
+    return (
+        <div className="relative flex flex-col items-center justify-center gap-3 min-h-[240px] w-96 mx-auto">
+            <div className="relative">
+                {effectiveShowLabels && (
+                    <AnatomyLabel
+                        label="트리거"
+                        direction="top"
+                        length={24}
+                        isActive={hoveredPart === 'Trigger'}
+                        isDimmed={hoveredPart !== null && hoveredPart !== 'Trigger'}
+                        onMouseEnter={() => handleHoverChange('Trigger')}
+                        onMouseLeave={() => handleHoverChange(null)}
+                    />
+                )}
+                <button
+                    className="h-9 min-w-[160px] rounded-md border border-input bg-background px-3 text-sm flex items-center justify-between gap-2"
+                    style={{
+                        outline: hoveredPart === 'Trigger' ? '2px solid #2563eb' : (hoveredColor === 'bg-background' ? '2px solid #7c3aed' : 'none'),
+                    }}
+                    onMouseEnter={() => {
+                        if (effectiveShowLabels) handleHoverChange('Trigger');
+                        if (showColorInfo) handleColorHoverChange('bg-background', '트리거 배경');
+                    }}
+                    onMouseLeave={() => {
+                        handleHoverChange(null);
+                        handleColorHoverChange(null);
+                    }}
+                >
+                    <span className="text-foreground">Open Menu</span>
+                    <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                </button>
+                {showColorInfo && (
+                    <ColorLabel
+                        tokenName="트리거 배경"
+                        colorValue={colorTokenData['bg-background'].hsl}
+                        fallbackColor={colorTokenData['bg-background'].hex}
+                        direction="top"
+                        length={24}
+                        isActive={hoveredColor === 'bg-background'}
+                        isDimmed={hoveredColor !== null && hoveredColor !== 'bg-background'}
+                        onMouseEnter={() => handleColorHoverChange('bg-background', '트리거 배경')}
+                        onMouseLeave={() => handleColorHoverChange(null)}
+                    />
+                )}
+            </div>
+
+            <div
+                className="relative w-[210px] rounded-md border border-border bg-background p-1 shadow-md"
+                style={{
+                    outline: hoveredPart === 'MenuSurface' ? '2px solid #2563eb' : (hoveredColor === 'menu-surface' ? '2px solid #7c3aed' : 'none'),
+                }}
+                onMouseEnter={() => {
+                    if (effectiveShowLabels) handleHoverChange('MenuSurface');
+                    if (showColorInfo) handleColorHoverChange('menu-surface', '메뉴 배경');
+                }}
+                onMouseLeave={() => {
+                    handleHoverChange(null);
+                    handleColorHoverChange(null);
+                }}
+            >
+                {effectiveShowLabels && (
+                    <AnatomyLabel
+                        label="메뉴 패널"
+                        direction="left"
+                        length={24}
+                        isActive={hoveredPart === 'MenuSurface'}
+                        isDimmed={hoveredPart !== null && hoveredPart !== 'MenuSurface'}
+                        onMouseEnter={() => handleHoverChange('MenuSurface')}
+                        onMouseLeave={() => handleHoverChange(null)}
+                    />
+                )}
+                {showColorInfo && (
+                    <ColorLabel
+                        tokenName="메뉴 배경"
+                        colorValue={colorTokenData['bg-background'].hsl}
+                        fallbackColor={colorTokenData['bg-background'].hex}
+                        direction="left"
+                        length={24}
+                        isActive={hoveredColor === 'menu-surface'}
+                        isDimmed={hoveredColor !== null && hoveredColor !== 'menu-surface'}
+                        onMouseEnter={() => handleColorHoverChange('menu-surface', '메뉴 배경')}
+                        onMouseLeave={() => handleColorHoverChange(null)}
+                    />
+                )}
+
+                <div className="rounded-sm px-2 py-1.5 text-sm text-foreground">Profile</div>
+                <div
+                    className="rounded-sm px-2 py-1.5 text-sm text-foreground bg-muted/80"
+                    style={{
+                        outline: hoveredPart === 'MenuItem' ? '2px solid #2563eb' : (hoveredColor === 'bg-muted' ? '2px solid #7c3aed' : 'none'),
+                    }}
+                    onMouseEnter={(e) => {
+                        e.stopPropagation();
+                        if (effectiveShowLabels) handleHoverChange('MenuItem');
+                        if (showColorInfo) handleColorHoverChange('bg-muted', '메뉴 아이템 배경');
+                    }}
+                    onMouseLeave={(e) => {
+                        e.stopPropagation();
+                        handleHoverChange(null);
+                        handleColorHoverChange(null);
+                    }}
+                >
+                    Settings
+                    {effectiveShowLabels && (
+                        <AnatomyLabel
+                            label="메뉴 아이템"
+                            direction="right"
+                            length={24}
+                            isActive={hoveredPart === 'MenuItem'}
+                            isDimmed={hoveredPart !== null && hoveredPart !== 'MenuItem'}
+                        />
+                    )}
+                    {showColorInfo && (
+                        <ColorLabel
+                            tokenName="메뉴 아이템 배경"
+                            colorValue={colorTokenData['bg-muted'].hsl}
+                            fallbackColor={colorTokenData['bg-muted'].hex}
+                            direction="right"
+                            length={24}
+                            isActive={hoveredColor === 'bg-muted'}
+                            isDimmed={hoveredColor !== null && hoveredColor !== 'bg-muted'}
+                            onMouseEnter={() => handleColorHoverChange('bg-muted', '메뉴 아이템 배경')}
+                            onMouseLeave={() => handleColorHoverChange(null)}
+                        />
+                    )}
+                </div>
+                <div className="rounded-sm px-2 py-1.5 text-sm text-foreground">Logout</div>
+            </div>
+        </div>
+    );
+};
+
+const TableAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
+    const [hoveredPart, setHoveredPart] = useState<string | null>(null);
+    const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+    const effectiveShowLabels = showLabels && !showColorInfo;
+
+    const handleHoverChange = (part: string | null) => {
+        setHoveredPart(part);
+        onHoverChange?.(part);
+    };
+    const handleColorHoverChange = (color: string | null, name?: string) => {
+        setHoveredColor(color);
+        onColorHoverChange?.(color, name);
+    };
+
+    return (
+        <div className="relative flex items-center justify-center min-h-[250px] w-full max-w-[520px] mx-auto">
+            <div
+                className="relative w-full rounded-xl border border-border bg-background overflow-hidden"
+                style={{
+                    outline: hoveredPart === 'Container' ? '2px solid #2563eb' : (hoveredColor === 'border-border' ? '2px solid #7c3aed' : 'none'),
+                }}
+                onMouseEnter={() => {
+                    if (effectiveShowLabels) handleHoverChange('Container');
+                    if (showColorInfo) handleColorHoverChange('border-border', '테이블 외곽선');
+                }}
+                onMouseLeave={() => {
+                    handleHoverChange(null);
+                    handleColorHoverChange(null);
+                }}
+            >
+                {effectiveShowLabels && (
+                    <AnatomyLabel
+                        label="테이블 컨테이너"
+                        direction="left"
+                        length={24}
+                        isActive={hoveredPart === 'Container'}
+                        isDimmed={hoveredPart !== null && hoveredPart !== 'Container'}
+                    />
+                )}
+
+                <div
+                    className="grid grid-cols-3 bg-muted/50 border-b border-border"
+                    style={{
+                        outline: hoveredPart === 'HeaderCell' ? '2px solid #2563eb' : (hoveredColor === 'bg-muted' ? '2px solid #7c3aed' : 'none'),
+                    }}
+                    onMouseEnter={(e) => {
+                        e.stopPropagation();
+                        if (effectiveShowLabels) handleHoverChange('HeaderCell');
+                        if (showColorInfo) handleColorHoverChange('bg-muted', '헤더 배경');
+                    }}
+                    onMouseLeave={(e) => {
+                        e.stopPropagation();
+                        handleHoverChange(null);
+                        handleColorHoverChange(null);
+                    }}
+                >
+                    <div className="px-4 py-3 text-sm font-semibold">이름</div>
+                    <div className="px-4 py-3 text-sm font-semibold">타입</div>
+                    <div className="px-4 py-3 text-sm font-semibold">설명</div>
+                    {effectiveShowLabels && (
+                        <AnatomyLabel
+                            label="헤더 셀"
+                            direction="top"
+                            length={24}
+                            isActive={hoveredPart === 'HeaderCell'}
+                            isDimmed={hoveredPart !== null && hoveredPart !== 'HeaderCell'}
+                        />
+                    )}
+                    {showColorInfo && (
+                        <ColorLabel
+                            tokenName="헤더 배경"
+                            colorValue={colorTokenData['bg-muted'].hsl}
+                            fallbackColor={colorTokenData['bg-muted'].hex}
+                            direction="top"
+                            length={24}
+                            isActive={hoveredColor === 'bg-muted'}
+                            isDimmed={hoveredColor !== null && hoveredColor !== 'bg-muted'}
+                            onMouseEnter={() => handleColorHoverChange('bg-muted', '헤더 배경')}
+                            onMouseLeave={() => handleColorHoverChange(null)}
+                        />
+                    )}
+                </div>
+
+                <div className="grid grid-cols-3 border-b border-border">
+                    <div className="px-4 py-3 text-sm font-mono">variant</div>
+                    <div className="px-4 py-3 text-sm text-muted-foreground">'default'</div>
+                    <div className="px-4 py-3 text-sm text-muted-foreground">시각 스타일</div>
+                </div>
+                <div
+                    className="grid grid-cols-3"
+                    style={{
+                        outline: hoveredPart === 'Cell' ? '2px solid #2563eb' : (hoveredColor === 'bg-background' ? '2px solid #7c3aed' : 'none'),
+                    }}
+                    onMouseEnter={(e) => {
+                        e.stopPropagation();
+                        if (effectiveShowLabels) handleHoverChange('Cell');
+                        if (showColorInfo) handleColorHoverChange('bg-background', '본문 셀 배경');
+                    }}
+                    onMouseLeave={(e) => {
+                        e.stopPropagation();
+                        handleHoverChange(null);
+                        handleColorHoverChange(null);
+                    }}
+                >
+                    <div className="px-4 py-3 text-sm font-mono">size</div>
+                    <div className="px-4 py-3 text-sm text-muted-foreground">'default'</div>
+                    <div className="px-4 py-3 text-sm text-muted-foreground">크기</div>
+                    {effectiveShowLabels && (
+                        <AnatomyLabel
+                            label="본문 셀"
+                            direction="bottom"
+                            length={24}
+                            isActive={hoveredPart === 'Cell'}
+                            isDimmed={hoveredPart !== null && hoveredPart !== 'Cell'}
+                        />
+                    )}
+                    {showColorInfo && (
+                        <ColorLabel
+                            tokenName="본문 셀 배경"
+                            colorValue={colorTokenData['bg-background'].hsl}
+                            fallbackColor={colorTokenData['bg-background'].hex}
+                            direction="bottom"
+                            length={24}
+                            isActive={hoveredColor === 'bg-background'}
+                            isDimmed={hoveredColor !== null && hoveredColor !== 'bg-background'}
+                            onMouseEnter={() => handleColorHoverChange('bg-background', '본문 셀 배경')}
+                            onMouseLeave={() => handleColorHoverChange(null)}
+                        />
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const SmartFilterDropdownAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
+    const [hoveredPart, setHoveredPart] = useState<string | null>(null);
+    const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+    const effectiveShowLabels = showLabels && !showColorInfo;
+
+    const handleHoverChange = (part: string | null) => {
+        setHoveredPart(part);
+        onHoverChange?.(part);
+    };
+    const handleColorHoverChange = (color: string | null, name?: string) => {
+        setHoveredColor(color);
+        onColorHoverChange?.(color, name);
+    };
+
+    return (
+        <div className="relative flex items-center justify-center min-h-[180px] w-full max-w-[520px] mx-auto">
+            <div className="relative flex items-center gap-2 w-full max-w-[420px]">
+                <button
+                    className="h-9 w-[150px] rounded-md border border-input bg-background px-3 text-sm flex items-center justify-between"
+                    style={{
+                        outline: hoveredPart === 'Trigger' ? '2px solid #2563eb' : (hoveredColor === 'filter-trigger-bg' ? '2px solid #7c3aed' : 'none'),
+                    }}
+                    onMouseEnter={() => {
+                        if (effectiveShowLabels) handleHoverChange('Trigger');
+                        if (showColorInfo) handleColorHoverChange('filter-trigger-bg', '필터 트리거 배경');
+                    }}
+                    onMouseLeave={() => {
+                        handleHoverChange(null);
+                        handleColorHoverChange(null);
+                    }}
+                >
+                    <span>Category</span>
+                    <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                </button>
+
+                <div
+                    className="h-9 flex-1 rounded-md border border-input bg-background px-3 text-sm text-muted-foreground flex items-center gap-2"
+                    style={{
+                        outline: hoveredPart === 'SearchField' ? '2px solid #2563eb' : (hoveredColor === 'search-field-bg' ? '2px solid #7c3aed' : 'none'),
+                    }}
+                    onMouseEnter={() => {
+                        if (effectiveShowLabels) handleHoverChange('SearchField');
+                        if (showColorInfo) handleColorHoverChange('search-field-bg', '검색 필드 배경');
+                    }}
+                    onMouseLeave={() => {
+                        handleHoverChange(null);
+                        handleColorHoverChange(null);
+                    }}
+                >
+                    <Search className="h-4 w-4 text-muted-foreground" />
+                    <span>검색...</span>
+                </div>
+
+                {effectiveShowLabels && (
+                    <>
+                        <AnatomyLabel
+                            label="필터 트리거"
+                            direction="top"
+                            length={24}
+                            className="left-[75px] !top-auto !bottom-full translate-y-[-8px]"
+                            isActive={hoveredPart === 'Trigger'}
+                            isDimmed={hoveredPart !== null && hoveredPart !== 'Trigger'}
+                            onMouseEnter={() => handleHoverChange('Trigger')}
+                            onMouseLeave={() => handleHoverChange(null)}
+                        />
+                        <AnatomyLabel
+                            label="검색 필드"
+                            direction="top"
+                            length={24}
+                            className="left-[280px] !top-auto !bottom-full translate-y-[-8px]"
+                            isActive={hoveredPart === 'SearchField'}
+                            isDimmed={hoveredPart !== null && hoveredPart !== 'SearchField'}
+                            onMouseEnter={() => handleHoverChange('SearchField')}
+                            onMouseLeave={() => handleHoverChange(null)}
+                        />
+                    </>
+                )}
+
+                {showColorInfo && (
+                    <>
+                        <ColorLabel
+                            tokenName="필터 트리거 배경"
+                            colorValue={colorTokenData['bg-background'].hsl}
+                            fallbackColor={colorTokenData['bg-background'].hex}
+                            direction="bottom"
+                            length={20}
+                            className="left-[75px] !top-full translate-y-[8px]"
+                            isActive={hoveredColor === 'filter-trigger-bg'}
+                            isDimmed={hoveredColor !== null && hoveredColor !== 'filter-trigger-bg'}
+                            onMouseEnter={() => handleColorHoverChange('filter-trigger-bg', '필터 트리거 배경')}
+                            onMouseLeave={() => handleColorHoverChange(null)}
+                        />
+                        <ColorLabel
+                            tokenName="검색 필드 배경"
+                            colorValue={colorTokenData['bg-background'].hsl}
+                            fallbackColor={colorTokenData['bg-background'].hex}
+                            direction="bottom"
+                            length={20}
+                            className="left-[280px] !top-full translate-y-[8px]"
+                            isActive={hoveredColor === 'search-field-bg'}
+                            isDimmed={hoveredColor !== null && hoveredColor !== 'search-field-bg'}
+                            onMouseEnter={() => handleColorHoverChange('search-field-bg', '검색 필드 배경')}
+                            onMouseLeave={() => handleColorHoverChange(null)}
+                        />
+                    </>
+                )}
+            </div>
+        </div>
+    );
+};
+
+const InputAnatomy = ({ style = 'default', showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { style?: 'default' | 'disabled' | 'with-label'; showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
+    const [hoveredPart, setHoveredPart] = useState<string | null>(null);
+    const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+    const effectiveShowLabels = showLabels && !showColorInfo;
+    const isDisabled = style === 'disabled';
+    const withLabel = style === 'with-label';
+
+    const handleHoverChange = (part: string | null) => {
+        setHoveredPart(part);
+        onHoverChange?.(part);
+    };
+    const handleColorHoverChange = (color: string | null, name?: string) => {
+        setHoveredColor(color);
+        onColorHoverChange?.(color, name);
+    };
+
+    return (
+        <div className="relative flex items-center justify-center min-h-[220px] w-96 mx-auto">
+            <div className="relative flex flex-col gap-2 w-[300px]">
+                {withLabel && (
+                    <div
+                        className="relative text-sm font-medium text-foreground w-fit"
+                        style={{ outline: hoveredPart === 'Label' ? '2px solid #2563eb' : 'none' }}
+                        onMouseEnter={() => handleHoverChange('Label')}
+                        onMouseLeave={() => handleHoverChange(null)}
+                    >
+                        Email
+                        {effectiveShowLabels && (
+                            <AnatomyLabel
+                                label="레이블"
+                                direction="top"
+                                length={20}
+                                isActive={hoveredPart === 'Label'}
+                                isDimmed={hoveredPart !== null && hoveredPart !== 'Label'}
+                            />
+                        )}
+                    </div>
+                )}
+
+                <div
+                    className={cn(
+                        "relative h-10 rounded-md border border-input bg-background px-3 text-sm flex items-center",
+                        isDisabled && "opacity-60"
+                    )}
+                    style={{ outline: hoveredPart === 'Field' ? '2px solid #2563eb' : (hoveredColor === 'input-field-bg' ? '2px solid #7c3aed' : 'none') }}
+                    onMouseEnter={() => {
+                        if (effectiveShowLabels) handleHoverChange('Field');
+                        if (showColorInfo) handleColorHoverChange('input-field-bg', '입력 필드 배경');
+                    }}
+                    onMouseLeave={() => {
+                        handleHoverChange(null);
+                        handleColorHoverChange(null);
+                    }}
+                >
+                    <span
+                        className="text-muted-foreground"
+                        style={{ outline: hoveredPart === 'Placeholder' ? '2px solid #2563eb' : (hoveredColor === 'text-muted-foreground' ? '2px solid #7c3aed' : 'none') }}
+                        onMouseEnter={(e) => {
+                            e.stopPropagation();
+                            if (effectiveShowLabels) handleHoverChange('Placeholder');
+                            if (showColorInfo) handleColorHoverChange('text-muted-foreground', '플레이스홀더 텍스트');
+                        }}
+                        onMouseLeave={(e) => {
+                            e.stopPropagation();
+                            handleHoverChange(null);
+                            handleColorHoverChange(null);
+                        }}
+                    >
+                        user@example.com
+                    </span>
+
+                    {effectiveShowLabels && (
+                        <AnatomyLabel
+                            label="입력 필드"
+                            direction="left"
+                            length={20}
+                            isActive={hoveredPart === 'Field'}
+                            isDimmed={hoveredPart !== null && hoveredPart !== 'Field'}
+                        />
+                    )}
+                    {effectiveShowLabels && (
+                        <AnatomyLabel
+                            label="플레이스홀더"
+                            direction="bottom"
+                            length={20}
+                            isActive={hoveredPart === 'Placeholder'}
+                            isDimmed={hoveredPart !== null && hoveredPart !== 'Placeholder'}
+                        />
+                    )}
+                    {showColorInfo && (
+                        <ColorLabel
+                            tokenName="입력 필드 배경"
+                            colorValue={colorTokenData['bg-background'].hsl}
+                            fallbackColor={colorTokenData['bg-background'].hex}
+                            direction="left"
+                            length={20}
+                            isActive={hoveredColor === 'input-field-bg'}
+                            isDimmed={hoveredColor !== null && hoveredColor !== 'input-field-bg'}
+                            onMouseEnter={() => handleColorHoverChange('input-field-bg', '입력 필드 배경')}
+                            onMouseLeave={() => handleColorHoverChange(null)}
+                        />
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const CardAnatomy = ({ style = 'basic', showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { style?: 'basic' | 'with-footer'; showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
+    const [hoveredPart, setHoveredPart] = useState<string | null>(null);
+    const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+    const effectiveShowLabels = showLabels && !showColorInfo;
+    const withFooter = style === 'with-footer';
+
+    const handleHoverChange = (part: string | null) => {
+        setHoveredPart(part);
+        onHoverChange?.(part);
+    };
+    const handleColorHoverChange = (color: string | null, name?: string) => {
+        setHoveredColor(color);
+        onColorHoverChange?.(color, name);
+    };
+
+    return (
+        <div className="relative flex items-center justify-center min-h-[280px] w-full max-w-[520px] mx-auto">
+            <div
+                className="relative w-[360px] rounded-xl border border-border bg-background p-5 flex flex-col gap-4"
+                style={{ outline: hoveredPart === 'Container' ? '2px solid #2563eb' : (hoveredColor === 'bg-background' ? '2px solid #7c3aed' : 'none') }}
+                onMouseEnter={() => {
+                    if (effectiveShowLabels) handleHoverChange('Container');
+                    if (showColorInfo) handleColorHoverChange('bg-background', '카드 배경');
+                }}
+                onMouseLeave={() => {
+                    handleHoverChange(null);
+                    handleColorHoverChange(null);
+                }}
+            >
+                <div className="space-y-1"
+                    style={{ outline: hoveredPart === 'Header' ? '2px solid #2563eb' : 'none' }}
+                    onMouseEnter={(e) => { e.stopPropagation(); handleHoverChange('Header'); }}
+                    onMouseLeave={(e) => { e.stopPropagation(); handleHoverChange(null); }}
+                >
+                    <div className="text-base font-semibold text-foreground">Card Title</div>
+                    <div className="text-sm text-muted-foreground">Card description text</div>
+                </div>
+                <div
+                    className="rounded-md bg-muted/40 p-3 text-sm text-foreground"
+                    style={{ outline: hoveredPart === 'Content' ? '2px solid #2563eb' : (hoveredColor === 'bg-muted' ? '2px solid #7c3aed' : 'none') }}
+                    onMouseEnter={(e) => {
+                        e.stopPropagation();
+                        if (effectiveShowLabels) handleHoverChange('Content');
+                        if (showColorInfo) handleColorHoverChange('bg-muted', '카드 콘텐츠 배경');
+                    }}
+                    onMouseLeave={(e) => {
+                        e.stopPropagation();
+                        handleHoverChange(null);
+                        handleColorHoverChange(null);
+                    }}
+                >
+                    Card content
+                </div>
+                {withFooter && (
+                    <div
+                        className="flex justify-end"
+                        style={{ outline: hoveredPart === 'Footer' ? '2px solid #2563eb' : 'none' }}
+                        onMouseEnter={(e) => { e.stopPropagation(); handleHoverChange('Footer'); }}
+                        onMouseLeave={(e) => { e.stopPropagation(); handleHoverChange(null); }}
+                    >
+                        <div className="h-8 px-3 rounded-md bg-primary text-primary-foreground text-xs flex items-center">Action</div>
+                    </div>
+                )}
+
+                {effectiveShowLabels && (
+                    <>
+                        <AnatomyLabel label="카드 컨테이너" direction="left" length={20} isActive={hoveredPart === 'Container'} isDimmed={hoveredPart !== null && hoveredPart !== 'Container'} />
+                        <AnatomyLabel label="헤더" direction="top" length={20} className="left-[100px]" isActive={hoveredPart === 'Header'} isDimmed={hoveredPart !== null && hoveredPart !== 'Header'} />
+                        <AnatomyLabel label="본문" direction="right" length={20} className="top-[58%]" isActive={hoveredPart === 'Content'} isDimmed={hoveredPart !== null && hoveredPart !== 'Content'} />
+                        {withFooter && <AnatomyLabel label="푸터" direction="bottom" length={20} className="left-[280px]" isActive={hoveredPart === 'Footer'} isDimmed={hoveredPart !== null && hoveredPart !== 'Footer'} />}
+                    </>
+                )}
+                {showColorInfo && (
+                    <ColorLabel
+                        tokenName="카드 콘텐츠 배경"
+                        colorValue={colorTokenData['bg-muted'].hsl}
+                        fallbackColor={colorTokenData['bg-muted'].hex}
+                        direction="right"
+                        length={20}
+                        className="top-[58%]"
+                        isActive={hoveredColor === 'bg-muted'}
+                        isDimmed={hoveredColor !== null && hoveredColor !== 'bg-muted'}
+                        onMouseEnter={() => handleColorHoverChange('bg-muted', '카드 콘텐츠 배경')}
+                        onMouseLeave={() => handleColorHoverChange(null)}
+                    />
+                )}
+            </div>
+        </div>
+    );
+};
+
+const TooltipAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
+    const [hoveredPart, setHoveredPart] = useState<string | null>(null);
+    const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+    const effectiveShowLabels = showLabels && !showColorInfo;
+    const handleHoverChange = (part: string | null) => { setHoveredPart(part); onHoverChange?.(part); };
+    const handleColorHoverChange = (color: string | null, name?: string) => { setHoveredColor(color); onColorHoverChange?.(color, name); };
+
+    return (
+        <div className="relative flex flex-col items-center justify-center min-h-[220px] w-96 mx-auto gap-3">
+            <div
+                className="px-3 py-2 rounded-md bg-foreground text-background text-xs"
+                style={{ outline: hoveredPart === 'Bubble' ? '2px solid #2563eb' : (hoveredColor === 'text-foreground' ? '2px solid #7c3aed' : 'none') }}
+                onMouseEnter={() => { if (effectiveShowLabels) handleHoverChange('Bubble'); if (showColorInfo) handleColorHoverChange('text-foreground', '툴팁 표면'); }}
+                onMouseLeave={() => { handleHoverChange(null); handleColorHoverChange(null); }}
+            >
+                Tooltip text
+                {effectiveShowLabels && <AnatomyLabel label="툴팁 패널" direction="top" length={20} isActive={hoveredPart === 'Bubble'} isDimmed={hoveredPart !== null && hoveredPart !== 'Bubble'} />}
+            </div>
+            <button
+                className="h-9 px-3 rounded-md border border-input bg-background text-sm"
+                style={{ outline: hoveredPart === 'Trigger' ? '2px solid #2563eb' : 'none' }}
+                onMouseEnter={() => handleHoverChange('Trigger')}
+                onMouseLeave={() => handleHoverChange(null)}
+            >
+                Hover me
+                {effectiveShowLabels && <AnatomyLabel label="트리거" direction="bottom" length={20} isActive={hoveredPart === 'Trigger'} isDimmed={hoveredPart !== null && hoveredPart !== 'Trigger'} />}
+            </button>
+        </div>
+    );
+};
+
+const PopoverAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
+    const [hoveredPart, setHoveredPart] = useState<string | null>(null);
+    const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+    const effectiveShowLabels = showLabels && !showColorInfo;
+    const handleHoverChange = (part: string | null) => { setHoveredPart(part); onHoverChange?.(part); };
+    const handleColorHoverChange = (color: string | null, name?: string) => { setHoveredColor(color); onColorHoverChange?.(color, name); };
+
+    return (
+        <div className="relative flex flex-col items-center justify-center min-h-[260px] w-96 mx-auto gap-4">
+            <button className="h-9 px-3 rounded-md border border-input bg-background text-sm" onMouseEnter={() => handleHoverChange('Trigger')} onMouseLeave={() => handleHoverChange(null)}>
+                Open Popover
+                {effectiveShowLabels && <AnatomyLabel label="트리거" direction="top" length={20} isActive={hoveredPart === 'Trigger'} isDimmed={hoveredPart !== null && hoveredPart !== 'Trigger'} />}
+            </button>
+            <div
+                className="relative w-[220px] rounded-md border border-border bg-background p-3 shadow-md text-sm text-foreground"
+                style={{ outline: hoveredPart === 'Surface' ? '2px solid #2563eb' : (hoveredColor === 'menu-surface' ? '2px solid #7c3aed' : 'none') }}
+                onMouseEnter={() => { if (effectiveShowLabels) handleHoverChange('Surface'); if (showColorInfo) handleColorHoverChange('menu-surface', '팝오버 표면'); }}
+                onMouseLeave={() => { handleHoverChange(null); handleColorHoverChange(null); }}
+            >
+                Popover content
+                {effectiveShowLabels && <AnatomyLabel label="팝오버 패널" direction="right" length={20} isActive={hoveredPart === 'Surface'} isDimmed={hoveredPart !== null && hoveredPart !== 'Surface'} />}
+            </div>
+        </div>
+    );
+};
+
+const SheetAnatomy = ({ style = 'right', showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { style?: 'right' | 'left'; showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
+    const [hoveredPart, setHoveredPart] = useState<string | null>(null);
+    const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+    const effectiveShowLabels = showLabels && !showColorInfo;
+    const isLeft = style === 'left';
+    const handleHoverChange = (part: string | null) => { setHoveredPart(part); onHoverChange?.(part); };
+    const handleColorHoverChange = (color: string | null, name?: string) => { setHoveredColor(color); onColorHoverChange?.(color, name); };
+
+    return (
+        <div className="relative flex items-center justify-center min-h-[280px] w-full max-w-[520px] mx-auto">
+            <div className="relative w-[420px] h-[240px] rounded-xl border border-border bg-muted/30 overflow-hidden">
+                <div className="absolute inset-0 bg-black/10" />
+                <div
+                    className={cn("absolute top-0 h-full w-[170px] bg-background border-border p-4", isLeft ? "left-0 border-r" : "right-0 border-l")}
+                    style={{ outline: hoveredPart === 'Panel' ? '2px solid #2563eb' : (hoveredColor === 'bg-background' ? '2px solid #7c3aed' : 'none') }}
+                    onMouseEnter={() => { if (effectiveShowLabels) handleHoverChange('Panel'); if (showColorInfo) handleColorHoverChange('bg-background', '시트 패널'); }}
+                    onMouseLeave={() => { handleHoverChange(null); handleColorHoverChange(null); }}
+                >
+                    <div className="text-sm font-semibold">Sheet Title</div>
+                    <div className="mt-2 text-xs text-muted-foreground">Sheet content</div>
+                    {effectiveShowLabels && <AnatomyLabel label="시트 패널" direction={isLeft ? 'left' : 'right'} length={20} isActive={hoveredPart === 'Panel'} isDimmed={hoveredPart !== null && hoveredPart !== 'Panel'} />}
+                </div>
+                {effectiveShowLabels && <AnatomyLabel label="오버레이" direction="top" length={20} className="left-[120px]" isActive={hoveredPart === 'Overlay'} isDimmed={hoveredPart !== null && hoveredPart !== 'Overlay'} onMouseEnter={() => handleHoverChange('Overlay')} onMouseLeave={() => handleHoverChange(null)} />}
+            </div>
+        </div>
+    );
+};
+
+const SeparatorAnatomy = ({ style = 'horizontal', showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { style?: 'horizontal' | 'vertical'; showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
+    const [hoveredPart, setHoveredPart] = useState<string | null>(null);
+    const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+    const effectiveShowLabels = showLabels && !showColorInfo;
+    const isVertical = style === 'vertical';
+    const handleHoverChange = (part: string | null) => { setHoveredPart(part); onHoverChange?.(part); };
+    const handleColorHoverChange = (color: string | null, name?: string) => { setHoveredColor(color); onColorHoverChange?.(color, name); };
+
+    return (
+        <div className="relative flex items-center justify-center min-h-[220px] w-96 mx-auto">
+            <div
+                className={cn("bg-border/80", isVertical ? "w-px h-28" : "h-px w-64")}
+                style={{ outline: hoveredPart === 'Divider' ? '2px solid #2563eb' : (hoveredColor === 'border-border' ? '2px solid #7c3aed' : 'none') }}
+                onMouseEnter={() => { if (effectiveShowLabels) handleHoverChange('Divider'); if (showColorInfo) handleColorHoverChange('border-border', '구분선 색상'); }}
+                onMouseLeave={() => { handleHoverChange(null); handleColorHoverChange(null); }}
+            >
+                {effectiveShowLabels && (
+                    <AnatomyLabel
+                        label="디바이더"
+                        direction={isVertical ? 'right' : 'top'}
+                        length={20}
+                        isActive={hoveredPart === 'Divider'}
+                        isDimmed={hoveredPart !== null && hoveredPart !== 'Divider'}
+                    />
+                )}
+            </div>
+        </div>
+    );
+};
+
+const ClipboardAnatomy = ({ showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
+    const [hoveredPart, setHoveredPart] = useState<string | null>(null);
+    const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+    const effectiveShowLabels = showLabels && !showColorInfo;
+    const handleHoverChange = (part: string | null) => { setHoveredPart(part); onHoverChange?.(part); };
+    const handleColorHoverChange = (color: string | null, name?: string) => { setHoveredColor(color); onColorHoverChange?.(color, name); };
+
+    return (
+        <div className="relative flex items-center justify-center min-h-[180px] w-96 mx-auto">
+            <button
+                className="relative h-8 w-8 rounded-md border border-input bg-background flex items-center justify-center"
+                style={{ outline: hoveredPart === 'Trigger' ? '2px solid #2563eb' : (hoveredColor === 'bg-background' ? '2px solid #7c3aed' : 'none') }}
+                onMouseEnter={() => { if (effectiveShowLabels) handleHoverChange('Trigger'); if (showColorInfo) handleColorHoverChange('bg-background', '클립보드 버튼 배경'); }}
+                onMouseLeave={() => { handleHoverChange(null); handleColorHoverChange(null); }}
+            >
+                <div
+                    className="h-3.5 w-3.5 rounded-sm border border-muted-foreground"
+                    style={{ outline: hoveredPart === 'Icon' ? '2px solid #2563eb' : 'none' }}
+                    onMouseEnter={(e) => { e.stopPropagation(); handleHoverChange('Icon'); }}
+                    onMouseLeave={(e) => { e.stopPropagation(); handleHoverChange(null); }}
+                />
+                {effectiveShowLabels && <AnatomyLabel label="트리거" direction="left" length={20} isActive={hoveredPart === 'Trigger'} isDimmed={hoveredPart !== null && hoveredPart !== 'Trigger'} />}
+                {effectiveShowLabels && <AnatomyLabel label="아이콘" direction="bottom" length={20} isActive={hoveredPart === 'Icon'} isDimmed={hoveredPart !== null && hoveredPart !== 'Icon'} />}
+            </button>
+        </div>
+    );
+};
+
+const FallbackAnatomy = ({ componentName, showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { componentName: string; showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
+    const [hoveredPart, setHoveredPart] = useState<string | null>(null);
+    const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+    const effectiveShowLabels = showLabels && !showColorInfo;
+
+    const handleHoverChange = (part: string | null) => {
+        setHoveredPart(part);
+        onHoverChange?.(part);
+    };
+    const handleColorHoverChange = (color: string | null, name?: string) => {
+        setHoveredColor(color);
+        onColorHoverChange?.(color, name);
+    };
+
+    return (
+        <div className="relative flex items-center justify-center min-h-[280px] w-full max-w-[520px] mx-auto">
+            <div
+                className="relative w-[360px] rounded-xl border border-border bg-background p-5 flex flex-col gap-4"
+                style={{ outline: hoveredPart === 'Container' ? '2px solid #2563eb' : (hoveredColor === 'bg-background' ? '2px solid #7c3aed' : 'none') }}
+                onMouseEnter={() => {
+                    if (effectiveShowLabels) handleHoverChange('Container');
+                    if (showColorInfo) handleColorHoverChange('bg-background', '컴포넌트 표면');
+                }}
+                onMouseLeave={() => {
+                    handleHoverChange(null);
+                    handleColorHoverChange(null);
+                }}
+            >
+                <div className="text-sm font-semibold text-foreground">{componentName}</div>
+                <div className="h-9 rounded-md bg-muted/50" />
+                <div className="h-16 rounded-md bg-muted/40" />
+                <div className="h-8 w-[120px] rounded-md bg-primary/15 self-end" />
+
+                {effectiveShowLabels && <AnatomyLabel label="컨테이너" direction="left" length={20} isActive={hoveredPart === 'Container'} isDimmed={hoveredPart !== null && hoveredPart !== 'Container'} />}
+                {showColorInfo && (
+                    <ColorLabel
+                        tokenName="컴포넌트 표면"
+                        colorValue={colorTokenData['bg-background'].hsl}
+                        fallbackColor={colorTokenData['bg-background'].hex}
+                        direction="right"
+                        length={20}
+                        isActive={hoveredColor === 'bg-background'}
+                        isDimmed={hoveredColor !== null && hoveredColor !== 'bg-background'}
+                        onMouseEnter={() => handleColorHoverChange('bg-background', '컴포넌트 표면')}
+                        onMouseLeave={() => handleColorHoverChange(null)}
+                    />
+                )}
+            </div>
+        </div>
+    );
+};
+
+const SidebarAnatomy = ({ style = 'expanded', showLabels = true, showColorInfo = false, onHoverChange, onColorHoverChange }: { style?: string; showLabels?: boolean; showColorInfo?: boolean; onHoverChange?: (part: string | null) => void; onColorHoverChange?: (color: string | null, name?: string) => void }) => {
+    const [hoveredPart, setHoveredPart] = useState<string | null>(null);
+    const [hoveredColor, setHoveredColor] = useState<string | null>(null);
+    const effectiveShowLabels = showLabels && !showColorInfo;
+    const isCollapsed = style === 'collapsed';
+
+    const handleHoverChange = (part: string | null) => {
+        setHoveredPart(part);
+        onHoverChange?.(part);
+    };
+    const handleColorHoverChange = (color: string | null, name?: string) => {
+        setHoveredColor(color);
+        onColorHoverChange?.(color, name);
+    };
+
+    return (
+        <div className="relative flex items-center justify-center min-h-[330px] w-full max-w-[520px] mx-auto">
+            <div
+                className={cn(
+                    "relative h-[290px] rounded-xl border border-border bg-background flex flex-col overflow-hidden transition-all duration-200",
+                    isCollapsed ? "w-[92px]" : "w-[260px]"
+                )}
+                style={{
+                    outline: hoveredPart === 'Container' ? '2px solid #2563eb' : (hoveredColor === 'bg-background' ? '2px solid #7c3aed' : 'none'),
+                }}
+                onMouseEnter={() => {
+                    if (effectiveShowLabels) handleHoverChange('Container');
+                    if (showColorInfo) handleColorHoverChange('bg-background', '사이드바 배경');
+                }}
+                onMouseLeave={() => {
+                    handleHoverChange(null);
+                    handleColorHoverChange(null);
+                }}
+            >
+                <div className="border-b border-border px-3 h-12 flex items-center">
+                    <div className="text-sm font-black tracking-tight">MDS</div>
+                </div>
+
+                <div
+                    className="p-3 flex-1 flex flex-col gap-1"
+                    style={{
+                        outline: hoveredPart === 'SectionGroup' ? '2px solid #2563eb' : 'none',
+                    }}
+                    onMouseEnter={(e) => {
+                        e.stopPropagation();
+                        if (effectiveShowLabels) handleHoverChange('SectionGroup');
+                    }}
+                    onMouseLeave={(e) => {
+                        e.stopPropagation();
+                        handleHoverChange(null);
+                    }}
+                >
+                    <div
+                        className="h-9 rounded-lg bg-accent text-primary px-2 flex items-center gap-2 text-sm"
+                        style={{
+                            outline: hoveredPart === 'NavItem' ? '2px solid #2563eb' : (hoveredColor === 'bg-accent' ? '2px solid #7c3aed' : 'none'),
+                        }}
+                        onMouseEnter={(e) => {
+                            e.stopPropagation();
+                            if (effectiveShowLabels) handleHoverChange('NavItem');
+                            if (showColorInfo) handleColorHoverChange('bg-accent', '활성 메뉴 배경');
+                        }}
+                        onMouseLeave={(e) => {
+                            e.stopPropagation();
+                            handleHoverChange(null);
+                            handleColorHoverChange(null);
+                        }}
+                    >
+                        <div className="h-4 w-4 rounded-sm bg-primary/20" />
+                        {!isCollapsed && <span>Colors</span>}
+                    </div>
+                    <div className="h-9 rounded-lg px-2 flex items-center gap-2 text-sm text-foreground">
+                        <div className="h-4 w-4 rounded-sm bg-muted" />
+                        {!isCollapsed && <span>Typography</span>}
+                    </div>
+                    <div className="h-9 rounded-lg px-2 flex items-center gap-2 text-sm text-foreground">
+                        <div className="h-4 w-4 rounded-sm bg-muted" />
+                        {!isCollapsed && <span>Components</span>}
+                    </div>
+                </div>
+
+                <div
+                    className="border-t border-border px-3 h-12 flex items-center gap-2"
+                    style={{
+                        outline: hoveredPart === 'FooterAction' ? '2px solid #2563eb' : 'none',
+                    }}
+                    onMouseEnter={(e) => {
+                        e.stopPropagation();
+                        if (effectiveShowLabels) handleHoverChange('FooterAction');
+                    }}
+                    onMouseLeave={(e) => {
+                        e.stopPropagation();
+                        handleHoverChange(null);
+                    }}
+                >
+                    <div className="h-7 w-7 rounded-md bg-muted" />
+                    <div className="h-7 w-7 rounded-md bg-muted" />
+                    <div className="h-7 w-7 rounded-md bg-muted" />
+                </div>
+
+                {effectiveShowLabels && (
+                    <>
+                        <AnatomyLabel
+                            label="사이드바 컨테이너"
+                            direction="left"
+                            length={24}
+                            isActive={hoveredPart === 'Container'}
+                            isDimmed={hoveredPart !== null && hoveredPart !== 'Container'}
+                            onMouseEnter={() => handleHoverChange('Container')}
+                            onMouseLeave={() => handleHoverChange(null)}
+                        />
+                        <AnatomyLabel
+                            label="내비게이션 그룹"
+                            direction="right"
+                            length={24}
+                            className="top-[42%]"
+                            isActive={hoveredPart === 'SectionGroup'}
+                            isDimmed={hoveredPart !== null && hoveredPart !== 'SectionGroup'}
+                            onMouseEnter={() => handleHoverChange('SectionGroup')}
+                            onMouseLeave={() => handleHoverChange(null)}
+                        />
+                        <AnatomyLabel
+                            label="활성 메뉴 아이템"
+                            direction="bottom"
+                            length={24}
+                            className={cn(isCollapsed ? "left-[45px]" : "left-[92px]")}
+                            isActive={hoveredPart === 'NavItem'}
+                            isDimmed={hoveredPart !== null && hoveredPart !== 'NavItem'}
+                            onMouseEnter={() => handleHoverChange('NavItem')}
+                            onMouseLeave={() => handleHoverChange(null)}
+                        />
+                        <AnatomyLabel
+                            label="푸터 액션"
+                            direction="right"
+                            length={24}
+                            className="top-[92%]"
+                            isActive={hoveredPart === 'FooterAction'}
+                            isDimmed={hoveredPart !== null && hoveredPart !== 'FooterAction'}
+                            onMouseEnter={() => handleHoverChange('FooterAction')}
+                            onMouseLeave={() => handleHoverChange(null)}
+                        />
+                    </>
+                )}
+
+                {showColorInfo && (
+                    <>
+                        <ColorLabel
+                            tokenName="사이드바 배경"
+                            colorValue={colorTokenData['bg-background'].hsl}
+                            fallbackColor={colorTokenData['bg-background'].hex}
+                            direction="left"
+                            length={24}
+                            isActive={hoveredColor === 'bg-background'}
+                            isDimmed={hoveredColor !== null && hoveredColor !== 'bg-background'}
+                            onMouseEnter={() => handleColorHoverChange('bg-background', '사이드바 배경')}
+                            onMouseLeave={() => handleColorHoverChange(null)}
+                        />
+                        <ColorLabel
+                            tokenName="활성 메뉴 배경"
+                            colorValue={colorTokenData['bg-accent'].hsl}
+                            fallbackColor={colorTokenData['bg-accent'].hex}
+                            direction="bottom"
+                            length={24}
+                            className={cn(isCollapsed ? "left-[45px]" : "left-[92px]")}
+                            isActive={hoveredColor === 'bg-accent'}
+                            isDimmed={hoveredColor !== null && hoveredColor !== 'bg-accent'}
+                            onMouseEnter={() => handleColorHoverChange('bg-accent', '활성 메뉴 배경')}
+                            onMouseLeave={() => handleColorHoverChange(null)}
+                        />
+                    </>
+                )}
+            </div>
+        </div>
+    );
 };
 
 const AnatomyPreview: React.FC<AnatomyPreviewProps> = ({
@@ -894,19 +1945,45 @@ const AnatomyPreview: React.FC<AnatomyPreviewProps> = ({
 }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const name = componentName.toLowerCase();
+    const resolvedTabsStyle: 'segmented' | 'pill' | 'line' = style === 'pill' || style === 'line' ? style : 'segmented';
+    const resolvedInputStyle: 'default' | 'disabled' | 'with-label' = style === 'disabled' || style === 'with-label' ? style : 'default';
+    const resolvedSeparatorStyle: 'horizontal' | 'vertical' = style === 'vertical' ? 'vertical' : 'horizontal';
+    const resolvedSheetStyle: 'right' | 'left' = style === 'left' ? 'left' : 'right';
+    const resolvedCardStyle: 'basic' | 'with-footer' = style === 'with-footer' ? 'with-footer' : 'basic';
 
     let content = null;
     if (name === 'tabs') {
-        content = <TabsAnatomy style={style as any} showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
+        content = <TabsAnatomy style={resolvedTabsStyle} showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
+    } else if (name === 'animated-tabs') {
+        content = <TabsAnatomy style={resolvedTabsStyle} showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
     } else if (name === 'button') {
         content = <ButtonAnatomy style={style} showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
+    } else if (name === 'input') {
+        content = <InputAnatomy style={resolvedInputStyle} showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
+    } else if (name === 'card') {
+        content = <CardAnatomy style={resolvedCardStyle} showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
+    } else if (name === 'tooltip') {
+        content = <TooltipAnatomy showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
+    } else if (name === 'popover') {
+        content = <PopoverAnatomy showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
+    } else if (name === 'sheet') {
+        content = <SheetAnatomy style={resolvedSheetStyle} showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
+    } else if (name === 'separator') {
+        content = <SeparatorAnatomy style={resolvedSeparatorStyle} showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
+    } else if (name === 'clipboard') {
+        content = <ClipboardAnatomy showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
+    } else if (name === 'switch') {
+        content = <SwitchAnatomy showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
+    } else if (name === 'dropdown-menu') {
+        content = <DropdownMenuAnatomy showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
+    } else if (name === 'table') {
+        content = <TableAnatomy showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
+    } else if (name === 'smart-filter-dropdown') {
+        content = <SmartFilterDropdownAnatomy showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
+    } else if (name === 'sidebar') {
+        content = <SidebarAnatomy style={style} showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
     } else {
-        content = (
-            <div className="flex flex-col items-center justify-center min-h-[300px] text-muted-foreground bg-muted/20 rounded-xl border-dashed border-2">
-                <div className="mb-2">No anatomy diagram available</div>
-                <div className="text-xs opacity-50">개발 노트: {componentName}에 대한 아나토미 구현 필요</div>
-            </div>
-        );
+        content = <FallbackAnatomy componentName={componentName} showLabels={showLabels} showColorInfo={showColorInfo} onHoverChange={onHoverChange} onColorHoverChange={onColorHoverChange} />;
     }
 
     return (

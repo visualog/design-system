@@ -1,7 +1,7 @@
 import { toast } from 'sonner';
 
 export const showExperimentalToast = (currentPath: string) => {
-    let changeDescription = "전역: 기본 폰트 크기가 15px로 축소되었습니다.";
+    let changeDescription = "전역: 기본 폰트 크기가 14px(행간 20px)로 조정되었습니다.";
 
     if (currentPath.includes("/typography")) {
         changeDescription = "타이포그래피: H3 스타일이 컴팩트하게 변경되고, 본문 폰트 크기가 줄어들었습니다.";

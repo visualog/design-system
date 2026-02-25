@@ -216,3 +216,168 @@
 - **타이포그래피 스펙 라벨 조정**: `Specs & Usage` 열의 폰트 사이즈, 행간, 두께를 표시하는 라벨의 높이를 줄이기 위해 상하 패딩을 축소(`py-0.5`)하고, 높이값에 영향을 주던 물리적인 보더(`border`) 대신 레이아웃에 영향을 주지 않는 안쪽 그림자 테두리(`ring-1 ring-inset`)로 변경했습니다.
 - **타이포그래피 테이블 여백 표준화**: 테이블 셀의 상하 불균형을 유발하던 'Current Sample View' 라벨을 완전히 제거하고, 다른 테이블 컴포넌트(`ColorPaletteDisplay` 등)와 동일한 좌우 여백(`px-4`)을 갖도록 레이아웃을 표준화했습니다.
 - **실험 기능 버튼 스타일 개선 for Visibility**: `ExperimentalToggle` 버튼의 `bubble` 애니메이션이 더 잘 보이도록 크기와 색상을 조정하고, `shake` 애니메이션 실행 시 아이콘 크기가 유지되도록 `scale(1.1)`을 키프레임에 포함시켰습니다. 툴팁 메시지 국문 적용도 완료했습니다.
+
+## 2026년 2월 12일 목요일
+
+- **활동 앱 디자인 시스템 구축 (Activity App Design System)**: 제공된 모바일 화면 이미지를 기반으로 한 새로운 디자인 시스템을 설계하고 Pencil(`first.pen`)로 구현했습니다.
+    - **컬러 시스템**: Deep Black(#18181B), Sunset Gradient, Cotton Candy Gradient 등 생동감 넘치는 컬러와 그라데이션 토큰 정의.
+    - **타이포그래피**: 현대적이고 가독성이 높은 Heading XL(32px), Heading L(24px) 등 계층 구조 표준화.
+    - **주요 컴포넌트 구현**:
+        - **Meeting Card**: 확장형(Active/Dark) 및 기본형(Standard/White) 배리에이션 구현.
+        - **Avatar Group**: 인스턴스화 가능한 아바타 스택 컴포넌트 제작.
+        - **Floating Nav**: 하단 고정형 그라데이션 내비게이션 바 설계.
+    - **앱 모의 작업 (App Mockup)**: 설계된 디자인 시스템을 활용하여 원본 이미지와 유사한 모바일 앱 화면(Activity Screen) 구성 및 검증 완료.
+
+## 2026년 2월 20일 금요일
+
+- **문서 IA/거버넌스 1차 실행안 작성**: 디자인 시스템 문서 구조 초안과 운영 문서를 생성했습니다.
+    - `docs/README.md`, `docs/01-getting-started.md`, `docs/02-foundations/*`, `docs/03-components/*`, `docs/04-patterns/*`, `docs/05-governance/*`, `docs/06-changelog/2026-q1.md`
+    - 포함 항목: 기여 가이드, 릴리즈 단계 정의, 레지스트리 메타 스펙, ESLint 범위 정리 초안
+- **ESLint 범위 조정**: 백업 폴더(`bak`)를 린트 대상에서 제외하도록 `eslint.config.js`를 업데이트했습니다.
+- **컴포넌트 레지스트리 메타 필드 확장**: `src/data/componentRegistry.ts`에 `atomicLevel`, `releasePhase`, `owner`, `since`, `tags` 필드를 추가하고 기존 등록 컴포넌트에 기본값을 반영했습니다.
+
+## 2026년 2월 23일 월요일
+
+- **컴포넌트 목록/상세 메타 표시 강화**: 컴포넌트 카드 및 상세 상단에 아토믹 레벨, 릴리즈 단계, 소유자, 도입일, 파일 경로를 배지 형태로 반영했습니다.
+- **검색/필터 UI 통일**: 컴포넌트 페이지에서 공통 컨트롤(`SearchBar`, `SmartFilterDropdown`)을 재사용하도록 정리하고, 기존 패턴과 동일하게 `드롭다운 → 검색바` 순서로 맞췄습니다.
+- **필터 동작 안정화**: 단일 선택/전체 선택 전환 시 선택 상태가 흔들리던 로직을 보정했습니다.
+- **카드 메타 영역 높이 안정화**: 상단 배지가 1줄/2줄일 때 본문 시작 위치가 흔들리지 않도록 최소 높이를 부여해 정렬을 고정했습니다.
+- **Properties 정보 구조 정리**: 상세 페이지에서 `States`, `Sizes` 정보를 상단 분리 블록에서 Props 영역 중심으로 정리해 중복 노출을 줄였습니다.
+- **테이블 스타일 전역 통일**:
+    - `src/components/ui/table.tsx`를 사이트 기본 테이블 스타일로 표준화
+    - 기존 파운데이션 스타일은 `src/components/ui/ghost-table.tsx`로 분리 보관(미사용)
+    - `ComponentDetailPage`, `SiteTypographyPage`의 원시 `<table>`을 공통 `Table` 컴포넌트로 교체
+- **컴포넌트 레지스트리 누락분 일괄 등록(로컬 반영)**: `src/data/componentRegistry.ts`에 사용 중이던 누락 UI 컴포넌트 15종(`ColorSwatch`, `SmartFilterDropdown`, `animated-tabs`, `clipboard`, `dropdown-menu`, `switch`, `table` 등)을 메타데이터와 함께 추가했습니다.
+- **사이드바 컴포넌트 카탈로그 포함**: 앱 셸 내비게이션 컴포넌트인 `src/components/Sidebar.tsx`를 `componentRegistry`에 등록하여 Components 목록에서 조회 가능하도록 반영했습니다.
+- **아나토미 기본값 보강**: 레지스트리에 `anatomy`가 비어 있는 컴포넌트도 상세 페이지에서 아나토미 섹션이 노출되도록 카테고리 기반 기본 아나토미 템플릿을 자동 주입하도록 개선했습니다.
+- **아나토미 다이어그램 확장 구현**: `AnatomyPreview`에 `switch`, `dropdown-menu`, `table`, `smart-filter-dropdown`, `sidebar`의 실제 아나토미 미리보기를 추가하고, `AnatomyInfoPanel`에 신규 파트 설명(Track/Thumb/MenuSurface/MenuItem/HeaderCell/Cell/SearchField/SectionGroup/NavItem/FooterAction)을 연동했습니다.
+- **아나토미 메타 분리**: `colorTokenData`, `getAnatomyVariants`를 `src/components/anatomy-meta.ts`로 분리해 상세 페이지/정보 패널/아나토미 프리뷰가 공통으로 참조하도록 구조를 정리했습니다.
+- **아나토미 2차 확장 및 플레이스홀더 제거**: `input`, `card`, `tooltip`, `popover`, `sheet`, `separator`, `clipboard`, `animated-tabs` 아나토미를 추가 구현하고, 미구현 컴포넌트는 제너릭 아나토미 렌더러로 대체해 상세 페이지의 "No anatomy diagram available" 플레이스홀더를 제거했습니다.
+- **아나토미 배리언트 정합성 개선**: `anatomy-meta`에 `getAnatomyVariantOptions`를 추가해 스타일 값과 표시 라벨을 분리하고, 상세 페이지 아나토미 스위처가 컴포넌트별 옵션 라벨(예: `Basic Tabs`, `Settings Pattern`, `Desktop Fixed`)을 사용하도록 정리했습니다.
+- **미리보기 전수 커버리지 확보**: `ComponentDetailPage`의 `LivePreview`에 누락 15개 컴포넌트(`breadcrumb`, `highlight-text`, `proposal-notification`, `smart-filter-dropdown`, `sidebar` 등) 렌더 케이스를 추가해 레지스트리 등록 컴포넌트 전체가 상세 미리보기에 대응되도록 개선했습니다.
+- **컴포넌트 배지 가시성 보강**: 컴포넌트 목록 카드와 상세 헤더에 `tags` 기반 배지를 추가해, category/atomic/release 외에도 메타 배지가 일관되게 노출되도록 개선했습니다.
+- **공통 Badge 컴포넌트 도입 및 통일**: `src/components/ui/badge.tsx`를 신설하고, 컴포넌트 목록/상세 메타 칩(`category`, `atomic`, `release`, `tag`, `owner`, `since`, `file`, `props/variants count`)을 `Badge` 컴포넌트 기반으로 통일했습니다.
+- **Badge 레지스트리 등록**: `componentRegistry`에 `badge`를 신규 등록하고 상세 미리보기(`LivePreview`) 렌더 케이스를 추가해 컴포넌트 카탈로그에 노출되도록 반영했습니다.
+- **용어 체계 표준화(Badge/Tag/Chip/Label)**:
+    - `docs/03-components/terminology.md`를 신설해 네이밍 기준과 사용 규칙(역할 기반 분류)을 문서화했습니다.
+    - `componentRegistry`의 `badge` 메타/variants 설명을 용어 체계 기준에 맞춰 정리했습니다.
+- **Badge 분류 variant 정식 추가**:
+    - `src/components/ui/badge.tsx`에 `notification`, `status`, `tag`, `meta` variant를 추가해 역할 기반 분류를 컴포넌트 API로 반영했습니다.
+    - `componentRegistry`의 Badge Variants를 `Notification Badge`, `Status Badge`, `Tag`, `Meta Badge` 4종으로 정리하고 상세 미리보기와 예제 코드를 동기화했습니다.
+- **메타 배지 API 단순화**:
+    - 카드/상세에서 사용하던 `file`, `countProps`, `countVariants` 스타일을 모두 `meta` variant로 통일했습니다.
+    - `Badge` 컴포넌트의 legacy 메타 variant(`file`, `countProps`, `countVariants`)를 제거하고 `meta` 하나로 정리했습니다.
+- **컴포넌트 카테고리 탭 정규화**:
+    - `SiteComponentsPage`에서 카테고리 탭 순서를 고정(`UI → Layout → Form → Feedback → Navigation`)하고, `Ui` 표기를 `UI`로 정정했습니다.
+    - 탭 생성 기준을 데이터 등장 순서가 아닌 명시적 순서 + 라벨 맵으로 변경해 탭 구성이 흔들리지 않도록 개선했습니다.
+- **`UI` 카테고리 제거 및 기능 기반 재분류**:
+    - 카테고리 타입에서 `ui`를 제거하고 `docs`, `utility`를 추가해 의미 기반 분류로 전환했습니다.
+    - `button`은 `form`, 문서용 컴포넌트(`GuidelineItem`, `HighlightText`, `AccessibilitySection`, `ColorSwatch`, `TokenAnatomy`)는 `docs`, `clipboard`는 `utility`로 재분류했습니다.
+    - 컴포넌트 탭 순서를 `Layout → Form → Feedback → Navigation → Docs → Utility`로 재구성해 포괄 카테고리 없이 탐색되도록 정리했습니다.
+- **문서 레이아웃 토큰/컴포넌트 기반 1차 정비**:
+    - `src/index.css`에 문서 전용 타이포/간격 토큰(`--doc-space-*`, `--doc-*-size`)과 레이아웃 유틸리티(`doc-page`, `doc-section`, `doc-tab-panel`)를 추가했습니다.
+    - `src/components/ui/DocLayout.tsx`를 신설해 `DocPageFrame`, `DocPageHeader`, `DocSection` 공통 문서 구조 컴포넌트를 도입했습니다.
+    - `FoundationPageLayout`이 공통 `DocLayout`을 사용하도록 전환하여 파운데이션 메뉴 전반의 헤더/본문 간격 규칙이 일관되게 적용되도록 정리했습니다.
+- **컬러 페이지 파일럿 적용 + 컨벤션 정합성 보정**:
+    - `ColorsPage`(New 탭)에 `DocSection`을 적용해 `Color Scale / Token Naming Convention / Usage Guide` 섹션 구조를 공통 패턴으로 정리했습니다.
+    - `TokenAnatomy`에 `showHeading` 옵션을 추가해 섹션 헤더와 중복 타이틀이 발생하지 않도록 개선했습니다.
+    - Usage 예시의 토큰 표기를 실제 클래스와 맞게 `text-error` → `text-destructive`로 수정했습니다(`ColorsPage`, `ColorsNewPage`).
+- **Typography/Spacing 문서 템플릿 2차 적용**:
+    - `TypographyPage`, `SpacingPage` 탭 콘텐츠에 `DocSection`을 적용해 Overview/Usage 정보 블록 구조를 공통 패턴으로 정리했습니다.
+    - `SpacingDisplay`, `SpacingUsage`, `TypographyUsage`의 내부 섹션 레이아웃을 `doc-subsection`, `doc-content-stack-tight`, `text-doc-subsection-title` 기반으로 정비해 여백/텍스트 규칙이 전역 토큰에 연동되도록 개선했습니다.
+    - 문서 토큰 확장을 위해 `index.css`에 `--doc-subsection-title-*` 및 대응 유틸 클래스를 추가했습니다.
+- **파운데이션 잔여 페이지 템플릿 3차 적용**:
+    - `LayoutPage`, `RadiusPage`, `MotionPage`, `IconsPage`, `ShadowsPage`에 `DocSection`을 적용해 페이지 본문 구조를 표준 섹션 패턴으로 통일했습니다.
+    - `MotionPage`는 개별 커스텀 헤더 구조를 제거하고 `FoundationPageLayout` 기반으로 이관해 파운데이션 페이지 간 헤더/본문 간격 규칙을 일치시켰습니다.
+    - `LayoutDisplay`, `RadiusDisplay`, `NestedRadiusDisplay`, `MotionDisplay`, `ShadowsDisplay`, `IconsUsage`, `ShadowsUsage`의 내부 섹션 제목/간격 클래스를 문서 토큰 클래스(`doc-subsection`, `text-doc-subsection-title`)로 정비했습니다.
+- **대형 Display 컴포넌트 내부 블록 표준화(4차 적용)**:
+    - `src/components/ui/DocLayout.tsx`에 `DocSubsection`을 추가해 `DocSection` 하위의 세부 블록까지 공통 구조(`title`, `description`, `content`)로 분해할 수 있도록 확장했습니다.
+    - `src/components/TypographyDisplay.tsx`를 `타입 토큰 탐색 / Type Tester / 시트 상세(토큰 정보·한글 샘플·영문 샘플)` 블록으로 재구성해 내부 정보 계층을 명확히 했습니다.
+    - `TypographyDisplay`의 DOM 직접 조작(`querySelectorAll`)을 상태 기반 프리뷰 업데이트로 교체하고, `any` 타입을 제거해 유지보수성과 린트 정합성을 개선했습니다.
+    - `src/components/IconDisplay.tsx`를 탭별 `탐색 및 필터` + `아이콘 그리드` 블록으로 분해하고, 상세 시트도 `프리뷰 크기 / 아이콘 컬러 / 메타 정보 / Usage` 하위 블록으로 정리했습니다.
+    - `IconDisplay`의 `any` 타입과 렌더 내부 컴포넌트 선언 이슈를 제거해 ESLint 규칙(`@typescript-eslint/no-explicit-any`, `react-hooks/static-components`) 기준을 충족하도록 보정했습니다.
+- **문서 유틸리티 확장**:
+    - `src/index.css`에 `doc-subsection-header`, `doc-subsection-content` 레이아웃 유틸리티를 추가해 내부 블록 간 여백/정렬 규칙을 공통 토큰으로 연결했습니다.
+- **New 시스템 페이지 블록 표준화 확장**:
+    - `src/components/TypographyNewDisplay.tsx`를 `DocSubsection` 기반으로 재구성해 `Typography Foundation / Live Type Tester / 카테고리별 스케일 / Core Philosophy` 블록 구조를 공통화했습니다.
+    - `TypographyNewDisplay`의 `any` 타입을 제거하고 카테고리/토큰 타입을 명시해 문서 컴포넌트 품질 기준(타입 안정성)을 맞췄습니다.
+    - `src/components/ColorsNewPage.tsx`의 `overview` 탭을 `DocSection` 패턴(`Color Principles / Color Scale / Token Naming Convention / Usage Guide`)으로 정리해 기존 파운데이션 페이지와 동일한 정보 계층/여백 규칙을 적용했습니다.
+- **Motion/Layout Display 내부 소블록 표준화**:
+    - `src/components/MotionDisplay.tsx`를 `DocSubsection` 구조로 정리하고, 소블록 타이틀을 `인터랙션 플레이그라운드 / 지속 시간 토큰 (Duration) / 가속도 토큰 (Easing)`으로 통일했습니다.
+    - `src/components/LayoutDisplay.tsx`를 `DocSubsection` 기반으로 재구성하고, `기기 해상도 / 브레이크포인트 / 모바일·태블릿 레이아웃 / 데스크톱 레이아웃 / 참고사항` 섹션 구조로 명확히 분리했습니다.
+    - 두 파일의 `any` 타입을 제거하고 데이터 타입 인터페이스를 추가해 문서 화면 컴포넌트의 타입 안정성을 강화했습니다.
+- **Foundation 개요 문구/포맷 일관성 개선**:
+    - `IntroductionPage`, `ColorsPage`, `TypographyPage`, `SpacingPage`, `LayoutPage`, `RadiusPage`, `MotionPage`, `IconsPage`, `ShadowsPage`의 헤더 설명을 공통 톤(`무엇을 정의하는지 + 개요에서 무엇을 확인하는지`)으로 정리했습니다.
+    - `ColorsPage` 개요 탭에 `컬러 원칙` 섹션(`DocSection`)을 추가해 `원칙 → 스케일 → 네이밍 규칙 → 사용 가이드` 순서가 명확하게 보이도록 정리했습니다.
+    - 주요 섹션 타이틀의 한/영 혼용을 줄이기 위해 `Type Tester`, `Interactive Visualizer`, `Shadow Overview`, `Usage` 등 영어 중심 표기를 한글 중심 표기로 통일했습니다.
+    - `ShadowsDisplay`의 `any` 타입을 제거하고 토큰 인터페이스를 추가해 린트 품질 기준을 맞췄습니다.
+- **Foundation 카피 톤 가이드 및 H1 보조 설명 정비**:
+    - `docs/02-foundations/content-style-guide.md`를 신설해 문장 템플릿(정의 문장 + 개요 안내 문장), 용어 규칙, 표준 용어 사전을 문서화했습니다.
+    - H1 언어 정책(`H1 영문 유지`, 보조 설명/섹션 설명 한글 기본)을 가이드에 명시해 페이지 타이틀과 본문 설명 언어 역할을 분리했습니다.
+    - Foundation 주요 페이지의 H1 보조 설명과 개요 섹션 설명을 가이드에 맞춰 재정렬하고, 페이지 간 문체를 설명형 톤으로 통일했습니다.
+    - 용어 정합성을 위해 `속성(Property)-역할(Role)-변형(Variant)-상태(State)`, `간격(gap)/안쪽 여백(padding)`, `라인(Line)/필드(Filled)/일러스트(Illustration)` 표기를 일관되게 반영했습니다.
+- **`개요` 중복 표현 축소 및 헤더/섹션 역할 분리**:
+    - Foundation 페이지의 H1 보조 설명에서 `개요에서는 ...` 반복 문장을 제거하고, 페이지의 목적/적용 효과 중심 문장으로 정리했습니다.
+    - 개요 탭 내부 섹션 타이틀의 `~개요` 표기를 콘텐츠 중심 명칭(`타입 스케일`, `간격 시스템`, `레이아웃 기준`, `모션 토큰`, `아이콘 탐색`, `그림자 스케일`)으로 통일했습니다.
+    - 탭(`개요`)은 네비게이션 역할, H1 보조 설명은 페이지 요약 역할, 섹션 타이틀은 콘텐츠 역할로 분리해 정보 중복을 줄였습니다.
+- **H1 보조 설명 길이/패턴 규격화**:
+    - `content-style-guide.md`에 H1 보조 설명 규칙(`2문장`, `80~130자 권장`)을 추가해 문장 길이와 정보 밀도 기준을 명시했습니다.
+    - Foundation 전 페이지 H1 보조 설명을 `정의 문장 + 확인 문장` 패턴으로 재정비해 페이지 간 톤과 리듬을 통일했습니다.
+- **Overview 섹션 가독성 1단 정렬 보강**:
+    - `IntroductionPage`의 `디자인 원칙` 카드 레이아웃을 `md:grid-cols-1`로 조정해 `시스템 목표`와 동일한 세로 읽기 흐름으로 통일했습니다.
+    - 개요 탭에서 핵심 메시지를 좌→우 탐색 없이 위→아래로 연속 소비할 수 있도록 구조를 단순화했습니다.
+- **불필요한 헤더 아이콘 축소(Overview)**:
+    - `IntroductionPage`의 `시스템 목표` 카드 헤더에서 장식성 아이콘(`Palette`, `Terminal`)을 제거하고 텍스트 중심 정보 구조로 정리했습니다.
+- **문서형 레이아웃 정렬(Overview)**:
+    - `IntroductionPage`의 `시스템 목표` 영역을 카드형 박스에서 문서형 소블록(`제목 + 리스트 + 구분선`)으로 전환해 최근 개발/디자인 가이드 사이트 스타일에 맞게 단순화했습니다.
+- **원칙 섹션 문서형 표준화 + 아이콘 축소**:
+    - `PrinciplesSection`에 `variant="list"`를 추가해 원칙/가이드 정보를 카드형이 아닌 문서형 목록(`제목 + 본문 + 구분선`)으로 렌더링할 수 있도록 확장했습니다.
+    - `IntroductionPage`, `ColorsPage`, `ColorsNewPage`의 원칙 섹션을 `list` 변형으로 전환하고 장식성 아이콘 의존을 제거해 텍스트 중심 가독성을 강화했습니다.
+- **문서 내 실험실 기능 플래그 비활성화**:
+    - `src/config/featureFlags.ts`에 `FEATURE_FLAGS.experimentalLab` 플래그를 추가하고 기본값을 `false`로 설정했습니다.
+    - `ExperimentalToggle`은 플래그가 꺼져 있으면 렌더링하지 않도록 처리했습니다.
+    - `ExperimentalProvider`는 플래그가 꺼져 있을 때 `experimental-design` 클래스와 localStorage 값을 정리해 실험 스타일이 잔존하지 않도록 보정했습니다.
+- **Overview 중복 여백 압축(문서 밀도 개선)**:
+    - `PrinciplesSection`의 `list` 변형을 `divide-y + compact row` 구조로 재구성해 `stack gap + item padding` 중복 간격을 제거했습니다.
+    - `IntroductionPage`의 `시스템 목표` 블록을 동일한 `divide-y + compact row` 구조로 정리하고 리스트 간격을 `gap-2`로 조정했습니다.
+    - `IntroductionPage` 마지막 섹션(`빠른 시작 가이드`)의 `mb-10`을 제거했습니다.
+    - `ColorsPage`, `ColorsNewPage` 개요 탭 컨테이너의 `mt-6`를 제거해 탭 패널 기본 간격과의 중복을 해소했습니다.
+- **문서 전역 간격 토큰 컴팩트 조정**:
+    - `src/index.css`의 `--doc-space-5~8` 값을 한 단계 축소(`2/2.5/3/4rem` → `1.75/2/2.5/3rem`)해 Foundation 문서 전반의 세로 밀도를 높였습니다.
+- **Compact IA 템플릿 문서화**:
+    - `docs/02-foundations/compact-ia-template.md`를 추가해 저콘텐츠 페이지용 문서 구조/밀도 규칙(문서형 블록, divider 중심, 중복 margin 제거)을 정의했습니다.
+    - `docs/README.md`와 `content-style-guide.md`에 Compact IA 참조를 연결해 기존 카피/톤 가이드와 함께 사용할 수 있도록 정리했습니다.
+- **Compact IA Foundation 1차 점검표 작성**:
+    - `docs/02-foundations/compact-ia-audit-v1.md`를 추가해 Foundation 9개 페이지를 체크리스트(`C1~C5`) 기준으로 점검하고 페이지별 액션 아이템/2차 우선순위를 정리했습니다.
+- **P1 Display 밀도 정규화(Typography/Motion/Shadows)**:
+    - `TypographyDisplay`의 테스터/시트 내부 간격(`p`, `gap`, `space-y`)을 컴팩트하게 조정해 본문 대비 공백을 축소했습니다.
+    - `TypographyNewDisplay`의 루트 스택, 테이블 행 높이(`py-10 → py-6`), 원칙 카드 간격/패딩을 조정해 과도한 세로 여백을 줄였습니다.
+    - `MotionDisplay`의 플레이그라운드 컨테이너 간격과 시뮬레이터 높이(`h-64 → h-56`)를 조정해 정보 밀도를 높였습니다.
+    - `ShadowsDisplay`의 스케일/플레이그라운드 패딩과 간격(`p-8/10`, `gap-8`, `mt-10`)을 축소하고, 호버 배치 계산 패딩 값을 레이아웃과 동기화했습니다.
+- **문서 타이포 스케일 재정의(H1/H2/H3)**:
+    - `src/index.css`의 문서 토큰을 요청 기준으로 조정했습니다: `H1=32px`, `H2=24px`.
+    - `H3`(`text-doc-subsection-title`)는 본문(`text-doc-body`)과 동일 크기/행간을 사용하고 `font-weight:700`으로 고정했습니다.
+- **헤딩-본문 간격 규칙 재조정(H1/H2+)**:
+    - 전역 문서 레이아웃에서 헤딩-설명 간격을 `H1=12px`, `H2+=8px` 기준으로 조정했습니다(`doc-page-header`, `doc-section-header`, `doc-subsection-header`).
+    - `IntroductionPage`와 `PrinciplesSection(list)`의 커스텀 H3 블록 간격도 `gap-2(8px)`로 맞춰 헤딩 리듬을 통일했습니다.
+- **H1/H2 보조 텍스트 타이포 통일**:
+    - 문서 보조 텍스트 토큰을 `16px / 24px`로 통일했습니다.
+    - `--doc-subtitle-size/line-height`와 `--doc-section-subtitle-size/line-height`를 동일 규격으로 조정했습니다.
+- **본문 15px → 14px/20px 적용**:
+    - 문서 본문 토큰(`--doc-body-size`, `--doc-body-line-height`)을 `14px / 20px`로 조정했습니다.
+    - `H3`가 본문 토큰을 참조하도록 구성되어 있어 `text-doc-subsection-title`도 동일한 크기/행간 규칙을 따르도록 동기화되었습니다.
+    - 실험 모드 바디 오버라이드도 `14px / 20px` 기준으로 정리했습니다.
+- **H2/H3 타이포 및 헤더 간격 재조정**:
+    - `H2`를 `20px / 28px / 600`으로 조정했습니다.
+    - `H2`와 보조 텍스트 간격을 `gap-1(4px)`로 조정했습니다.
+    - `H3`(`text-doc-subsection-title`)의 폰트 두께를 `500`으로 조정했습니다.
+    - `H3`와 보조 텍스트 간격을 `gap-0`으로 조정했습니다.
+- **Overview 리스트 리듬 재조정(그룹핑 보강)**:
+    - `PrinciplesSection(list)`를 `항목 간 gap-4 + 항목 내부 gap-2` 구조로 조정해 리스트가 같은 그룹으로 읽히도록 개선했습니다.
+    - `IntroductionPage`의 `시스템 목표` 블록도 동일한 리듬(`그룹 간 gap-4`, `제목-본문 gap-2`)으로 맞췄습니다.
+- **Overview 들여쓰기/불릿 적용**:
+    - `PrinciplesSection(list)` 항목에 불릿형 마커 + 들여쓰기 구조를 적용해 원칙 목록의 그룹 경계를 시각적으로 강화했습니다.
+    - `IntroductionPage`의 `시스템 목표` 하위 문장을 `list-disc + pl-5`로 전환해 정보 계층을 명확히 했습니다.
+- **H2/H3 보조 텍스트 타이포 재조정**:
+    - `H2`를 `18px / 24px / 600`으로 조정했습니다.
+    - `H3` 보조 텍스트가 `14px / 20px` 규칙을 따르도록 `PrinciplesSection(list)`의 `leading-relaxed` 오버라이드를 제거했습니다.

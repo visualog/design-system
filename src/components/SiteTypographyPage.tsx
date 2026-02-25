@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Check } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { ExperimentalToggle } from './ui/ExperimentalToggle';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 const SiteTypographyPage = () => {
     const [fontFamily, setFontFamily] = useState('System (Apple)');
@@ -127,54 +128,50 @@ const SiteTypographyPage = () => {
                         </p>
                     </div>
 
-                    <div className="rounded-xl border bg-card overflow-hidden">
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-sm text-left">
-                                <thead className="bg-muted/50 text-muted-foreground">
-                                    <tr>
-                                        <th className="px-4 py-3 font-medium">Token (Web)</th>
-                                        <th className="px-4 py-3 font-medium">Size / Line-height</th>
-                                        <th className="px-4 py-3 font-medium">Weight</th>
-                                        <th className="px-4 py-3 font-medium">Preview / Usage</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y">
-                                    {[
-                                        { token: 'display-xl', size: '64px', lh: '1.1', weight: '600', usage: 'Landing Main Hero', class: 'text-display-xl' },
-                                        { token: 'display-lg', size: '40px', lh: '1.2', weight: '600', usage: 'Section Main Title', class: 'text-display-lg' },
-                                        { token: 'heading-xl', size: '32px', lh: '1.25', weight: '600', usage: 'Page Title', class: 'text-heading-xl' },
-                                        { token: 'heading-lg', size: '28px', lh: '1.25', weight: '600', usage: 'Large Section Header', class: 'text-heading-lg' },
-                                        { token: 'heading-md', size: '24px', lh: '1.3', weight: '600', usage: 'Section Header', class: 'text-heading-md' },
-                                        { token: 'heading-sm', size: '20px', lh: '1.3', weight: '600', usage: 'Card Title', class: 'text-heading-sm' },
-                                        { token: 'body-lg', size: '18px', lh: '1.6', weight: '400', usage: 'Body (Wide)', class: 'text-body-lg' },
-                                        { token: 'body-md', size: '16px', lh: '1.6', weight: '400', usage: 'Body (Default)', class: 'text-body-md' },
-                                        { token: 'body-sm', size: '14px', lh: '1.6', weight: '400', usage: 'Subtext', class: 'text-body-sm' },
-                                        { token: 'label-md', size: '14px', lh: '1.4', weight: '600', usage: 'Button/Form Label', class: 'text-label-md' },
-                                        { token: 'label-sm', size: '12px', lh: '1.4', weight: '600', usage: 'Badge/Table Header', class: 'text-label-sm' },
-                                        { token: 'caption', size: '12px', lh: '1.4', weight: '400', usage: 'Meta Info', class: 'text-caption' },
-                                        { token: 'micro', size: '11px', lh: '1.4', weight: '400', usage: 'Footnote', class: 'text-micro' },
-                                    ].map((item) => (
-                                        <tr key={item.token} className="hover:bg-muted/50 transition-colors">
-                                            <td className="px-4 py-4 font-mono text-muted-foreground">{item.token}</td>
-                                            <td className="px-4 py-4">
-                                                <div className="flex flex-col">
-                                                    <span>{item.size}</span>
-                                                    <span className="text-muted-foreground text-xs">LH {item.lh}</span>
-                                                </div>
-                                            </td>
-                                            <td className="px-4 py-4">{item.weight}</td>
-                                            <td className="px-4 py-4">
-                                                <div className="flex flex-col gap-1">
-                                                    <p className={item.class}>The quick brown fox</p>
-                                                    <span className="text-xs text-muted-foreground">{item.usage}</span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Token (Web)</TableHead>
+                                <TableHead>Size / Line-height</TableHead>
+                                <TableHead>Weight</TableHead>
+                                <TableHead>Preview / Usage</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {[
+                                { token: 'display-xl', size: '64px', lh: '1.1', weight: '600', usage: 'Landing Main Hero', class: 'text-display-xl' },
+                                { token: 'display-lg', size: '40px', lh: '1.2', weight: '600', usage: 'Section Main Title', class: 'text-display-lg' },
+                                { token: 'heading-xl', size: '32px', lh: '1.25', weight: '600', usage: 'Page Title', class: 'text-heading-xl' },
+                                { token: 'heading-lg', size: '28px', lh: '1.25', weight: '600', usage: 'Large Section Header', class: 'text-heading-lg' },
+                                { token: 'heading-md', size: '24px', lh: '1.3', weight: '600', usage: 'Section Header', class: 'text-heading-md' },
+                                { token: 'heading-sm', size: '20px', lh: '1.3', weight: '600', usage: 'Card Title', class: 'text-heading-sm' },
+                                { token: 'body-lg', size: '18px', lh: '1.6', weight: '400', usage: 'Body (Wide)', class: 'text-body-lg' },
+                                { token: 'body-md', size: '16px', lh: '1.6', weight: '400', usage: 'Body (Default)', class: 'text-body-md' },
+                                { token: 'body-sm', size: '14px', lh: '1.6', weight: '400', usage: 'Subtext', class: 'text-body-sm' },
+                                { token: 'label-md', size: '14px', lh: '1.4', weight: '600', usage: 'Button/Form Label', class: 'text-label-md' },
+                                { token: 'label-sm', size: '12px', lh: '1.4', weight: '600', usage: 'Badge/Table Header', class: 'text-label-sm' },
+                                { token: 'caption', size: '12px', lh: '1.4', weight: '400', usage: 'Meta Info', class: 'text-caption' },
+                                { token: 'micro', size: '11px', lh: '1.4', weight: '400', usage: 'Footnote', class: 'text-micro' },
+                            ].map((item) => (
+                                <TableRow key={item.token}>
+                                    <TableCell className="font-mono text-muted-foreground">{item.token}</TableCell>
+                                    <TableCell>
+                                        <div className="flex flex-col">
+                                            <span>{item.size}</span>
+                                            <span className="text-muted-foreground text-xs">LH {item.lh}</span>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>{item.weight}</TableCell>
+                                    <TableCell>
+                                        <div className="flex flex-col gap-1">
+                                            <p className={item.class}>The quick brown fox</p>
+                                            <span className="text-xs text-muted-foreground">{item.usage}</span>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
                 </section>
             </div>
         </div >

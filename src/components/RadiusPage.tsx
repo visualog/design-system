@@ -1,39 +1,18 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
 import RadiusDisplay from './RadiusDisplay';
 import NestedRadiusDisplay from './NestedRadiusDisplay';
-import { FoundationPageLayout, FoundationPageTabs } from './FoundationPageLayout';
+import { FoundationPageLayout } from './FoundationPageLayout';
 
 const RadiusPage: React.FC = () => {
-    const [searchParams] = useSearchParams();
-    const tabFromUrl = searchParams.get('tab');
-
-    const tabs = [
-        {
-            value: 'overview',
-            label: '개요',
-            content: <RadiusDisplay />
-        },
-        {
-            value: 'usage',
-            label: '사용 가이드',
-            content: (
-                <div className="mt-6">
-                    <NestedRadiusDisplay />
-                </div>
-            )
-        }
-    ];
-
     return (
         <FoundationPageLayout
             title="Radius"
-            description="Radius 토큰은 UI 요소의 모서리 둥글기를 정의하여, 친근하고 현대적인 인터페이스를 만듭니다. 일관된 형태 사용은 브랜드 아이덴티티를 강화하고 더 부드러운 사용자 경험을 제공합니다."
+            description="라디우스 시스템은 UI 요소의 모서리 곡률 기준을 정의합니다. 스케일 토큰과 중첩 계산 규칙을 순서대로 확인합니다."
         >
-            <FoundationPageTabs
-                items={tabs}
-                defaultValue={tabFromUrl || 'overview'}
-            />
+            <div className="doc-content-stack">
+                <RadiusDisplay />
+                <NestedRadiusDisplay />
+            </div>
         </FoundationPageLayout>
     );
 };

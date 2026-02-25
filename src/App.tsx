@@ -10,7 +10,9 @@ import { Button } from '@/components/ui/button';
 // Import individual page components
 import IntroductionPage from './components/IntroductionPage';
 import ColorsPage from './components/ColorsPage';
+import ColorsNewPage from './components/ColorsNewPage';
 import TypographyPage from './components/TypographyPage';
+import TypographyBetaPage from './components/TypographyBetaPage';
 import SpacingPage from './components/SpacingPage';
 import LayoutPage from './components/LayoutPage';
 import RadiusPage from './components/RadiusPage';
@@ -96,7 +98,9 @@ function App() {
                           <Route path="/" element={<MainContent maxWidth="wide"><IntroductionPage /></MainContent>} />
                           <Route path="/overview" element={<MainContent maxWidth="wide"><IntroductionPage /></MainContent>} />
                           <Route path="/colors" element={<MainContent maxWidth="wide"><ColorsPage /></MainContent>} />
+                          <Route path="/colors_beta" element={<MainContent maxWidth="wide"><ColorsNewPage /></MainContent>} />
                           <Route path="/typography" element={<MainContent maxWidth="wide"><TypographyPage /></MainContent>} />
+                          <Route path="/typography_beta" element={<MainContent maxWidth="wide"><TypographyBetaPage /></MainContent>} />
                           <Route path="/spacing" element={<MainContent maxWidth="wide"><SpacingPage /></MainContent>} />
                           <Route path="/layout" element={<MainContent maxWidth="wide"><LayoutPage /></MainContent>} />
                           <Route path="/radius" element={<MainContent maxWidth="wide"><RadiusPage /></MainContent>} />

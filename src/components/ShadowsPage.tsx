@@ -1,39 +1,18 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
 import ShadowsDisplay from './ShadowsDisplay';
 import ShadowsUsage from './ShadowsUsage';
-import { FoundationPageLayout, FoundationPageTabs } from './FoundationPageLayout';
+import { FoundationPageLayout } from './FoundationPageLayout';
 
 const ShadowsPage: React.FC = () => {
-  const [searchParams] = useSearchParams();
-  const tabFromUrl = searchParams.get('tab');
-
-  const tabs = [
-    {
-      value: 'overview',
-      label: '개요',
-      content: <ShadowsDisplay />
-    },
-    {
-      value: 'usage',
-      label: '사용 가이드',
-      content: (
-        <div className="mt-6">
-          <ShadowsUsage />
-        </div>
-      )
-    }
-  ];
-
   return (
     <FoundationPageLayout
       title="Shadows"
-      description="그림자는 인터페이스에 깊이와 계층감을 더합니다. 광원과 일관된 방식으로 컴포넌트를 강조하여 명확한 레이어링을 표현하는 데 사용하세요."
+      description="그림자 시스템은 계층과 강조를 시각적으로 구분하는 기준을 정의합니다. 스케일, 인터랙티브 시뮬레이션, 토큰 정의를 순서대로 확인합니다."
     >
-      <FoundationPageTabs
-        items={tabs}
-        defaultValue={tabFromUrl || 'overview'}
-      />
+      <div className="doc-content-stack">
+        <ShadowsDisplay />
+        <ShadowsUsage />
+      </div>
     </FoundationPageLayout>
   );
 };
