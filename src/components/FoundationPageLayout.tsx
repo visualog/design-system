@@ -19,7 +19,7 @@ export const FoundationPageLayout: React.FC<FoundationPageLayoutProps> = ({
     showExperimental = false
 }) => {
     return (
-        <DocPageFrame>
+        <DocPageFrame className="foundation-doc-page">
             <DocPageHeader
                 title={title}
                 description={description}
@@ -42,22 +42,26 @@ interface FoundationTabItem {
 interface FoundationPageTabsProps {
     items: FoundationTabItem[];
     defaultValue?: string;
+    floatingAction?: React.ReactNode | ((activeTab: string) => React.ReactNode);
 }
 
 export const FoundationPageTabs: React.FC<FoundationPageTabsProps> = ({
     items,
-    defaultValue
+    defaultValue,
+    floatingAction
 }) => {
     const defaultVal = defaultValue || (items.length > 0 ? items[0].value : '');
     const [activeTab, setActiveTab] = useState(defaultVal);
 
     const tabHeaders = items.map(item => ({ name: item.label, value: item.value }));
+    const floatingActionNode = typeof floatingAction === 'function' ? floatingAction(activeTab) : floatingAction;
 
     return (
         <AnimatedTabs
             tabs={tabHeaders}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
+            floatingAction={floatingActionNode}
         >
             {items.map((item) => (
                 <AnimatedTabsContent key={item.value} value={item.value} className="doc-tab-panel">

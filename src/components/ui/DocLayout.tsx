@@ -89,11 +89,12 @@ export const DocSubsection: React.FC<DocSubsectionProps> = ({
     titleAs = 'h3'
 }) => {
     const HeadingTag = titleAs;
+    const headingClassName = titleAs === 'h2' ? 'text-doc-section-title' : 'text-doc-subsection-title';
 
     return (
         <section id={id} className={cn('doc-subsection', className)}>
             <div className="doc-subsection-header">
-                <HeadingTag className="text-doc-subsection-title">{title}</HeadingTag>
+                <HeadingTag className={headingClassName}>{title}</HeadingTag>
                 {description && (
                     <p className="text-doc-body text-muted-foreground doc-page-description">{description}</p>
                 )}

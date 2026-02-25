@@ -235,80 +235,71 @@ const IconSection: React.FC<IconSectionProps> = ({
   }, [iconList, searchQuery]);
 
   return (
-    <div className="doc-content-stack-tight">
-      <DocSubsection title="탐색 및 필터" className="gap-3" contentClassName="gap-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          {searchInput}
-          <div className="flex items-center gap-2">
-            <Popover>
-              <PopoverTrigger>
-                <ColorChipTrigger color={iconColor} />
-              </PopoverTrigger>
-              <PopoverContent className="p-0 border-none w-auto shadow-none bg-transparent">
-                <div className="w-64 p-4 bg-popover rounded-md border shadow-md">
-                  <ColorPalette purpose="icon" onColorSelect={setIconColor} />
-                </div>
-              </PopoverContent>
-            </Popover>
-            <Popover>
-              <PopoverTrigger>
-                <ColorChipTrigger color={bgColor} />
-              </PopoverTrigger>
-              <PopoverContent className="p-0 border-none w-auto shadow-none bg-transparent">
-                <div className="w-64 p-4 bg-popover rounded-md border shadow-md">
-                  <ColorPalette purpose="background" onColorSelect={setBgColor} />
-                </div>
-              </PopoverContent>
-            </Popover>
-            {!isPristine && (
-              <Button onClick={handleReset} variant="ghost" size="icon" aria-label="Reset colors">
-                <RotateCcw className="w-5 h-5" />
-              </Button>
-            )}
-          </div>
+    <div className="doc-content-stack">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        {searchInput}
+        <div className="flex items-center gap-2">
+          <Popover>
+            <PopoverTrigger>
+              <ColorChipTrigger color={iconColor} />
+            </PopoverTrigger>
+            <PopoverContent className="p-0 border-none w-auto shadow-none bg-transparent">
+              <div className="w-64 p-4 bg-popover rounded-md border shadow-md">
+                <ColorPalette purpose="icon" onColorSelect={setIconColor} />
+              </div>
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger>
+              <ColorChipTrigger color={bgColor} />
+            </PopoverTrigger>
+            <PopoverContent className="p-0 border-none w-auto shadow-none bg-transparent">
+              <div className="w-64 p-4 bg-popover rounded-md border shadow-md">
+                <ColorPalette purpose="background" onColorSelect={setBgColor} />
+              </div>
+            </PopoverContent>
+          </Popover>
+          {!isPristine && (
+            <Button onClick={handleReset} variant="ghost" size="icon" aria-label="Reset colors">
+              <RotateCcw className="w-5 h-5" />
+            </Button>
+          )}
         </div>
-      </DocSubsection>
+      </div>
 
-      <DocSubsection
-        title="아이콘 그리드"
-        description={`${filteredIcons.length}개 결과`}
-        className="gap-3"
-        contentClassName="gap-3"
-      >
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-2">
-          {filteredIcons.map((iconName, index) => {
-            const mappedFilename = filenameMapping[iconName];
-            const SvgComponent = mappedFilename
-              ? getSvgComponentFromFilename(mappedFilename, categoryType)
-              : null;
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-2">
+        {filteredIcons.map((iconName, index) => {
+          const mappedFilename = filenameMapping[iconName];
+          const SvgComponent = mappedFilename
+            ? getSvgComponentFromFilename(mappedFilename, categoryType)
+            : null;
 
-            return (
-              <TooltipProvider key={`${iconName}-${index}`} delayDuration={100}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Card
-                      className="shadow-none w-full aspect-square flex items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:border-black/10 cursor-pointer"
-                      style={{ backgroundColor: bgColor }}
-                      onClick={() => mappedFilename && onIconClick(iconName, categoryType, mappedFilename, iconColor)}
-                    >
-                      <CardContent className="p-0">
-                        {SvgComponent ? (
-                          <SvgComponent className="w-6 h-6" style={{ color: iconColor }} />
-                        ) : (
-                          <span className="text-xs">N/A</span>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{iconName}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            );
-          })}
-        </div>
-      </DocSubsection>
+          return (
+            <TooltipProvider key={`${iconName}-${index}`} delayDuration={100}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Card
+                    className="shadow-none w-full aspect-square flex items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:border-black/10 cursor-pointer"
+                    style={{ backgroundColor: bgColor }}
+                    onClick={() => mappedFilename && onIconClick(iconName, categoryType, mappedFilename, iconColor)}
+                  >
+                    <CardContent className="p-0">
+                      {SvgComponent ? (
+                        <SvgComponent className="w-6 h-6" style={{ color: iconColor }} />
+                      ) : (
+                        <span className="text-xs">N/A</span>
+                      )}
+                    </CardContent>
+                  </Card>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{iconName}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          );
+        })}
+      </div>
     </div>
   );
 };
@@ -440,10 +431,10 @@ const IconDisplay: React.FC = () => {
         tabs={tabs}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        className="doc-content-stack-tight"
+        className="doc-content-stack"
       >
         <AnimatedTabsContent value="line">
-          <div className="doc-content-stack-tight">
+          <div className="doc-content-stack">
             <h2 className="sr-only">라인 아이콘 (Line Icons)</h2>
             <IconSection
               iconList={lineIcons}
@@ -463,7 +454,7 @@ const IconDisplay: React.FC = () => {
         </AnimatedTabsContent>
 
         <AnimatedTabsContent value="filled">
-          <div className="doc-content-stack-tight">
+          <div className="doc-content-stack">
             <h2 className="sr-only">필드 아이콘 (Filled Icons)</h2>
             <IconSection
               iconList={filledIcons}
@@ -483,74 +474,65 @@ const IconDisplay: React.FC = () => {
         </AnimatedTabsContent>
 
         <AnimatedTabsContent value="illustration">
-          <div className="doc-content-stack-tight">
+          <div className="doc-content-stack">
             <h2 className="sr-only">일러스트 아이콘 (Illustration Icons)</h2>
 
-            <DocSubsection title="탐색 및 필터" className="gap-3" contentClassName="gap-3">
-              <div className="flex items-center gap-2 w-full flex-wrap">
-                <SmartFilterDropdown
-                  triggerText={
-                    illustCategory.includes('All') || illustCategory.length === 0
-                      ? '전체'
-                      : illustCategory.length === 1
-                        ? illustCategoryNames[illustCategory[0]] || illustCategory[0]
-                        : `${illustCategory.length}개 선택됨`
-                  }
-                  items={Object.entries(illustCategoryNames).map(([key, label]) => ({ value: key, label }))}
-                  selectedValues={illustCategory}
-                  onSelectionChange={setIllustCategory}
-                />
-                <SearchBar
-                  placeholder={`${illustIconCount}개 아이콘 검색...`}
-                  value={illustSearchQuery}
-                  onChange={(event) => setIllustSearchQuery(event.target.value)}
-                />
-              </div>
-            </DocSubsection>
+            <div className="flex items-center gap-2 w-full flex-wrap">
+              <SmartFilterDropdown
+                triggerText={
+                  illustCategory.includes('All') || illustCategory.length === 0
+                    ? '전체'
+                    : illustCategory.length === 1
+                      ? illustCategoryNames[illustCategory[0]] || illustCategory[0]
+                      : `${illustCategory.length}개 선택됨`
+                }
+                items={Object.entries(illustCategoryNames).map(([key, label]) => ({ value: key, label }))}
+                selectedValues={illustCategory}
+                onSelectionChange={setIllustCategory}
+              />
+              <SearchBar
+                placeholder={`${illustIconCount}개 아이콘 검색...`}
+                value={illustSearchQuery}
+                onChange={(event) => setIllustSearchQuery(event.target.value)}
+              />
+            </div>
 
-            <DocSubsection
-              title="아이콘 그리드"
-              description={`${illustIconCount}개 결과`}
-              className="gap-3"
-              contentClassName="gap-3"
-            >
-              <div className="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-2">
-                {filteredIllustrations.length > 0 ? (
-                  filteredIllustrations.map((icon, index) => {
-                    const SvgComponent = getSvgComponentFromFilename(icon.filename, 'illust', icon.subfolder);
-                    const defaultIllustColor = '#374151';
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-2">
+              {filteredIllustrations.length > 0 ? (
+                filteredIllustrations.map((icon, index) => {
+                  const SvgComponent = getSvgComponentFromFilename(icon.filename, 'illust', icon.subfolder);
+                  const defaultIllustColor = '#374151';
 
-                    return (
-                      <TooltipProvider key={`${icon.filename}-${index}`} delayDuration={100}>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Card
-                              className="shadow-none w-full aspect-square flex items-center justify-center cursor-pointer hover:bg-secondary/50 transition-all duration-200 hover:-translate-y-1"
-                              onClick={() =>
-                                handleIconClick(icon.filename, 'illust', icon.filename, defaultIllustColor, icon.subfolder)
-                              }
-                            >
-                              <CardContent className="p-0">
-                                {SvgComponent ? (
-                                  <SvgComponent className="w-8 h-8 text-foreground" />
-                                ) : (
-                                  <span className="text-xs">N/A</span>
-                                )}
-                              </CardContent>
-                            </Card>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>{icon.filename}</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    );
-                  })
-                ) : (
-                  <p className="text-muted-foreground text-sm col-span-full">검색 결과가 없습니다.</p>
-                )}
-              </div>
-            </DocSubsection>
+                  return (
+                    <TooltipProvider key={`${icon.filename}-${index}`} delayDuration={100}>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Card
+                            className="shadow-none w-full aspect-square flex items-center justify-center cursor-pointer hover:bg-secondary/50 transition-all duration-200 hover:-translate-y-1"
+                            onClick={() =>
+                              handleIconClick(icon.filename, 'illust', icon.filename, defaultIllustColor, icon.subfolder)
+                            }
+                          >
+                            <CardContent className="p-0">
+                              {SvgComponent ? (
+                                <SvgComponent className="w-8 h-8 text-foreground" />
+                              ) : (
+                                <span className="text-xs">N/A</span>
+                              )}
+                            </CardContent>
+                          </Card>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{icon.filename}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  );
+                })
+              ) : (
+                <p className="text-muted-foreground text-sm col-span-full">검색 결과가 없습니다.</p>
+              )}
+            </div>
           </div>
         </AnimatedTabsContent>
       </AnimatedTabs>

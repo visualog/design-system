@@ -15,6 +15,7 @@ interface AnimatedTabsProps {
   tabs: Tab[]
   activeTab: string
   setActiveTab: (value: string) => void
+  floatingAction?: React.ReactNode
   children: React.ReactNode
 }
 
@@ -65,7 +66,7 @@ const TabsContent = React.forwardRef<
 ))
 TabsContent.displayName = TabsPrimitive.Content.displayName
 
-const AnimatedTabs = ({ tabs, activeTab, setActiveTab, children }: AnimatedTabsProps) => {
+const AnimatedTabs = ({ tabs, activeTab, setActiveTab, floatingAction, children }: AnimatedTabsProps) => {
   const tabRefs = React.useRef<(HTMLButtonElement | null)[]>([])
   const [underlineStyle, setUnderlineStyle] = React.useState({ left: 0, width: 0 })
   const [isAnimating, setIsAnimating] = React.useState(false)
@@ -83,8 +84,8 @@ const AnimatedTabs = ({ tabs, activeTab, setActiveTab, children }: AnimatedTabsP
   }, [activeTab, tabs])
 
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab} className='w-full flex flex-col gap-4'>
-      <div className="relative flex justify-start group">
+    <Tabs value={activeTab} onValueChange={setActiveTab} className='w-full flex flex-col gap-10'>
+      <div className="relative flex w-full justify-start group">
         <TabsList className='relative'>
           {tabs.map((tab, index) => (
             <TabsTrigger
@@ -116,6 +117,11 @@ const AnimatedTabs = ({ tabs, activeTab, setActiveTab, children }: AnimatedTabsP
             onAnimationComplete={() => setIsAnimating(false)}
           />
         </TabsList>
+        {floatingAction && (
+          <div className="pointer-events-none absolute right-0 top-full z-20 mt-3">
+            <div className="pointer-events-auto">{floatingAction}</div>
+          </div>
+        )}
       </div>
       {children}
     </Tabs>

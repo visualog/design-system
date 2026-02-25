@@ -55,7 +55,7 @@ const LayoutDisplay: React.FC = () => {
     const layout = designSystemData.layout as LayoutData;
 
     return (
-        <div className="doc-content-stack-tight">
+        <div className="doc-content-stack">
             <DocSubsection
                 title="기기 해상도"
                 description="주요 디바이스의 CSS 기준 해상도와 화면 비율을 확인합니다."

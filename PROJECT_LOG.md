@@ -330,3 +330,54 @@
     - `IntroductionPage`의 `시스템 목표` 카드 헤더에서 장식성 아이콘(`Palette`, `Terminal`)을 제거하고 텍스트 중심 정보 구조로 정리했습니다.
 - **문서형 레이아웃 정렬(Overview)**:
     - `IntroductionPage`의 `시스템 목표` 영역을 카드형 박스에서 문서형 소블록(`제목 + 리스트 + 구분선`)으로 전환해 최근 개발/디자인 가이드 사이트 스타일에 맞게 단순화했습니다.
+- **원칙 섹션 문서형 표준화 + 아이콘 축소**:
+    - `PrinciplesSection`에 `variant="list"`를 추가해 원칙/가이드 정보를 카드형이 아닌 문서형 목록(`제목 + 본문 + 구분선`)으로 렌더링할 수 있도록 확장했습니다.
+    - `IntroductionPage`, `ColorsPage`, `ColorsNewPage`의 원칙 섹션을 `list` 변형으로 전환하고 장식성 아이콘 의존을 제거해 텍스트 중심 가독성을 강화했습니다.
+- **문서 내 실험실 기능 플래그 비활성화**:
+    - `src/config/featureFlags.ts`에 `FEATURE_FLAGS.experimentalLab` 플래그를 추가하고 기본값을 `false`로 설정했습니다.
+    - `ExperimentalToggle`은 플래그가 꺼져 있으면 렌더링하지 않도록 처리했습니다.
+    - `ExperimentalProvider`는 플래그가 꺼져 있을 때 `experimental-design` 클래스와 localStorage 값을 정리해 실험 스타일이 잔존하지 않도록 보정했습니다.
+- **Overview 중복 여백 압축(문서 밀도 개선)**:
+    - `PrinciplesSection`의 `list` 변형을 `divide-y + compact row` 구조로 재구성해 `stack gap + item padding` 중복 간격을 제거했습니다.
+    - `IntroductionPage`의 `시스템 목표` 블록을 동일한 `divide-y + compact row` 구조로 정리하고 리스트 간격을 `gap-2`로 조정했습니다.
+    - `IntroductionPage` 마지막 섹션(`빠른 시작 가이드`)의 `mb-10`을 제거했습니다.
+    - `ColorsPage`, `ColorsNewPage` 개요 탭 컨테이너의 `mt-6`를 제거해 탭 패널 기본 간격과의 중복을 해소했습니다.
+- **문서 전역 간격 토큰 컴팩트 조정**:
+    - `src/index.css`의 `--doc-space-5~8` 값을 한 단계 축소(`2/2.5/3/4rem` → `1.75/2/2.5/3rem`)해 Foundation 문서 전반의 세로 밀도를 높였습니다.
+- **Compact IA 템플릿 문서화**:
+    - `docs/02-foundations/compact-ia-template.md`를 추가해 저콘텐츠 페이지용 문서 구조/밀도 규칙(문서형 블록, divider 중심, 중복 margin 제거)을 정의했습니다.
+    - `docs/README.md`와 `content-style-guide.md`에 Compact IA 참조를 연결해 기존 카피/톤 가이드와 함께 사용할 수 있도록 정리했습니다.
+- **Compact IA Foundation 1차 점검표 작성**:
+    - `docs/02-foundations/compact-ia-audit-v1.md`를 추가해 Foundation 9개 페이지를 체크리스트(`C1~C5`) 기준으로 점검하고 페이지별 액션 아이템/2차 우선순위를 정리했습니다.
+- **P1 Display 밀도 정규화(Typography/Motion/Shadows)**:
+    - `TypographyDisplay`의 테스터/시트 내부 간격(`p`, `gap`, `space-y`)을 컴팩트하게 조정해 본문 대비 공백을 축소했습니다.
+    - `TypographyNewDisplay`의 루트 스택, 테이블 행 높이(`py-10 → py-6`), 원칙 카드 간격/패딩을 조정해 과도한 세로 여백을 줄였습니다.
+    - `MotionDisplay`의 플레이그라운드 컨테이너 간격과 시뮬레이터 높이(`h-64 → h-56`)를 조정해 정보 밀도를 높였습니다.
+    - `ShadowsDisplay`의 스케일/플레이그라운드 패딩과 간격(`p-8/10`, `gap-8`, `mt-10`)을 축소하고, 호버 배치 계산 패딩 값을 레이아웃과 동기화했습니다.
+- **문서 타이포 스케일 재정의(H1/H2/H3)**:
+    - `src/index.css`의 문서 토큰을 요청 기준으로 조정했습니다: `H1=32px`, `H2=24px`.
+    - `H3`(`text-doc-subsection-title`)는 본문(`text-doc-body`)과 동일 크기/행간을 사용하고 `font-weight:700`으로 고정했습니다.
+- **헤딩-본문 간격 규칙 재조정(H1/H2+)**:
+    - 전역 문서 레이아웃에서 헤딩-설명 간격을 `H1=12px`, `H2+=8px` 기준으로 조정했습니다(`doc-page-header`, `doc-section-header`, `doc-subsection-header`).
+    - `IntroductionPage`와 `PrinciplesSection(list)`의 커스텀 H3 블록 간격도 `gap-2(8px)`로 맞춰 헤딩 리듬을 통일했습니다.
+- **H1/H2 보조 텍스트 타이포 통일**:
+    - 문서 보조 텍스트 토큰을 `16px / 24px`로 통일했습니다.
+    - `--doc-subtitle-size/line-height`와 `--doc-section-subtitle-size/line-height`를 동일 규격으로 조정했습니다.
+- **본문 15px → 14px/20px 적용**:
+    - 문서 본문 토큰(`--doc-body-size`, `--doc-body-line-height`)을 `14px / 20px`로 조정했습니다.
+    - `H3`가 본문 토큰을 참조하도록 구성되어 있어 `text-doc-subsection-title`도 동일한 크기/행간 규칙을 따르도록 동기화되었습니다.
+    - 실험 모드 바디 오버라이드도 `14px / 20px` 기준으로 정리했습니다.
+- **H2/H3 타이포 및 헤더 간격 재조정**:
+    - `H2`를 `20px / 28px / 600`으로 조정했습니다.
+    - `H2`와 보조 텍스트 간격을 `gap-1(4px)`로 조정했습니다.
+    - `H3`(`text-doc-subsection-title`)의 폰트 두께를 `500`으로 조정했습니다.
+    - `H3`와 보조 텍스트 간격을 `gap-0`으로 조정했습니다.
+- **Overview 리스트 리듬 재조정(그룹핑 보강)**:
+    - `PrinciplesSection(list)`를 `항목 간 gap-4 + 항목 내부 gap-2` 구조로 조정해 리스트가 같은 그룹으로 읽히도록 개선했습니다.
+    - `IntroductionPage`의 `시스템 목표` 블록도 동일한 리듬(`그룹 간 gap-4`, `제목-본문 gap-2`)으로 맞췄습니다.
+- **Overview 들여쓰기/불릿 적용**:
+    - `PrinciplesSection(list)` 항목에 불릿형 마커 + 들여쓰기 구조를 적용해 원칙 목록의 그룹 경계를 시각적으로 강화했습니다.
+    - `IntroductionPage`의 `시스템 목표` 하위 문장을 `list-disc + pl-5`로 전환해 정보 계층을 명확히 했습니다.
+- **H2/H3 보조 텍스트 타이포 재조정**:
+    - `H2`를 `18px / 24px / 600`으로 조정했습니다.
+    - `H3` 보조 텍스트가 `14px / 20px` 규칙을 따르도록 `PrinciplesSection(list)`의 `leading-relaxed` 오버라이드를 제거했습니다.

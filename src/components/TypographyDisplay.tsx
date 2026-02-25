@@ -50,7 +50,15 @@ const TESTER_PRESETS: Array<{ label: string; className: string; emphasize?: bool
   { label: 'Body Medium (15px)', className: 'text-body-md' },
 ];
 
-const TypographyDisplay: React.FC = () => {
+interface TypographyDisplayProps {
+  showExplorer?: boolean;
+  showTester?: boolean;
+}
+
+const TypographyDisplay: React.FC<TypographyDisplayProps> = ({
+  showExplorer = true,
+  showTester = true
+}) => {
   const { typography } = designSystemData;
   const typographyData = typography as TypographySource;
 
@@ -164,111 +172,112 @@ const TypographyDisplay: React.FC = () => {
   const selectedLineHeight = selectedStyle ? Number(selectedStyle.line_height) : 0;
 
   return (
-    <div className="font-pretendard doc-content-stack-tight">
-      <DocSubsection
-        title="타입 토큰 탐색"
-        description="카테고리/검색으로 원하는 타이포그래피 토큰을 빠르게 찾고 상세값을 확인합니다."
-      >
-        <div className="flex flex-wrap items-center gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-48 justify-between shadow-none group">
-                <span className="capitalize">{getDropdownTriggerText().replace(/_/g, ' ')}</span>
-                <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="max-h-64 overflow-y-auto">
-              <DropdownMenuItem onSelect={() => handleCategorySelection('All')}>전체</DropdownMenuItem>
-              {availableCategories.map((category) => (
-                <DropdownMenuCheckboxItem
-                  key={category}
-                  checked={selectedCategories.includes(category)}
-                  onCheckedChange={() => handleCategorySelection(category)}
-                  className="capitalize"
-                >
-                  {category.replace(/_/g, ' ')}
-                </DropdownMenuCheckboxItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+    <div className="font-pretendard doc-content-stack">
+      {showExplorer && (
+        <section className="doc-subsection doc-subsection-compact">
+          <div className="flex flex-wrap items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="w-48 justify-between shadow-none group">
+                  <span className="capitalize">{getDropdownTriggerText().replace(/_/g, ' ')}</span>
+                  <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="max-h-64 overflow-y-auto">
+                <DropdownMenuItem onSelect={() => handleCategorySelection('All')}>전체</DropdownMenuItem>
+                {availableCategories.map((category) => (
+                  <DropdownMenuCheckboxItem
+                    key={category}
+                    checked={selectedCategories.includes(category)}
+                    onCheckedChange={() => handleCategorySelection(category)}
+                    className="capitalize"
+                  >
+                    {category.replace(/_/g, ' ')}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-          <SearchBar
-            containerClassName="w-full max-w-md"
-            placeholder={`${filteredTypography.length}개 토큰 검색...`}
-            value={searchQuery}
-            onChange={(event) => setSearchQuery(event.target.value)}
-          />
-        </div>
-
-        <div className="overflow-hidden">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-1/4 px-4 text-xs h-auto">토큰명</TableHead>
-                <TableHead className="w-1/4 px-4 text-xs h-auto">크기</TableHead>
-                <TableHead className="w-1/4 px-4 text-xs h-auto">행간</TableHead>
-                <TableHead className="w-1/4 px-4 text-xs h-auto">굵기</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredTypography.map((style, index) => (
-                <TableRow
-                  key={`${style.category}-${style.style_name}-${index}`}
-                  onClick={() => handleRowClick(style)}
-                  className="cursor-pointer hover:bg-accent/50 transition-colors"
-                >
-                  <TableCell className="font-mono text-sm font-medium">
-                    <div className="flex items-center gap-2">
-                      <span className="text-primary">
-                        <HighlightText text={style.style_name} highlight={searchQuery} />
-                      </span>
-                      <Clipboard value={style.style_name} />
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-muted-foreground font-mono text-xs">{style.size}px</TableCell>
-                  <TableCell className="text-muted-foreground font-mono text-xs">{style.line_height}px</TableCell>
-                  <TableCell className="text-muted-foreground font-mono text-xs">{style.weight}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      </DocSubsection>
-
-      <DocSubsection
-        title="타입 테스터"
-        description="샘플 문장을 바꿔보며 주요 텍스트 스타일의 가독성과 톤을 빠르게 점검합니다."
-      >
-        <div className="rounded-xl border bg-card p-6 doc-content-stack-tight">
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-muted-foreground">Preview Text</label>
-            <input
-              type="text"
-              placeholder="Type something here..."
-              className="w-full bg-background border border-input rounded-md px-4 py-2 text-base focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
-              value={previewText}
-              onChange={(event) =>
-                setPreviewText(event.target.value || DEFAULT_PREVIEW_TEXT)
-              }
+            <SearchBar
+              containerClassName="w-full max-w-md"
+              placeholder={`${filteredTypography.length}개 토큰 검색...`}
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
             />
           </div>
 
-          <div className="space-y-6 mt-2">
-            {TESTER_PRESETS.map((preset) => (
-              <div key={preset.label} className="space-y-1">
-                <p className="text-xs text-muted-foreground font-mono">{preset.label}</p>
-                <p
-                  className={`${preset.className} text-foreground break-all ${preset.emphasize ? 'font-bold' : ''}`}
-                >
-                  {previewText}
-                </p>
-              </div>
-            ))}
+          <div className="overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-1/4 px-4 text-xs h-auto">토큰명</TableHead>
+                  <TableHead className="w-1/4 px-4 text-xs h-auto">크기</TableHead>
+                  <TableHead className="w-1/4 px-4 text-xs h-auto">행간</TableHead>
+                  <TableHead className="w-1/4 px-4 text-xs h-auto">굵기</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredTypography.map((style, index) => (
+                  <TableRow
+                    key={`${style.category}-${style.style_name}-${index}`}
+                    onClick={() => handleRowClick(style)}
+                    className="cursor-pointer hover:bg-accent/50 transition-colors"
+                  >
+                    <TableCell className="font-mono text-sm font-medium">
+                      <div className="flex items-center gap-2">
+                        <span className="text-primary">
+                          <HighlightText text={style.style_name} highlight={searchQuery} />
+                        </span>
+                        <Clipboard value={style.style_name} />
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-muted-foreground font-mono text-xs">{style.size}px</TableCell>
+                    <TableCell className="text-muted-foreground font-mono text-xs">{style.line_height}px</TableCell>
+                    <TableCell className="text-muted-foreground font-mono text-xs">{style.weight}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
-        </div>
-      </DocSubsection>
+        </section>
+      )}
 
-      {selectedStyle && (
+      {showTester && (
+        <DocSubsection
+          title="타입 테스터"
+          description="샘플 문장을 바꿔보며 주요 텍스트 스타일의 가독성과 톤을 빠르게 점검합니다."
+        >
+          <div className="rounded-xl border bg-card p-5 flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-muted-foreground">Preview Text</label>
+              <input
+                type="text"
+                placeholder="Type something here..."
+                className="w-full bg-background border border-input rounded-md px-4 py-2 text-base focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                value={previewText}
+                onChange={(event) =>
+                  setPreviewText(event.target.value || DEFAULT_PREVIEW_TEXT)
+                }
+              />
+            </div>
+
+            <div className="space-y-4 mt-1">
+              {TESTER_PRESETS.map((preset) => (
+                <div key={preset.label} className="space-y-1">
+                  <p className="text-xs text-muted-foreground font-mono">{preset.label}</p>
+                  <p
+                    className={`${preset.className} text-foreground break-all ${preset.emphasize ? 'font-bold' : ''}`}
+                  >
+                    {previewText}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </DocSubsection>
+      )}
+
+      {showExplorer && selectedStyle && (
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
           <SheetContent
             side="bottom"
@@ -284,9 +293,9 @@ const TypographyDisplay: React.FC = () => {
               </SheetTitle>
             </SheetHeader>
 
-            <div className="py-4 doc-content-stack-tight">
+            <div className="py-3 doc-content-stack">
               <DocSubsection title="토큰 정보" className="gap-3" contentClassName="gap-3">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm font-semibold">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-sm font-semibold">
                   <div>
                     Style: <span className="font-normal">{selectedStyle.text_style}</span>
                   </div>
@@ -304,7 +313,7 @@ const TypographyDisplay: React.FC = () => {
 
               <DocSubsection title="한글 샘플" className="gap-2" contentClassName="gap-2">
                 <p
-                  className="p-4 rounded-md"
+                  className="p-3 rounded-md"
                   style={{
                     fontSize: `${selectedSize}px`,
                     lineHeight: `${selectedLineHeight}px`,
@@ -322,7 +331,7 @@ const TypographyDisplay: React.FC = () => {
 
               <DocSubsection title="영문 샘플" className="gap-2" contentClassName="gap-2">
                 <p
-                  className="p-4 rounded-md"
+                  className="p-3 rounded-md"
                   style={{
                     fontSize: `${selectedSize}px`,
                     lineHeight: `${selectedLineHeight}px`,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { FlaskConical } from 'lucide-react';
-import { useExperimental } from '../../contexts/ExperimentalContext';
+import { useExperimental } from '../../contexts/useExperimental';
+import { FEATURE_FLAGS } from '../../config/featureFlags';
 import {
     Tooltip,
     TooltipContent,
@@ -12,6 +13,10 @@ import { useLocation } from 'react-router-dom';
 export const ExperimentalToggle: React.FC = () => {
     const { isExperimental, toggleExperimental } = useExperimental();
     const location = useLocation();
+
+    if (!FEATURE_FLAGS.experimentalLab) {
+        return null;
+    }
 
     // 페이지별 실험 기능 개수 정의
     const experimentCounts: Record<string, number> = {

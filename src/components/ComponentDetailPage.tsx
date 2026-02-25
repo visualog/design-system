@@ -69,7 +69,7 @@ const TabsLivePreview: React.FC<{ variantName: string }> = ({ variantName }) => 
     const [activeTab, setActiveTab] = React.useState('tab1');
     const [patternTab, setPatternTab] = React.useState('account');
 
-    if (variantName === 'Settings Pattern') {
+    if (variantName === 'Underline Tabs') {
         const tabs = [
             { name: 'Account', value: 'account' },
             { name: 'Password', value: 'password' },
@@ -98,7 +98,7 @@ const TabsLivePreview: React.FC<{ variantName: string }> = ({ variantName }) => 
         );
     }
 
-    if (variantName === 'Animated Tabs (Basic)') {
+    if (variantName === 'Pill Tabs') {
         const tabs = [
             { name: 'Tab 1', value: 'tab1' },
             { name: 'Tab 2', value: 'tab2' },

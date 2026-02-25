@@ -3,9 +3,9 @@ import { DoDont, DoDontContainer } from './ui/DoDont';
 
 const SpacingUsage: React.FC = () => {
     return (
-        <div className="doc-content-stack-tight">
-            <section className="doc-subsection">
-                <h3 className="text-doc-subsection-title">간격 원칙 (Spacing Principles)</h3>
+        <div className="doc-content-stack">
+            <section className="doc-subsection doc-subsection-compact">
+                <p className="text-doc-section-title">간격 원칙 (Spacing Principles)</p>
                 <DoDontContainer>
                     <DoDont
                         type="do"
@@ -31,15 +31,15 @@ const SpacingUsage: React.FC = () => {
                 </DoDontContainer>
             </section>
 
-            <section className="doc-subsection">
-                <h3 className="text-doc-subsection-title">Gap vs Padding</h3>
+            <section className="doc-subsection doc-subsection-compact">
+                <p className="text-doc-section-title">Gap vs Padding</p>
                 <DoDontContainer>
                     <DoDont
                         type="do"
                         title="컨테이너 내부 여백은 Padding"
                         description="요소의 내부 콘텐츠와 경계 사이의 공간은 Padding으로 처리합니다. (예: 카드 내부, 버튼 내부)"
                     >
-                        <div className="p-8 bg-white border rounded-md shadow-sm h-full">
+                        <div className="p-8 h-full flex items-center justify-center">
                             <div className="bg-blue-100 border-2 border-blue-400 p-4 rounded text-blue-800 text-center font-bold">
                                 Padding
                                 <div className="bg-white p-2 mt-2 text-sm font-normal">Content</div>
@@ -51,7 +51,7 @@ const SpacingUsage: React.FC = () => {
                         title="요소 간 간격은 Gap/Margin"
                         description="같은 레벨의 형제 요소들 사이의 간격은 Flex/Grid Gap 또는 Margin을 사용합니다."
                     >
-                        <div className="p-8 bg-white border rounded-md shadow-sm flex gap-4 h-full">
+                        <div className="p-8 flex gap-4 h-full">
                             <div className="bg-green-100 border-2 border-green-400 p-4 rounded text-green-800 flex-1 text-center flex items-center justify-center">Item A</div>
                             <div className="w-4 border-x border-dashed border-gray-400 flex items-center justify-center bg-gray-50 text-xs text-gray-500 shrink-0">Gap</div>
                             <div className="bg-green-100 border-2 border-green-400 p-4 rounded text-green-800 flex-1 text-center flex items-center justify-center">Item B</div>

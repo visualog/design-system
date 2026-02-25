@@ -45,14 +45,14 @@ const MotionDisplay: React.FC = () => {
     };
 
     return (
-        <div className="doc-content-stack-tight font-pretendard">
+        <div className="doc-content-stack font-pretendard">
             <DocSubsection
                 title="인터랙션 플레이그라운드"
                 description="지속 시간과 가속도 토큰 조합을 직접 바꿔보며 모션의 체감 차이를 확인합니다."
             >
-                <div className="border border-border rounded-xl p-8 bg-muted/10 flex flex-col gap-8">
-                    <div className="flex flex-col md:flex-row gap-8 items-center justify-between">
-                        <div className="flex flex-col gap-4 w-full md:w-1/3">
+                <div className="border border-border rounded-xl p-6 bg-muted/10 flex flex-col gap-6">
+                    <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
+                        <div className="flex flex-col gap-3 w-full md:w-1/3">
                             <div className="space-y-2">
                                 <label className="text-sm font-semibold">지속 시간 토큰 (Duration)</label>
                                 <div className="flex flex-wrap gap-2">
@@ -93,13 +93,13 @@ const MotionDisplay: React.FC = () => {
                                 </div>
                             </div>
 
-                            <Button onClick={handlePlayAnimation} className="mt-4 gap-2">
+                            <Button onClick={handlePlayAnimation} className="mt-2 gap-2">
                                 <RefreshCw className={`h-4 w-4 ${isAnimating ? 'animate-spin' : ''}`} />
                                 애니메이션 재생
                             </Button>
                         </div>
 
-                        <div className="flex-1 w-full h-64 bg-white border border-border rounded-lg relative overflow-hidden flex items-center px-12 shadow-inner">
+                        <div className="flex-1 w-full h-56 bg-white border border-border rounded-lg relative overflow-hidden flex items-center px-8 shadow-inner">
                             <div
                                 className="w-16 h-16 bg-primary rounded-xl shadow-lg flex items-center justify-center text-primary-foreground font-bold"
                                 style={{

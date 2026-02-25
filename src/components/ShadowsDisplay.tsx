@@ -31,7 +31,7 @@ const ShadowsDisplay: React.FC = () => {
     const container = containerRef.current;
 
     // Get dimensions
-    const padding = 32; // p-8
+    const padding = 24; // p-6
     const firstItem = itemRefs.current[0];
     if (!firstItem) return;
 
@@ -82,7 +82,7 @@ const ShadowsDisplay: React.FC = () => {
   const isHovering = Object.keys(hoverStyles).length > 0;
 
   return (
-    <div className="doc-content-stack-tight font-pretendard">
+    <div className="doc-content-stack font-pretendard">
       <style>{`
         @keyframes shadow-fade {
           0% { opacity: 0; }
@@ -95,16 +95,16 @@ const ShadowsDisplay: React.FC = () => {
       {/* Visual Overview */}
       <section className="doc-subsection">
         <div className="flex flex-col gap-2">
-          <h2 className="text-doc-subsection-title">스케일</h2>
+          <h2 className="text-doc-section-title">스케일</h2>
         </div>
 
         <div
           ref={containerRef}
-          className="w-full border border-border rounded-xl bg-secondary p-8 cursor-default group relative"
+          className="w-full border border-border rounded-xl bg-secondary p-6 cursor-default group relative"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {shadows.shadow_tokens.map((shadow, index: number) => (
               <div
                 key={index}
@@ -137,8 +137,8 @@ const ShadowsDisplay: React.FC = () => {
 
       {/* Interactive Playground */}
       <section className="doc-subsection">
-        <h2 className="text-doc-subsection-title">인터랙티브 플레이그라운드</h2>
-        <div className="bg-secondary/10 border border-border rounded-xl p-10 flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden">
+        <h2 className="text-doc-section-title">인터랙티브 플레이그라운드</h2>
+        <div className="bg-secondary/10 border border-border rounded-xl p-6 flex flex-col items-center justify-center min-h-[260px] relative overflow-hidden">
           <div className="absolute inset-0 bg-grid-slate-200/50 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] dark:bg-grid-slate-800/20" />
 
           <div id="shadow-card" className="bg-card w-48 h-48 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 z-10 shadow-sm border border-border">
@@ -146,7 +146,7 @@ const ShadowsDisplay: React.FC = () => {
             <span className="text-xs text-muted-foreground" id="shadow-label">shadow-sm</span>
           </div>
 
-          <div className="mt-10 z-10 flex gap-2 bg-background/80 backdrop-blur p-2 rounded-lg border border-border shadow-sm">
+          <div className="mt-6 z-10 flex gap-2 bg-background/80 backdrop-blur p-2 rounded-lg border border-border shadow-sm">
             {['shadow-none', 'shadow-sm', 'shadow-md', 'shadow-lg', 'shadow-xl', 'shadow-2xl'].map((shadow) => (
               <button
                 key={shadow}
@@ -169,7 +169,7 @@ const ShadowsDisplay: React.FC = () => {
 
       {/* Token Table */}
       <section className="doc-subsection">
-        <h2 className="text-doc-subsection-title">토큰</h2>
+        <h2 className="text-doc-section-title">토큰</h2>
         <div className="overflow-hidden">
           <Table>
             <TableHeader>

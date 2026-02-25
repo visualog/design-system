@@ -536,7 +536,7 @@ export function Example() {
         ],
         variants: [
             {
-                name: 'Basic Tabs', description: '기본적인 탭 컴포넌트 (Radix UI 기반)', code: `<Tabs defaultValue="tab1">
+                name: 'Segmented Tabs', description: '분할형(세그먼트) 탭 컴포넌트 (Radix UI 기반)', code: `<Tabs defaultValue="tab1">
     <TabsList>
         <TabsTrigger value="tab1">Tab 1</TabsTrigger>
         <TabsTrigger value="tab2">Tab 2</TabsTrigger>
@@ -545,7 +545,7 @@ export function Example() {
     <TabsContent value="tab2">Content 2</TabsContent>
 </Tabs>` },
             {
-                name: 'Animated Tabs (Basic)', description: '애니메이션이 적용된 기본 탭', code: `<AnimatedTabs 
+                name: 'Pill Tabs', description: '필(알약) 형태의 애니메이션 탭', code: `<AnimatedTabs 
     tabs={[
         { name: 'Tab 1', value: 'tab1' }, 
         { name: 'Tab 2', value: 'tab2' }
@@ -559,7 +559,7 @@ export function Example() {
     </div>
 </AnimatedTabs>` },
             {
-                name: 'Settings Pattern', description: '설정 페이지 등에서 사용되는 고도화된 패턴', code: `<AnimatedTabs 
+                name: 'Underline Tabs', description: '언더라인/인디케이터 중심의 탭 패턴', code: `<AnimatedTabs 
     tabs={[
         { name: 'Account', value: 'account' }, 
         { name: 'Password', value: 'password' },

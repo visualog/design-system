@@ -31,9 +31,9 @@ export interface AnatomyVariantOption {
 
 const anatomyVariantOptionsMap: Record<string, AnatomyVariantOption[]> = {
     tabs: [
-        { value: 'segmented', label: 'Basic Tabs' },
-        { value: 'pill', label: 'Animated Tabs (Basic)' },
-        { value: 'line', label: 'Settings Pattern' },
+        { value: 'segmented', label: 'Segmented Tabs' },
+        { value: 'pill', label: 'Pill Tabs' },
+        { value: 'line', label: 'Underline Tabs' },
     ],
     'animated-tabs': [
         { value: 'segmented', label: 'Default' },

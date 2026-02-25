@@ -1,33 +1,42 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { showExperimentalToast } from '../utils/experimentalToast';
 import { useLocation } from 'react-router-dom';
-
-interface ExperimentalContextType {
-    isExperimental: boolean;
-    toggleExperimental: () => void;
-}
-
-const ExperimentalContext = createContext<ExperimentalContextType | undefined>(undefined);
+import { FEATURE_FLAGS } from '../config/featureFlags';
+import { ExperimentalContext } from './experimentalContextStore';
 
 export const ExperimentalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [isExperimental, setIsExperimental] = useState(false);
+    const [isExperimental, setIsExperimental] = useState<boolean>(() => {
+        if (!FEATURE_FLAGS.experimentalLab || typeof window === 'undefined') {
+            return false;
+        }
+
+        const stored = window.localStorage.getItem('experimental-design');
+        return stored === 'true' || window.document.documentElement.classList.contains('experimental-design');
+    });
     const location = useLocation();
 
     useEffect(() => {
-        const stored = localStorage.getItem('experimental-design');
-        if (stored === 'true' || document.documentElement.classList.contains('experimental-design')) {
-            document.documentElement.classList.add('experimental-design');
-            setIsExperimental(true);
+        if (!FEATURE_FLAGS.experimentalLab) {
+            document.documentElement.classList.remove('experimental-design');
+            localStorage.removeItem('experimental-design');
+            return;
         }
-    }, []);
 
-    const toggleExperimental = () => {
-        const newVal = !isExperimental;
-        if (newVal) {
+        if (isExperimental) {
             document.documentElement.classList.add('experimental-design');
-            showExperimentalToast(location.pathname);
         } else {
             document.documentElement.classList.remove('experimental-design');
+        }
+    }, [isExperimental]);
+
+    const toggleExperimental = () => {
+        if (!FEATURE_FLAGS.experimentalLab) {
+            return;
+        }
+
+        const newVal = !isExperimental;
+        if (newVal) {
+            showExperimentalToast(location.pathname);
         }
         localStorage.setItem('experimental-design', newVal ? 'true' : 'false');
         setIsExperimental(newVal);
@@ -38,12 +47,4 @@ export const ExperimentalProvider: React.FC<{ children: React.ReactNode }> = ({ 
             {children}
         </ExperimentalContext.Provider>
     );
-};
-
-export const useExperimental = () => {
-    const context = useContext(ExperimentalContext);
-    if (context === undefined) {
-        throw new Error('useExperimental must be used within an ExperimentalProvider');
-    }
-    return context;
 };

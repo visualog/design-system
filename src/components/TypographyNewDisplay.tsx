@@ -90,7 +90,7 @@ const TypographyNewDisplay: React.FC = () => {
                 title="타이포그래피 기초"
                 description="가독성과 시각적 균형을 최우선으로 설계된 Pretendard 기반 타이포그래피 시스템입니다."
             >
-                <div className="flex flex-wrap items-center gap-6">
+                <div className="flex flex-wrap items-center gap-4">
                     <div className="flex items-center gap-2 text-sm bg-muted/50 px-3 py-1.5 rounded-full border border-border/50">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                         <span className="text-muted-foreground">Variable Font</span>
@@ -111,7 +111,7 @@ const TypographyNewDisplay: React.FC = () => {
                         type="text"
                         value={previewText}
                         onChange={(e) => setPreviewText(e.target.value)}
-                        className="w-full bg-background border border-input hover:border-border rounded-xl px-5 py-4 text-sm focus:ring-4 focus:ring-primary/5 transition-all outline-none pr-12"
+                        className="w-full bg-background border border-input hover:border-border rounded-xl px-4 py-3 text-sm focus:ring-4 focus:ring-primary/5 transition-all outline-none pr-12"
                         placeholder="Type to preview styles..."
                     />
                     <Type className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/30 group-focus-within:text-primary transition-colors" />
@@ -147,7 +147,7 @@ const TypographyNewDisplay: React.FC = () => {
                                                 className="group cursor-pointer hover:bg-secondary/20 transition-all duration-200 border-b border-border/30 last:border-none"
                                             >
                                                 {/* Visual Preview Cell */}
-                                                <TableCell className="py-10 align-top">
+                                                <TableCell className="py-6 align-top">
                                                     <div className="flex flex-col gap-4">
                                                         <div
                                                             className="flex flex-col leading-tight"
@@ -169,7 +169,7 @@ const TypographyNewDisplay: React.FC = () => {
                                                 </TableCell>
 
                                                 {/* Token Name Cell */}
-                                                <TableCell className="align-top py-10">
+                                                <TableCell className="align-top py-6">
                                                     <div className="flex flex-col gap-2">
                                                         <div className="inline-flex items-center gap-2 text-sm font-mono font-bold text-foreground group-hover:text-primary transition-colors">
                                                             {style.style_name}
@@ -179,8 +179,8 @@ const TypographyNewDisplay: React.FC = () => {
                                                 </TableCell>
 
                                                 {/* Specifications Cell */}
-                                                <TableCell className="align-top py-10 text-right">
-                                                    <div className="flex flex-col items-end gap-3 max-w-[240px] ml-auto">
+                                                <TableCell className="align-top py-6 text-right">
+                                                    <div className="flex flex-col items-end gap-2 max-w-[240px] ml-auto">
                                                         <div className="flex flex-col items-end gap-1">
                                                             <span className="text-[11px] text-muted-foreground leading-tight">{usage.ko}</span>
                                                         </div>
@@ -205,14 +205,14 @@ const TypographyNewDisplay: React.FC = () => {
                 title="타이포그래피 설계 원칙"
                 description="모든 서체 스타일은 미학적 완성도와 기능적 명확성을 동시에 만족하도록 설계합니다."
             >
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {[
                         { title: 'Readability First', desc: '정보 전달의 명확성을 위해 최적의 여백과 대비를 제공하여 사용자의 피로도를 낮춥니다.' },
                         { title: 'Visual Hierarchy', desc: '일관된 서체 두께와 크기 체계를 활용하여 사용자의 시선을 효과적으로 유도합니다.' },
                         { title: 'Accessibility', desc: '모든 사용자가 정보를 쉽고 정확하게 인지할 수 있도록 엄격한 타이포그래피 규칙을 준수합니다.' }
                     ].map((principle) => (
-                        <div key={principle.title} className="flex flex-col gap-3 rounded-xl border bg-card p-5">
-                            <h3 className="text-lg font-bold">{principle.title}</h3>
+                        <div key={principle.title} className="flex flex-col gap-2 rounded-xl border bg-card p-4">
+                            <h3 className="text-base font-bold">{principle.title}</h3>
                             <p className="text-sm text-muted-foreground leading-relaxed">{principle.desc}</p>
                         </div>
                     ))}

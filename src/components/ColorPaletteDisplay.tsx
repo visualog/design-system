@@ -81,7 +81,6 @@ const ColorGrid: React.FC<{
                       <div className="flex flex-col gap-1 text-center p-1">
                         <span className="font-mono text-xs">{familyName}/{String(shade.level).replace(/\s\(.*\)/, '')}</span>
                         <span className="font-bold">{isDarkMode ? (shade.hexDark || shade.hex) : shade.hex}</span>
-                        {isDarkMode && shade.hexDark && <span className="text-[10px] text-gray-400">(Dark)</span>}
                       </div>
                     </TooltipContent>
                   </Tooltip>
@@ -148,7 +147,6 @@ const TokensDisplay: React.FC<{ colors: any; searchTerm: string; isDarkMode: boo
                   <TableCell className="px-4 font-mono text-xs text-muted-foreground whitespace-nowrap">
                     <div className="flex items-center">
                       <span className="font-mono"><HighlightText text={displayHex} highlight={searchTerm} /></span>
-                      {isDarkMode && color.hexDark && <span className="text-[10px] text-gray-400 ml-1">(Dark)</span>}
                     </div>
                   </TableCell>
                 </TableRow>
@@ -163,13 +161,23 @@ const TokensDisplay: React.FC<{ colors: any; searchTerm: string; isDarkMode: boo
 // --- Main component, restructured ---
 interface ColorPaletteDisplayProps {
   view?: 'all' | 'grid' | 'table';
+  isDarkMode?: boolean;
+  onDarkModeChange?: (checked: boolean) => void;
+  showDarkModeControl?: boolean;
 }
 
-const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' }) => {
+const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({
+  view = 'all',
+  isDarkMode: controlledDarkMode,
+  onDarkModeChange,
+  showDarkModeControl = true
+}) => {
   const { colors } = designSystemData;
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>(['All']);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [internalDarkMode, setInternalDarkMode] = useState(false);
+  const isDarkMode = controlledDarkMode ?? internalDarkMode;
+  const setDarkMode = onDarkModeChange ?? setInternalDarkMode;
 
   const allShades = Object.values(colors.palette).flat();
   const allLevels = [...new Set(allShades.map((s: any) => s.level))];
@@ -252,19 +260,23 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
   return (
     <div className="flex flex-col gap-12">
       {view !== 'table' && (
-        <div className="mt-4 flex flex-col gap-6">
+        <div className="flex flex-col gap-6">
           <div className="flex items-center gap-1">
             <div className="w-24 flex-shrink-0 flex items-center justify-start pl-1">
               <div className="flex items-center gap-2">
-                <Switch
-                  checked={isDarkMode}
-                  onCheckedChange={setIsDarkMode}
-                  id="dark-mode"
-                  className="h-5 w-9"
-                />
-                <label htmlFor="dark-mode" className="text-xs font-medium leading-none cursor-pointer whitespace-nowrap text-gray-500">
-                  {isDarkMode ? 'Dark' : 'Light'}
-                </label>
+                {showDarkModeControl && (
+                  <>
+                    <Switch
+                      checked={isDarkMode}
+                      onCheckedChange={setDarkMode}
+                      id="dark-mode"
+                      className="h-5 w-9"
+                    />
+                    <label htmlFor="dark-mode" className="text-xs font-medium leading-none cursor-pointer whitespace-nowrap text-muted-foreground">
+                      {isDarkMode ? 'Dark' : 'Light'}
+                    </label>
+                  </>
+                )}
               </div>
             </div>
             <div className="flex-1 flex gap-1">
@@ -338,16 +350,18 @@ const ColorPaletteDisplay: React.FC<ColorPaletteDisplayProps> = ({ view = 'all' 
               onChange={(e) => setSearchTerm(e.target.value)}
             />
 
-            <div className="flex items-center gap-2 ml-auto">
-              <Switch
-                checked={isDarkMode}
-                onCheckedChange={setIsDarkMode}
-                id="dark-mode-table"
-              />
-              <label htmlFor="dark-mode-table" className="text-xs font-medium leading-none cursor-pointer whitespace-nowrap text-gray-500">
-                {isDarkMode ? 'Dark' : 'Light'}
-              </label>
-            </div>
+            {showDarkModeControl && (
+              <div className="flex items-center gap-2 ml-auto">
+                <Switch
+                  checked={isDarkMode}
+                  onCheckedChange={setDarkMode}
+                  id="dark-mode-table"
+                />
+                <label htmlFor="dark-mode-table" className="text-xs font-medium leading-none cursor-pointer whitespace-nowrap text-muted-foreground">
+                  {isDarkMode ? 'Dark' : 'Light'}
+                </label>
+              </div>
+            )}
           </div>
           <TokensDisplay colors={filteredColors} searchTerm={searchTerm} isDarkMode={isDarkMode} />
         </section>

@@ -3,9 +3,9 @@ import { DoDont, DoDontContainer } from './ui/DoDont';
 
 const TypographyUsage: React.FC = () => {
     return (
-        <div className="doc-content-stack-tight">
-            <section className="doc-subsection">
-                <h3 className="text-doc-subsection-title">계층 구조 (Hierarchy)</h3>
+        <div className="doc-content-stack">
+            <section className="doc-subsection doc-subsection-compact">
+                <p className="text-doc-section-title">계층 구조 (Hierarchy)</p>
                 <DoDontContainer>
                     <DoDont
                         type="do"
@@ -31,8 +31,8 @@ const TypographyUsage: React.FC = () => {
                 </DoDontContainer>
             </section>
 
-            <section className="doc-subsection">
-                <h3 className="text-doc-subsection-title">가독성 (Readability)</h3>
+            <section className="doc-subsection doc-subsection-compact">
+                <p className="text-doc-section-title">가독성 (Readability)</p>
                 <DoDontContainer>
                     <DoDont
                         type="do"
