@@ -36,7 +36,10 @@ const LoginPage: React.FC = () => {
             return;
         }
 
-        if (!email.toLowerCase().endsWith('@fasoo.com')) {
+        // Login과 동일하게 도메인 미입력 시 자동 보정
+        const fullEmail = email.includes('@') ? email : `${email}@fasoo.com`;
+
+        if (!fullEmail.toLowerCase().endsWith('@fasoo.com')) {
             setError('@fasoo.com 계정만 처리 가능합니다.');
             return;
         }
@@ -44,7 +47,7 @@ const LoginPage: React.FC = () => {
         setIsLoading(true);
         setError(null);
         try {
-            await sendPasswordResetEmail(email);
+            await sendPasswordResetEmail(fullEmail);
             setInfoMessage('비밀번호 재설정 이메일이 발송되었습니다. 메일함을 확인해 주세요.');
             setIsLoading(false);
         } catch (err: any) {
