@@ -7,14 +7,36 @@ const Breadcrumb: React.FC = () => {
   const rawPathnames = location.pathname.split('/').filter((x) => x);
 
   const foundationPaths = ["overview", "colors", "typography", "spacing", "layout", "radius", "icons", "shadows"];
+  const isGuideComponentsPath = rawPathnames[0] === 'guide' && rawPathnames[1] === 'components';
 
-  const pathMapping: Record<string, string> = {};
+  const pathMapping: Record<string, string> = {
+    foundation: 'Foundation',
+    overview: 'Overview',
+    colors: 'Colors',
+    typography: 'Typography',
+    spacing: 'Spacing',
+    layout: 'Layout',
+    radius: 'Radius',
+    icons: 'Icons',
+    shadows: 'Shadows',
+    guide: 'Guide',
+    components: 'Components',
+    button: 'Button',
+    'site-settings': 'Site Settings',
+    theme: 'Theme',
+    component: 'Components',
+  };
 
   let displayPathnames = [...rawPathnames];
 
   // Handle root path ('/') as Foundation > Overview
   if (rawPathnames.length === 0) {
     displayPathnames = ['foundation', 'overview'];
+  } else if (isGuideComponentsPath) {
+    displayPathnames = ['components'];
+    if (rawPathnames[2]) {
+      displayPathnames.push(rawPathnames[2]);
+    }
   } else if (rawPathnames.length > 0 && foundationPaths.includes(rawPathnames[0])) {
     displayPathnames.unshift("foundation");
   }
@@ -45,6 +67,10 @@ const Breadcrumb: React.FC = () => {
             } else {
               currentPathSegment = value;
               currentTo = `/${value}`;
+            }
+
+            if (isGuideComponentsPath && currentPathSegment === 'components') {
+              currentTo = '/guide/components';
             }
           }
 

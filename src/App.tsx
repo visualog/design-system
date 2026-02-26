@@ -25,6 +25,7 @@ import SiteThemePage from './components/SiteThemePage';
 import SiteLayoutPage from './components/SiteLayoutPage';
 import SiteTypographyPage from './components/SiteTypographyPage';
 import ComponentDetailPage from './components/ComponentDetailPage';
+import GuideButtonPage from './components/GuideButtonPage';
 
 import { GridOverlay } from './components/ui/GridOverlay';
 
@@ -107,6 +108,8 @@ function App() {
                           <Route path="/motion" element={<MainContent maxWidth="wide"><MotionPage /></MainContent>} />
                           <Route path="/icons" element={<MainContent maxWidth="wide"><IconsPage /></MainContent>} />
                           <Route path="/shadows" element={<MainContent maxWidth="wide"><ShadowsPage /></MainContent>} />
+                          <Route path="/guide/components" element={<MainContent maxWidth="wide"><GuideButtonPage /></MainContent>} />
+                          <Route path="/guide/components/button" element={<MainContent maxWidth="wide"><GuideButtonPage /></MainContent>} />
                           <Route path="/site-settings" element={<MainContent><SiteSettingsPage /></MainContent>} />
                           <Route path="/site-settings/components" element={<MainContent maxWidth="wide"><SiteComponentsPage /></MainContent>} />
                           <Route path="/site-settings/theme" element={<MainContent maxWidth="wide"><SiteThemePage /></MainContent>} />

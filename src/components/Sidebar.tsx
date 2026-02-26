@@ -14,19 +14,22 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, toggleGrid }) => {
   const { logout } = useAuth();
   const location = useLocation();
-  const foundationPaths = ["/colors", "/typography", "/spacing", "/radius", "/icons", "/shadows"];
+  const foundationPaths = ["/overview", "/colors", "/typography", "/spacing", "/layout", "/radius", "/icons", "/shadows"];
+  const componentsPaths = ["/guide/components"];
   const settingsPaths = ["/site-settings"];
   const [isFoundationOpen, setIsFoundationOpen] = useState(false);
+  const [isComponentsOpen, setIsComponentsOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   useEffect(() => {
-    // If the root or a sub-path of foundation is active on load, open the foundation menu
-    if (location.pathname === '/' || foundationPaths.some(p => location.pathname.startsWith(p))) {
-      setIsFoundationOpen(true);
-    }
-    if (settingsPaths.some(p => location.pathname.startsWith(p))) {
-      setIsSettingsOpen(true);
-    }
+    // Auto-open only the active section based on current route.
+    const isFoundationPath = location.pathname === '/' || foundationPaths.some(p => location.pathname.startsWith(p));
+    const isComponentsPath = componentsPaths.some(p => location.pathname.startsWith(p));
+    const isSettingsPath = settingsPaths.some(p => location.pathname.startsWith(p));
+
+    setIsFoundationOpen(isFoundationPath);
+    setIsComponentsOpen(isComponentsPath);
+    setIsSettingsOpen(isSettingsPath);
   }, [location.pathname]); // Re-evaluate when pathname changes
 
   // Dark mode state init
@@ -67,7 +70,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
     checkScroll();
     window.addEventListener('resize', checkScroll);
     return () => window.removeEventListener('resize', checkScroll);
-  }, [isFoundationOpen]); // Re-check when menu expands/collapses
+  }, [isFoundationOpen, isComponentsOpen, isSettingsOpen]); // Re-check when menu expands/collapses
 
   // Use ResizeObserver for robust layout change detection
   useEffect(() => {
@@ -87,6 +90,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
 
   const toggleFoundationMenu = () => {
     setIsFoundationOpen(!isFoundationOpen);
+  };
+
+  const toggleComponentsMenu = () => {
+    setIsComponentsOpen(!isComponentsOpen);
   };
 
   const toggleSettingsMenu = () => {
@@ -179,6 +186,30 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, showGrid, togg
                     </li>
                     <li>
                       <NavLink to="/shadows" className={({ isActive }) => isActive ? activeClassName : inactiveClassName} onClick={toggleSidebar}>Shadows</NavLink>
+                    </li>
+                  </ul>
+                )}
+              </li>
+              <li className="flex flex-col gap-0">
+                <button
+                  onClick={toggleComponentsMenu}
+                  className="w-full flex items-center justify-between text-label-md text-foreground px-2 h-10 rounded-lg hover:bg-accent"
+                >
+                  <span>Components</span>
+                  <ChevronDown
+                    className={`w-5 h-5 transition-transform duration-200 ${isComponentsOpen ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                {isComponentsOpen && (
+                  <ul className="pl-4 flex flex-col gap-0">
+                    <li>
+                      <NavLink
+                        to="/guide/components/button"
+                        className={({ isActive }) => isActive ? activeClassName : inactiveClassName}
+                        onClick={toggleSidebar}
+                      >
+                        Button
+                      </NavLink>
                     </li>
                   </ul>
                 )}

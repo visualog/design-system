@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { BookOpen, ChevronDown } from 'lucide-react';
+import { Accessibility, BookOpen, Brush, ChevronDown, Code2, Eye, Layers3, Zap } from 'lucide-react';
 import { FoundationPageLayout } from './FoundationPageLayout';
 import { PrinciplesSection, type PrincipleItem } from './ui/PrinciplesSection';
 import { DoDont, DoDontContainer } from './ui/DoDont';
@@ -50,19 +50,23 @@ const IntroductionPage: React.FC = () => {
 
     const corePrinciples: PrincipleItem[] = [
         {
-            title: 'Clarity (명료함)',
+            icon: Eye,
+            title: '명료함 (Clarity)',
             description: 'UI의 모든 요소는 사용자에게 명확한 의도를 전달해야 합니다. 불필요한 장식을 배제하고 핵심적인 정보와 액션에 집중합니다.'
         },
         {
-            title: 'Efficiency (효율성)',
+            icon: Zap,
+            title: '효율성 (Efficiency)',
             description: '재사용 가능한 컴포넌트와 표준화된 토큰을 통해 설계 및 개발 프로세스를 가속화하고 휴먼 에러를 최소화합니다.'
         },
         {
-            title: 'Consistency (일관성)',
+            icon: Layers3,
+            title: '일관성 (Consistency)',
             description: '플랫폼과 제품 전반에 걸쳐 시각적 언어와 인터랙션 모델을 통일하여 사용자에게 예측 가능하고 신뢰할 수 있는 경험을 제공합니다.'
         },
         {
-            title: 'Accessibility (접근성)',
+            icon: Accessibility,
+            title: '접근성 (Accessibility)',
             description: (
                 <>
                     다양한 신체적 조건과 환경의 사용자를 고려하여 설계합니다.{' '}
@@ -96,7 +100,7 @@ const IntroductionPage: React.FC = () => {
                 title="디자인 원칙"
                 description="우리의 모든 의사결정은 아래의 네 가지 핵심 원칙을 기반으로 이루어집니다."
             >
-                <PrinciplesSection items={corePrinciples} variant="list" />
+                <PrinciplesSection items={corePrinciples} variant="card" className="gap-4 md:gap-6" />
             </DocSection>
 
             {/* System Goals */}
@@ -104,22 +108,46 @@ const IntroductionPage: React.FC = () => {
                 title="시스템 목표"
                 description="디자인 시스템이 디자이너와 개발자의 업무 효율과 결과 품질을 어떻게 높이는지 설명합니다."
             >
-                <div className="flex flex-col gap-4">
-                    <section className="flex flex-col gap-2">
-                        <h3 className="text-doc-subsection-title pl-5">디자이너를 위한 목표</h3>
-                        <ul className="ml-5 list-disc pl-5 flex flex-col gap-1 text-doc-body text-muted-foreground">
-                            <li>반복적인 UI 설계 시간을 줄이고 사용자 경험 개선에 집중합니다.</li>
-                            <li>컴포넌트 라이브러리와 가이드를 통해 설계 일관성을 유지합니다.</li>
-                            <li>표준 토큰으로 개발자와의 핸드오프 정확도를 높입니다.</li>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <section className="rounded-xl border border-border/70 bg-card p-5 md:p-6 flex flex-col gap-4">
+                        <h3 className="text-doc-subsection-title flex items-center gap-2 text-foreground">
+                            <Brush className="h-4 w-4 text-primary" aria-hidden="true" />
+                            디자이너를 위한 목표
+                        </h3>
+                        <ul className="flex flex-col gap-3 text-doc-body text-muted-foreground">
+                            <li className="flex items-start gap-2.5">
+                                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-muted-foreground/70 shrink-0" aria-hidden="true" />
+                                <span>반복적인 UI 설계 시간을 줄이고 사용자 경험 개선에 집중합니다.</span>
+                            </li>
+                            <li className="flex items-start gap-2.5">
+                                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-muted-foreground/70 shrink-0" aria-hidden="true" />
+                                <span>컴포넌트 라이브러리와 가이드를 통해 설계 일관성을 유지합니다.</span>
+                            </li>
+                            <li className="flex items-start gap-2.5">
+                                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-muted-foreground/70 shrink-0" aria-hidden="true" />
+                                <span>표준 토큰으로 개발자와의 핸드오프 정확도를 높입니다.</span>
+                            </li>
                         </ul>
                     </section>
 
-                    <section className="flex flex-col gap-2">
-                        <h3 className="text-doc-subsection-title pl-5">개발자를 위한 목표</h3>
-                        <ul className="ml-5 list-disc pl-5 flex flex-col gap-1 text-doc-body text-muted-foreground">
-                            <li>문서화된 API와 Props로 구현 의사결정 부담을 줄입니다.</li>
-                            <li>상태와 접근성이 반영된 컴포넌트를 즉시 재사용합니다.</li>
-                            <li>테마 시스템으로 스타일 변경과 확장에 유연하게 대응합니다.</li>
+                    <section className="rounded-xl border border-border/70 bg-card p-5 md:p-6 flex flex-col gap-4">
+                        <h3 className="text-doc-subsection-title flex items-center gap-2 text-foreground">
+                            <Code2 className="h-4 w-4 text-primary" aria-hidden="true" />
+                            개발자를 위한 목표
+                        </h3>
+                        <ul className="flex flex-col gap-3 text-doc-body text-muted-foreground">
+                            <li className="flex items-start gap-2.5">
+                                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-muted-foreground/70 shrink-0" aria-hidden="true" />
+                                <span>문서화된 API와 Props로 구현 의사결정 부담을 줄입니다.</span>
+                            </li>
+                            <li className="flex items-start gap-2.5">
+                                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-muted-foreground/70 shrink-0" aria-hidden="true" />
+                                <span>상태와 접근성이 반영된 컴포넌트를 즉시 재사용합니다.</span>
+                            </li>
+                            <li className="flex items-start gap-2.5">
+                                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-muted-foreground/70 shrink-0" aria-hidden="true" />
+                                <span>테마 시스템으로 스타일 변경과 확장에 유연하게 대응합니다.</span>
+                            </li>
                         </ul>
                     </section>
                 </div>
@@ -128,14 +156,16 @@ const IntroductionPage: React.FC = () => {
             {/* Getting Started Brief */}
             <DocSection
                 title="빠른 시작 가이드"
+                description="첫 적용 시 가장 자주 마주치는 선택 기준을 권장/주의 사례로 빠르게 확인하세요."
             >
-                <DoDontContainer>
+                <DoDontContainer className="gap-4 md:gap-6">
                     <DoDont
                         type="do"
                         title="시스템 토큰 사용 생활화"
                         description="모든 크기, 간격, 컬러는 정의된 토큰을 사용하여 일관성을 유지하세요."
+                        withStage
                     >
-                        <div className="text-xs bg-primary/10 p-2 rounded text-primary border border-primary/20 font-mono">
+                        <div className="text-xs md:text-sm bg-primary/10 p-2 rounded text-primary border border-primary/20 font-mono">
                             hsl(var(--primary))
                         </div>
                     </DoDont>
@@ -143,15 +173,16 @@ const IntroductionPage: React.FC = () => {
                         type="dont"
                         title="독자적인 컴포넌트 생성 지양"
                         description="비슷한 기능이 시스템에 이미 존재한다면 가급적 기존 컴포넌트를 확장하여 사용하세요."
+                        withStage
                     >
-                        <div className="text-xs bg-destructive/10 p-2 rounded text-destructive border border-destructive/20 font-mono line-through">
+                        <div className="text-xs md:text-sm bg-destructive/10 p-2 rounded text-destructive border border-destructive/20 font-mono line-through">
                             color: '#ff0000'
                         </div>
                     </DoDont>
                 </DoDontContainer>
             </DocSection>
 
-            <section id="wcag-2-1-note" ref={wcagNoteRef} className="doc-section mt-8 border-t border-border/40 pt-8">
+            <section id="wcag-2-1-note" ref={wcagNoteRef} className="doc-section mt-4 border-t border-border/40 pt-8">
                 <div className="doc-section-content flex flex-col gap-4">
                     <div
                         className={`w-full rounded-xl border overflow-hidden transition-colors duration-300 ${
@@ -163,7 +194,7 @@ const IntroductionPage: React.FC = () => {
                             aria-expanded={isWcagNoteOpen}
                             aria-controls="wcag-2-1-note-content"
                             onClick={() => setIsWcagNoteOpen((prev) => !prev)}
-                            className="w-full px-4 py-4 text-left transition-colors hover:bg-muted/40"
+                            className="w-full px-4 py-4 text-left transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         >
                             <div className="flex items-center justify-between gap-4">
                                 <div className="flex items-center gap-3">
