@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Lock, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
 import { version } from '../../package.json';
-import { ParticleBackground } from './ui/ParticleBackground';
+import DeferredParticleBackground from './ui/DeferredParticleBackground';
 
 const LoginPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -71,7 +71,7 @@ const LoginPage: React.FC = () => {
             </div>
 
             {/* Interactive Particle Background */}
-            <ParticleBackground focusState={focusTarget} />
+            <DeferredParticleBackground focusState={focusTarget} />
 
             <div className="w-full max-w-sm z-10 animate-in fade-in zoom-in-95 duration-500">
                 <div className="bg-card border border-border shadow-[0_0_40px_-5px_rgba(0,0,0,0.1)] rounded-2xl p-8 backdrop-blur-sm bg-card/80">

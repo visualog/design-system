@@ -48,6 +48,14 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [newProposalText, setNewProposalText] = useState('');
     const [capturedSelector, setCapturedSelector] = useState('');
+    const adminEmails = React.useMemo(
+        () =>
+            (import.meta.env.VITE_PROPOSAL_ADMIN_EMAILS || '')
+                .split(',')
+                .map((email: string) => email.trim().toLowerCase())
+                .filter(Boolean),
+        []
+    );
 
     const proposalCount = proposals.length;
 
@@ -162,10 +170,23 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
         setIsAddDialogOpen(false);
     };
 
-    const handleDelete = (id: string) => {
+    const canDeleteProposal = React.useCallback((proposal: Proposal | null) => {
+        if (!proposal || !user?.email) return false;
+        const currentUserEmail = user.email.toLowerCase();
+        const authorEmail = proposal.authorEmail?.toLowerCase();
+        const isAdmin = adminEmails.includes(currentUserEmail);
+        return isAdmin || (!!authorEmail && authorEmail === currentUserEmail);
+    }, [adminEmails, user?.email]);
+
+    const handleDelete = (proposal: Proposal) => {
+        if (!canDeleteProposal(proposal)) {
+            alert('작성자 또는 관리자만 삭제할 수 있습니다.');
+            return;
+        }
+
         if (window.confirm('정말 삭제하시겠습니까?')) {
-            removeProposal(id);
-            if (selectedProposal?.id === id) {
+            removeProposal(proposal.id);
+            if (selectedProposal?.id === proposal.id) {
                 setIsSheetOpen(false);
             }
         }
@@ -442,13 +463,15 @@ const ProposalNotification: React.FC<ProposalNotificationProps> = ({
                                         </p>
                                     )}
                                 </div>
-                                <button
-                                    onClick={() => handleDelete(selectedProposal.id)}
-                                    className="text-muted-foreground hover:text-red-500 p-1"
-                                    title="제안 삭제"
-                                >
-                                    <Trash2 size={16} />
-                                </button>
+                                {canDeleteProposal(selectedProposal) && (
+                                    <button
+                                        onClick={() => handleDelete(selectedProposal)}
+                                        className="text-muted-foreground hover:text-red-500 p-1"
+                                        title="제안 삭제"
+                                    >
+                                        <Trash2 size={16} />
+                                    </button>
+                                )}
                             </div>
 
 

@@ -1,4 +1,5 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
 import { RotateCcw } from 'lucide-react';
 import { SearchBar } from './SearchBar';
 import ColorSwatch from '@/components/ui/ColorSwatch';
@@ -74,7 +75,23 @@ interface IconSectionProps {
   searchInput?: React.ReactNode;
 }
 
-const allSvgModules = import.meta.glob<{ default: React.FC<React.SVGProps<SVGSVGElement>> }>('/src/assets/icons/**/*.svg', { eager: true });
+type SvgComponentType = React.FC<React.SVGProps<SVGSVGElement>>;
+type SvgModule = { default: SvgComponentType };
+type SvgLoader = () => Promise<SvgModule>;
+
+interface AsyncSvgIconProps {
+  filename: string;
+  category: IconCategory;
+  illustSubfolder?: string;
+  className?: string;
+  style?: CSSProperties;
+  width?: number;
+  height?: number;
+}
+
+const allSvgModules = import.meta.glob<SvgModule>('/src/assets/icons/**/*.svg');
+const svgComponentCache = new Map<string, SvgComponentType | null>();
+const missingSvgWarnings = new Set<string>();
 
 const DEFAULT_ICON_COLOR = '#374151';
 const DEFAULT_BG_COLOR = '#F3F4F6';
@@ -97,11 +114,11 @@ const ColorChipTrigger: React.FC<{ color: string }> = ({ color }) => (
   />
 );
 
-const getSvgComponentFromFilename = (
+const getSvgModuleKey = (
   filename: string,
   category: IconCategory,
   illustSubfolder?: string
-): React.FC<React.SVGProps<SVGSVGElement>> | null => {
+): string | null => {
   let modulePathPrefix: string;
 
   if (category === 'line') {
@@ -119,20 +136,71 @@ const getSvgComponentFromFilename = (
   }
 
   const fullModulePath = `${modulePathPrefix}${filename}.svg`.toLowerCase();
-  const moduleKey = Object.keys(allSvgModules).find((key) => key.toLowerCase() === fullModulePath);
+  return Object.keys(allSvgModules).find((key) => key.toLowerCase() === fullModulePath) ?? null;
+};
 
-  if (moduleKey && allSvgModules[moduleKey]) {
-    const module = allSvgModules[moduleKey];
-    if (!module.default) {
-      console.warn(`[IconDisplay] Module found for ${filename} but no default export. keys:`, Object.keys(module));
-      return null;
+const loadSvgComponent = async (
+  filename: string,
+  category: IconCategory,
+  illustSubfolder?: string
+): Promise<SvgComponentType | null> => {
+  const moduleKey = getSvgModuleKey(filename, category, illustSubfolder);
+
+  if (!moduleKey) {
+    const warningKey = `${category}:${illustSubfolder ?? ''}:${filename}`;
+    if (!missingSvgWarnings.has(warningKey)) {
+      console.warn(`[IconDisplay] Icon module not found for: ${warningKey}`);
+      missingSvgWarnings.add(warningKey);
     }
-
-    return module.default;
+    return null;
   }
 
-  console.warn(`[IconDisplay] Icon module not found for: ${fullModulePath}`);
-  return null;
+  if (svgComponentCache.has(moduleKey)) {
+    return svgComponentCache.get(moduleKey) ?? null;
+  }
+
+  const loader = allSvgModules[moduleKey] as SvgLoader | undefined;
+  if (!loader) {
+    return null;
+  }
+
+  const module = await loader();
+  const component = module.default ?? null;
+  svgComponentCache.set(moduleKey, component);
+
+  return component;
+};
+
+const AsyncSvgIcon: React.FC<AsyncSvgIconProps> = ({
+  filename,
+  category,
+  illustSubfolder,
+  className,
+  style,
+  width,
+  height,
+}) => {
+  const [SvgComponent, setSvgComponent] = useState<SvgComponentType | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    loadSvgComponent(filename, category, illustSubfolder).then((component) => {
+      if (isMounted) {
+        setSvgComponent(() => component);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [category, filename, illustSubfolder]);
+
+  if (!SvgComponent) {
+    return <span className="text-xs text-muted-foreground">...</span>;
+  }
+
+  return <SvgComponent className={className} style={style} width={width} height={height} />;
 };
 
 const ColorPalette: React.FC<ColorPaletteProps> = ({ onColorSelect, purpose, className = '' }) => {
@@ -270,9 +338,6 @@ const IconSection: React.FC<IconSectionProps> = ({
       <div className="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-2">
         {filteredIcons.map((iconName, index) => {
           const mappedFilename = filenameMapping[iconName];
-          const SvgComponent = mappedFilename
-            ? getSvgComponentFromFilename(mappedFilename, categoryType)
-            : null;
 
           return (
             <TooltipProvider key={`${iconName}-${index}`} delayDuration={100}>
@@ -284,8 +349,13 @@ const IconSection: React.FC<IconSectionProps> = ({
                     onClick={() => mappedFilename && onIconClick(iconName, categoryType, mappedFilename, iconColor)}
                   >
                     <CardContent className="p-0">
-                      {SvgComponent ? (
-                        <SvgComponent className="w-6 h-6" style={{ color: iconColor }} />
+                      {mappedFilename ? (
+                        <AsyncSvgIcon
+                          filename={mappedFilename}
+                          category={categoryType}
+                          className="w-6 h-6"
+                          style={{ color: iconColor }}
+                        />
                       ) : (
                         <span className="text-xs">N/A</span>
                       )}
@@ -401,10 +471,6 @@ const IconDisplay: React.FC = () => {
     setIsSheetOpen(true);
   };
 
-  const SvgPreview = selectedIcon
-    ? getSvgComponentFromFilename(selectedIcon.filename, selectedIcon.category, selectedIcon.subfolder)
-    : null;
-
   const usageCode = useMemo(() => {
     if (!selectedIcon) {
       return '';
@@ -500,7 +566,6 @@ const IconDisplay: React.FC = () => {
             <div className="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-2">
               {filteredIllustrations.length > 0 ? (
                 filteredIllustrations.map((icon, index) => {
-                  const SvgComponent = getSvgComponentFromFilename(icon.filename, 'illust', icon.subfolder);
                   const defaultIllustColor = '#374151';
 
                   return (
@@ -514,11 +579,12 @@ const IconDisplay: React.FC = () => {
                             }
                           >
                             <CardContent className="p-0">
-                              {SvgComponent ? (
-                                <SvgComponent className="w-8 h-8 text-foreground" />
-                              ) : (
-                                <span className="text-xs">N/A</span>
-                              )}
+                              <AsyncSvgIcon
+                                filename={icon.filename}
+                                category="illust"
+                                illustSubfolder={icon.subfolder}
+                                className="w-8 h-8 text-foreground"
+                              />
                             </CardContent>
                           </Card>
                         </TooltipTrigger>
@@ -560,9 +626,14 @@ const IconDisplay: React.FC = () => {
                           className={`flex items-center justify-center border border-black/5 bg-white rounded-md ${sheetConfig.size === size ? 'border-black' : ''}`}
                           style={{ width: size + 16, height: size + 16 }}
                         >
-                          {SvgPreview && (
-                            <SvgPreview width={size} height={size} style={{ color: sheetConfig.color }} />
-                          )}
+                          <AsyncSvgIcon
+                            filename={selectedIcon.filename}
+                            category={selectedIcon.category}
+                            illustSubfolder={selectedIcon.subfolder}
+                            width={size}
+                            height={size}
+                            style={{ color: sheetConfig.color }}
+                          />
                         </div>
                         <span className={`text-xs font-mono ${sheetConfig.size === size ? 'font-bold text-primary' : 'text-muted-foreground'}`}>
                           {size}px

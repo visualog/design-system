@@ -17,4 +17,45 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes("node_modules")) {
+            return undefined;
+          }
+
+          if (id.includes("@react-three") || id.includes("/three/")) {
+            return "three-vendor";
+          }
+
+          if (id.includes("/firebase/")) {
+            return "firebase-vendor";
+          }
+
+          if (id.includes("react-router") || id.includes("/react/") || id.includes("/react-dom/")) {
+            return "react-vendor";
+          }
+
+          if (id.includes("@radix-ui")) {
+            return "radix-vendor";
+          }
+
+          if (id.includes("lucide-react")) {
+            return "lucide-vendor";
+          }
+
+          if (id.includes("/motion/")) {
+            return "motion-vendor";
+          }
+
+          if (id.includes("sonner")) {
+            return "sonner-vendor";
+          }
+
+          return "vendor";
+        },
+      },
+    },
+  },
 });

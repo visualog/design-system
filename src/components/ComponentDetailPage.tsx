@@ -24,8 +24,8 @@ import { TokenAnatomy } from '@/components/ui/TokenAnatomy';
 import { SmartFilterDropdown } from '@/components/ui/SmartFilterDropdown';
 import { HighlightText } from '@/components/ui/HighlightText';
 import ProposalNotification from '@/components/ui/ProposalNotification';
-import { ParticleBackground } from '@/components/ui/ParticleBackground';
 import { ExperimentalToggle } from '@/components/ui/ExperimentalToggle';
+import DeferredParticleBackground from '@/components/ui/DeferredParticleBackground';
 import GuidelineItem from '@/components/ui/GuidelineItem';
 import { getComponentMeta } from '@/data/componentRegistry';
 import type { PropDefinition } from '@/data/componentRegistry';
@@ -437,7 +437,7 @@ const LivePreview: React.FC<{ componentName: string; variantName: string }> = ({
     if (name === 'particle-background') {
         return (
             <div className="relative w-full max-w-xl h-48 border rounded-xl overflow-hidden bg-muted/40">
-                <ParticleBackground focusState="none" className="opacity-70" />
+                <DeferredParticleBackground focusState="none" className="opacity-70" />
                 <div className="absolute bottom-3 left-3 text-xs text-muted-foreground bg-background/80 px-2 py-1 rounded">
                     Interactive Particle Background
                 </div>

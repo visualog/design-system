@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Toaster } from 'sonner';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
@@ -7,32 +7,37 @@ import { Menu } from 'lucide-react';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
 
-// Import individual page components
-import IntroductionPage from './components/IntroductionPage';
-import ColorsPage from './components/ColorsPage';
-import ColorsNewPage from './components/ColorsNewPage';
-import TypographyPage from './components/TypographyPage';
-import TypographyBetaPage from './components/TypographyBetaPage';
-import SpacingPage from './components/SpacingPage';
-import LayoutPage from './components/LayoutPage';
-import RadiusPage from './components/RadiusPage';
-import MotionPage from './components/MotionPage';
-import IconsPage from './components/IconsPage';
-import ShadowsPage from './components/ShadowsPage';
-import SiteSettingsPage from './components/SiteSettingsPage';
-import SiteComponentsPage from './components/SiteComponentsPage';
-import SiteThemePage from './components/SiteThemePage';
-import SiteLayoutPage from './components/SiteLayoutPage';
-import SiteTypographyPage from './components/SiteTypographyPage';
-import ComponentDetailPage from './components/ComponentDetailPage';
-import GuideButtonPage from './components/GuideButtonPage';
-
 import { GridOverlay } from './components/ui/GridOverlay';
 
 import { AuthProvider } from './contexts/AuthContext';
-import LoginPage from './components/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ExperimentalProvider } from './contexts/ExperimentalContext';
+
+const LoginPage = lazy(() => import('./components/LoginPage'));
+const IntroductionPage = lazy(() => import('./components/IntroductionPage'));
+const ColorsPage = lazy(() => import('./components/ColorsPage'));
+const ColorsNewPage = lazy(() => import('./components/ColorsNewPage'));
+const TypographyPage = lazy(() => import('./components/TypographyPage'));
+const TypographyBetaPage = lazy(() => import('./components/TypographyBetaPage'));
+const SpacingPage = lazy(() => import('./components/SpacingPage'));
+const LayoutPage = lazy(() => import('./components/LayoutPage'));
+const RadiusPage = lazy(() => import('./components/RadiusPage'));
+const MotionPage = lazy(() => import('./components/MotionPage'));
+const IconsPage = lazy(() => import('./components/IconsPage'));
+const ShadowsPage = lazy(() => import('./components/ShadowsPage'));
+const SiteSettingsPage = lazy(() => import('./components/SiteSettingsPage'));
+const SiteComponentsPage = lazy(() => import('./components/SiteComponentsPage'));
+const SiteThemePage = lazy(() => import('./components/SiteThemePage'));
+const SiteLayoutPage = lazy(() => import('./components/SiteLayoutPage'));
+const SiteTypographyPage = lazy(() => import('./components/SiteTypographyPage'));
+const ComponentDetailPage = lazy(() => import('./components/ComponentDetailPage'));
+const GuideButtonPage = lazy(() => import('./components/GuideButtonPage'));
+
+const RouteFallback = () => (
+  <div className="flex min-h-[40vh] items-center justify-center px-6">
+    <div className="text-sm text-muted-foreground">페이지를 불러오는 중입니다.</div>
+  </div>
+);
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -64,67 +69,69 @@ function App() {
       <TooltipProvider>
         <BrowserRouter basename={import.meta.env.BASE_URL}>
           <ExperimentalProvider>
-            <Routes>
-              <Route path="/login" element={<LoginPage />} />
+            <Suspense fallback={<RouteFallback />}>
+              <Routes>
+                <Route path="/login" element={<LoginPage />} />
 
-              <Route element={<ProtectedRoute />}>
-                <Route
-                  path="/*"
-                  element={
-                    <div className="flex min-h-screen bg-background">
-                      {/* Sidebar */}
-                      <Sidebar
-                        isOpen={isSidebarOpen}
-                        toggleSidebar={toggleSidebar}
-                        showGrid={showGrid}
-                        toggleGrid={toggleGrid}
-                      />
+                <Route element={<ProtectedRoute />}>
+                  <Route
+                    path="/*"
+                    element={
+                      <div className="flex min-h-screen bg-background">
+                        {/* Sidebar */}
+                        <Sidebar
+                          isOpen={isSidebarOpen}
+                          toggleSidebar={toggleSidebar}
+                          showGrid={showGrid}
+                          toggleGrid={toggleGrid}
+                        />
 
-                      {/* Main content area */}
-                      <div
-                        className="flex-1 flex flex-col transition-all duration-300 relative ml-0 md:ml-[240px]"
-                      >
-                        {showGrid && <GridOverlay />}
+                        {/* Main content area */}
+                        <div
+                          className="flex-1 flex flex-col transition-all duration-300 relative ml-0 md:ml-[240px]"
+                        >
+                          {showGrid && <GridOverlay />}
 
-                        {/* Mobile Header */}
-                        <header className="md:hidden flex items-center h-14 px-4 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-[60]">
-                          <Button variant="ghost" size="icon" onClick={toggleSidebar} className="-ml-2 mr-2">
-                            <Menu className="w-5 h-5" />
-                            <span className="sr-only">Toggle Menu</span>
-                          </Button>
-                          <h1 className="font-semibold text-lg">Design System</h1>
-                        </header>
+                          {/* Mobile Header */}
+                          <header className="md:hidden flex items-center h-14 px-4 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-[60]">
+                            <Button variant="ghost" size="icon" onClick={toggleSidebar} className="-ml-2 mr-2">
+                              <Menu className="w-5 h-5" />
+                              <span className="sr-only">Toggle Menu</span>
+                            </Button>
+                            <h1 className="font-semibold text-lg">Design System</h1>
+                          </header>
 
-                        <Routes>
-                          <Route path="/" element={<MainContent maxWidth="wide"><IntroductionPage /></MainContent>} />
-                          <Route path="/overview" element={<MainContent maxWidth="wide"><IntroductionPage /></MainContent>} />
-                          <Route path="/colors" element={<MainContent maxWidth="wide"><ColorsPage /></MainContent>} />
-                          <Route path="/colors_beta" element={<MainContent maxWidth="wide"><ColorsNewPage /></MainContent>} />
-                          <Route path="/typography" element={<MainContent maxWidth="wide"><TypographyPage /></MainContent>} />
-                          <Route path="/typography_beta" element={<MainContent maxWidth="wide"><TypographyBetaPage /></MainContent>} />
-                          <Route path="/spacing" element={<MainContent maxWidth="wide"><SpacingPage /></MainContent>} />
-                          <Route path="/layout" element={<MainContent maxWidth="wide"><LayoutPage /></MainContent>} />
-                          <Route path="/radius" element={<MainContent maxWidth="wide"><RadiusPage /></MainContent>} />
-                          <Route path="/motion" element={<MainContent maxWidth="wide"><MotionPage /></MainContent>} />
-                          <Route path="/icons" element={<MainContent maxWidth="wide"><IconsPage /></MainContent>} />
-                          <Route path="/shadows" element={<MainContent maxWidth="wide"><ShadowsPage /></MainContent>} />
-                          <Route path="/guide/components" element={<MainContent maxWidth="wide"><GuideButtonPage /></MainContent>} />
-                          <Route path="/guide/components/button" element={<MainContent maxWidth="wide"><GuideButtonPage /></MainContent>} />
-                          <Route path="/site-settings" element={<MainContent><SiteSettingsPage /></MainContent>} />
-                          <Route path="/site-settings/components" element={<MainContent maxWidth="wide"><SiteComponentsPage /></MainContent>} />
-                          <Route path="/site-settings/theme" element={<MainContent maxWidth="wide"><SiteThemePage /></MainContent>} />
-                          <Route path="/site-settings/layout" element={<MainContent maxWidth="wide"><SiteLayoutPage /></MainContent>} />
-                          <Route path="/site-settings/typography" element={<MainContent maxWidth="wide"><SiteTypographyPage /></MainContent>} />
-                          <Route path="/site-settings/components/:componentName" element={<MainContent maxWidth="wide"><ComponentDetailPage /></MainContent>} />
-                          {/* Fallback for unknown routes */}
-                          <Route path="*" element={<MainContent><div>404 Not Found</div></MainContent>} />
-                        </Routes>
+                          <Routes>
+                            <Route path="/" element={<MainContent maxWidth="wide"><IntroductionPage /></MainContent>} />
+                            <Route path="/overview" element={<MainContent maxWidth="wide"><IntroductionPage /></MainContent>} />
+                            <Route path="/colors" element={<MainContent maxWidth="wide"><ColorsPage /></MainContent>} />
+                            <Route path="/colors_beta" element={<MainContent maxWidth="wide"><ColorsNewPage /></MainContent>} />
+                            <Route path="/typography" element={<MainContent maxWidth="wide"><TypographyPage /></MainContent>} />
+                            <Route path="/typography_beta" element={<MainContent maxWidth="wide"><TypographyBetaPage /></MainContent>} />
+                            <Route path="/spacing" element={<MainContent maxWidth="wide"><SpacingPage /></MainContent>} />
+                            <Route path="/layout" element={<MainContent maxWidth="wide"><LayoutPage /></MainContent>} />
+                            <Route path="/radius" element={<MainContent maxWidth="wide"><RadiusPage /></MainContent>} />
+                            <Route path="/motion" element={<MainContent maxWidth="wide"><MotionPage /></MainContent>} />
+                            <Route path="/icons" element={<MainContent maxWidth="wide"><IconsPage /></MainContent>} />
+                            <Route path="/shadows" element={<MainContent maxWidth="wide"><ShadowsPage /></MainContent>} />
+                            <Route path="/guide/components" element={<MainContent maxWidth="wide"><GuideButtonPage /></MainContent>} />
+                            <Route path="/guide/components/button" element={<MainContent maxWidth="wide"><GuideButtonPage /></MainContent>} />
+                            <Route path="/site-settings" element={<MainContent><SiteSettingsPage /></MainContent>} />
+                            <Route path="/site-settings/components" element={<MainContent maxWidth="wide"><SiteComponentsPage /></MainContent>} />
+                            <Route path="/site-settings/theme" element={<MainContent maxWidth="wide"><SiteThemePage /></MainContent>} />
+                            <Route path="/site-settings/layout" element={<MainContent maxWidth="wide"><SiteLayoutPage /></MainContent>} />
+                            <Route path="/site-settings/typography" element={<MainContent maxWidth="wide"><SiteTypographyPage /></MainContent>} />
+                            <Route path="/site-settings/components/:componentName" element={<MainContent maxWidth="wide"><ComponentDetailPage /></MainContent>} />
+                            {/* Fallback for unknown routes */}
+                            <Route path="*" element={<MainContent><div>404 Not Found</div></MainContent>} />
+                          </Routes>
+                        </div>
                       </div>
-                    </div>
-                  }
-                />
-              </Route>
-            </Routes>
+                    }
+                  />
+                </Route>
+              </Routes>
+            </Suspense>
             <Toaster position="bottom-right" theme="system" />
           </ExperimentalProvider>
         </BrowserRouter>
