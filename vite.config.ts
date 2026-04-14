@@ -45,10 +45,6 @@ export default defineConfig({
             return "lucide-vendor";
           }
 
-          if (id.includes("/motion/")) {
-            return "motion-vendor";
-          }
-
           if (id.includes("sonner")) {
             return "sonner-vendor";
           }

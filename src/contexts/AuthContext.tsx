@@ -22,12 +22,30 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const AuthLoadingScreen: React.FC = () => (
+    <div className="min-h-screen flex items-center justify-center bg-background px-6">
+        <div className="flex flex-col items-center gap-3 text-center">
+            <div className="h-10 w-10 animate-spin rounded-full border-2 border-primary/20 border-t-primary" />
+            <div className="space-y-1">
+                <p className="text-sm font-medium text-foreground">페이지를 준비하고 있습니다.</p>
+                <p className="text-xs text-muted-foreground">인증 상태를 확인하는 중입니다.</p>
+            </div>
+        </div>
+    </div>
+);
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const loadingTimeoutId = window.setTimeout(() => {
+            console.warn('Auth initialization timed out. Rendering app without confirmed auth state.');
+            setLoading(false);
+        }, 4000);
+
         if (!auth) {
+            window.clearTimeout(loadingTimeoutId);
             setLoading(false);
             return;
         }
@@ -36,16 +54,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const unsubscribe = onAuthStateChanged(
             auth,
             (user) => {
+                window.clearTimeout(loadingTimeoutId);
                 setUser(user);
                 setLoading(false);
             },
             (error) => {
+                window.clearTimeout(loadingTimeoutId);
                 console.error("Auth init error:", error);
                 setLoading(false);
             }
         );
 
-        return () => unsubscribe();
+        return () => {
+            window.clearTimeout(loadingTimeoutId);
+            unsubscribe();
+        };
     }, []);
 
     const login = async (email: string, password: string) => {
@@ -122,7 +145,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             logout,
             loading
         }}>
-            {!loading && children}
+            {loading ? <AuthLoadingScreen /> : children}
         </AuthContext.Provider>
     );
 };
