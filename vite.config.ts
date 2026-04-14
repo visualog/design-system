@@ -33,10 +33,6 @@ export default defineConfig({
             return "firebase-vendor";
           }
 
-          if (id.includes("react-router") || id.includes("/react/") || id.includes("/react-dom/")) {
-            return "react-vendor";
-          }
-
           if (id.includes("@radix-ui")) {
             return "radix-vendor";
           }
